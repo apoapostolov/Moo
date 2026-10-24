@@ -71,6 +71,12 @@ const prepareBuilds = () => ({
         { recursive: true },
       );
 
+      // Copy LICENSE (BSD-3-Clause) for binary distribution compliance
+      fs.copyFileSync(
+        path.resolve(__dirname, './LICENSE'),
+        path.resolve(firefoxBuildPath, 'LICENSE'),
+      );
+
       // Create distribution zip
       console.log('📦 Creating distribution package...');
       const firefoxZip = new ADMZip();
