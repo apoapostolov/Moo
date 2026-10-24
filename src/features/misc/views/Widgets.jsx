@@ -31,6 +31,7 @@ const Widgets = () => {
       quicklinks: enabled('quicklinksenabled') && online ? <QuickLinks /> : null,
       message: enabled('message') && <Message />,
       weather: enabled('weatherEnabled') && online ? <Weather /> : null,
+      weatherline: enabled('weatherEnabled') && online ? <Weather compact /> : null,
     }),
     [order], // Re-create widgets when order changes
   );
@@ -73,6 +74,7 @@ const Widgets = () => {
           if (!widget) return null;
           return <Fragment key={key}>{widget}</Fragment>;
         })}
+        {enabled('weatherEnabled') && online ? <Weather /> : null}
       </Suspense>
     </WidgetsLayout>
   );

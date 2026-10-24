@@ -30,6 +30,7 @@ import EventBus from 'utils/eventbus';
 const widget_name = {
   time: variables.getMessage('modals.main.settings.sections.time.title'),
   weather: variables.getMessage('modals.main.settings.sections.weather.title'),
+  weatherline: variables.getMessage('modals.main.settings.sections.weather.title') + ' (1 line)',
   quicklinks: variables.getMessage('modals.main.settings.sections.quicklinks.title'),
   date: variables.getMessage('modals.main.settings.sections.date.title'),
   message: variables.getMessage('modals.main.settings.sections.message.title'),
@@ -107,6 +108,8 @@ const Overview = () => {
       case 'time':
         return <Clock />;
       case 'weather':
+        return <Weather />;
+      case 'weatherline':
         return <Weather />;
       case 'quicklinks':
         return <QuickLinks />;

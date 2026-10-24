@@ -12,7 +12,7 @@ import { getWeather } from './api/getWeather.js';
 
 import './weather.scss';
 
-const WeatherWidget = memo(() => {
+const WeatherWidget = memo(({ compact = false }) => {
   const [location, setLocation] = useState(localStorage.getItem('location') || '');
   const [done, setDone] = useState(false);
   const [weatherData, setWeatherData] = useState({});
@@ -81,7 +81,7 @@ const WeatherWidget = memo(() => {
     };
   }, [updateWeather]);
 
-  const weatherType = localStorage.getItem('weatherType') || 1;
+  const weatherType = compact ? 1 : (localStorage.getItem('weatherType') || 1);
 
   if (done === false) {
     return <WeatherSkeleton weatherType={weatherType} />;
