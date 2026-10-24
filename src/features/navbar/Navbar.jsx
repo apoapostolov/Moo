@@ -22,14 +22,6 @@ const Navbar = ({ openModal }) => {
     switch (localStorage.getItem('refreshOption')) {
       case 'background':
         return t('modals.main.settings.sections.background.title');
-      case 'quote':
-        return t('modals.main.settings.sections.quote.title');
-      case 'quotebackground':
-        return (
-          t('modals.main.settings.sections.quote.title') +
-          ' ' +
-          t('modals.main.settings.sections.background.title')
-        );
       default:
         return t(
           'modals.main.settings.sections.appearance.navbar.refresh_options.page',
@@ -76,11 +68,6 @@ const Navbar = ({ openModal }) => {
   const refresh = () => {
     switch (refreshOption) {
       case 'background':
-        return EventBus.emit('refresh', 'backgroundrefresh');
-      case 'quote':
-        return EventBus.emit('refresh', 'quoterefresh');
-      case 'quotebackground':
-        EventBus.emit('refresh', 'quoterefresh');
         return EventBus.emit('refresh', 'backgroundrefresh');
       default:
         window.location.reload();

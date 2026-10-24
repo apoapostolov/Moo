@@ -32,21 +32,6 @@ function Refresh() {
       case 'background':
         text = t('modals.main.settings.sections.background.title');
         break;
-      case 'quote':
-        text = t('modals.main.settings.sections.quote.title');
-        break;
-      case 'quotebackground':
-        text = new Intl.ListFormat(
-          localStorage.getItem('language')?.replace(/_/gm, '-') || 'en-GB',
-          {
-            style: 'long',
-            type: 'conjunction',
-          },
-        ).format([
-          t('modals.main.settings.sections.quote.title'),
-          t('modals.main.settings.sections.background.title'),
-        ]);
-        break;
       default:
         text = t('modals.main.settings.sections.appearance.navbar.refresh_options.page');
         break;
@@ -58,11 +43,6 @@ function Refresh() {
   function refresh() {
     switch (refreshOption) {
       case 'background':
-        return EventBus.emit('refresh', 'backgroundrefresh');
-      case 'quote':
-        return EventBus.emit('refresh', 'quoterefresh');
-      case 'quotebackground':
-        EventBus.emit('refresh', 'quoterefresh');
         return EventBus.emit('refresh', 'backgroundrefresh');
       default:
         window.location.reload();

@@ -19,9 +19,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { toast } from 'react-toastify';
 
 import variables from 'config/variables';
-import Greeting from './overview_skeletons/Greeting';
 import Clock from './overview_skeletons/Clock';
-import Quote from './overview_skeletons/Quote';
 import QuickLinks from './overview_skeletons/QuickLinks';
 import Date from './overview_skeletons/Date';
 import Message from './overview_skeletons/Message';
@@ -29,10 +27,8 @@ import Message from './overview_skeletons/Message';
 import EventBus from 'utils/eventbus';
 
 const widget_name = {
-  greeting: variables.getMessage('modals.main.settings.sections.greeting.title'),
   time: variables.getMessage('modals.main.settings.sections.time.title'),
   quicklinks: variables.getMessage('modals.main.settings.sections.quicklinks.title'),
-  quote: variables.getMessage('modals.main.settings.sections.quote.title'),
   date: variables.getMessage('modals.main.settings.sections.date.title'),
   message: variables.getMessage('modals.main.settings.sections.message.title'),
 };
@@ -54,10 +50,8 @@ const Overview = () => {
   const [items, setItems] = useState(
     () =>
       JSON.parse(localStorage.getItem('order')) || [
-        'greeting',
         'time',
         'quicklinks',
-        'quote',
         'date',
         'message',
       ],
@@ -90,7 +84,7 @@ const Overview = () => {
   };
 
   const reset = () => {
-    const defaultOrder = ['greeting', 'time', 'quicklinks', 'quote', 'date', 'message'];
+    const defaultOrder = ['time', 'quicklinks', 'date', 'message'];
     localStorage.setItem('order', JSON.stringify(defaultOrder));
     setItems(defaultOrder);
     toast(variables.getMessage('toasts.reset'));
@@ -107,14 +101,10 @@ const Overview = () => {
 
   const getTab = (value) => {
     switch (value) {
-      case 'greeting':
-        return <Greeting />;
       case 'time':
         return <Clock />;
       case 'quicklinks':
         return <QuickLinks />;
-      case 'quote':
-        return <Quote />;
       case 'date':
         return <Date />;
       case 'message':

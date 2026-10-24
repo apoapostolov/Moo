@@ -209,7 +209,7 @@
   },
   {
     "name": "order",
-    "value": "[\"greeting\",\"time\",\"quicklinks\",\"quote\",\"date\",\"message\"]"
+    "value": "[\"time\", \"quicklinks\", \"date\", \"message\"]"
   },
   {
     "name": "photoInformation",

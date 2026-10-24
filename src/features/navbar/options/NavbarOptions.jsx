@@ -145,17 +145,6 @@ function NavbarOptions() {
                 value: 'background',
                 text: t('modals.main.settings.sections.background.title'),
               },
-              {
-                value: 'quote',
-                text: t('modals.main.settings.sections.quote.title'),
-              },
-              {
-                value: 'quotebackground',
-                text:
-                  t('modals.main.settings.sections.quote.title') +
-                  ' + ' +
-                  t('modals.main.settings.sections.background.title'),
-              },
             ]}
           />
         </Action>

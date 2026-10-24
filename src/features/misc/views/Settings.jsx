@@ -4,10 +4,8 @@ import { useT } from 'contexts/TranslationContext';
 import Tabs from 'components/Elements/MainModal/backend/Tabs';
 
 import { NavbarOptions } from 'features/navbar';
-import { GreetingOptions } from 'features/greeting';
 import { TimeOptions, DateOptions } from 'features/time';
 import { QuickLinksOptions } from 'features/quicklinks';
-import { QuoteOptions } from 'features/quote';
 import { MessageOptions } from 'features/message';
 import { BackgroundOptions } from 'features/background';
 import { SearchOptions } from 'features/search';
@@ -30,18 +28,12 @@ const sections = [
     name: 'navbar',
     component: NavbarOptions,
   },
-  {
-    label: 'modals.main.settings.sections.greeting.title',
-    name: 'greeting',
-    component: GreetingOptions,
-  },
   { label: 'modals.main.settings.sections.time.title', name: 'time', component: TimeOptions },
   {
     label: 'modals.main.settings.sections.quicklinks.title',
     name: 'quicklinks',
     component: QuickLinksOptions,
   },
-  { label: 'modals.main.settings.sections.quote.title', name: 'quote', component: QuoteOptions },
   { label: 'modals.main.settings.sections.date.title', name: 'date', component: DateOptions },
   {
     label: 'modals.main.settings.sections.message.title',

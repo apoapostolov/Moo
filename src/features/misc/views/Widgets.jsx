@@ -1,8 +1,6 @@
 import { useState, useEffect, Fragment, Suspense, lazy, useMemo } from 'react';
 
 import Clock from '../../time/Clock';
-import Greeting from '../../greeting/Greeting';
-import Quote from '../../quote/Quote';
 import Search from '../../search/Search';
 import QuickLinks from '../../quicklinks/QuickLinks';
 import Date from '../../time/Date';
@@ -30,8 +28,6 @@ const Widgets = () => {
   const widgets = useMemo(
     () => ({
       time: enabled('time') && <Clock />,
-      greeting: enabled('greeting') && <Greeting />,
-      quote: enabled('quote') && <Quote />,
       date: enabled('date') && <Date />,
       quicklinks: enabled('quicklinksenabled') && online ? <QuickLinks /> : null,
       message: enabled('message') && <Message />,

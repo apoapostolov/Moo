@@ -49,7 +49,7 @@ export function loadSettings(hotreload) {
   const textBorder = localStorage.getItem('textBorder');
   // enable/disable old text border from before redesign
   if (textBorder === 'true') {
-    const elements = ['greeting', 'clock', 'quote', 'quoteauthor', 'date'];
+    const elements = ['clock', 'date'];
     elements.forEach((element) => {
       try {
         document.querySelector('.' + element).classList.add('textBorder');
@@ -58,7 +58,7 @@ export function loadSettings(hotreload) {
       }
     });
   } else {
-    const elements = ['greeting', 'clock', 'quote', 'quoteauthor', 'date'];
+    const elements = ['clock', 'date'];
     elements.forEach((element) => {
       try {
         document.querySelector('.' + element).classList.remove('textBorder');
