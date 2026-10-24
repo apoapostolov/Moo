@@ -1,5 +1,6 @@
 {
   "manifest_version": 3,
+  "default_locale": "en",
   "name": "Moo",
   "description": "Fast, open and free-to-use new tab page for Firefox.",
   "version": "7.6.0",
