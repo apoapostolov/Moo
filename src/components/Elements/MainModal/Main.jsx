@@ -8,14 +8,10 @@ import { TAB_TYPES } from './constants/tabConfig';
 import { updateHash, parseDeepLink } from 'utils/deepLinking';
 
 const Settings = lazy(() => import('../../../features/misc/views/Settings'));
-const Library = lazy(() => import('../../../features/misc/views/Library'));
-const Discover = lazy(() => import('../../../features/misc/views/Discover'));
 
 // Map tab types to their corresponding components
 const TAB_COMPONENTS = {
   [TAB_TYPES.SETTINGS]: Settings,
-  [TAB_TYPES.LIBRARY]: Library,
-  [TAB_TYPES.DISCOVER]: Discover,
 };
 
 function MainModal({ modalClose, deepLinkData }) {
@@ -146,14 +142,7 @@ function MainModal({ modalClose, deepLinkData }) {
 
   const handleChangeTab = (newTab) => {
     setCurrentTab(newTab);
-    // Update URL hash when tab changes
-    if (newTab === TAB_TYPES.DISCOVER) {
-      updateHash(`#${newTab}/all`);
-    } else if (newTab === TAB_TYPES.LIBRARY) {
-      updateHash(`#${newTab}/added`);
-    } else {
-      updateHash(`#${newTab}`);
-    }
+    updateHash(`#${newTab}`);
   };
 
   const handleSectionChange = (section, sectionName) => {
@@ -162,20 +151,7 @@ function MainModal({ modalClose, deepLinkData }) {
     // Clear sub-section when changing sections
     setCurrentSubSection(null);
     // Update URL hash when section changes
-    if (currentTab === TAB_TYPES.DISCOVER) {
-      // For Discover tab, update with the section type
-      const sectionMap = {
-        [variables.getMessage('modals.main.marketplace.all')]: 'all',
-        [variables.getMessage('modals.main.marketplace.photo_packs')]: 'photo_packs',
-        [variables.getMessage('modals.main.marketplace.quote_packs')]: 'quote_packs',
-        [variables.getMessage('modals.main.marketplace.preset_settings')]: 'preset_settings',
-        [variables.getMessage('modals.main.marketplace.collections')]: 'collections',
-      };
-      const sectionKey = sectionMap[section];
-      if (sectionKey) {
-        updateHash(`#${currentTab}/${sectionKey}`);
-      }
-    } else if (currentTab === TAB_TYPES.SETTINGS && sectionName) {
+    if (currentTab === TAB_TYPES.SETTINGS && sectionName) {
       // For Settings tab, update with the section name
       updateHash(`#${currentTab}/${sectionName}`, false);
     }

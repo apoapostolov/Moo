@@ -139,16 +139,6 @@ export const NAVBAR_BUTTONS = [
     icon: ICON_COMPONENTS.SETTINGS,
     messageKey: 'modals.main.navbar.settings',
   },
-  {
-    tab: TAB_TYPES.LIBRARY,
-    icon: ICON_COMPONENTS.LIBRARY,
-    messageKey: 'modals.main.navbar.library',
-  },
-  {
-    tab: TAB_TYPES.DISCOVER,
-    icon: ICON_COMPONENTS.DISCOVER,
-    messageKey: 'modals.main.navbar.discover',
-  },
 ];
 
 // Labels that should have dividers after them
