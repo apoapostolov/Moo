@@ -16,8 +16,8 @@
     "value": "azb"
   },
   {
-    "name": "Bahasa Indonesia",
-    "value": "id_ID"
+    "name": "Български",
+    "value": "bg"
   },
   {
     "name": "বাংলা",
@@ -64,6 +64,10 @@
     "value": "hu"
   },
   {
+    "name": "Bahasa Indonesia",
+    "value": "id_ID"
+  },
+  {
     "name": "日本語",
     "value": "ja"
   },
@@ -88,10 +92,6 @@
     "value": "peo"
   },
   {
-    "name": "Pусский",
-    "value": "ru"
-  },
-  {
     "name": "Português",
     "value": "pt"
   },
@@ -102,6 +102,10 @@
   {
     "name": "Português (Portugal)",
     "value": "pt_PT"
+  },
+  {
+    "name": "Pусский",
+    "value": "ru"
   },
   {
     "name": "Slovenščina",

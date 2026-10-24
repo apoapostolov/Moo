@@ -4,6 +4,7 @@ import ar from 'translations/ar.json';
 import arz from 'translations/arz.json';
 import az from 'translations/az.json';
 import azb from 'translations/azb.json';
+import bg from 'translations/bg.json';
 import bn from 'translations/bn.json';
 import de_DE from 'translations/de_DE.json';
 import el from 'translations/el.json';
@@ -46,6 +47,7 @@ export function initTranslations(locale) {
     arz,
     az,
     azb,
+    bg,
     bn,
     de_DE,
     el,
@@ -85,6 +87,7 @@ export const translations = {
   arz,
   az,
   azb,
+  bg,
   bn,
   de_DE,
   el,
