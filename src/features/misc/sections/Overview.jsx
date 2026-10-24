@@ -23,6 +23,7 @@ import Clock from './overview_skeletons/Clock';
 import QuickLinks from './overview_skeletons/QuickLinks';
 import Date from './overview_skeletons/Date';
 import Weather from './overview_skeletons/Weather';
+import QuickWeather from './overview_skeletons/QuickWeather';
 
 import EventBus from 'utils/eventbus';
 
@@ -71,15 +72,12 @@ const Overview = () => {
   const [items, setItems] = useState(
     () => {
       const stored = JSON.parse(localStorage.getItem('order'));
-      const base = stored || [
-        'time',
-        'weather',
-        'date',
-        'quickweather',
-        'quicklinks',
-      ];
-      if (!base.includes('quickweather')) {
-        base.splice(Math.min(2, base.length), 0, 'quickweather');
+      const known = ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
+      let base = stored || ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
+      base = base.map((x) => (x === 'weatherline' ? 'quickweather' : x));
+      base = base.filter((x, i, a) => known.includes(x) && a.indexOf(x) === i);
+      if (!base.includes('quickweather') && base.includes('weather')) {
+        base.splice(base.indexOf('weather') + 1, 0, 'quickweather');
       }
       return base;
     },
@@ -145,7 +143,7 @@ const Overview = () => {
       case 'weather':
         return <Weather />;
       case 'quickweather':
-        return <Weather />;
+        return <QuickWeather />;
       case 'quicklinks':
         return <QuickLinks />;
       case 'date':

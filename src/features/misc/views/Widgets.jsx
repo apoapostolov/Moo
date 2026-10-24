@@ -12,20 +12,18 @@ import EventBus from 'utils/eventbus';
 // however, when we used the original module https://bundlephobia.com/package/weather-icons-react@1.2.0
 // as seen here it is ridiculously large
 const Weather = lazy(() => import('../../weather/Weather'));
+const QuickWeather = lazy(() => import('../../weather/QuickWeather'));
 
 const Widgets = () => {
   const online = localStorage.getItem('offlineMode') === 'false';
   const [order, setOrder] = useState(() => {
     const stored = JSON.parse(localStorage.getItem('order'));
-    const base = stored || [
-      'time',
-      'weather',
-      'date',
-      'quickweather',
-      'quicklinks',
-    ];
-    if (!base.includes('quickweather')) {
-      base.splice(Math.min(2, base.length), 0, 'quickweather');
+    const known = ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
+    let base = stored || ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
+    base = base.map((x) => (x === 'weatherline' ? 'quickweather' : x));
+    base = base.filter((x, i, a) => known.includes(x) && a.indexOf(x) === i);
+    if (!base.includes('quickweather') && base.includes('weather')) {
+      base.splice(base.indexOf('weather') + 1, 0, 'quickweather');
     }
     return base;
   });
@@ -41,13 +39,13 @@ const Widgets = () => {
       time: enabled('time') && (
         <>
           <Clock />
-          {enabled('weatherEnabled') && online ? <Weather compact /> : null}
+          {enabled('weatherEnabled') && online ? <QuickWeather /> : null}
         </>
       ),
       date: enabled('date') && <Date />,
       quicklinks: enabled('quicklinksenabled') && online ? <QuickLinks /> : null,
       weather: enabled('weatherEnabled') && online ? <Weather /> : null,
-      quickweather: enabled('weatherEnabled') && online ? <Weather compact /> : null,
+      quickweather: enabled('weatherEnabled') && online ? <QuickWeather /> : null,
     }),
     [order], // Re-create widgets when order changes
   );

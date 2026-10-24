@@ -1,0 +1,12 @@
+.quickweather {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1em;
+  user-select: none;
+
+  svg {
+    width: 1em;
+    height: 1em;
+  }
+}
