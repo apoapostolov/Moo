@@ -40,8 +40,9 @@ const settingKeyFor = (value) => {
     case 'quicklinks':
       return 'quicklinksenabled';
     case 'weather':
-    case 'quickweather':
       return 'weatherEnabled';
+    case 'quickweather':
+      return 'quickWeatherEnabled';
     default:
       return value;
   }
@@ -126,6 +127,7 @@ const Overview = () => {
 
   const isEnabled = (value) => {
     const key = settingKeyFor(value);
+    if (key === 'quickWeatherEnabled' && localStorage.getItem(key) === null) return true;
     return enabledState[key] ?? (localStorage.getItem(key) === 'true');
   };
 

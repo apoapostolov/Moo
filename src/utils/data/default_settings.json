@@ -316,6 +316,10 @@
     "value": "true"
   },
   {
+    "name": "quickWeatherEnabled",
+    "value": "true"
+  },
+  {
     "name": "weatherType",
     "value": "2"
   },

@@ -83,6 +83,7 @@ const QuickWeather = memo(() => {
     <span className="quickweather">
       <WeatherIcon name={weatherData.icon} />
       {`${formatNumber(weatherData.weather.temp)}${weatherData.temp_text}`}
+      <span className="quickweatherLoc">{location}</span>
     </span>
   );
 });

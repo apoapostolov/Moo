@@ -30,6 +30,7 @@ const Widgets = () => {
   const [welcome, setWelcome] = useState(localStorage.getItem('showWelcome'));
 
   const enabled = (key) => {
+    if (key === 'quickWeatherEnabled' && localStorage.getItem(key) === null) return true;
     return localStorage.getItem(key) === 'true';
   };
 
@@ -39,13 +40,13 @@ const Widgets = () => {
       time: enabled('time') && (
         <>
           <Clock />
-          {enabled('weatherEnabled') && online ? <QuickWeather /> : null}
+          {enabled('quickWeatherEnabled') && online ? <QuickWeather /> : null}
         </>
       ),
       date: enabled('date') && <Date />,
       quicklinks: enabled('quicklinksenabled') && online ? <QuickLinks /> : null,
       weather: enabled('weatherEnabled') && online ? <Weather /> : null,
-      quickweather: enabled('weatherEnabled') && online ? <QuickWeather /> : null,
+      quickweather: enabled('quickWeatherEnabled') && online ? <QuickWeather /> : null,
     }),
     [order], // Re-create widgets when order changes
   );
