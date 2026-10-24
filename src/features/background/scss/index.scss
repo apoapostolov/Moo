@@ -52,7 +52,7 @@
 
 body.bg-animated #backgroundImage,
 body.bg-animated #backgroundOverlay {
-  animation: kenburns 60s linear infinite alternate;
+  animation: kenburns 40s linear infinite alternate;
   transform-origin: center center;
   will-change: transform;
   background-attachment: scroll !important;
