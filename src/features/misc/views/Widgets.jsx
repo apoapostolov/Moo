@@ -37,12 +37,7 @@ const Widgets = () => {
   // widgets we can re-order
   const widgets = useMemo(
     () => ({
-      time: enabled('time') && (
-        <>
-          <Clock />
-          {enabled('quickWeatherEnabled') && online ? <QuickWeather /> : null}
-        </>
-      ),
+      time: enabled('time') && <Clock />,
       date: enabled('date') && <Date />,
       quicklinks: enabled('quicklinksenabled') && online ? <QuickLinks /> : null,
       weather: enabled('weatherEnabled') && online ? <Weather /> : null,
