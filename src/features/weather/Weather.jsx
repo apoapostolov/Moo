@@ -3,7 +3,7 @@ import { memo, useState, useEffect, useCallback } from 'react';
 import { formatNumber } from 'utils/formatNumber';
 
 import WeatherIcon from './components/WeatherIcon';
-import Expanded from './components/Expanded';
+import Forecast from './components/Forecast';
 import WeatherSkeleton from './components/WeatherSkeleton';
 
 import EventBus from 'utils/eventbus';
@@ -133,7 +133,7 @@ const WeatherWidget = memo(({ compact = false }) => {
         )}
       </div>
       {weatherType >= 3 && (
-        <Expanded weatherType={weatherType} state={weatherData} variables={variables} />
+        <Forecast location={location} />
       )}
     </div>
   );
