@@ -3,20 +3,13 @@ import { PureComponent } from 'react';
 import { MdEmail, MdContactPage } from 'react-icons/md';
 import { FaDiscord } from 'react-icons/fa';
 import { SiX } from 'react-icons/si';
-import { BiDonateHeart } from 'react-icons/bi';
 
-import { Tooltip, Button } from 'components/Elements';
-import other_contributors from 'utils/data/other_contributors.json';
+import { Button } from 'components/Elements';
 
 class About extends PureComponent {
   constructor() {
     super();
     this.state = {
-      contributors: [],
-      sponsors: [],
-      other_contributors: [],
-      photographers: [],
-      curators: [],
       update: variables.getMessage('modals.main.settings.sections.about.version.checking_update'),
       loading: variables.getMessage('modals.main.loading'),
     };
@@ -24,7 +17,7 @@ class About extends PureComponent {
   }
 
   async getGitHubData() {
-    let contributors, sponsors, photographers, curators, versionData;
+    let versionData;
 
     try {
       versionData = await (
@@ -38,36 +31,6 @@ class About extends PureComponent {
           { signal: this.controller.signal },
         )
       ).json();
-      contributors = await (
-        await fetch(
-          variables.constants.GITHUB_URL +
-            '/repos/' +
-            variables.constants.ORG_NAME +
-            '/' +
-            variables.constants.REPO_NAME +
-            '/contributors',
-          { signal: this.controller.signal },
-        )
-      ).json();
-      sponsors = (
-        await (
-          await fetch(variables.constants.SPONSORS_URL + '/list', {
-            signal: this.controller.signal,
-          })
-        ).json()
-      ).sponsors;
-      photographers = await (
-        await fetch(variables.constants.API_URL + '/images/photographers', {
-          signal: this.controller.signal,
-        })
-      ).json();
-      curators = (
-        await (
-          await fetch(variables.constants.API_URL + '/marketplace/curators', {
-            signal: this.controller.signal,
-          })
-        ).json()
-      ).data;
     } catch {
       if (this.controller.signal.aborted === true) {
         return;
@@ -79,10 +42,6 @@ class About extends PureComponent {
           'modals.main.settings.sections.about.version.error.description',
         ),
       });
-    }
-
-    if (sponsors.length === 0) {
-      sponsors = [{ handle: 'empty' }];
     }
 
     if (this.controller.signal.aborted === true) {
@@ -107,13 +66,7 @@ class About extends PureComponent {
     }
 
     this.setState({
-      // exclude bots
-      contributors: contributors.filter((contributor) => !contributor.login.includes('bot')),
-      sponsors,
       update,
-      other_contributors,
-      photographers,
-      curators,
       loading: null,
     });
   }
@@ -222,24 +175,6 @@ class About extends PureComponent {
 
         <div className="settingsRow" style={{ flexFlow: 'column', alignItems: 'flex-start' }}>
           <span className="title">
-            {variables.getMessage('modals.main.settings.sections.about.support_mue')}
-          </span>
-          <p>{variables.getMessage('modals.main.settings.sections.about.support_subtitle')}</p>
-          <div className="aboutContact">
-            <Button
-              type="linkButton"
-              href={'https://github.com/sponsors/' + variables.constants.ORG_NAME}
-              icon={<BiDonateHeart />}
-              label={variables.getMessage('modals.main.settings.sections.about.support_donate')}
-            />
-          </div>
-        </div>
-
-        <div
-          className="settingsRow"
-          style={{ flexFlow: 'column', alignItems: 'flex-start', minHeight: '70px' }}
-        >
-          <span className="title">
             {variables.getMessage('modals.main.settings.sections.about.resources_used.title')}
           </span>
           <span className="subtitle">
@@ -262,104 +197,6 @@ class About extends PureComponent {
             </a>{' '}
             ({variables.getMessage('modals.main.settings.sections.about.resources_used.bg_images')})
           </span>
-        </div>
-
-        <div className="settingsRow" style={{ flexFlow: 'column', alignItems: 'flex-start' }}>
-          <span className="title">
-            {variables.getMessage('modals.main.settings.sections.about.contributors')}
-          </span>
-          <p>{this.state.loading}</p>
-          <div className="contributorImages">
-            {this.state.contributors.map(({ login, id }) => (
-              <Tooltip title={login} key={login}>
-                <a href={'https://github.com/' + login} target="_blank" rel="noopener noreferrer">
-                  <img
-                    draggable={false}
-                    src={'https://avatars.githubusercontent.com/u/' + id + '?s=128'}
-                    alt={login}
-                  ></img>
-                </a>
-              </Tooltip>
-            ))}
-            {
-              // for those who contributed without opening a pull request
-              this.state.other_contributors.map(({ login, avatar_url }) => (
-                <Tooltip title={login} key={login}>
-                  <a href={'https://github.com/' + login} target="_blank" rel="noopener noreferrer">
-                    <img draggable={false} src={avatar_url + '&s=128'} alt={login}></img>
-                  </a>
-                </Tooltip>
-              ))
-            }
-          </div>
-        </div>
-
-        <div className="settingsRow" style={{ flexFlow: 'column', alignItems: 'flex-start' }}>
-          <span className="title">
-            {variables.getMessage('modals.main.settings.sections.about.supporters')}
-          </span>
-          <p>{this.state.loading}</p>
-          <div className="contributorImages">
-            {this.state.sponsors.map(({ handle, avatar }) => {
-              if (handle === 'empty') {
-                return (
-                  <p key="empty">
-                    {variables.getMessage('modals.main.settings.sections.about.no_supporters')}
-                  </p>
-                );
-              }
-
-              return (
-                <Tooltip title={handle} key={handle}>
-                  <a
-                    href={'https://github.com/' + handle}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img draggable={false} src={avatar.split('?')[0] + '?s=128'} alt={handle}></img>
-                  </a>
-                </Tooltip>
-              );
-            })}
-          </div>
-        </div>
-        <div
-          className="settingsRow"
-          style={{ flexFlow: 'column', alignItems: 'flex-start', minHeight: '10px' }}
-        >
-          <span className="title">
-            {variables.getMessage('modals.main.settings.sections.about.photographers')}
-          </span>
-          {this.state.loading ? <p>{this.state.loading}</p> : <></>}
-          <ul>
-            {this.state.photographers.map(({ name, count }) => (
-              <li key={name} className="subtitle-photographers">
-                {name}
-                <span> ({count} images)</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div
-          className="settingsRow"
-          style={{
-            flexFlow: 'column',
-            alignItems: 'flex-start',
-            minHeight: '10px',
-            borderBottom: '0',
-          }}
-        >
-          <span className="title">
-            {variables.getMessage('modals.main.settings.sections.about.curators')}
-          </span>
-          {this.state.loading ? <p>{this.state.loading}</p> : <></>}
-          <ul>
-            {this.state.curators.map((name) => (
-              <li key={name} className="subtitle-photographers">
-                {name}
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     );
