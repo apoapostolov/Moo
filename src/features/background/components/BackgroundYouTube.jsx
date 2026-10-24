@@ -52,7 +52,7 @@ function BackgroundYouTube({ url }) {
       src={embedUrl}
       title="Videoscape"
       frameBorder="0"
-      allow="autoplay; encrypted-media"
+      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
       allowFullScreen
       style={{
         position: 'fixed',
