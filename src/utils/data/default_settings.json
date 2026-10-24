@@ -324,6 +324,14 @@
     "value": "false"
   },
   {
+    "name": "videoscape",
+    "value": "false"
+  },
+  {
+    "name": "videoscapeUrl",
+    "value": ""
+  },
+  {
     "name": "weatherEnabled",
     "value": "true"
   },
