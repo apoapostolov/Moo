@@ -86,7 +86,7 @@
       },
       "error_boundary": {
         "title": "Error",
-        "message": "No se ha podido cargar este componente de Mue",
+        "message": "No se ha podido cargar este componente de Moo",
         "report_error": "Enviar informe de error",
         "sent": "¡Enviado!",
         "refresh": "Recargar"
@@ -184,7 +184,7 @@
           "greeting": {
             "title": "Saludo",
             "events": "Eventos",
-            "events_description": "Control events on Mue such as birthdays.",
+            "events_description": "Control events on Moo such as birthdays.",
             "enable_events": "Show messages on special days",
             "default": "Mensaje del saludo por defecto",
             "name": "Nombre para el saludo",
@@ -276,7 +276,7 @@
               "folder_name": "Folder Name",
               "folder_placeholder": "Leave empty for no folder",
               "storage_info": "Storage Information",
-              "storage_description": "Mue uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
+              "storage_description": "Moo uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
               "storage_current": "Current usage: {used} of {total} ({percent}%)",
               "sort": {
                 "date_newest": "Date Added (Newest)",
@@ -304,7 +304,7 @@
             "voice_search": "Búsqueda por voz",
             "dropdown": "Menú desplegable de búsqueda",
             "focus": "Centrarse en la pestaña abierta",
-            "chrome_policy_warning": "En la versión 7.2, la posibilidad de elegir un motor de búsqueda en Mue se ha quitado para cumplir las nuevas directrices de la Chrome Web Store. Mue ahora utiliza el motor de búsqueda predeterminado de tu navegador. Puedes cambiarlo en la configuración de Chrome."
+            "chrome_policy_warning": "En la versión 7.2, la posibilidad de elegir un motor de búsqueda en Moo se ha quitado para cumplir las nuevas directrices de la Chrome Web Store. Moo ahora utiliza el motor de búsqueda predeterminado de tu navegador. Puedes cambiarlo en la configuración de Chrome."
           },
           "weather": {
             "title": "Clima",
@@ -376,7 +376,7 @@
             },
             "theme": {
               "title": "Tema",
-              "description": "Cambiar el tema de los widgets y formas de Mue",
+              "description": "Cambiar el tema de los widgets y formas de Moo",
               "auto": "Auto",
               "light": "Claro",
               "dark": "Oscuro"
@@ -397,7 +397,7 @@
             },
             "font": {
               "title": "Fuente",
-              "description": "Cambiar la tipografía utilizada en Mue",
+              "description": "Cambiar la tipografía utilizada en Moo",
               "custom": "Fuente personalizada",
               "google": "Importar desde Google Fonts",
               "weight": {
@@ -420,7 +420,7 @@
             },
             "accessibility": {
               "title": "Accesibilidad",
-              "description": "Ajustes de accesibilidad para Mue",
+              "description": "Ajustes de accesibilidad para Moo",
               "animations": "Animaciones",
               "text_shadow": {
                 "title": "Widget text shadow",
@@ -441,17 +441,17 @@
             "offline_mode": "Modo sin conexión",
             "offline_subtitle": "Cuando esté activada, se desactivarán todas las solicitudes a los servicios en línea.",
             "data": "Datos",
-            "data_description": "Choose whether to export your Mue settings to your computer, import an existing settings file, or reset your settings to their default values",
-            "data_subtitle": "Administra tus datos en Mue.",
+            "data_description": "Choose whether to export your Moo settings to your computer, import an existing settings file, or reset your settings to their default values",
+            "data_subtitle": "Administra tus datos en Moo.",
             "reset_modal": {
               "title": "ADVERTENCIA",
-              "question": "¿Quieres reiniciar Mue?",
+              "question": "¿Quieres reiniciar Moo?",
               "information": "Esto borrará todos los datos. Si desea mantener sus datos y preferencias, por favor, expórtelos primero.",
               "cancel": "Cancelar"
             },
             "customisation": "Personalización",
             "custom_css": "CSS personalizado",
-            "custom_css_subtitle": "Personaliza el estilo de Mue con hojas de estilo en cascada (CSS).",
+            "custom_css_subtitle": "Personaliza el estilo de Moo con hojas de estilo en cascada (CSS).",
             "custom_js": "JS personalizado",
             "tab_name": "Nombre de la pestaña",
             "tab_name_subtitle": "Cambiar el nombre de la pestaña que aparece en el navegador",
@@ -460,7 +460,7 @@
               "subtitle": "Elija una zona horaria de la lista en lugar de la predeterminada automáticamente de su ordenador",
               "automatic": "Automático"
             },
-            "experimental_warning": "Por favor, ten en cuenta que el equipo de Mue no puede dar soporte si tienes el modo experimental activado. Por favor, desactívalo primero y comprueba si el problema sigue ocurriendo antes de contactar con el equipo de soporte.",
+            "experimental_warning": "Por favor, ten en cuenta que el equipo de Moo no puede dar soporte si tienes el modo experimental activado. Por favor, desactívalo primero y comprueba si el problema sigue ocurriendo antes de contactar con el equipo de soporte.",
             "preview_data_disabled": {
               "title": "Data Settings Disabled",
               "description": "Data settings are disabled in preview mode. Please exit preview mode to use this feature."
@@ -518,8 +518,8 @@
               }
             },
             "contact_us": "Contacto",
-            "support_mue": "Apoya Mue",
-            "support_subtitle": "Como Mue es totalmente gratuito, dependemos de las donaciones para cubrir las facturas del servidor y financiar el desarrollo",
+            "support_mue": "Apoya Moo",
+            "support_subtitle": "Como Moo es totalmente gratuito, dependemos de las donaciones para cubrir las facturas del servidor y financiar el desarrollo",
             "support_donate": "Donar",
             "form_button": "Formulario",
             "resources_used": {
@@ -528,7 +528,7 @@
             },
             "contributors": "Contribuyentes",
             "supporters": "Partidarios",
-            "no_supporters": "Actualmente no hay partidarios de Mue",
+            "no_supporters": "Actualmente no hay partidarios de Moo",
             "photographers": "Fotógrafos",
             "curators": "Add-on creators"
           }
@@ -553,7 +553,7 @@
         "no_items": "No hay artículos en esta categoría",
         "collection": "Colección",
         "explore_collection": "Explorar la colección",
-        "add_all": "Añadir todo a Mue",
+        "add_all": "Añadir todo a Moo",
         "collections": "Colecciones",
         "cant_find": "¿No encuentra lo que busca?",
         "knowledgebase_one": "Visite la",
@@ -579,7 +579,7 @@
           "part_of": "Parte de",
           "explore": "Explorar",
           "buttons": {
-            "addtomue": "Añadir a Mue",
+            "addtomue": "Añadir a Moo",
             "remove": "Desinstalar",
             "update_addon": "Actualizar complemento",
             "back": "Atrás",
@@ -608,7 +608,7 @@
         },
         "sideload": {
           "title": "Cargar localmente",
-          "description": "Instala un complemento Mue que no esté en la tienda de su ordenador",
+          "description": "Instala un complemento Moo que no esté en la tienda de su ordenador",
           "failed": "Fallo en la carga lateral del complemento",
           "errors": {
             "no_name": "No se ha indicado el nombre",
@@ -647,11 +647,11 @@
       "tip": "Consejo",
       "sections": {
         "intro": {
-          "title": "Bienvenido a Mue Tab",
-          "description": "Gracias por instalar Mue, esperamos que disfrute de su tiempo con nuestra extensión.",
+          "title": "Bienvenido a Moo Tab",
+          "description": "Gracias por instalar Moo, esperamos que disfrute de su tiempo con nuestra extensión.",
           "notices": {
             "discord_title": "Únase a nuestro Discord",
-            "discord_description": "Hable con la comunidad y los desarrolladores de Mue",
+            "discord_description": "Hable con la comunidad y los desarrolladores de Moo",
             "discord_join": "Únase",
             "github_title": "Contribuir en GitHub",
             "github_description": "Informar de errores, añadir funciones o hacer donaciones",
@@ -660,27 +660,27 @@
         },
         "language": {
           "title": "Elige el idioma",
-          "description": "Mue puede mostrarse en los idiomas que se indican debajo. ¡También puedes contribuir con traducciones en nuestro"
+          "description": "Moo puede mostrarse en los idiomas que se indican debajo. ¡También puedes contribuir con traducciones en nuestro"
         },
         "theme": {
           "title": "Selecciona un tema",
-          "description": "Mue está disponible tanto en el tema claro como en el oscuro, también se puede configurar automáticamente en función del tema de su sistema.",
+          "description": "Moo está disponible tanto en el tema claro como en el oscuro, también se puede configurar automáticamente en función del tema de su sistema.",
           "tip": "Si utiliza la configuración automática, utilizará el tema de su ordenador. Esta configuración afectará a los modales y a algunos de los widgets que aparecen en la pantalla, como el tiempo y las notas."
         },
         "style": {
           "title": "Elija un estilo",
-          "description": "Mue ofrece actualmente la posibilidad de elegir entre el estilo heredado y el estilo moderno recién estrenado.",
+          "description": "Moo ofrece actualmente la posibilidad de elegir entre el estilo heredado y el estilo moderno recién estrenado.",
           "legacy": "Legado",
           "modern": "Moderno"
         },
         "settings": {
           "title": "Importa los ajustes",
-          "description": "¿Instalando Mue en un nuevo dispositivo? ¡No dudes en importar tu antigua configuración!",
-          "tip": "Puedes exportar tu antigua configuración navegando a la pestaña Avanzado en tu antigua configuración de Mue. Luego debes hacer clic en el botón de exportación que descargará el archivo JSON. Puedes subir este archivo aquí para mantener tus ajustes y preferencias de tu anterior instalación de Mue."
+          "description": "¿Instalando Moo en un nuevo dispositivo? ¡No dudes en importar tu antigua configuración!",
+          "tip": "Puedes exportar tu antigua configuración navegando a la pestaña Avanzado en tu antigua configuración de Moo. Luego debes hacer clic en el botón de exportación que descargará el archivo JSON. Puedes subir este archivo aquí para mantener tus ajustes y preferencias de tu anterior instalación de Moo."
         },
         "privacy": {
           "title": "Opciones de privacidad",
-          "description": "Activa estos ajustes para proteger aún más tu privacidad con Mue.",
+          "description": "Activa estos ajustes para proteger aún más tu privacidad con Moo.",
           "offline_mode_description": "Al activar el modo offline se deshabilitarán todas las peticiones a cualquier servicio. Esto hará que se desactiven los fondos en línea, las citas en línea, la tienda, el tiempo, los enlaces rápidos, el registro de cambios y alguna información de la pestaña Acerca de.",
           "links": {
             "title": "Enlaces",
@@ -690,7 +690,7 @@
         },
         "final": {
           "title": "Último paso",
-          "description": "Tu experiencia con Mue Tab está a punto de comenzar.",
+          "description": "Tu experiencia con Moo Tab está a punto de comenzar.",
           "changes": "Cambios",
           "changes_description": "Para cambiar la configuración más tarde, haga clic en el icono de configuración en la esquina superior derecha de su pestaña.",
           "imported": "Importados {amount} ajustes"

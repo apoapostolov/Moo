@@ -37,14 +37,14 @@ function Intro() {
     setWelcomeImage((prevWelcomeImage) => (prevWelcomeImage < 3 ? prevWelcomeImage + 1 : 0));
   }, []);
 
-  const ShareYourMue = (
+  const ShareYourMoo = (
     <div className="examples">
       <img
         src={`/src/assets/welcome-images/example${welcomeImage + 1}.webp`}
-        alt="Example Mue setup"
+        alt="Example Moo setup"
         draggable={false}
       />
-      <span className="shareYourMue">#shareyourmue</span>
+      <span className="shareYourMoo">#shareyourmue</span>
     </div>
   );
 
@@ -56,7 +56,7 @@ function Intro() {
   return (
     <Content>
       <Header title={variables.getMessage('modals.welcome.sections.intro.title')} />
-      {ShareYourMue}
+      {ShareYourMoo}
       <WelcomeNotice
         config={{
           icon: MdOutlineWavingHand,

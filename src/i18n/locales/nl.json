@@ -86,7 +86,7 @@
       },
       "error_boundary": {
         "title": "Foutmelding",
-        "message": "Kan dit onderdeel van Mue niet laden",
+        "message": "Kan dit onderdeel van Moo niet laden",
         "report_error": "Stuur foutrapport",
         "sent": "Verstuurd!",
         "refresh": "Vernieuw"
@@ -184,7 +184,7 @@
           "greeting": {
             "title": "Begroetingen",
             "events": "Gebeurtenissen",
-            "events_description": "Control events on Mue such as birthdays.",
+            "events_description": "Control events on Moo such as birthdays.",
             "enable_events": "Show messages on special days",
             "default": "Standaard begroetingsnaam",
             "name": "Naam van begroeting",
@@ -276,7 +276,7 @@
               "folder_name": "Folder Name",
               "folder_placeholder": "Leave empty for no folder",
               "storage_info": "Storage Information",
-              "storage_description": "Mue uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
+              "storage_description": "Moo uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
               "storage_current": "Current usage: {used} of {total} ({percent}%)",
               "sort": {
                 "date_newest": "Date Added (Newest)",
@@ -304,7 +304,7 @@
             "voice_search": "Spraakgestuurd zoeken gebruiken",
             "dropdown": "Search dropdown",
             "focus": "Focus op tabblad openen",
-            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Mue was removed to comply with new Chrome Web Store guidelines. Mue now uses your browser's default search engine. You can change this in Chrome Settings."
+            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Moo was removed to comply with new Chrome Web Store guidelines. Moo now uses your browser's default search engine. You can change this in Chrome Settings."
           },
           "weather": {
             "title": "Weather",
@@ -376,7 +376,7 @@
             },
             "theme": {
               "title": "Theme",
-              "description": "Wijzig het thema van de Mue-widgets en modals",
+              "description": "Wijzig het thema van de Moo-widgets en modals",
               "auto": "Auto",
               "light": "Light",
               "dark": "Dark"
@@ -397,7 +397,7 @@
             },
             "font": {
               "title": "Font",
-              "description": "Verandert het lettertype gebruikt in Mue",
+              "description": "Verandert het lettertype gebruikt in Moo",
               "custom": "Custom font",
               "google": "Import from Google Fonts",
               "weight": {
@@ -420,7 +420,7 @@
             },
             "accessibility": {
               "title": "Accessibility",
-              "description": "Instellingen voor toegankelijkheid in Mue",
+              "description": "Instellingen voor toegankelijkheid in Moo",
               "animations": "Animations",
               "text_shadow": {
                 "title": "Widget text shadow",
@@ -441,17 +441,17 @@
             "offline_mode": "Offline-modus",
             "offline_subtitle": "Indien ingeschakeld worden alle verzoeken naar online diensten uitgeschakeld.",
             "data": "Data",
-            "data_description": "Choose whether to export your Mue settings to your computer, import an existing settings file, or reset your settings to their default values",
-            "data_subtitle": "Kies of je jou Mue-instellingen naar je computer wilt exporteren, een bestaand instellingenbestand wilt importeren of je instellingen wilt terugzetten naar hun standaardwaarden",
+            "data_description": "Choose whether to export your Moo settings to your computer, import an existing settings file, or reset your settings to their default values",
+            "data_subtitle": "Kies of je jou Moo-instellingen naar je computer wilt exporteren, een bestaand instellingenbestand wilt importeren of je instellingen wilt terugzetten naar hun standaardwaarden",
             "reset_modal": {
               "title": "WARNING",
-              "question": "Do you want to reset Mue?",
+              "question": "Do you want to reset Moo?",
               "information": "This will delete all data. If you wish to keep your data and preferences, please export them first.",
               "cancel": "Cancel"
             },
             "customisation": "Customisation",
             "custom_css": "Custom CSS",
-            "custom_css_subtitle": "Maak Mue je eigen door middel van Cascading Style Sheets (CSS).",
+            "custom_css_subtitle": "Maak Moo je eigen door middel van Cascading Style Sheets (CSS).",
             "custom_js": "Custom JS",
             "tab_name": "Tab name",
             "tab_name_subtitle": "Verander de naam van het tabblad dat in je browser tevoorschijn komt",
@@ -460,7 +460,7 @@
               "subtitle": "Kies een tijdzone van de lijst in plaats van de automatische standaard van je computer",
               "automatic": "Automatic"
             },
-            "experimental_warning": "Please note that the Mue team cannot provide support if you have experimental mode on. Please disable it first and see if the issue continues to occur before contacting support.",
+            "experimental_warning": "Please note that the Moo team cannot provide support if you have experimental mode on. Please disable it first and see if the issue continues to occur before contacting support.",
             "preview_data_disabled": {
               "title": "Data Settings Disabled",
               "description": "Data settings are disabled in preview mode. Please exit preview mode to use this feature."
@@ -518,8 +518,8 @@
               }
             },
             "contact_us": "Contact Us",
-            "support_mue": "Support Mue",
-            "support_subtitle": "Omdat Mue volledig gratis is, zijn we afhankelijk van donaties om de serverrekeningen te dekken en de ontwikkeling te financieren",
+            "support_mue": "Support Moo",
+            "support_subtitle": "Omdat Moo volledig gratis is, zijn we afhankelijk van donaties om de serverrekeningen te dekken en de ontwikkeling te financieren",
             "support_donate": "Doneer",
             "form_button": "Forum",
             "resources_used": {
@@ -528,7 +528,7 @@
             },
             "contributors": "Contributors",
             "supporters": "Supporters",
-            "no_supporters": "There are currently no Mue supporters",
+            "no_supporters": "There are currently no Moo supporters",
             "photographers": "Photographers",
             "curators": "Add-on creators"
           }
@@ -553,7 +553,7 @@
         "no_items": "No items in this category",
         "collection": "Collectie",
         "explore_collection": "Verken Collectie",
-        "add_all": "Voeg alles toe aan Mue",
+        "add_all": "Voeg alles toe aan Moo",
         "collections": "Collecties",
         "cant_find": "Kan je niet vinden waar je naar opzoek was?",
         "knowledgebase_one": "Bezoek de",
@@ -579,7 +579,7 @@
           "part_of": "Deel van",
           "explore": "Verken",
           "buttons": {
-            "addtomue": "Toevoegen aan Mue",
+            "addtomue": "Toevoegen aan Moo",
             "remove": "Verwijderen",
             "update_addon": "Update Add-on",
             "back": "Terug",
@@ -608,7 +608,7 @@
         },
         "sideload": {
           "title": "Sideloaden",
-          "description": "Installeer een Mue extensie die niet op de marktplaats staat vanaf je computer",
+          "description": "Installeer een Moo extensie die niet op de marktplaats staat vanaf je computer",
           "failed": "Failed to sideload addon",
           "errors": {
             "no_name": "No name provided",
@@ -647,11 +647,11 @@
       "tip": "Quick Tip",
       "sections": {
         "intro": {
-          "title": "Welcome to Mue Tab",
-          "description": "Thank you for installing Mue, we hope you enjoy your time with our extension.",
+          "title": "Welcome to Moo Tab",
+          "description": "Thank you for installing Moo, we hope you enjoy your time with our extension.",
           "notices": {
             "discord_title": "Wordt lid van onze Discord server",
-            "discord_description": "Praat met de Mue gemeenschap en ontwikkelaars",
+            "discord_description": "Praat met de Moo gemeenschap en ontwikkelaars",
             "discord_join": "Meedoen",
             "github_title": "Draag bij op GitHub",
             "github_description": "Rapporteer bugs, voeg functies toe of doneer",
@@ -660,27 +660,27 @@
         },
         "language": {
           "title": "Choose your language",
-          "description": "Mue can be displayed the languages listed below. You can also add new translations on our"
+          "description": "Moo can be displayed the languages listed below. You can also add new translations on our"
         },
         "theme": {
           "title": "Select a theme",
-          "description": "Mue is available in both light and dark theme, or this can be automatically set depending on your system theme.",
+          "description": "Moo is available in both light and dark theme, or this can be automatically set depending on your system theme.",
           "tip": "Using the Auto settings will use the theme on your computer. This setting will impact the modals and some of the widgets displayed on the screen, such as weather and notes."
         },
         "style": {
           "title": "Kies een stijl",
-          "description": "Mue biedt momenteel de keuze aan tussen de oude stijl en de nieuw uitgebrachte moderne stijl.",
+          "description": "Moo biedt momenteel de keuze aan tussen de oude stijl en de nieuw uitgebrachte moderne stijl.",
           "legacy": "Legacy",
           "modern": "Modern"
         },
         "settings": {
           "title": "Import Settings",
-          "description": "Installing Mue on a new device? Feel free to import your old settings!",
-          "tip": "You can export your old settings by navigating to the Advanced tab in your old Mue setup. Then you need to click the export button which will download the JSON file. You can upload this file here to carry across your settings and preferences from your previous Mue installation."
+          "description": "Installing Moo on a new device? Feel free to import your old settings!",
+          "tip": "You can export your old settings by navigating to the Advanced tab in your old Moo setup. Then you need to click the export button which will download the JSON file. You can upload this file here to carry across your settings and preferences from your previous Moo installation."
         },
         "privacy": {
           "title": "Privacy Options",
-          "description": "Enable settings to further protect your privacy with Mue.",
+          "description": "Enable settings to further protect your privacy with Moo.",
           "offline_mode_description": "Enabling offline mode will disable all requests to any service. This will result in online backgrounds, online quotes, marketplace, weather, quick links, change log and some about tab information to be disabled.",
           "links": {
             "title": "Links",
@@ -690,7 +690,7 @@
         },
         "final": {
           "title": "Final step",
-          "description": "Your Mue Tab experience is about to begin.",
+          "description": "Your Moo Tab experience is about to begin.",
           "changes": "Changes",
           "changes_description": "To change settings later click on the settings icon in the top right corner of your tab.",
           "imported": "Imported {amount} settings"

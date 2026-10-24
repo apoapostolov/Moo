@@ -86,7 +86,7 @@
       },
       "error_boundary": {
         "title": "Erreur",
-        "message": "Échec du chargement de ce composant de Mue",
+        "message": "Échec du chargement de ce composant de Moo",
         "report_error": "Envoyer un rapport d'erreur",
         "sent": "Envoyé !",
         "refresh": "Rafraîchir"
@@ -184,7 +184,7 @@
           "greeting": {
             "title": "Salutation",
             "events": "Événements",
-            "events_description": "Contrôler les événements sur Mue tels que les anniversaires.",
+            "events_description": "Contrôler les événements sur Moo tels que les anniversaires.",
             "enable_events": "Afficher les messages les jours spéciaux",
             "default": "Message de salutation par défaut",
             "name": "Nom pour la salutation",
@@ -257,7 +257,7 @@
               "add_url": "Ajouter une URL",
               "disabled": "Désactivé",
               "loop_video": "Vidéo en boucle",
-              "mute_video": "Muet",
+              "mute_video": "Moot",
               "quality": {
                 "title": "Qualité",
                 "original": "Original",
@@ -276,7 +276,7 @@
               "folder_name": "Folder Name",
               "folder_placeholder": "Leave empty for no folder",
               "storage_info": "Storage Information",
-              "storage_description": "Mue uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
+              "storage_description": "Moo uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
               "storage_current": "Current usage: {used} of {total} ({percent}%)",
               "sort": {
                 "date_newest": "Date Added (Newest)",
@@ -304,7 +304,7 @@
             "voice_search": "Recherche vocale",
             "dropdown": "Menu déroulant de recherche",
             "focus": "Focus sur l'onglet ouvert",
-            "chrome_policy_warning": "Dans la version 7.2, la possibilité de choisir votre moteur de recherche dans Mue a été supprimée afin de se conformer aux nouvelles directives du Chrome Web Store. Mue utilise désormais le moteur de recherche par défaut de votre navigateur. Vous pouvez modifier ce paramètre dans les paramètres de Chrome."
+            "chrome_policy_warning": "Dans la version 7.2, la possibilité de choisir votre moteur de recherche dans Moo a été supprimée afin de se conformer aux nouvelles directives du Chrome Web Store. Moo utilise désormais le moteur de recherche par défaut de votre navigateur. Vous pouvez modifier ce paramètre dans les paramètres de Chrome."
           },
           "weather": {
             "title": "Météo",
@@ -376,7 +376,7 @@
             },
             "theme": {
               "title": "Thème",
-              "description": "Changer le thème des widgets et modaux Mue",
+              "description": "Changer le thème des widgets et modaux Moo",
               "auto": "Auto",
               "light": "Clair",
               "dark": "Sombre"
@@ -397,7 +397,7 @@
             },
             "font": {
               "title": "Police",
-              "description": "Changer la police utilisée dans Mue",
+              "description": "Changer la police utilisée dans Moo",
               "custom": "Police personnalisée",
               "google": "Importer depuis Google Fonts",
               "weight": {
@@ -420,7 +420,7 @@
             },
             "accessibility": {
               "title": "Accessibilité",
-              "description": "Paramètres d'accessibilité pour Mue",
+              "description": "Paramètres d'accessibilité pour Moo",
               "animations": "Animations",
               "text_shadow": {
                 "title": "Ombre du texte des widgets",
@@ -441,17 +441,17 @@
             "offline_mode": "Mode hors ligne",
             "offline_subtitle": "Lorsqu'il est activé, toutes les requêtes vers les services en ligne seront désactivées.",
             "data": "Données",
-            "data_description": "Choisissez d'exporter vos paramètres Mue sur votre ordinateur, d'importer un fichier de paramètres existant ou de réinitialiser vos paramètres à leurs valeurs par défaut",
-            "data_subtitle": "Gérez vos données sur Mue.",
+            "data_description": "Choisissez d'exporter vos paramètres Moo sur votre ordinateur, d'importer un fichier de paramètres existant ou de réinitialiser vos paramètres à leurs valeurs par défaut",
+            "data_subtitle": "Gérez vos données sur Moo.",
             "reset_modal": {
               "title": "AVERTISSEMENT",
-              "question": "Voulez-vous réinitialiser Mue ?",
+              "question": "Voulez-vous réinitialiser Moo ?",
               "information": "Cela supprimera toutes les données. Si vous souhaitez conserver vos données et préférences, veuillez les exporter d'abord.",
               "cancel": "Annuler"
             },
             "customisation": "Personnalisation",
             "custom_css": "CSS personnalisé",
-            "custom_css_subtitle": "Personnalisez le style de Mue avec des feuilles de style en cascade (CSS).",
+            "custom_css_subtitle": "Personnalisez le style de Moo avec des feuilles de style en cascade (CSS).",
             "custom_js": "JS personnalisé",
             "tab_name": "Nom de l'onglet",
             "tab_name_subtitle": "Modifier le nom de l'onglet qui apparaît dans votre navigateur",
@@ -460,7 +460,7 @@
               "subtitle": "Choisissez un fuseau horaire dans la liste au lieu de la valeur par défaut automatique de votre ordinateur",
               "automatic": "Automatique"
             },
-            "experimental_warning": "Veuillez noter que l'équipe Mue ne peut pas fournir de support si vous avez le mode expérimental activé. Veuillez le désactiver d'abord et voir si le problème continue de se produire avant de contacter le support.",
+            "experimental_warning": "Veuillez noter que l'équipe Moo ne peut pas fournir de support si vous avez le mode expérimental activé. Veuillez le désactiver d'abord et voir si le problème continue de se produire avant de contacter le support.",
             "preview_data_disabled": {
               "title": "Paramètres des données désactivés",
               "description": "Les paramètres de données sont désactivés en mode aperçu. Veuillez quitter le mode aperçu pour utiliser cette fonctionnalité."
@@ -518,8 +518,8 @@
               }
             },
             "contact_us": "Contactez-nous",
-            "support_mue": "Soutenez Mue",
-            "support_subtitle": "Comme Mue est entièrement gratuit, nous comptons sur les dons pour couvrir les factures du serveur et financer le développement",
+            "support_mue": "Soutenez Moo",
+            "support_subtitle": "Comme Moo est entièrement gratuit, nous comptons sur les dons pour couvrir les factures du serveur et financer le développement",
             "support_donate": "Faire un don",
             "form_button": "Formulaire",
             "resources_used": {
@@ -528,7 +528,7 @@
             },
             "contributors": "Contributeurs",
             "supporters": "Supporters",
-            "no_supporters": "Il n'y a actuellement aucun supporter de Mue",
+            "no_supporters": "Il n'y a actuellement aucun supporter de Moo",
             "photographers": "Photographes",
             "curators": "Créateurs d'add-ons"
           }
@@ -553,7 +553,7 @@
         "no_items": "Aucun élément dans cette catégorie",
         "collection": "Collection",
         "explore_collection": "Explorer la collection",
-        "add_all": "Ajouter tout à Mue",
+        "add_all": "Ajouter tout à Moo",
         "collections": "Collections",
         "cant_find": "Vous ne trouvez pas ce que vous cherchez ?",
         "knowledgebase_one": "Visiter le",
@@ -608,7 +608,7 @@
         },
         "sideload": {
           "title": "Chargement manuel",
-          "description": "Installez un addon Mue qui n'est pas sur le marché depuis votre ordinateur",
+          "description": "Installez un addon Moo qui n'est pas sur le marché depuis votre ordinateur",
           "failed": "Échec du chargement manuel de l'add-on",
           "errors": {
             "no_name": "Aucun nom fourni",
@@ -647,11 +647,11 @@
       "tip": "Astuce rapide",
       "sections": {
         "intro": {
-          "title": "Bienvenue sur Mue Tab",
-          "description": "Merci d'avoir installé Mue, nous espérons que vous apprécierez votre expérience avec notre extension.",
+          "title": "Bienvenue sur Moo Tab",
+          "description": "Merci d'avoir installé Moo, nous espérons que vous apprécierez votre expérience avec notre extension.",
           "notices": {
             "discord_title": "Rejoignez notre Discord",
-            "discord_description": "Discutez avec la communauté Mue et les développeurs",
+            "discord_description": "Discutez avec la communauté Moo et les développeurs",
             "discord_join": "Rejoindre",
             "github_title": "Contribuer sur GitHub",
             "github_description": "Signalez des bugs, ajoutez des fonctionnalités ou faites un don",
@@ -660,27 +660,27 @@
         },
         "language": {
           "title": "Choisissez votre langue",
-          "description": "Mue peut être affiché dans les langues listées ci-dessous. Vous pouvez également ajouter de nouvelles traductions sur notre"
+          "description": "Moo peut être affiché dans les langues listées ci-dessous. Vous pouvez également ajouter de nouvelles traductions sur notre"
         },
         "theme": {
           "title": "Sélectionnez un thème",
-          "description": "Mue est disponible en thème clair et sombre, ou cela peut être automatiquement défini en fonction du thème de votre système.",
+          "description": "Moo est disponible en thème clair et sombre, ou cela peut être automatiquement défini en fonction du thème de votre système.",
           "tip": "En utilisant les paramètres Auto, le thème de votre ordinateur sera utilisé. Ce paramètre affectera les modals et certains widgets affichés à l'écran, tels que la météo et les notes."
         },
         "style": {
           "title": "Choisissez un style",
-          "description": "Mue offre actuellement le choix entre le style hérité et le nouveau style moderne.",
+          "description": "Moo offre actuellement le choix entre le style hérité et le nouveau style moderne.",
           "legacy": "Héritage",
           "modern": "Moderne"
         },
         "settings": {
           "title": "Importer les paramètres",
-          "description": "Vous installez Mue sur un nouvel appareil ? N'hésitez pas à importer vos anciens paramètres !",
-          "tip": "Vous pouvez exporter vos anciens paramètres en naviguant vers l'onglet Avancé dans votre ancienne configuration Mue. Ensuite, vous devez cliquer sur le bouton d'exportation qui téléchargera le fichier JSON. Vous pouvez télécharger ce fichier ici pour transférer vos paramètres et préférences de votre précédente installation de Mue."
+          "description": "Vous installez Moo sur un nouvel appareil ? N'hésitez pas à importer vos anciens paramètres !",
+          "tip": "Vous pouvez exporter vos anciens paramètres en naviguant vers l'onglet Avancé dans votre ancienne configuration Moo. Ensuite, vous devez cliquer sur le bouton d'exportation qui téléchargera le fichier JSON. Vous pouvez télécharger ce fichier ici pour transférer vos paramètres et préférences de votre précédente installation de Moo."
         },
         "privacy": {
           "title": "Options de confidentialité",
-          "description": "Activez les paramètres pour protéger davantage votre vie privée avec Mue.",
+          "description": "Activez les paramètres pour protéger davantage votre vie privée avec Moo.",
           "offline_mode_description": "Activer le mode hors ligne désactivera toutes les requêtes vers n'importe quel service. Cela aura pour conséquence que les fonds d'écran en ligne, les citations en ligne, le marché, la météo, les liens rapides, le journal des modifications et certaines informations de l'onglet À propos soient désactivés.",
           "links": {
             "title": "Liens",
@@ -690,7 +690,7 @@
         },
         "final": {
           "title": "Dernière étape",
-          "description": "Votre expérience Mue Tab est sur le point de commencer.",
+          "description": "Votre expérience Moo Tab est sur le point de commencer.",
           "changes": "Modifications",
           "changes_description": "Pour modifier les paramètres plus tard, cliquez sur l'icône des paramètres dans le coin supérieur droit de votre onglet.",
           "imported": "{amount} paramètres importés"

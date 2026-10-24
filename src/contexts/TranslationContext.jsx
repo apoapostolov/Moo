@@ -44,7 +44,7 @@ export function TranslationProvider({ children, initialLanguage }) {
         const newTabName =
           translations[newLanguage.replace('-', '_')]?.tabname ||
           i18nInstance.current?.getMessage(newLanguage, 'tabname') ||
-          'Mue';
+          'Moo';
         localStorage.setItem('tabName', newTabName);
         document.title = newTabName;
       }

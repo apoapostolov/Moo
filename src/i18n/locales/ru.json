@@ -86,7 +86,7 @@
       },
       "error_boundary": {
         "title": "Ошибка",
-        "message": "Не удалось загрузить этот компонент Mue",
+        "message": "Не удалось загрузить этот компонент Moo",
         "report_error": "Отправить сообщение об ошибке",
         "sent": "Отправил!",
         "refresh": "Обновить"
@@ -184,7 +184,7 @@
           "greeting": {
             "title": "Приветствие",
             "events": "События",
-            "events_description": "Control events on Mue such as birthdays.",
+            "events_description": "Control events on Moo such as birthdays.",
             "enable_events": "Show messages on special days",
             "default": "Сообщение с приветствием по-умолчанию",
             "name": "Имя для приветствия",
@@ -276,7 +276,7 @@
               "folder_name": "Folder Name",
               "folder_placeholder": "Leave empty for no folder",
               "storage_info": "Storage Information",
-              "storage_description": "Mue uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
+              "storage_description": "Moo uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
               "storage_current": "Current usage: {used} of {total} ({percent}%)",
               "sort": {
                 "date_newest": "Date Added (Newest)",
@@ -304,7 +304,7 @@
             "voice_search": "Поиск голосом",
             "dropdown": "Выпадающий список поиска",
             "focus": "Фокус на открытой вкладке",
-            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Mue was removed to comply with new Chrome Web Store guidelines. Mue now uses your browser's default search engine. You can change this in Chrome Settings."
+            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Moo was removed to comply with new Chrome Web Store guidelines. Moo now uses your browser's default search engine. You can change this in Chrome Settings."
           },
           "weather": {
             "title": "Погода",
@@ -376,7 +376,7 @@
             },
             "theme": {
               "title": "Theme",
-              "description": "Измените тему виджетов и модальных окон Mue",
+              "description": "Измените тему виджетов и модальных окон Moo",
               "auto": "Auto",
               "light": "Светлая",
               "dark": "Тёмная"
@@ -397,7 +397,7 @@
             },
             "font": {
               "title": "Font",
-              "description": "Измените шрифт, используемый в Mue",
+              "description": "Измените шрифт, используемый в Moo",
               "custom": "Пользовательский шрифт",
               "google": "Импортировать из Google Fonts",
               "weight": {
@@ -420,7 +420,7 @@
             },
             "accessibility": {
               "title": "Доступность",
-              "description": "Настройки специальных возможностей для Mue",
+              "description": "Настройки специальных возможностей для Moo",
               "animations": "Анимации",
               "text_shadow": {
                 "title": "Тень текста виджета",
@@ -441,17 +441,17 @@
             "offline_mode": "Офлайн режим",
             "offline_subtitle": "При включении все запросы к онлайн-сервисам будут отключены.",
             "data": "Data",
-            "data_description": "Choose whether to export your Mue settings to your computer, import an existing settings file, or reset your settings to their default values",
-            "data_subtitle": "Выберите, следует ли экспортировать настройки Mue на компьютер, импортировать существующий файл настроек или сбросить настройки до значений по умолчанию",
+            "data_description": "Choose whether to export your Moo settings to your computer, import an existing settings file, or reset your settings to their default values",
+            "data_subtitle": "Выберите, следует ли экспортировать настройки Moo на компьютер, импортировать существующий файл настроек или сбросить настройки до значений по умолчанию",
             "reset_modal": {
               "title": "WARNING",
-              "question": "Вы хотите сбросить Mue?",
+              "question": "Вы хотите сбросить Moo?",
               "information": "Это приведет к удалению всех данных. Если вы хотите сохранить свои данные и предпочтения, сначала экспортируйте их.",
               "cancel": "Отменить"
             },
             "customisation": "Кастомизация",
             "custom_css": "Пользовательский CSS",
-            "custom_css_subtitle": "Настройте стиль Mue под себя с помощью каскадных таблиц стилей (CSS).",
+            "custom_css_subtitle": "Настройте стиль Moo под себя с помощью каскадных таблиц стилей (CSS).",
             "custom_js": "Пользовательский JS",
             "tab_name": "Tab name",
             "tab_name_subtitle": "Измените название вкладки, которая появляется в вашем браузере",
@@ -460,7 +460,7 @@
               "subtitle": "Выберите часовой пояс из списка вместо автоматического по умолчанию с вашего компьютера",
               "automatic": "Автоматически"
             },
-            "experimental_warning": "Обратите внимание, что команда Mue не может оказать поддержку, если у вас включен экспериментальный режим. Пожалуйста, сначала отключите его и посмотрите, сохранится ли проблема, прежде чем обращаться в службу поддержки.",
+            "experimental_warning": "Обратите внимание, что команда Moo не может оказать поддержку, если у вас включен экспериментальный режим. Пожалуйста, сначала отключите его и посмотрите, сохранится ли проблема, прежде чем обращаться в службу поддержки.",
             "preview_data_disabled": {
               "title": "Data Settings Disabled",
               "description": "Data settings are disabled in preview mode. Please exit preview mode to use this feature."
@@ -518,8 +518,8 @@
               }
             },
             "contact_us": "Contact Us",
-            "support_mue": "Support Mue",
-            "support_subtitle": "Поскольку Mue полностью бесплатен, мы полагаемся на пожертвования для покрытия счетов за сервер и финансирования развития",
+            "support_mue": "Support Moo",
+            "support_subtitle": "Поскольку Moo полностью бесплатен, мы полагаемся на пожертвования для покрытия счетов за сервер и финансирования развития",
             "support_donate": "Пожертвовать",
             "form_button": "Форма",
             "resources_used": {
@@ -528,7 +528,7 @@
             },
             "contributors": "Участники",
             "supporters": "Поддержка",
-            "no_supporters": "В настоящее время нет поддержки Mue",
+            "no_supporters": "В настоящее время нет поддержки Moo",
             "photographers": "Фотографы",
             "curators": "Add-on creators"
           }
@@ -553,7 +553,7 @@
         "no_items": "Нет элементов в этой категории",
         "collection": "Коллекция",
         "explore_collection": "Исследуйте коллекцию",
-        "add_all": "Добавить все в Mue",
+        "add_all": "Добавить все в Moo",
         "collections": "Коллекции",
         "cant_find": "Не можете найти то, что ищете?",
         "knowledgebase_one": "Посетить",
@@ -579,7 +579,7 @@
           "part_of": "Часть",
           "explore": "Обзор",
           "buttons": {
-            "addtomue": "Добавить в Mue",
+            "addtomue": "Добавить в Moo",
             "remove": "Удалить",
             "update_addon": "Update Add-on",
             "back": "Назад",
@@ -608,7 +608,7 @@
         },
         "sideload": {
           "title": "Загрузить",
-          "description": "Установить аддон Mue, не представленную на торговой площадке, со своего компьютера",
+          "description": "Установить аддон Moo, не представленную на торговой площадке, со своего компьютера",
           "failed": "Не удалось загрузить аддоны",
           "errors": {
             "no_name": "Название не указано",
@@ -647,11 +647,11 @@
       "tip": "Быстрый совет",
       "sections": {
         "intro": {
-          "title": "Добро пожаловать в Mue Tab",
-          "description": "Спасибо за установку Mue, мы надеемся, что вам понравится ваше время с нашим расширением.",
+          "title": "Добро пожаловать в Moo Tab",
+          "description": "Спасибо за установку Moo, мы надеемся, что вам понравится ваше время с нашим расширением.",
           "notices": {
             "discord_title": "Присоединяйтесь к нашему дискорду",
-            "discord_description": "Поговорите с сообществом Mue и разработчиками",
+            "discord_description": "Поговорите с сообществом Moo и разработчиками",
             "discord_join": "Присоединиться",
             "github_title": "Внесите свой вклад в GitHub",
             "github_description": "Сообщайте об ошибках, добавляйте функции или пожертвуйте",
@@ -660,27 +660,27 @@
         },
         "language": {
           "title": "Выберите свой язык",
-          "description": "Mue может отображаться на языках, перечисленных ниже. Вы также можете добавить новые переводы на свой"
+          "description": "Moo может отображаться на языках, перечисленных ниже. Вы также можете добавить новые переводы на свой"
         },
         "theme": {
           "title": "Выберите тему",
-          "description": "Mue доступен как в светлой, так и в темной теме, или это может быть автоматически установлено в зависимости от темы вашей системы.",
+          "description": "Moo доступен как в светлой, так и в темной теме, или это может быть автоматически установлено в зависимости от темы вашей системы.",
           "tip": "С помощью настроек авто будет использоваться тема на вашем компьютере. Эта настройка повлияет на модалы и некоторые виджеты, отображаемые на экране, такие как погода и заметки."
         },
         "style": {
           "title": "Выберите стиль",
-          "description": "В настоящее время Mue предлагает выбор между устаревшим стилем и недавно выпущенным современным стилем.",
+          "description": "В настоящее время Moo предлагает выбор между устаревшим стилем и недавно выпущенным современным стилем.",
           "legacy": "Устаревший",
           "modern": "Современное"
         },
         "settings": {
           "title": "Импортировать настройки",
           "description": "Установили Мue на новом устройстве? Не стесняйтесь импортировать свои старые настройки!",
-          "tip": "You can export your old settings by navigating to the Advanced tab in your old Mue setup. Then you need to click the export button which will download the JSON file. You can upload this file here to carry across your settings and preferences from your previous Mue installation."
+          "tip": "You can export your old settings by navigating to the Advanced tab in your old Moo setup. Then you need to click the export button which will download the JSON file. You can upload this file here to carry across your settings and preferences from your previous Moo installation."
         },
         "privacy": {
           "title": "Privacy Options",
-          "description": "Enable settings to further protect your privacy with Mue.",
+          "description": "Enable settings to further protect your privacy with Moo.",
           "offline_mode_description": "Enabling offline mode will disable all requests to any service. This will result in online backgrounds, online quotes, marketplace, weather, quick links, change log and some about tab information to be disabled.",
           "links": {
             "title": "Links",
@@ -690,7 +690,7 @@
         },
         "final": {
           "title": "Последний шаг",
-          "description": "Your Mue Tab experience is about to begin.",
+          "description": "Your Moo Tab experience is about to begin.",
           "changes": "Изменения",
           "changes_description": "To change settings later click on the settings icon in the top right corner of your tab.",
           "imported": "Imported {amount} settings"

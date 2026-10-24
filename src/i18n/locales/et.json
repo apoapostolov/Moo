@@ -86,7 +86,7 @@
       },
       "error_boundary": {
         "title": "Viga",
-        "message": "Mue komponendi laadimine ebaõnnestus",
+        "message": "Moo komponendi laadimine ebaõnnestus",
         "report_error": "Saada veateade",
         "sent": "Saadetud!",
         "refresh": "Värskenda"
@@ -184,7 +184,7 @@
           "greeting": {
             "title": "Tervitus",
             "events": "Sündmused",
-            "events_description": "Halda Mue sündmusi, nagu sünnipäevad.",
+            "events_description": "Halda Moo sündmusi, nagu sünnipäevad.",
             "enable_events": "Näita sõnumeid erilistel päevadel",
             "default": "Vaikimisi tervitussõnum",
             "name": "Nimi tervituseks",
@@ -276,7 +276,7 @@
               "folder_name": "Folder Name",
               "folder_placeholder": "Leave empty for no folder",
               "storage_info": "Storage Information",
-              "storage_description": "Mue uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
+              "storage_description": "Moo uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
               "storage_current": "Current usage: {used} of {total} ({percent}%)",
               "sort": {
                 "date_newest": "Date Added (Newest)",
@@ -304,7 +304,7 @@
             "voice_search": "Häälega otsing",
             "dropdown": "Otsingu rippmenüü",
             "focus": "Fookus vahekaardi avamisel",
-            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Mue was removed to comply with new Chrome Web Store guidelines. Mue now uses your browser's default search engine. You can change this in Chrome Settings."
+            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Moo was removed to comply with new Chrome Web Store guidelines. Moo now uses your browser's default search engine. You can change this in Chrome Settings."
           },
           "weather": {
             "title": "Ilm",
@@ -376,7 +376,7 @@
             },
             "theme": {
               "title": "Teema",
-              "description": "Muuda Mue vidinatee ja modaalakende teemat",
+              "description": "Muuda Moo vidinatee ja modaalakende teemat",
               "auto": "Automaatne",
               "light": "Hele",
               "dark": "Tume"
@@ -397,7 +397,7 @@
             },
             "font": {
               "title": "Font",
-              "description": "Muuda Mues kasutatavat fonti",
+              "description": "Muuda Moos kasutatavat fonti",
               "custom": "Kohandatud font",
               "google": "Impordi Google Fontsist",
               "weight": {
@@ -420,7 +420,7 @@
             },
             "accessibility": {
               "title": "Ligipääsetavus",
-              "description": "Muuda Mue mugavaks ja ligipääsetavaks",
+              "description": "Muuda Moo mugavaks ja ligipääsetavaks",
               "animations": "Animatsioonid",
               "text_shadow": {
                 "title": "Vidina teksti vari",
@@ -441,17 +441,17 @@
             "offline_mode": "Võrguühenduseta režiim",
             "offline_subtitle": "Kui see on lubatud, keelatakse kõik päringud veebiteenustele.",
             "data": "Andmed",
-            "data_description": "Vali, kas eksportida oma Mue seaded arvutisse, importida olemasolev seadete fail või lähtestada seaded vaikeväärtustele",
-            "data_subtitle": "Halda oma andmeid Mues.",
+            "data_description": "Vali, kas eksportida oma Moo seaded arvutisse, importida olemasolev seadete fail või lähtestada seaded vaikeväärtustele",
+            "data_subtitle": "Halda oma andmeid Moos.",
             "reset_modal": {
               "title": "HOIATUS",
-              "question": "Kas soovid Mue lähtestada?",
+              "question": "Kas soovid Moo lähtestada?",
               "information": "See kustutab kõik andmed. Kui soovid oma andmeid ja eelistusi säilitada, ekspordi need enne.",
               "cancel": "Tühista"
             },
             "customisation": "Kohandamine",
             "custom_css": "Kohandatud CSS",
-            "custom_css_subtitle": "Kohanda Mue stiili kaskaadlaadistiku (CSS) abil.",
+            "custom_css_subtitle": "Kohanda Moo stiili kaskaadlaadistiku (CSS) abil.",
             "custom_js": "Kohandatud JS",
             "tab_name": "Vahekaardi nimi",
             "tab_name_subtitle": "Muuda brauseris kuvatava vahekaardi nime",
@@ -460,7 +460,7 @@
               "subtitle": "Vali loendist ajavöönd arvuti automaatse vaikeväärtuse asemel",
               "automatic": "Automaatne"
             },
-            "experimental_warning": "Palun pange tähele, et Mue meeskond ei saa pakkuda tuge, kui eksperimentaalrežiim on sisse lülitatud. Enne toe poole pöördumist lülitage see välja ja vaadake, kas probleem jätkub.",
+            "experimental_warning": "Palun pange tähele, et Moo meeskond ei saa pakkuda tuge, kui eksperimentaalrežiim on sisse lülitatud. Enne toe poole pöördumist lülitage see välja ja vaadake, kas probleem jätkub.",
             "preview_data_disabled": {
               "title": "Andmete seaded on keelatud",
               "description": "Andmete seaded on eelvaaterežiimis keelatud. Selle funktsiooni kasutamiseks väljuge palun eelvaaterežiimist."
@@ -518,8 +518,8 @@
               }
             },
             "contact_us": "Võta meiega ühendust",
-            "support_mue": "Toeta Mued",
-            "support_subtitle": "Kuna Mue on täiesti tasuta, sõltume annetustest serveriarvetee tasumiseks ja arenduse rahastamiseks",
+            "support_mue": "Toeta Mood",
+            "support_subtitle": "Kuna Moo on täiesti tasuta, sõltume annetustest serveriarvetee tasumiseks ja arenduse rahastamiseks",
             "support_donate": "Anneta",
             "form_button": "Vorm",
             "resources_used": {
@@ -528,7 +528,7 @@
             },
             "contributors": "Kaasaaitajad",
             "supporters": "Toetajad",
-            "no_supporters": "Hetkel pole Muel toetajaid",
+            "no_supporters": "Hetkel pole Mool toetajaid",
             "photographers": "Fotograafid",
             "curators": "Lisade loojad"
           }
@@ -553,7 +553,7 @@
         "no_items": "Selles kategoorias pole üksusi",
         "collection": "Kollektsioon",
         "explore_collection": "Uuri kollektsiooni",
-        "add_all": "Lisa kõik Muesse",
+        "add_all": "Lisa kõik Moosse",
         "collections": "Kollektsioonid",
         "cant_find": "Ei leia, mida otsid?",
         "knowledgebase_one": "Külasta",
@@ -579,7 +579,7 @@
           "part_of": "Osa",
           "explore": "Uuri",
           "buttons": {
-            "addtomue": "Lisa Muesse",
+            "addtomue": "Lisa Moosse",
             "remove": "Eemalda",
             "update_addon": "Uuenda lisa",
             "back": "Tagasi",
@@ -608,7 +608,7 @@
         },
         "sideload": {
           "title": "Kõrvalt laadimine",
-          "description": "Installi Mue lisa, mida pole rakenduste poes, oma arvutist",
+          "description": "Installi Moo lisa, mida pole rakenduste poes, oma arvutist",
           "failed": "Lisa kõrvalt laadimine ebaõnnestus",
           "errors": {
             "no_name": "Nime pole antud",
@@ -647,11 +647,11 @@
       "tip": "Kiire nõuanne",
       "sections": {
         "intro": {
-          "title": "Tere tulemast Mue Tabi",
-          "description": "Täname, et installisid Mue, loodame, et naudid meie laiendust.",
+          "title": "Tere tulemast Moo Tabi",
+          "description": "Täname, et installisid Moo, loodame, et naudid meie laiendust.",
           "notices": {
             "discord_title": "Liitu meie Discordiga",
-            "discord_description": "Suhtle Mue kogukonna ja arendajatega",
+            "discord_description": "Suhtle Moo kogukonna ja arendajatega",
             "discord_join": "Liitu",
             "github_title": "Panusta GitHubis",
             "github_description": "Teata vigadest, lisa funktsioone või anneta",
@@ -660,27 +660,27 @@
         },
         "language": {
           "title": "Vali oma keel",
-          "description": "Mued saab kuvada allpool loetletud keeltes. Saad ka lisada uusi tõlkeid meie"
+          "description": "Mood saab kuvada allpool loetletud keeltes. Saad ka lisada uusi tõlkeid meie"
         },
         "theme": {
           "title": "Vali teema",
-          "description": "Mue on saadaval nii heleda kui ka tumeda teemaga või see võib olla automaatselt seadistatud vastavalt teie süsteemi teemale.",
+          "description": "Moo on saadaval nii heleda kui ka tumeda teemaga või see võib olla automaatselt seadistatud vastavalt teie süsteemi teemale.",
           "tip": "Automaatse seadistuse kasutamine kasutab teie arvutis olevat teemat. See seadistus mõjutab modaalaknaid ja mõningaid ekraanil kuvatavaid vidinaid, nagu ilm ja märkmed."
         },
         "style": {
           "title": "Vali stiil",
-          "description": "Mue pakub praegu valikut pärand-stiili ja äsja välja lastud moodsa stiili vahel.",
+          "description": "Moo pakub praegu valikut pärand-stiili ja äsja välja lastud moodsa stiili vahel.",
           "legacy": "Pärand",
           "modern": "Moodne"
         },
         "settings": {
           "title": "Impordi seaded",
-          "description": "Paigaldad Mue uuele seadmele? Võid vabalt importida oma vanad seaded!",
-          "tip": "Saad oma vanad seaded eksportida, navigeerides oma vanas Mue seadistuses Täpsemad seaded vahelehele. Seejärel pead klõpsama ekspordinuppu, mis laadib alla JSON-faili. Saad selle faili siia üles laadida, et kanda üle oma seaded ja eelistused eelmisest Mue paigaldusest."
+          "description": "Paigaldad Moo uuele seadmele? Võid vabalt importida oma vanad seaded!",
+          "tip": "Saad oma vanad seaded eksportida, navigeerides oma vanas Moo seadistuses Täpsemad seaded vahelehele. Seejärel pead klõpsama ekspordinuppu, mis laadib alla JSON-faili. Saad selle faili siia üles laadida, et kanda üle oma seaded ja eelistused eelmisest Moo paigaldusest."
         },
         "privacy": {
           "title": "Privaatsuse valikud",
-          "description": "Luba seaded, et veelgi kaitsta oma privaatsust Mue-ga.",
+          "description": "Luba seaded, et veelgi kaitsta oma privaatsust Moo-ga.",
           "offline_mode_description": "Võrguühenduseta režiimi lubamine keelab kõik päringud mis tahes teenusele. See tähendab, et võrgupõhised taustad, võrgupõhised tsitaadid, turg, ilm, kiirlingid, muudatuste logi ja osa teabe vahelehe infost keelatakse.",
           "links": {
             "title": "Lingid",
@@ -690,7 +690,7 @@
         },
         "final": {
           "title": "Viimane samm",
-          "description": "Sinu Mue vahelehe kogemus on kohe algamas.",
+          "description": "Sinu Moo vahelehe kogemus on kohe algamas.",
           "changes": "Muudatused",
           "changes_description": "Seadete hilisemaks muutmiseks klõpsa seadete ikoonil vahelehe ülemises parempoolses nurgas.",
           "imported": "Imporditud {amount} seadet"

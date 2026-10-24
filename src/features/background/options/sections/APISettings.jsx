@@ -56,7 +56,7 @@ const APISettings = ({ backgroundAPI, backgroundCategories, onUpdateAPI }) => {
             title="API"
             options={[
               {
-                name: 'Mue',
+                name: 'Moo',
                 value: 'mue',
               },
               {

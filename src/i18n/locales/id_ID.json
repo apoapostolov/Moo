@@ -86,7 +86,7 @@
       },
       "error_boundary": {
         "title": "Galat",
-        "message": "Gagal memuat komponen Mue",
+        "message": "Gagal memuat komponen Moo",
         "report_error": "Kirim Laporan Galat",
         "sent": "Terkirim!",
         "refresh": "Muat Ulang"
@@ -184,7 +184,7 @@
           "greeting": {
             "title": "Sapaan",
             "events": "Hari Besar",
-            "events_description": "Control events on Mue such as birthdays.",
+            "events_description": "Control events on Moo such as birthdays.",
             "enable_events": "Show messages on special days",
             "default": "Sapaan bawaan",
             "name": "Nama",
@@ -276,7 +276,7 @@
               "folder_name": "Folder Name",
               "folder_placeholder": "Leave empty for no folder",
               "storage_info": "Storage Information",
-              "storage_description": "Mue uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
+              "storage_description": "Moo uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
               "storage_current": "Current usage: {used} of {total} ({percent}%)",
               "sort": {
                 "date_newest": "Date Added (Newest)",
@@ -304,7 +304,7 @@
             "voice_search": "Pencarian suara",
             "dropdown": "Dropdown pencarian",
             "focus": "Focus on tab open",
-            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Mue was removed to comply with new Chrome Web Store guidelines. Mue now uses your browser's default search engine. You can change this in Chrome Settings."
+            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Moo was removed to comply with new Chrome Web Store guidelines. Moo now uses your browser's default search engine. You can change this in Chrome Settings."
           },
           "weather": {
             "title": "Cuaca",
@@ -376,7 +376,7 @@
             },
             "theme": {
               "title": "Tema",
-              "description": "Change the theme of the Mue widgets and modals",
+              "description": "Change the theme of the Moo widgets and modals",
               "auto": "Otomatis",
               "light": "Light",
               "dark": "Dark"
@@ -397,7 +397,7 @@
             },
             "font": {
               "title": "Font",
-              "description": "Change the font used in Mue",
+              "description": "Change the font used in Moo",
               "custom": "Font kustom",
               "google": "Impor dari Google Fonts",
               "weight": {
@@ -420,7 +420,7 @@
             },
             "accessibility": {
               "title": "Aksesibilitas",
-              "description": "Accessibility settings for Mue",
+              "description": "Accessibility settings for Moo",
               "animations": "Animasi",
               "text_shadow": {
                 "title": "Widget text shadow",
@@ -441,17 +441,17 @@
             "offline_mode": "Mode Luring",
             "offline_subtitle": "When enabled, all requests to online services will be disabled.",
             "data": "Data",
-            "data_description": "Choose whether to export your Mue settings to your computer, import an existing settings file, or reset your settings to their default values",
-            "data_subtitle": "Choose whether to export your Mue settings to your computer, import an existing settings file, or reset your settings to their default values",
+            "data_description": "Choose whether to export your Moo settings to your computer, import an existing settings file, or reset your settings to their default values",
+            "data_subtitle": "Choose whether to export your Moo settings to your computer, import an existing settings file, or reset your settings to their default values",
             "reset_modal": {
               "title": "PERINGATAN",
-              "question": "Apakah Anda ingin me-reset Mue?",
+              "question": "Apakah Anda ingin me-reset Moo?",
               "information": "Aksi ini akan menghapus semua data Anda. Harap ekspor pengaturan Anda sebelum melakukan reset.",
               "cancel": "Batal"
             },
             "customisation": "Kustomisasi",
             "custom_css": "CSS Kustom",
-            "custom_css_subtitle": "Make Mue's styling customised to you with Cascading Style Sheets (CSS).",
+            "custom_css_subtitle": "Make Moo's styling customised to you with Cascading Style Sheets (CSS).",
             "custom_js": "JS Kustom",
             "tab_name": "Nama tab",
             "tab_name_subtitle": "Change the name of the tab that appears in your browser",
@@ -460,7 +460,7 @@
               "subtitle": "Choose a timezone from the list instead of the automatic default from your computer",
               "automatic": "Otomatis"
             },
-            "experimental_warning": "Harap diperhatikan bahwa tim Mue tidak menyediakan dukungan jika Anda mengaktifkan mode experimental. Harap nonaktifkan terlebih dahulu dan lihat apabila kendala Anda masih terjadi sebelum menghubungi kami.",
+            "experimental_warning": "Harap diperhatikan bahwa tim Moo tidak menyediakan dukungan jika Anda mengaktifkan mode experimental. Harap nonaktifkan terlebih dahulu dan lihat apabila kendala Anda masih terjadi sebelum menghubungi kami.",
             "preview_data_disabled": {
               "title": "Data Settings Disabled",
               "description": "Data settings are disabled in preview mode. Please exit preview mode to use this feature."
@@ -505,7 +505,7 @@
             "by": "Oleh {author}"
           },
           "about": {
-            "title": "Tentang Mue",
+            "title": "Tentang Moo",
             "version": {
               "title": "Versi",
               "checking_update": "Periksa pembaruan",
@@ -518,8 +518,8 @@
               }
             },
             "contact_us": "Hubungi Kami",
-            "support_mue": "Dukung Mue",
-            "support_subtitle": "As Mue is entirely free, we rely on donations to cover the server bills and fund development",
+            "support_mue": "Dukung Moo",
+            "support_subtitle": "As Moo is entirely free, we rely on donations to cover the server bills and fund development",
             "support_donate": "Donate",
             "form_button": "Form",
             "resources_used": {
@@ -528,7 +528,7 @@
             },
             "contributors": "Kontributor",
             "supporters": "Suporter",
-            "no_supporters": "Mue belum punya suporter saat ini.",
+            "no_supporters": "Moo belum punya suporter saat ini.",
             "photographers": "Fotografer",
             "curators": "Add-on creators"
           }
@@ -553,7 +553,7 @@
         "no_items": "Tidak ada item pada kategori ini",
         "collection": "Collection",
         "explore_collection": "Explore Collection",
-        "add_all": "Add All To Mue",
+        "add_all": "Add All To Moo",
         "collections": "Collections",
         "cant_find": "Can't find what you're looking for?",
         "knowledgebase_one": "Visit the",
@@ -579,7 +579,7 @@
           "part_of": "Part of",
           "explore": "Explore",
           "buttons": {
-            "addtomue": "Tambahkan ke Mue",
+            "addtomue": "Tambahkan ke Moo",
             "remove": "Hapus",
             "update_addon": "Perbarui Add-on",
             "back": "Back",
@@ -608,7 +608,7 @@
         },
         "sideload": {
           "title": "Sideload",
-          "description": "Install a Mue addon not on the marketplace from your computer",
+          "description": "Install a Moo addon not on the marketplace from your computer",
           "failed": "Failed to sideload addon",
           "errors": {
             "no_name": "No name provided",
@@ -647,11 +647,11 @@
       "tip": "Tip",
       "sections": {
         "intro": {
-          "title": "Selamat datang di Mue Tab",
-          "description": "Terima kasih sudah menginstal Mue, kami harap Anda dapat menikmati pengalaman bersama Mue",
+          "title": "Selamat datang di Moo Tab",
+          "description": "Terima kasih sudah menginstal Moo, kami harap Anda dapat menikmati pengalaman bersama Moo",
           "notices": {
             "discord_title": "Join our Discord",
-            "discord_description": "Talk with the Mue community and developers",
+            "discord_description": "Talk with the Moo community and developers",
             "discord_join": "Join",
             "github_title": "Contribute on GitHub",
             "github_description": "Report bugs, add features or donate",
@@ -660,27 +660,27 @@
         },
         "language": {
           "title": "Pilih bahasa",
-          "description": "Antarmuka Mue dapat ditampilkan dalam ragam bahasa berikut. Kamu juga bisa menambahkan terjemahan baru untuk Mue pada"
+          "description": "Antarmuka Moo dapat ditampilkan dalam ragam bahasa berikut. Kamu juga bisa menambahkan terjemahan baru untuk Moo pada"
         },
         "theme": {
           "title": "Pilih tema",
-          "description": "Mue tersedia dalam tema terang dan gelap, atau kami juga bisa mengaturnya secara otomatis sesuai dengan preferensi sistem Anda.",
+          "description": "Moo tersedia dalam tema terang dan gelap, atau kami juga bisa mengaturnya secara otomatis sesuai dengan preferensi sistem Anda.",
           "tip": "Pengaturan otomatis akan menyesuaikan dengan tema komputer Anda. Pengaturan ini akan mengubah tampilan modal dan beberapa widget, seperti Cuaca dan Catatan."
         },
         "style": {
           "title": "Choose a style",
-          "description": "Mue currently offers the choice between the legacy styling and the newly released modern styling.",
+          "description": "Moo currently offers the choice between the legacy styling and the newly released modern styling.",
           "legacy": "Legacy",
           "modern": "Modern"
         },
         "settings": {
           "title": "Impor Pengaturan",
-          "description": "Sudah pernah menginstal Mue? Yuk coba impor pengaturan lama kamu tanpa perlu mengatur ulang dari awal!",
+          "description": "Sudah pernah menginstal Moo? Yuk coba impor pengaturan lama kamu tanpa perlu mengatur ulang dari awal!",
           "tip": "Kamu bisa mengekspor pengaturan lama kamu melalui tab lanjutan pada Pengaturan. Klik tombol ekspor untuk mengunduh berkas JSON. Unggah berkas tersebut di sini sehingga kamu dapat menikmati preferensi yang sama pada perangkat yang berbeda!"
         },
         "privacy": {
           "title": "Opsi Privasi",
-          "description": "Aktifkan pegaturan sehingga Mue dapat melindungi privasi Anda.",
+          "description": "Aktifkan pegaturan sehingga Moo dapat melindungi privasi Anda.",
           "offline_mode_description": "Mengaktifkan mode luring akan menghalangi request ke semua layanan, termasuk Background Online, Kutipan Daring, Marketplace, Cuaca, Pranala Cepat, Change Log, dan beberapa informasi tentang tab.",
           "links": {
             "title": "Pranala",
@@ -690,7 +690,7 @@
         },
         "final": {
           "title": "Langkah terakhir",
-          "description": "Pengalaman Mue Tab Anda akan segera dimulai!",
+          "description": "Pengalaman Moo Tab Anda akan segera dimulai!",
           "changes": "Perubahan",
           "changes_description": "Untuk mengubah pengaturan lainnya, klik pada ikon pengaturan di pojok kanan atas tab Anda.",
           "imported": "Berhasil mengimpor {amount} pengaturan"

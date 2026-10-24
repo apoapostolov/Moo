@@ -76,9 +76,9 @@ function ShareModal({ modalClose, data }) {
           onClick={() =>
             window
               .open(
-                'mailto:email@example.com?subject=Check%20out%20this%20%on%20%Mue!&body=' +
+                'mailto:email@example.com?subject=Check%20out%20this%20%on%20%Moo!&body=' +
                   data.name +
-                  'on Mue: ' +
+                  'on Moo: ' +
                   data.url,
                 '_blank',
               )

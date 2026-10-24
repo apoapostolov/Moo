@@ -86,7 +86,7 @@
       },
       "error_boundary": {
         "title": "Xəta",
-        "message": "Mue-nun bu komponentini yükləmək alınmadı",
+        "message": "Moo-nun bu komponentini yükləmək alınmadı",
         "report_error": "Xətanı Bildir",
         "sent": "Göndərildi!",
         "refresh": "Yenilə"
@@ -184,7 +184,7 @@
           "greeting": {
             "title": "Salamlaşma",
             "events": "Hadisələr",
-            "events_description": "Ad günləri kimi Mue-da hadisələri idarə edin.",
+            "events_description": "Ad günləri kimi Moo-da hadisələri idarə edin.",
             "enable_events": "Xüsusi günlərdə mesajları göstər",
             "default": "Varsayılan salamlaşma mesajı",
             "name": "Salamlaşma üçün ad",
@@ -276,7 +276,7 @@
               "folder_name": "Folder Name",
               "folder_placeholder": "Leave empty for no folder",
               "storage_info": "Storage Information",
-              "storage_description": "Mue uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
+              "storage_description": "Moo uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
               "storage_current": "Current usage: {used} of {total} ({percent}%)",
               "sort": {
                 "date_newest": "Date Added (Newest)",
@@ -304,7 +304,7 @@
             "voice_search": "Səsli axtarış",
             "dropdown": "Axtarış Açılan Siyahısı",
             "focus": "Vərəqi açarkən fokusla",
-            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Mue was removed to comply with new Chrome Web Store guidelines. Mue now uses your browser's default search engine. You can change this in Chrome Settings."
+            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Moo was removed to comply with new Chrome Web Store guidelines. Moo now uses your browser's default search engine. You can change this in Chrome Settings."
           },
           "weather": {
             "title": "Hava",
@@ -376,7 +376,7 @@
             },
             "theme": {
               "title": "Tema",
-              "description": "Mue vidjetlərinin və modallarının mövzusunu dəyişdirin",
+              "description": "Moo vidjetlərinin və modallarının mövzusunu dəyişdirin",
               "auto": "Avto",
               "light": "Açıq",
               "dark": "Tünd"
@@ -397,7 +397,7 @@
             },
             "font": {
               "title": "Şrift",
-              "description": "Mue-da istifadə edilən şrifti dəyişdirin",
+              "description": "Moo-da istifadə edilən şrifti dəyişdirin",
               "custom": "Xüsusi şrift",
               "google": "Google Şriftlərdən idxal edin",
               "weight": {
@@ -420,7 +420,7 @@
             },
             "accessibility": {
               "title": "Əlçatanlıq",
-              "description": "Mue-nu rahat və əlçatan edin",
+              "description": "Moo-nu rahat və əlçatan edin",
               "animations": "Animasiyalar",
               "text_shadow": {
                 "title": "Vidjet mətn kölgəsi",
@@ -441,17 +441,17 @@
             "offline_mode": "Oflayn rejim",
             "offline_subtitle": "Aktiv olduqda, bütün onlayn xidmətlərə sorğular dayandırılacaq.",
             "data": "Məlumat",
-            "data_description": "Mue parametrlərinizi kompüterinizə ixrac etməyi, mövcud bir parametrlər faylını idxal etməyi və ya parametrlərinizi varsayılan dəyərlərinə sıfırlamağı seçin",
-            "data_subtitle": "Mue-da məlumatlarınızı idarə edin.",
+            "data_description": "Moo parametrlərinizi kompüterinizə ixrac etməyi, mövcud bir parametrlər faylını idxal etməyi və ya parametrlərinizi varsayılan dəyərlərinə sıfırlamağı seçin",
+            "data_subtitle": "Moo-da məlumatlarınızı idarə edin.",
             "reset_modal": {
               "title": "XƏBƏRDARLIQ",
-              "question": "Mue-nu sıfırlamaq istəyirsinizmi?",
+              "question": "Moo-nu sıfırlamaq istəyirsinizmi?",
               "information": "Bu, bütün məlumatları siləcək. Məlumatlarınızı və seçimlərinizi saxlamaq istəyirsinizsə, əvvəlcə onları ixrac edin.",
               "cancel": "Ləğv et"
             },
             "customisation": "Fərdiləşdirmə",
             "custom_css": "Xüsusi CSS",
-            "custom_css_subtitle": "Cascading Style Sheets (CSS) ilə Mue-nun üslubunu fərdiləşdirin.",
+            "custom_css_subtitle": "Cascading Style Sheets (CSS) ilə Moo-nun üslubunu fərdiləşdirin.",
             "custom_js": "Xüsusi JS",
             "tab_name": "Vərəq adı",
             "tab_name_subtitle": "Brauzerinizdə görünən vərəqin adını dəyişdirin",
@@ -460,7 +460,7 @@
               "subtitle": "Kompüterinizdən avtomatik alınan saat qurşağı əvəzinə siyahıdan birini seçin",
               "automatic": "Avtomatik"
             },
-            "experimental_warning": "Zəhmət olmasa qeyd edin ki, Mue komandası eksperimental rejim aktiv olduqda dəstək göstərə bilmir. Zəhmət olmasa, dəstək ilə əlaqə saxlamazdan əvvəl onu söndürün və problemin davam edib-etmədiyini yoxlayın.",
+            "experimental_warning": "Zəhmət olmasa qeyd edin ki, Moo komandası eksperimental rejim aktiv olduqda dəstək göstərə bilmir. Zəhmət olmasa, dəstək ilə əlaqə saxlamazdan əvvəl onu söndürün və problemin davam edib-etmədiyini yoxlayın.",
             "preview_data_disabled": {
               "title": "Məlumat Parametrləri Deaktivdir",
               "description": "Məlumat parametrləri önizləmə rejimində deaktivdir. Bu xüsusiyyəti istifadə etmək üçün önizləmə rejimindən çıxın."
@@ -518,8 +518,8 @@
               }
             },
             "contact_us": "Bizimlə əlaqə",
-            "support_mue": "Mue-u Dəstəklə",
-            "support_subtitle": "Mue tamamilə pulsuz olduğundan, biz server xərclərini ödəmək və inkişafı maliyyələşdirmək üçün ianələrə güvənirik",
+            "support_mue": "Moo-u Dəstəklə",
+            "support_subtitle": "Moo tamamilə pulsuz olduğundan, biz server xərclərini ödəmək və inkişafı maliyyələşdirmək üçün ianələrə güvənirik",
             "support_donate": "İanə et",
             "form_button": "Form",
             "resources_used": {
@@ -528,7 +528,7 @@
             },
             "contributors": "Töhfə verənlər",
             "supporters": "Dəstəkləyənlər",
-            "no_supporters": "Hazırda Mue-u dəstəkləyənlər yoxdur",
+            "no_supporters": "Hazırda Moo-u dəstəkləyənlər yoxdur",
             "photographers": "Fotoqraflar",
             "curators": "Əlavə yaradanlar"
           }
@@ -553,7 +553,7 @@
         "no_items": "Bu kateqoriyada heç bir maddə yoxdur",
         "collection": "Kolleksiya",
         "explore_collection": "Kolleksiyanı Kəşf et",
-        "add_all": "Hamısını Mue-ya Əlavə et",
+        "add_all": "Hamısını Moo-ya Əlavə et",
         "collections": "Kolleksiyalar",
         "cant_find": "Axtardığınızı tapa bilmirsiniz?",
         "knowledgebase_one": "Ziyarət edin",
@@ -579,7 +579,7 @@
           "part_of": "Bir hissəsi",
           "explore": "Kəşf et",
           "buttons": {
-            "addtomue": "Mue-ya Əlavə et",
+            "addtomue": "Moo-ya Əlavə et",
             "remove": "Sil",
             "update_addon": "Əlavəni Yenilə",
             "back": "Geri",
@@ -608,7 +608,7 @@
         },
         "sideload": {
           "title": "Yan Yükləmə",
-          "description": "Kompüterinizdən bazarda olmayan bir Mue əlavəsini quraşdırın",
+          "description": "Kompüterinizdən bazarda olmayan bir Moo əlavəsini quraşdırın",
           "failed": "Əlavəni yan yükləmək alınmadı",
           "errors": {
             "no_name": "Ad verilmir",
@@ -647,11 +647,11 @@
       "tip": "Sürətli İpucu",
       "sections": {
         "intro": {
-          "title": "Mue Tab-a xoş gəlmisiniz",
-          "description": "Mue-nu quraşdırdığınız üçün təşəkkür edirik, uzantımızla vaxtınızdan zövq alacağınızı ümid edirik.",
+          "title": "Moo Tab-a xoş gəlmisiniz",
+          "description": "Moo-nu quraşdırdığınız üçün təşəkkür edirik, uzantımızla vaxtınızdan zövq alacağınızı ümid edirik.",
           "notices": {
             "discord_title": "Discord-a qoşulun",
-            "discord_description": "Mue icması və inkişaf etdiriciləri ilə danışın",
+            "discord_description": "Moo icması və inkişaf etdiriciləri ilə danışın",
             "discord_join": "Qoşul",
             "github_title": "GitHub-da töhfə verin",
             "github_description": "Xətaları bildirin, xüsusiyyətlər əlavə edin və ya ianə edin",
@@ -660,27 +660,27 @@
         },
         "language": {
           "title": "Dil seçin",
-          "description": "Mue aşağıda sadalanan dillərdə göstərilə bilər. Həmçinin bizim üzərimizdən yeni tərcümələr əlavə edə bilərsiniz"
+          "description": "Moo aşağıda sadalanan dillərdə göstərilə bilər. Həmçinin bizim üzərimizdən yeni tərcümələr əlavə edə bilərsiniz"
         },
         "theme": {
           "title": "Bir tema seçin",
-          "description": "Mue həm açıq, həm də tünd temada mövcuddur və ya bu, sistem temanızdan asılı olaraq avtomatik təyin edilə bilər.",
+          "description": "Moo həm açıq, həm də tünd temada mövcuddur və ya bu, sistem temanızdan asılı olaraq avtomatik təyin edilə bilər.",
           "tip": "Avto parametrlərindən istifadə etmək kompüterinizdəki temadan istifadə edəcək. Bu parametr modallara və ekranda göstərilən bəzi vidjetlərə, məsələn, hava və qeydlərə təsir edəcək."
         },
         "style": {
           "title": "Üslub seçin",
-          "description": "Mue hazırda miras üslubu və yeni buraxılmış müasir üslub arasında seçim təklif edir.",
+          "description": "Moo hazırda miras üslubu və yeni buraxılmış müasir üslub arasında seçim təklif edir.",
           "legacy": "Miras",
           "modern": "Müasir"
         },
         "settings": {
           "title": "Parametrləri İdxal et",
-          "description": "Mue-nu yeni bir cihazda quraşdırırsınız? Köhnə parametrlərinizi idxal edə bilərsiniz!",
-          "tip": "Köhnə parametrlərinizi köhnə Mue quraşdırmanızda Ətraflı sekmesine keçərək ixrac edə bilərsiniz. Sonra JSON faylını yükləyəcək ixrac düyməsini klikləməlisiniz. Bu faylı buraya yükləyərək əvvəlki Mue quraşdırmanızdakı parametrləri və seçimləri keçirə bilərsiniz."
+          "description": "Moo-nu yeni bir cihazda quraşdırırsınız? Köhnə parametrlərinizi idxal edə bilərsiniz!",
+          "tip": "Köhnə parametrlərinizi köhnə Moo quraşdırmanızda Ətraflı sekmesine keçərək ixrac edə bilərsiniz. Sonra JSON faylını yükləyəcək ixrac düyməsini klikləməlisiniz. Bu faylı buraya yükləyərək əvvəlki Moo quraşdırmanızdakı parametrləri və seçimləri keçirə bilərsiniz."
         },
         "privacy": {
           "title": "Gizlilik Seçimləri",
-          "description": "Mue ilə məxfiliyinizi daha da qorumaq üçün parametrləri aktiv edin.",
+          "description": "Moo ilə məxfiliyinizi daha da qorumaq üçün parametrləri aktiv edin.",
           "offline_mode_description": "Oflayn rejimi aktivləşdirmək hər hansı bir xidmətə bütün sorğuları dayandıracaq. Bu, onlayn fonların, onlayn sitatların, bazarın, havanın, tez keçidlərin, dəyişikliklər siyahısının və bəzi haqqında sekmesi məlumatlarının deaktiv olmasına səbəb olacaq.",
           "links": {
             "title": "Keçidlər",
@@ -690,7 +690,7 @@
         },
         "final": {
           "title": "Son addım",
-          "description": "Mue Tab təcrübəniz başlamaq üzrədir.",
+          "description": "Moo Tab təcrübəniz başlamaq üzrədir.",
           "changes": "Dəyişikliklər",
           "changes_description": "Sonradan parametrləri dəyişdirmək üçün vərəqinizin sağ üst küncündəki parametrlər ikonuna klikləyin.",
           "imported": "{amount} parametrlər idxal edildi"

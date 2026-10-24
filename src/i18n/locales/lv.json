@@ -86,7 +86,7 @@
       },
       "error_boundary": {
         "title": "Kļūda",
-        "message": "Neizdevās ielādēt šo Mue komponentu",
+        "message": "Neizdevās ielādēt šo Moo komponentu",
         "report_error": "Nosūtīt kļūdas ziņojumu",
         "sent": "Nosūtīts!",
         "refresh": "Atsvaidzināt"
@@ -184,7 +184,7 @@
           "greeting": {
             "title": "Sveiciens",
             "events": "Notikumi",
-            "events_description": "Kontrolējiet notikumus Mue, piemēram, dzimšanas dienas.",
+            "events_description": "Kontrolējiet notikumus Moo, piemēram, dzimšanas dienas.",
             "enable_events": "Rādīt ziņojumus īpašās dienās",
             "default": "Noklusējuma sveiciena ziņojums",
             "name": "Vārds sveicienam",
@@ -276,7 +276,7 @@
               "folder_name": "Folder Name",
               "folder_placeholder": "Leave empty for no folder",
               "storage_info": "Storage Information",
-              "storage_description": "Mue uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
+              "storage_description": "Moo uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
               "storage_current": "Current usage: {used} of {total} ({percent}%)",
               "sort": {
                 "date_newest": "Date Added (Newest)",
@@ -304,7 +304,7 @@
             "voice_search": "Balss meklēšana",
             "dropdown": "Meklēšanas nolaižamais saraksts",
             "focus": "Fokuss cilnes atvēršanā",
-            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Mue was removed to comply with new Chrome Web Store guidelines. Mue now uses your browser's default search engine. You can change this in Chrome Settings."
+            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Moo was removed to comply with new Chrome Web Store guidelines. Moo now uses your browser's default search engine. You can change this in Chrome Settings."
           },
           "weather": {
             "title": "Laikapstākļi",
@@ -376,7 +376,7 @@
             },
             "theme": {
               "title": "Tēma",
-              "description": "Mainīt Mue logrīku un modālo logu tēmu",
+              "description": "Mainīt Moo logrīku un modālo logu tēmu",
               "auto": "Automātiski",
               "light": "Gaiša",
               "dark": "Tumša"
@@ -397,7 +397,7 @@
             },
             "font": {
               "title": "Fonts",
-              "description": "Mainīt Mue izmantoto fontu",
+              "description": "Mainīt Moo izmantoto fontu",
               "custom": "Pielāgots fonts",
               "google": "Importēt no Google Fonts",
               "weight": {
@@ -420,7 +420,7 @@
             },
             "accessibility": {
               "title": "Pieejamība",
-              "description": "Padariet Mue ērtu un pieejamu",
+              "description": "Padariet Moo ērtu un pieejamu",
               "animations": "Animācijas",
               "text_shadow": {
                 "title": "Logrīku teksta ēna",
@@ -441,17 +441,17 @@
             "offline_mode": "Bezsaistes režīms",
             "offline_subtitle": "Kad iespējots, visi pieprasījumi tiešsaistes pakalpojumiem tiks atspējoti.",
             "data": "Dati",
-            "data_description": "Izvēlieties, vai eksportēt savus Mue iestatījumus uz datoru, importēt esošo iestatījumu failu vai atiestatīt iestatījumus uz noklusējuma vērtībām",
-            "data_subtitle": "Pārvaldiet savus datus Mue.",
+            "data_description": "Izvēlieties, vai eksportēt savus Moo iestatījumus uz datoru, importēt esošo iestatījumu failu vai atiestatīt iestatījumus uz noklusējuma vērtībām",
+            "data_subtitle": "Pārvaldiet savus datus Moo.",
             "reset_modal": {
               "title": "BRĪDINĀJUMS",
-              "question": "Vai vēlaties atiestatīt Mue?",
+              "question": "Vai vēlaties atiestatīt Moo?",
               "information": "Tas izdzēsīs visus datus. Ja vēlaties saglabāt savus datus un preferences, lūdzu, vispirms eksportējiet tos.",
               "cancel": "Atcelt"
             },
             "customisation": "Pielāgošana",
             "custom_css": "Pielāgots CSS",
-            "custom_css_subtitle": "Pielāgojiet Mue stilu sev ar kaskādes stila lapām (CSS).",
+            "custom_css_subtitle": "Pielāgojiet Moo stilu sev ar kaskādes stila lapām (CSS).",
             "custom_js": "Pielāgots JS",
             "tab_name": "Cilnes nosaukums",
             "tab_name_subtitle": "Mainīt cilnes nosaukumu, kas parādās pārlūkprogrammā",
@@ -460,7 +460,7 @@
               "subtitle": "Izvēlieties laika joslu no saraksta, nevis automātisko noklusējumu no jūsu datora",
               "automatic": "Automātiski"
             },
-            "experimental_warning": "Lūdzu, ņemiet vērā, ka Mue komanda nevar nodrošināt atbalstu, ja jums ir ieslēgts eksperimentālais režīms. Lūdzu, vispirms atspējojiet to un pārbaudiet, vai problēma joprojām pastāv, pirms sazināties ar atbalsta dienestu.",
+            "experimental_warning": "Lūdzu, ņemiet vērā, ka Moo komanda nevar nodrošināt atbalstu, ja jums ir ieslēgts eksperimentālais režīms. Lūdzu, vispirms atspējojiet to un pārbaudiet, vai problēma joprojām pastāv, pirms sazināties ar atbalsta dienestu.",
             "preview_data_disabled": {
               "title": "Datu iestatījumi atspējoti",
               "description": "Datu iestatījumi ir atspējoti priekšskatījuma režīmā. Lūdzu, izejiet no priekšskatījuma režīma, lai izmantotu šo funkciju."
@@ -518,8 +518,8 @@
               }
             },
             "contact_us": "Sazināties ar mums",
-            "support_mue": "Atbalstīt Mue",
-            "support_subtitle": "Tā kā Mue ir pilnīgi bezmaksas, mēs paļaujamies uz ziedojumiem, lai segtu serveru rēķinus un finansētu izstrādi",
+            "support_mue": "Atbalstīt Moo",
+            "support_subtitle": "Tā kā Moo ir pilnīgi bezmaksas, mēs paļaujamies uz ziedojumiem, lai segtu serveru rēķinus un finansētu izstrādi",
             "support_donate": "Ziedot",
             "form_button": "Forma",
             "resources_used": {
@@ -528,7 +528,7 @@
             },
             "contributors": "Atbalstītāji",
             "supporters": "Atbalstītāji",
-            "no_supporters": "Pašlaik nav Mue atbalstītāju",
+            "no_supporters": "Pašlaik nav Moo atbalstītāju",
             "photographers": "Fotogrāfi",
             "curators": "Paplašinājumu veidotāji"
           }
@@ -553,7 +553,7 @@
         "no_items": "Nav vienumu šajā kategorijā",
         "collection": "Kolekcija",
         "explore_collection": "Izpētīt kolekciju",
-        "add_all": "Pievienot visus Mue",
+        "add_all": "Pievienot visus Moo",
         "collections": "Kolekcijas",
         "cant_find": "Nevarat atrast to, ko meklējat?",
         "knowledgebase_one": "Apmeklējiet",
@@ -579,7 +579,7 @@
           "part_of": "Daļa no",
           "explore": "Izpētīt",
           "buttons": {
-            "addtomue": "Pievienot Mue",
+            "addtomue": "Pievienot Moo",
             "remove": "Noņemt",
             "update_addon": "Atjaunināt paplašinājumu",
             "back": "Atpakaļ",
@@ -608,7 +608,7 @@
         },
         "sideload": {
           "title": "Sānu ielāde",
-          "description": "Instalēt Mue paplašinājumu, kas nav tirgū, no jūsu datora",
+          "description": "Instalēt Moo paplašinājumu, kas nav tirgū, no jūsu datora",
           "failed": "Neizdevās sānu ielādēt paplašinājumu",
           "errors": {
             "no_name": "Nav norādīts nosaukums",
@@ -647,11 +647,11 @@
       "tip": "Ātrs padoms",
       "sections": {
         "intro": {
-          "title": "Laipni lūdzam Mue cilnē",
-          "description": "Paldies, ka instalējāt Mue, mēs ceram, ka jums patiks mūsu paplašinājums.",
+          "title": "Laipni lūdzam Moo cilnē",
+          "description": "Paldies, ka instalējāt Moo, mēs ceram, ka jums patiks mūsu paplašinājums.",
           "notices": {
             "discord_title": "Pievienojieties mūsu Discord",
-            "discord_description": "Sarunājieties ar Mue kopienu un izstrādātājiem",
+            "discord_description": "Sarunājieties ar Moo kopienu un izstrādātājiem",
             "discord_join": "Pievienoties",
             "github_title": "Piedalieties GitHub",
             "github_description": "Ziņojiet par kļūdām, pievienojiet funkcijas vai ziedojiet",
@@ -660,27 +660,27 @@
         },
         "language": {
           "title": "Izvēlieties valodu",
-          "description": "Mue var tikt attēlots zemāk uzskaitītajās valodās. Jūs varat arī pievienot jaunus tulkojumus mūsu"
+          "description": "Moo var tikt attēlots zemāk uzskaitītajās valodās. Jūs varat arī pievienot jaunus tulkojumus mūsu"
         },
         "theme": {
           "title": "Izvēlieties tēmu",
-          "description": "Mue ir pieejams gan gaišā, gan tumšā tēmā, vai arī to var automātiski iestatīt atkarībā no jūsu sistēmas tēmas.",
+          "description": "Moo ir pieejams gan gaišā, gan tumšā tēmā, vai arī to var automātiski iestatīt atkarībā no jūsu sistēmas tēmas.",
           "tip": "Izmantojot automātiskos iestatījumus, tiks izmantota jūsu datora tēma. Šis iestatījums ietekmēs modālos logus un dažus logrīkus, kas tiek attēloti ekrānā, piemēram, laikapstākļus un piezīmes."
         },
         "style": {
           "title": "Izvēlieties stilu",
-          "description": "Mue pašlaik piedāvā izvēli starp mantoto stilu un jaunizlaisto moderno stilu.",
+          "description": "Moo pašlaik piedāvā izvēli starp mantoto stilu un jaunizlaisto moderno stilu.",
           "legacy": "Mantotais",
           "modern": "Modernais"
         },
         "settings": {
           "title": "Importēt iestatījumus",
-          "description": "Instalējat Mue jaunā ierīcē? Droši importējiet savus vecos iestatījumus!",
-          "tip": "Jūs varat eksportēt savus vecos iestatījumus, dodoties uz sadaļu Papildu jūsu vecajā Mue iestatījumā. Pēc tam jums jānoklikšķina uz eksportēšanas pogas, kas lejupielādēs JSON failu. Jūs varat augšupielādēt šo failu šeit, lai pārnestu savus iestatījumus un preferences no iepriekšējās Mue instalācijas."
+          "description": "Instalējat Moo jaunā ierīcē? Droši importējiet savus vecos iestatījumus!",
+          "tip": "Jūs varat eksportēt savus vecos iestatījumus, dodoties uz sadaļu Papildu jūsu vecajā Moo iestatījumā. Pēc tam jums jānoklikšķina uz eksportēšanas pogas, kas lejupielādēs JSON failu. Jūs varat augšupielādēt šo failu šeit, lai pārnestu savus iestatījumus un preferences no iepriekšējās Moo instalācijas."
         },
         "privacy": {
           "title": "Privātuma opcijas",
-          "description": "Iespējot iestatījumus, lai vēl vairāk aizsargātu jūsu privātumu ar Mue.",
+          "description": "Iespējot iestatījumus, lai vēl vairāk aizsargātu jūsu privātumu ar Moo.",
           "offline_mode_description": "Iespējojot bezsaistes režīmu, tiks atspējoti visi pieprasījumi jebkādam pakalpojumam. Tas izraisīs tiešsaistes fonu, tiešsaistes citātu, tirgus, laikapstākļu, ātro saišu, izmaiņu žurnāla un dažas informācijas par cilni atspējošanu.",
           "links": {
             "title": "Saites",
@@ -690,7 +690,7 @@
         },
         "final": {
           "title": "Pēdējais solis",
-          "description": "Jūsu Mue cilnes pieredze drīz sāksies.",
+          "description": "Jūsu Moo cilnes pieredze drīz sāksies.",
           "changes": "Izmaiņas",
           "changes_description": "Lai vēlāk mainītu iestatījumus, noklikšķiniet uz iestatījumu ikonas cilnes augšējā labajā stūrī.",
           "imported": "Importēti {amount} iestatījumi"

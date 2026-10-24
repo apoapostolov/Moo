@@ -3,7 +3,7 @@
  * Uses IndexedDB to overcome localStorage quota limitations
  */
 
-const DB_NAME = 'MueCustomBackgrounds';
+const DB_NAME = 'MooCustomBackgrounds';
 const DB_VERSION = 1;
 const STORE_NAME = 'backgrounds';
 

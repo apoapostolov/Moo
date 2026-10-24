@@ -86,7 +86,7 @@
       },
       "error_boundary": {
         "title": "Napaka",
-        "message": "Ni uspelo naložiti te komponente Mue",
+        "message": "Ni uspelo naložiti te komponente Moo",
         "report_error": "Pošlji poročilo o napaki",
         "sent": "Poslano!",
         "refresh": "Osveži"
@@ -184,7 +184,7 @@
           "greeting": {
             "title": "Pozdrav",
             "events": "Dogodki",
-            "events_description": "Nadzorujte dogodke na Mue, kot so rojstni dnevi.",
+            "events_description": "Nadzorujte dogodke na Moo, kot so rojstni dnevi.",
             "enable_events": "Prikaži sporočila na posebne dneve",
             "default": "Privzeto pozdravno sporočilo",
             "name": "Ime za pozdrav",
@@ -276,7 +276,7 @@
               "folder_name": "Folder Name",
               "folder_placeholder": "Leave empty for no folder",
               "storage_info": "Storage Information",
-              "storage_description": "Mue uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
+              "storage_description": "Moo uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
               "storage_current": "Current usage: {used} of {total} ({percent}%)",
               "sort": {
                 "date_newest": "Date Added (Newest)",
@@ -304,7 +304,7 @@
             "voice_search": "Glasovno iskanje",
             "dropdown": "Spustni meni iskanja",
             "focus": "Osredotoči se ob odprtju zavihka",
-            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Mue was removed to comply with new Chrome Web Store guidelines. Mue now uses your browser's default search engine. You can change this in Chrome Settings."
+            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Moo was removed to comply with new Chrome Web Store guidelines. Moo now uses your browser's default search engine. You can change this in Chrome Settings."
           },
           "weather": {
             "title": "Vreme",
@@ -376,7 +376,7 @@
             },
             "theme": {
               "title": "Tema",
-              "description": "Spremenite temo pripomočkov in modala Mue",
+              "description": "Spremenite temo pripomočkov in modala Moo",
               "auto": "Samodejno",
               "light": "Svetla",
               "dark": "Temna"
@@ -397,7 +397,7 @@
             },
             "font": {
               "title": "Pisava",
-              "description": "Spremenite pisavo, ki se uporablja v Mue",
+              "description": "Spremenite pisavo, ki se uporablja v Moo",
               "custom": "Lastna pisava",
               "google": "Uvozi iz Google Pisav",
               "weight": {
@@ -420,7 +420,7 @@
             },
             "accessibility": {
               "title": "Dostopnost",
-              "description": "Naredite Mue udoben in dostopen",
+              "description": "Naredite Moo udoben in dostopen",
               "animations": "Animacije",
               "text_shadow": {
                 "title": "Senca besedila pripomočka",
@@ -441,17 +441,17 @@
             "offline_mode": "Način brez povezave",
             "offline_subtitle": "Ko je omogočen, bodo vse zahteve do spletnih storitev onemogočene.",
             "data": "Podatki",
-            "data_description": "Izberite, ali želite izvoziti nastavitve Mue na svoj računalnik, uvoziti obstoječo datoteko nastavitev ali ponastaviti nastavitve na privzete vrednosti",
-            "data_subtitle": "Upravljajte svoje podatke na Mue.",
+            "data_description": "Izberite, ali želite izvoziti nastavitve Moo na svoj računalnik, uvoziti obstoječo datoteko nastavitev ali ponastaviti nastavitve na privzete vrednosti",
+            "data_subtitle": "Upravljajte svoje podatke na Moo.",
             "reset_modal": {
               "title": "OPOZORILO",
-              "question": "Ali želite ponastaviti Mue?",
+              "question": "Ali želite ponastaviti Moo?",
               "information": "To bo izbrisalo vse podatke. Če želite obdržati svoje podatke in nastavitve, jih najprej izvozite.",
               "cancel": "Prekliči"
             },
             "customisation": "Prilagajanje",
             "custom_css": "Lastni CSS",
-            "custom_css_subtitle": "Naredite Mue stil prilagojen vam s kaskadnimi slogi (CSS).",
+            "custom_css_subtitle": "Naredite Moo stil prilagojen vam s kaskadnimi slogi (CSS).",
             "custom_js": "Lastni JS",
             "tab_name": "Ime zavihka",
             "tab_name_subtitle": "Spremenite ime zavihka, ki se prikaže v vašem brskalniku",
@@ -460,7 +460,7 @@
               "subtitle": "Izberite časovni pas s seznama namesto samodejnega privzetega iz vašega računalnika",
               "automatic": "Samodejno"
             },
-            "experimental_warning": "Upoštevajte, da ekipa Mue ne more nuditi podpore, če imate vklopljen eksperimentalni način. Prosimo, najprej ga onemogočite in preverite, ali se težava še vedno pojavlja, preden stopite v stik s podporo.",
+            "experimental_warning": "Upoštevajte, da ekipa Moo ne more nuditi podpore, če imate vklopljen eksperimentalni način. Prosimo, najprej ga onemogočite in preverite, ali se težava še vedno pojavlja, preden stopite v stik s podporo.",
             "preview_data_disabled": {
               "title": "Nastavitve podatkov onemogočene",
               "description": "Nastavitve podatkov so onemogočene v načinu predogleda. Prosimo, zapustite način predogleda za uporabo te funkcije."
@@ -518,8 +518,8 @@
               }
             },
             "contact_us": "Kontaktirajte nas",
-            "support_mue": "Podprite Mue",
-            "support_subtitle": "Ker je Mue popolnoma brezplačen, se zanašamo na donacije za kritje stroškov strežnika in financiranje razvoja",
+            "support_mue": "Podprite Moo",
+            "support_subtitle": "Ker je Moo popolnoma brezplačen, se zanašamo na donacije za kritje stroškov strežnika in financiranje razvoja",
             "support_donate": "Doniraj",
             "form_button": "Obrazec",
             "resources_used": {
@@ -528,7 +528,7 @@
             },
             "contributors": "Sodelavci",
             "supporters": "Podporniki",
-            "no_supporters": "Trenutno ni podpornikov Mue",
+            "no_supporters": "Trenutno ni podpornikov Moo",
             "photographers": "Fotografi",
             "curators": "Ustvarjalci dodatkov"
           }
@@ -553,7 +553,7 @@
         "no_items": "V tej kategoriji ni elementov",
         "collection": "Zbirka",
         "explore_collection": "Raziskuj zbirko",
-        "add_all": "Dodaj vse v Mue",
+        "add_all": "Dodaj vse v Moo",
         "collections": "Zbirke",
         "cant_find": "Ne najdete, kar iščete?",
         "knowledgebase_one": "Obiščite",
@@ -579,7 +579,7 @@
           "part_of": "Del",
           "explore": "Raziskuj",
           "buttons": {
-            "addtomue": "Dodaj v Mue",
+            "addtomue": "Dodaj v Moo",
             "remove": "Odstrani",
             "update_addon": "Posodobi dodatek",
             "back": "Nazaj",
@@ -608,7 +608,7 @@
         },
         "sideload": {
           "title": "Stransko naloži",
-          "description": "Namestite dodatek Mue, ki ni na tržnici, iz svojega računalnika",
+          "description": "Namestite dodatek Moo, ki ni na tržnici, iz svojega računalnika",
           "failed": "Ni uspelo stransko naložiti dodatka",
           "errors": {
             "no_name": "Ni navedenega imena",
@@ -647,11 +647,11 @@
       "tip": "Hiter nasvet",
       "sections": {
         "intro": {
-          "title": "Dobrodošli v Mue Tab",
-          "description": "Hvala, ker ste namestili Mue, upamo, da boste uživali v našem razširitvi.",
+          "title": "Dobrodošli v Moo Tab",
+          "description": "Hvala, ker ste namestili Moo, upamo, da boste uživali v našem razširitvi.",
           "notices": {
             "discord_title": "Pridružite se našemu Discordu",
-            "discord_description": "Pogovarjajte se s skupnostjo in razvijalci Mue",
+            "discord_description": "Pogovarjajte se s skupnostjo in razvijalci Moo",
             "discord_join": "Pridruži se",
             "github_title": "Prispevajte na GitHubu",
             "github_description": "Prijavite napake, dodajte funkcije ali donirajte",
@@ -660,27 +660,27 @@
         },
         "language": {
           "title": "Izberite svoj jezik",
-          "description": "Mue je lahko prikazan v spodaj navedenih jezikih. Nove prevode lahko dodate tudi na našem"
+          "description": "Moo je lahko prikazan v spodaj navedenih jezikih. Nove prevode lahko dodate tudi na našem"
         },
         "theme": {
           "title": "Izberite temo",
-          "description": "Mue je na voljo v svetli in temni temi, lahko pa se samodejno nastavi glede na temo vašega sistema.",
+          "description": "Moo je na voljo v svetli in temni temi, lahko pa se samodejno nastavi glede na temo vašega sistema.",
           "tip": "Uporaba samodejnih nastavitev bo uporabila temo na vašem računalniku. Ta nastavitev bo vplivala na modale in nekatere pripomočke, prikazane na zaslonu, kot so vreme in opombe."
         },
         "style": {
           "title": "Izberite slog",
-          "description": "Mue trenutno ponuja izbiro med zapuščenim slogom in novim modernim slogom.",
+          "description": "Moo trenutno ponuja izbiro med zapuščenim slogom in novim modernim slogom.",
           "legacy": "Zapuščeno",
           "modern": "Moderno"
         },
         "settings": {
           "title": "Uvozi nastavitve",
-          "description": "Nameščate Mue na novo napravo? Lahko uvozite svoje stare nastavitve!",
-          "tip": "Svoje stare nastavitve lahko izvozite tako, da se pomaknete na zavihek Napredno v stari nastavitvi Mue. Nato morate klikniti gumb za izvoz, ki bo prenesel datoteko JSON. To datoteko lahko tukaj naložite, da prenesete svoje nastavitve in preference iz prejšnje namestitve Mue."
+          "description": "Nameščate Moo na novo napravo? Lahko uvozite svoje stare nastavitve!",
+          "tip": "Svoje stare nastavitve lahko izvozite tako, da se pomaknete na zavihek Napredno v stari nastavitvi Moo. Nato morate klikniti gumb za izvoz, ki bo prenesel datoteko JSON. To datoteko lahko tukaj naložite, da prenesete svoje nastavitve in preference iz prejšnje namestitve Moo."
         },
         "privacy": {
           "title": "Možnosti zasebnosti",
-          "description": "Omogočite nastavitve za nadaljnjo zaščito vaše zasebnosti z Mue.",
+          "description": "Omogočite nastavitve za nadaljnjo zaščito vaše zasebnosti z Moo.",
           "offline_mode_description": "Če omogočite način brez povezave, bodo vse zahteve do katere koli storitve onemogočene. To bo povzročilo, da bodo spletna ozadja, spletni citati, tržnica, vreme, hitre povezave, dnevnik sprememb in nekatere informacije o zavihku »O nas« onemogočene.",
           "links": {
             "title": "Povezave",
@@ -690,7 +690,7 @@
         },
         "final": {
           "title": "Končni korak",
-          "description": "Vaša izkušnja z Mue Tab se bo kmalu začela.",
+          "description": "Vaša izkušnja z Moo Tab se bo kmalu začela.",
           "changes": "Spremembe",
           "changes_description": "Če želite kasneje spremeniti nastavitve, kliknite ikono nastavitev v zgornjem desnem kotu vašega zavihka.",
           "imported": "Uvoženo {amount} nastavitev"

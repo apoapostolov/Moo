@@ -1,5 +1,5 @@
 /**
- * Convert language code from Mue format (en_US) to locale format (en-US)
+ * Convert language code from Moo format (en_US) to locale format (en-US)
  * and add numbering system extensions for languages that use non-Latin numerals
  */
 export function getLocaleCode() {

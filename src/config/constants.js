@@ -4,7 +4,7 @@ export const SPONSORS_URL = 'https://sponsors.muetab.com';
 export const GITHUB_URL = 'https://api.github.com';
 export const OPENSTREETMAP_URL = 'https://www.openstreetmap.org';
 
-// Mue URLs
+// Moo URLs
 export const WEBSITE_URL = 'https://muetab.com';
 export const MARKETPLACE_URL = 'https://muetab.com/marketplace';
 export const CHANGELOG_URL = 'https://muetab.com/blog/changelog';
@@ -18,7 +18,7 @@ export const SENTRY_DSN =
   'https://430352fd4b174d688ebd82fc85c22c58@o1217438.ingest.sentry.io/6359480';
 export const KNOWLEDGEBASE = 'https://support.muetab.com';
 
-// Mue Info
+// Moo Info
 export const ORG_NAME = 'apoapostolov';
 export const REPO_NAME = 'Moo';
 export const EMAIL = 'hello@muetab.com';

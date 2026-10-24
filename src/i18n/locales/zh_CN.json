@@ -86,7 +86,7 @@
       },
       "error_boundary": {
         "title": "错误",
-        "message": "无法载入该Mue组件",
+        "message": "无法载入该Moo组件",
         "report_error": "发送错误报告",
         "sent": "已发送！",
         "refresh": "刷新"
@@ -184,7 +184,7 @@
           "greeting": {
             "title": "问候",
             "events": "节日问候",
-            "events_description": "设定 Mue 上的时间，如生日",
+            "events_description": "设定 Moo 上的时间，如生日",
             "enable_events": "在特定的事件显示节日问候",
             "default": "常规问候",
             "name": "您在问候中的名字",
@@ -276,7 +276,7 @@
               "folder_name": "Folder Name",
               "folder_placeholder": "Leave empty for no folder",
               "storage_info": "Storage Information",
-              "storage_description": "Mue uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
+              "storage_description": "Moo uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
               "storage_current": "Current usage: {used} of {total} ({percent}%)",
               "sort": {
                 "date_newest": "Date Added (Newest)",
@@ -304,7 +304,7 @@
             "voice_search": "语音搜索",
             "dropdown": "搜索框左侧显示搜索引擎选择框",
             "focus": "Focus on tab open",
-            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Mue was removed to comply with new Chrome Web Store guidelines. Mue now uses your browser's default search engine. You can change this in Chrome Settings."
+            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Moo was removed to comply with new Chrome Web Store guidelines. Moo now uses your browser's default search engine. You can change this in Chrome Settings."
           },
           "weather": {
             "title": "天气",
@@ -376,7 +376,7 @@
             },
             "theme": {
               "title": "主题",
-              "description": "Change the theme of the Mue widgets and modals",
+              "description": "Change the theme of the Moo widgets and modals",
               "auto": "自动选择",
               "light": "日间主题",
               "dark": "夜间主题"
@@ -397,7 +397,7 @@
             },
             "font": {
               "title": "字体",
-              "description": "Change the font used in Mue",
+              "description": "Change the font used in Moo",
               "custom": "自定义字体",
               "google": "从 Google Fonts 导入",
               "weight": {
@@ -420,7 +420,7 @@
             },
             "accessibility": {
               "title": "无障碍设定",
-              "description": "Accessibility settings for Mue",
+              "description": "Accessibility settings for Moo",
               "animations": "动画效果",
               "text_shadow": {
                 "title": "Widget text shadow",
@@ -441,17 +441,17 @@
             "offline_mode": "启用离线模式",
             "offline_subtitle": "When enabled, all requests to online services will be disabled.",
             "data": "数据和设置",
-            "data_description": "Choose whether to export your Mue settings to your computer, import an existing settings file, or reset your settings to their default values",
-            "data_subtitle": "Choose whether to export your Mue settings to your computer, import an existing settings file, or reset your settings to their default values",
+            "data_description": "Choose whether to export your Moo settings to your computer, import an existing settings file, or reset your settings to their default values",
+            "data_subtitle": "Choose whether to export your Moo settings to your computer, import an existing settings file, or reset your settings to their default values",
             "reset_modal": {
               "title": "警告",
-              "question": "您想要重置 Mue 的所有设置吗？",
+              "question": "您想要重置 Moo 的所有设置吗？",
               "information": "本操作将删除所有数据。若您想保留数据及设置，请先将其导出。",
               "cancel": "取消"
             },
             "customisation": "自定义",
             "custom_css": "自定义 CSS",
-            "custom_css_subtitle": "Make Mue's styling customised to you with Cascading Style Sheets (CSS).",
+            "custom_css_subtitle": "Make Moo's styling customised to you with Cascading Style Sheets (CSS).",
             "custom_js": "自定义 JS",
             "tab_name": "新标签页名称",
             "tab_name_subtitle": "Change the name of the tab that appears in your browser",
@@ -460,7 +460,7 @@
               "subtitle": "Choose a timezone from the list instead of the automatic default from your computer",
               "automatic": "自动"
             },
-            "experimental_warning": "请注意 Mue 团队无法提供实验性功能的支持。若您遇到问题，请先关闭实验性功能，再寻求帮助。",
+            "experimental_warning": "请注意 Moo 团队无法提供实验性功能的支持。若您遇到问题，请先关闭实验性功能，再寻求帮助。",
             "preview_data_disabled": {
               "title": "Data Settings Disabled",
               "description": "Data settings are disabled in preview mode. Please exit preview mode to use this feature."
@@ -518,8 +518,8 @@
               }
             },
             "contact_us": "联系我们",
-            "support_mue": "支持 Mue",
-            "support_subtitle": "As Mue is entirely free, we rely on donations to cover the server bills and fund development",
+            "support_mue": "支持 Moo",
+            "support_subtitle": "As Moo is entirely free, we rely on donations to cover the server bills and fund development",
             "support_donate": "Donate",
             "form_button": "Form",
             "resources_used": {
@@ -528,7 +528,7 @@
             },
             "contributors": "贡献者",
             "supporters": "支持者",
-            "no_supporters": "There are currently no Mue supporters",
+            "no_supporters": "There are currently no Moo supporters",
             "photographers": "背景摄影者",
             "curators": "Add-on creators"
           }
@@ -553,7 +553,7 @@
         "no_items": "本类别为空",
         "collection": "Collection",
         "explore_collection": "Explore Collection",
-        "add_all": "Add All To Mue",
+        "add_all": "Add All To Moo",
         "collections": "Collections",
         "cant_find": "Can't find what you're looking for?",
         "knowledgebase_one": "Visit the",
@@ -579,7 +579,7 @@
           "part_of": "Part of",
           "explore": "Explore",
           "buttons": {
-            "addtomue": "添加至 Mue",
+            "addtomue": "添加至 Moo",
             "remove": "卸载",
             "update_addon": "Update Add-on",
             "back": "Back",
@@ -608,7 +608,7 @@
         },
         "sideload": {
           "title": "上传插件",
-          "description": "Install a Mue addon not on the marketplace from your computer",
+          "description": "Install a Moo addon not on the marketplace from your computer",
           "failed": "Failed to sideload addon",
           "errors": {
             "no_name": "No name provided",
@@ -647,11 +647,11 @@
       "tip": "快速提示",
       "sections": {
         "intro": {
-          "title": "欢迎使用 Mue 新标签插件",
+          "title": "欢迎使用 Moo 新标签插件",
           "description": "感谢您的安装。祝您使用愉快。",
           "notices": {
             "discord_title": "Join our Discord",
-            "discord_description": "Talk with the Mue community and developers",
+            "discord_description": "Talk with the Moo community and developers",
             "discord_join": "Join",
             "github_title": "Contribute on GitHub",
             "github_description": "Report bugs, add features or donate",
@@ -660,27 +660,27 @@
         },
         "language": {
           "title": "更改语言",
-          "description": "Mue 支持以下语言。你也可以在这里添加新的翻译"
+          "description": "Moo 支持以下语言。你也可以在这里添加新的翻译"
         },
         "theme": {
           "title": "选择一个主题",
-          "description": "Mue 支持日间和夜间主题，或者设置为自动选择，主题将跟随系统主题自动切换",
+          "description": "Moo 支持日间和夜间主题，或者设置为自动选择，主题将跟随系统主题自动切换",
           "tip": "使用自动选择将使用您的电脑的主题。这个设置也会影响设置界面和一些小组件的主题，比如天气和便签。"
         },
         "style": {
           "title": "Choose a style",
-          "description": "Mue currently offers the choice between the legacy styling and the newly released modern styling.",
+          "description": "Moo currently offers the choice between the legacy styling and the newly released modern styling.",
           "legacy": "Legacy",
           "modern": "Modern"
         },
         "settings": {
           "title": "导入设置",
-          "description": "在新设备上安装 Mue? 可以直接导入之前的设置！",
+          "description": "在新设备上安装 Moo? 可以直接导入之前的设置！",
           "tip": "您可以通过在之前设备上点击右上角的设置，打开高级选项卡，然后点击导出按钮，浏览器将自动下载一个 json 文件。你可以在上面点击导入按钮导入该 json 文件来导入你之前的设置和偏好。"
         },
         "privacy": {
           "title": "隐私设置",
-          "description": "进行一些设置来和 Mue 更好的保护您的隐私",
+          "description": "进行一些设置来和 Moo 更好的保护您的隐私",
           "offline_mode_description": "启用离线模式将会关闭所有服务的网络访问。该选项会关闭所有在线背景图片、在线名言警句、插件市场、天气、快捷方式、更新历史和一些关于信息的网络访问。",
           "links": {
             "title": "链接",
@@ -690,7 +690,7 @@
         },
         "final": {
           "title": "最后一步",
-          "description": "马上即可开始使用 Mue！",
+          "description": "马上即可开始使用 Moo！",
           "changes": "更改的设置",
           "changes_description": "如果需要进一步设置，点击右上角的设置图标即可弹出完整设置对话框。如果显示不正常，刷新即可。",
           "imported": "导入{amount}设置"

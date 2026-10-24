@@ -956,7 +956,7 @@ const CustomSettings = memo(() => {
                 {Math.round((totalStorageUsed / TOTAL_STORAGE_LIMIT) * 100)}%)
               </p>
               <p className="subtitle" style={{ marginTop: '8px', fontSize: '12px', opacity: 0.7 }}>
-                Includes all Mue settings and custom images
+                Includes all Moo settings and custom images
               </p>
             </div>
           </div>

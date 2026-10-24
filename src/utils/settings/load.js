@@ -134,7 +134,7 @@ export function loadSettings(hotreload) {
   ██           Copyright 2018-${new Date().getFullYear()} Apostol Apostolov           ██
   ██           GitHub: https://github.com/apoapostolov        ██
   ██                                                         ██
-  ██               Thank you for using Mue!                  ██
+  ██               Thank you for using Moo!                  ██
   ██              Feedback: hello@muetab.com                 ██
   █████████████████████████████████████████████████████████████
   `);

@@ -86,7 +86,7 @@
       },
       "error_boundary": {
         "title": "خطأ",
-        "message": "فشل تحميل هذا المكون من Mue",
+        "message": "فشل تحميل هذا المكون من Moo",
         "report_error": "إرسال تقرير الخطأ",
         "sent": "تم الإرسال!",
         "refresh": "تحديث"
@@ -184,7 +184,7 @@
           "greeting": {
             "title": "التحية",
             "events": "الأحداث",
-            "events_description": "التحكم في أحداث Mue مثل أعياد الميلاد.",
+            "events_description": "التحكم في أحداث Moo مثل أعياد الميلاد.",
             "enable_events": "إظهار رسائل في الأيام الخاصة",
             "default": "رسالة التحية الافتراضية",
             "name": "الاسم للتحية",
@@ -276,7 +276,7 @@
               "folder_name": "Folder Name",
               "folder_placeholder": "Leave empty for no folder",
               "storage_info": "Storage Information",
-              "storage_description": "Mue uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
+              "storage_description": "Moo uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
               "storage_current": "Current usage: {used} of {total} ({percent}%)",
               "sort": {
                 "date_newest": "Date Added (Newest)",
@@ -304,7 +304,7 @@
             "voice_search": "البحث الصوتي",
             "dropdown": "قائمة البحث المنسدلة",
             "focus": "التركيز عند فتح علامة التبويب",
-            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Mue was removed to comply with new Chrome Web Store guidelines. Mue now uses your browser's default search engine. You can change this in Chrome Settings."
+            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Moo was removed to comply with new Chrome Web Store guidelines. Moo now uses your browser's default search engine. You can change this in Chrome Settings."
           },
           "weather": {
             "title": "الطقس",
@@ -376,7 +376,7 @@
             },
             "theme": {
               "title": "السمة",
-              "description": "تغيير سمة عناصر ونوافذ Mue",
+              "description": "تغيير سمة عناصر ونوافذ Moo",
               "auto": "تلقائي",
               "light": "فاتح",
               "dark": "داكن"
@@ -397,7 +397,7 @@
             },
             "font": {
               "title": "الخط",
-              "description": "تغيير الخط المستخدم في Mue",
+              "description": "تغيير الخط المستخدم في Moo",
               "custom": "خط مخصص",
               "google": "استيراد من Google Fonts",
               "weight": {
@@ -420,7 +420,7 @@
             },
             "accessibility": {
               "title": "إمكانية الوصول",
-              "description": "جعل Mue مريحًا ومتاحًا",
+              "description": "جعل Moo مريحًا ومتاحًا",
               "animations": "الرسوم المتحركة",
               "text_shadow": {
                 "title": "ظل نص العنصر",
@@ -441,17 +441,17 @@
             "offline_mode": "وضع عدم الاتصال",
             "offline_subtitle": "عند التفعيل، سيتم تعطيل جميع الطلبات إلى الخدمات عبر الإنترنت.",
             "data": "البيانات",
-            "data_description": "اختر تصدير إعدادات Mue إلى جهازك، استيراد ملف إعدادات موجود، أو إعادة تعيين الإعدادات إلى قيمها الافتراضية",
-            "data_subtitle": "إدارة بياناتك على Mue.",
+            "data_description": "اختر تصدير إعدادات Moo إلى جهازك، استيراد ملف إعدادات موجود، أو إعادة تعيين الإعدادات إلى قيمها الافتراضية",
+            "data_subtitle": "إدارة بياناتك على Moo.",
             "reset_modal": {
               "title": "تحذير",
-              "question": "هل تريد إعادة تعيين Mue؟",
+              "question": "هل تريد إعادة تعيين Moo؟",
               "information": "سيؤدي هذا إلى حذف جميع البيانات. إذا كنت ترغب في الاحتفاظ ببياناتك وتفضيلاتك، يرجى تصديرها أولاً.",
               "cancel": "إلغاء"
             },
             "customisation": "التخصيص",
             "custom_css": "CSS مخصص",
-            "custom_css_subtitle": "تخصيص تصميم Mue باستخدام أوراق الأنماط المتتالية (CSS).",
+            "custom_css_subtitle": "تخصيص تصميم Moo باستخدام أوراق الأنماط المتتالية (CSS).",
             "custom_js": "JS مخصص",
             "tab_name": "اسم علامة التبويب",
             "tab_name_subtitle": "تغيير اسم علامة التبويب التي تظهر في متصفحك",
@@ -460,7 +460,7 @@
               "subtitle": "اختر منطقة زمنية من القائمة بدلاً من الافتراضي التلقائي من جهازك",
               "automatic": "تلقائي"
             },
-            "experimental_warning": "يرجى ملاحظة أن فريق Mue لا يمكنه تقديم الدعم إذا كان وضع التجربة مفعلاً. يرجى تعطيله أولاً ومعرفة ما إذا كانت المشكلة مستمرة قبل التواصل مع الدعم.",
+            "experimental_warning": "يرجى ملاحظة أن فريق Moo لا يمكنه تقديم الدعم إذا كان وضع التجربة مفعلاً. يرجى تعطيله أولاً ومعرفة ما إذا كانت المشكلة مستمرة قبل التواصل مع الدعم.",
             "preview_data_disabled": {
               "title": "إعدادات البيانات معطلة",
               "description": "إعدادات البيانات معطلة في وضع المعاينة. يرجى الخروج من وضع المعاينة لاستخدام هذه الميزة."
@@ -518,8 +518,8 @@
               }
             },
             "contact_us": "تواصل معنا",
-            "support_mue": "دعم Mue",
-            "support_subtitle": "بما أن Mue مجاني بالكامل، نحن نعتمد على التبرعات لتغطية فواتير الخادم وتمويل التطوير",
+            "support_mue": "دعم Moo",
+            "support_subtitle": "بما أن Moo مجاني بالكامل، نحن نعتمد على التبرعات لتغطية فواتير الخادم وتمويل التطوير",
             "support_donate": "التبرع",
             "form_button": "نموذج",
             "resources_used": {
@@ -528,7 +528,7 @@
             },
             "contributors": "المساهمون",
             "supporters": "الداعمون",
-            "no_supporters": "لا يوجد داعمون لـ Mue حاليًا",
+            "no_supporters": "لا يوجد داعمون لـ Moo حاليًا",
             "photographers": "المصورون",
             "curators": "مبدعو الإضافات"
           }
@@ -553,7 +553,7 @@
         "no_items": "لا توجد عناصر في هذه الفئة",
         "collection": "مجموعة",
         "explore_collection": "استكشاف المجموعة",
-        "add_all": "إضافة الكل إلى Mue",
+        "add_all": "إضافة الكل إلى Moo",
         "collections": "المجموعات",
         "cant_find": "لا تجد ما تبحث عنه؟",
         "knowledgebase_one": "قم بزيارة",
@@ -579,7 +579,7 @@
           "part_of": "جزء من",
           "explore": "استكشاف",
           "buttons": {
-            "addtomue": "إضافة إلى Mue",
+            "addtomue": "إضافة إلى Moo",
             "remove": "إزالة",
             "update_addon": "تحديث الإضافة",
             "back": "رجوع",
@@ -608,7 +608,7 @@
         },
         "sideload": {
           "title": "التثبيت الجانبي",
-          "description": "تثبيت إضافة Mue غير موجودة في السوق من جهازك",
+          "description": "تثبيت إضافة Moo غير موجودة في السوق من جهازك",
           "failed": "فشل التثبيت الجانبي للإضافة",
           "errors": {
             "no_name": "لم يتم تقديم اسم",
@@ -647,11 +647,11 @@
       "tip": "نصيحة سريعة",
       "sections": {
         "intro": {
-          "title": "مرحبًا بك في Mue Tab",
-          "description": "شكرًا لتثبيت Mue، نأمل أن تستمتع بتجربتك مع إضافتنا.",
+          "title": "مرحبًا بك في Moo Tab",
+          "description": "شكرًا لتثبيت Moo، نأمل أن تستمتع بتجربتك مع إضافتنا.",
           "notices": {
             "discord_title": "انضم إلى Discord الخاص بنا",
-            "discord_description": "تحدث مع مجتمع Mue والمطورين",
+            "discord_description": "تحدث مع مجتمع Moo والمطورين",
             "discord_join": "انضم",
             "github_title": "ساهم عبر GitHub",
             "github_description": "أبلغ عن الأخطاء، أضف ميزات، أو تبرع",
@@ -660,27 +660,27 @@
         },
         "language": {
           "title": "اختر لغتك",
-          "description": "يمكن عرض Mue باللغات المدرجة أدناه. يمكنك أيضًا إضافة ترجمات جديدة عبر"
+          "description": "يمكن عرض Moo باللغات المدرجة أدناه. يمكنك أيضًا إضافة ترجمات جديدة عبر"
         },
         "theme": {
           "title": "اختر سمة",
-          "description": "Mue متاح بسمة فاتحة وداكنة، أو يمكن ضبطها تلقائيًا بناءً على سمة نظامك.",
+          "description": "Moo متاح بسمة فاتحة وداكنة، أو يمكن ضبطها تلقائيًا بناءً على سمة نظامك.",
           "tip": "استخدام إعداد التلقائي سيتبع السمة المستخدمة على جهازك. ستؤثر هذه الإعدادات على النوافذ وبعض العناصر المعروضة على الشاشة، مثل الطقس والملاحظات."
         },
         "style": {
           "title": "اختر نمطًا",
-          "description": "يوفر Mue حاليًا خيارًا بين النمط القديم والنمط الحديث الجديد.",
+          "description": "يوفر Moo حاليًا خيارًا بين النمط القديم والنمط الحديث الجديد.",
           "legacy": "قديم",
           "modern": "حديث"
         },
         "settings": {
           "title": "استيراد الإعدادات",
-          "description": "هل تقوم بتثبيت Mue على جهاز جديد؟ يمكنك استيراد إعداداتك القديمة!",
-          "tip": "يمكنك تصدير إعداداتك القديمة بالانتقال إلى علامة التبويب المتقدمة في إعداد Mue القديم. ثم انقر على زر التصدير لتنزيل ملف JSON. يمكنك رفع هذا الملف هنا لنقل إعداداتك وتفضيلاتك من تثبيت Mue السابق."
+          "description": "هل تقوم بتثبيت Moo على جهاز جديد؟ يمكنك استيراد إعداداتك القديمة!",
+          "tip": "يمكنك تصدير إعداداتك القديمة بالانتقال إلى علامة التبويب المتقدمة في إعداد Moo القديم. ثم انقر على زر التصدير لتنزيل ملف JSON. يمكنك رفع هذا الملف هنا لنقل إعداداتك وتفضيلاتك من تثبيت Moo السابق."
         },
         "privacy": {
           "title": "خيارات الخصوصية",
-          "description": "فعّل الإعدادات لحماية خصوصيتك بشكل أكبر مع Mue.",
+          "description": "فعّل الإعدادات لحماية خصوصيتك بشكل أكبر مع Moo.",
           "offline_mode_description": "تفعيل وضع عدم الاتصال سيعطل جميع الطلبات إلى أي خدمة. سيؤدي ذلك إلى تعطيل الخلفيات عبر الإنترنت، الاقتباسات عبر الإنترنت، السوق، الطقس، الروابط السريعة، سجل التغييرات، وبعض معلومات علامة التبويب 'حول'.",
           "links": {
             "title": "الروابط",
@@ -690,7 +690,7 @@
         },
         "final": {
           "title": "الخطوة الأخيرة",
-          "description": "تجربتك مع Mue Tab على وشك البدء.",
+          "description": "تجربتك مع Moo Tab على وشك البدء.",
           "changes": "التغييرات",
           "changes_description": "لتغيير الإعدادات لاحقًا، انقر على أيقونة الإعدادات في الزاوية العلوية اليمنى من علامة التبويب.",
           "imported": "تم استيراد {amount} إعدادات"

@@ -86,7 +86,7 @@
       },
       "error_boundary": {
         "title": "Klaida",
-        "message": "Nepavyko įkelti šio Mue komponento",
+        "message": "Nepavyko įkelti šio Moo komponento",
         "report_error": "Siųsti klaidos ataskaitą",
         "sent": "Išsiųsta!",
         "refresh": "Atnaujinti"
@@ -184,7 +184,7 @@
           "greeting": {
             "title": "Pasisveikinimas",
             "events": "Įvykiai",
-            "events_description": "Valdykite Mue įvykius, pvz., gimtadienius.",
+            "events_description": "Valdykite Moo įvykius, pvz., gimtadienius.",
             "enable_events": "Rodyti pranešimus specialiomis dienomis",
             "default": "Numatytasis pasisveikinimo pranešimas",
             "name": "Vardas pasisveikinimui",
@@ -276,7 +276,7 @@
               "folder_name": "Folder Name",
               "folder_placeholder": "Leave empty for no folder",
               "storage_info": "Storage Information",
-              "storage_description": "Mue uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
+              "storage_description": "Moo uses browser storage to save your custom images. The current limit is approximately 4.85MB for all settings and images combined.",
               "storage_current": "Current usage: {used} of {total} ({percent}%)",
               "sort": {
                 "date_newest": "Date Added (Newest)",
@@ -304,7 +304,7 @@
             "voice_search": "Paieška balsu",
             "dropdown": "Paieškos išskleidžiamasis sąrašas",
             "focus": "Fokusuoti atidarius skirtuką",
-            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Mue was removed to comply with new Chrome Web Store guidelines. Mue now uses your browser's default search engine. You can change this in Chrome Settings."
+            "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Moo was removed to comply with new Chrome Web Store guidelines. Moo now uses your browser's default search engine. You can change this in Chrome Settings."
           },
           "weather": {
             "title": "Orai",
@@ -376,7 +376,7 @@
             },
             "theme": {
               "title": "Tema",
-              "description": "Keiskite Mue valdiklių ir modalinių langų temą",
+              "description": "Keiskite Moo valdiklių ir modalinių langų temą",
               "auto": "Automatiškai",
               "light": "Šviesi",
               "dark": "Tamsi"
@@ -397,7 +397,7 @@
             },
             "font": {
               "title": "Šriftas",
-              "description": "Keiskite Mue naudojamą šriftą",
+              "description": "Keiskite Moo naudojamą šriftą",
               "custom": "Pasirinktinis šriftas",
               "google": "Importuoti iš Google Fonts",
               "weight": {
@@ -420,7 +420,7 @@
             },
             "accessibility": {
               "title": "Prieinamumas",
-              "description": "Padarykite Mue patogų ir prieinamą",
+              "description": "Padarykite Moo patogų ir prieinamą",
               "animations": "Animacijos",
               "text_shadow": {
                 "title": "Valdiklių teksto šešėlis",
@@ -441,17 +441,17 @@
             "offline_mode": "Autonominis režimas",
             "offline_subtitle": "Kai įjungta, visi prašymai į internetines paslaugas bus išjungti.",
             "data": "Duomenys",
-            "data_description": "Pasirinkite, ar eksportuoti Mue nustatymus į savo kompiuterį, importuoti esamą nustatymų failą, ar atstatyti nustatymus į numatytuosius",
-            "data_subtitle": "Tvarkykite savo duomenis Mue.",
+            "data_description": "Pasirinkite, ar eksportuoti Moo nustatymus į savo kompiuterį, importuoti esamą nustatymų failą, ar atstatyti nustatymus į numatytuosius",
+            "data_subtitle": "Tvarkykite savo duomenis Moo.",
             "reset_modal": {
               "title": "ĮSPĖJIMAS",
-              "question": "Ar norite atstatyti Mue?",
+              "question": "Ar norite atstatyti Moo?",
               "information": "Tai ištrins visus duomenis. Jei norite išsaugoti savo duomenis ir nuostatas, pirmiausia juos eksportuokite.",
               "cancel": "Atšaukti"
             },
             "customisation": "Pritaikymas",
             "custom_css": "Pasirinktinis CSS",
-            "custom_css_subtitle": "Pritaikykite Mue stilių sau naudodami kaskadines stilių lenteles (CSS).",
+            "custom_css_subtitle": "Pritaikykite Moo stilių sau naudodami kaskadines stilių lenteles (CSS).",
             "custom_js": "Pasirinktinis JS",
             "tab_name": "Skirtuko pavadinimas",
             "tab_name_subtitle": "Keiskite skirtuko, kuris rodomas naršyklėje, pavadinimą",
@@ -460,7 +460,7 @@
               "subtitle": "Pasirinkite laiko juostą iš sąrašo vietoj automatinio nustatymo iš jūsų kompiuterio",
               "automatic": "Automatiškai"
             },
-            "experimental_warning": "Atkreipkite dėmesį, kad Mue komanda negali suteikti pagalbos, jei įjungtas eksperimentinis režimas. Prieš kreipdamiesi pagalbos, pirmiausia jį išjunkite ir pažiūrėkite, ar problema išlieka.",
+            "experimental_warning": "Atkreipkite dėmesį, kad Moo komanda negali suteikti pagalbos, jei įjungtas eksperimentinis režimas. Prieš kreipdamiesi pagalbos, pirmiausia jį išjunkite ir pažiūrėkite, ar problema išlieka.",
             "preview_data_disabled": {
               "title": "Duomenų nustatymai išjungti",
               "description": "Duomenų nustatymai yra išjungti peržiūros režime. Norėdami naudoti šią funkciją, išeikite iš peržiūros režimo."
@@ -518,8 +518,8 @@
               }
             },
             "contact_us": "Susisiekite su mumis",
-            "support_mue": "Paremkite Mue",
-            "support_subtitle": "Kadangi Mue yra visiškai nemokamas, mes pasikliaujame aukomis, kad padengtume serverio sąskaitas ir finansuotume plėtrą",
+            "support_mue": "Paremkite Moo",
+            "support_subtitle": "Kadangi Moo yra visiškai nemokamas, mes pasikliaujame aukomis, kad padengtume serverio sąskaitas ir finansuotume plėtrą",
             "support_donate": "Paaukoti",
             "form_button": "Forma",
             "resources_used": {
@@ -528,7 +528,7 @@
             },
             "contributors": "Prisidėjusieji",
             "supporters": "Rėmėjai",
-            "no_supporters": "Šiuo metu nėra Mue rėmėjų",
+            "no_supporters": "Šiuo metu nėra Moo rėmėjų",
             "photographers": "Fotografai",
             "curators": "Priedų kūrėjai"
           }
@@ -553,7 +553,7 @@
         "no_items": "Nėra elementų šioje kategorijoje",
         "collection": "Kolekcija",
         "explore_collection": "Naršyti kolekciją",
-        "add_all": "Pridėti visus į Mue",
+        "add_all": "Pridėti visus į Moo",
         "collections": "Kolekcijos",
         "cant_find": "Nerandate to, ko ieškote?",
         "knowledgebase_one": "Apsilankykite",
@@ -579,7 +579,7 @@
           "part_of": "Dalis",
           "explore": "Naršyti",
           "buttons": {
-            "addtomue": "Pridėti į Mue",
+            "addtomue": "Pridėti į Moo",
             "remove": "Pašalinti",
             "update_addon": "Atnaujinti priedą",
             "back": "Atgal",
@@ -608,7 +608,7 @@
         },
         "sideload": {
           "title": "Įkelti iš šalies",
-          "description": "Įdiekite Mue priedą, kurio nėra prekyvietėje, iš savo kompiuterio",
+          "description": "Įdiekite Moo priedą, kurio nėra prekyvietėje, iš savo kompiuterio",
           "failed": "Nepavyko įkelti priedo iš šalies",
           "errors": {
             "no_name": "Nepateiktas pavadinimas",
@@ -647,11 +647,11 @@
       "tip": "Greitas patarimas",
       "sections": {
         "intro": {
-          "title": "Sveiki atvykę į Mue Tab",
-          "description": "Dėkojame, kad įdiegėte Mue, tikimės, kad mėgausitės mūsų plėtiniu.",
+          "title": "Sveiki atvykę į Moo Tab",
+          "description": "Dėkojame, kad įdiegėte Moo, tikimės, kad mėgausitės mūsų plėtiniu.",
           "notices": {
             "discord_title": "Prisijunkite prie mūsų Discord",
-            "discord_description": "Bendraukite su Mue bendruomene ir kūrėjais",
+            "discord_description": "Bendraukite su Moo bendruomene ir kūrėjais",
             "discord_join": "Prisijungti",
             "github_title": "Prisidėkite GitHub",
             "github_description": "Praneškite apie klaidas, pridėkite funkcijų arba paaukokite",
@@ -660,27 +660,27 @@
         },
         "language": {
           "title": "Pasirinkite kalbą",
-          "description": "Mue gali būti rodomas žemiau išvardintomis kalbomis. Taip pat galite pridėti naujų vertimų mūsų"
+          "description": "Moo gali būti rodomas žemiau išvardintomis kalbomis. Taip pat galite pridėti naujų vertimų mūsų"
         },
         "theme": {
           "title": "Pasirinkite temą",
-          "description": "Mue galima naudoti tiek šviesioje, tiek tamsioje temoje, arba ji gali būti automatiškai nustatyta pagal jūsų sistemos temą.",
+          "description": "Moo galima naudoti tiek šviesioje, tiek tamsioje temoje, arba ji gali būti automatiškai nustatyta pagal jūsų sistemos temą.",
           "tip": "Naudojant automatinį nustatymą, bus naudojama jūsų kompiuterio tema. Šis nustatymas paveiks modalus ir kai kuriuos ekrane rodomus valdiklius, pvz., orų ir užrašų."
         },
         "style": {
           "title": "Pasirinkite stilių",
-          "description": "Šiuo metu Mue siūlo pasirinkimą tarp pasenusio stiliaus ir naujai išleisto modernaus stiliaus.",
+          "description": "Šiuo metu Moo siūlo pasirinkimą tarp pasenusio stiliaus ir naujai išleisto modernaus stiliaus.",
           "legacy": "Pasenęs",
           "modern": "Modernus"
         },
         "settings": {
           "title": "Importuoti nustatymus",
-          "description": "Diegiate Mue naujame įrenginyje? Drąsiai importuokite savo senus nustatymus!",
-          "tip": "Galite eksportuoti savo senus nustatymus pereidami į skiltį Išplėstiniai senoje Mue sąrankoje. Tada turite spustelėti eksportavimo mygtuką, kuris atsisiųs JSON failą. Galite įkelti šį failą čia, kad perkeltumėte savo nustatymus ir nuostatas iš ankstesnio Mue diegimo."
+          "description": "Diegiate Moo naujame įrenginyje? Drąsiai importuokite savo senus nustatymus!",
+          "tip": "Galite eksportuoti savo senus nustatymus pereidami į skiltį Išplėstiniai senoje Moo sąrankoje. Tada turite spustelėti eksportavimo mygtuką, kuris atsisiųs JSON failą. Galite įkelti šį failą čia, kad perkeltumėte savo nustatymus ir nuostatas iš ankstesnio Moo diegimo."
         },
         "privacy": {
           "title": "Privatumo parinktys",
-          "description": "Įjunkite nustatymus, kad dar labiau apsaugotumėte savo privatumą naudodami Mue.",
+          "description": "Įjunkite nustatymus, kad dar labiau apsaugotumėte savo privatumą naudodami Moo.",
           "offline_mode_description": "Įjungus neprisijungimo režimą, bus išjungti visi užklausų siuntimo į bet kokią tarnybą. Dėl to bus išjungti internetiniai fonai, internetinės citatos, prekyvietė, orai, greitosios nuorodos, pakeitimų žurnalas ir kai kuri informacija apie skiltį.",
           "links": {
             "title": "Nuorodos",
@@ -690,7 +690,7 @@
         },
         "final": {
           "title": "Paskutinis žingsnis",
-          "description": "Jūsų Mue Tab patirtis tuoj prasidės.",
+          "description": "Jūsų Moo Tab patirtis tuoj prasidės.",
           "changes": "Pakeitimai",
           "changes_description": "Norėdami vėliau pakeisti nustatymus, spustelėkite nustatymų piktogramą viršutiniame dešiniajame skirtuko kampe.",
           "imported": "Importuota {amount} nustatymų"
