@@ -23,11 +23,13 @@ import Clock from './overview_skeletons/Clock';
 import QuickLinks from './overview_skeletons/QuickLinks';
 import Date from './overview_skeletons/Date';
 import Message from './overview_skeletons/Message';
+import Weather from './overview_skeletons/Weather';
 
 import EventBus from 'utils/eventbus';
 
 const widget_name = {
   time: variables.getMessage('modals.main.settings.sections.time.title'),
+  weather: variables.getMessage('modals.main.settings.sections.weather.title'),
   quicklinks: variables.getMessage('modals.main.settings.sections.quicklinks.title'),
   date: variables.getMessage('modals.main.settings.sections.date.title'),
   message: variables.getMessage('modals.main.settings.sections.message.title'),
@@ -51,8 +53,9 @@ const Overview = () => {
     () =>
       JSON.parse(localStorage.getItem('order')) || [
         'time',
-        'quicklinks',
+        'weather',
         'date',
+        'quicklinks',
         'message',
       ],
   );
@@ -84,7 +87,7 @@ const Overview = () => {
   };
 
   const reset = () => {
-    const defaultOrder = ['time', 'quicklinks', 'date', 'message'];
+    const defaultOrder = ['time', 'weather', 'date', 'quicklinks', 'message'];
     localStorage.setItem('order', JSON.stringify(defaultOrder));
     setItems(defaultOrder);
     toast(variables.getMessage('toasts.reset'));
@@ -103,6 +106,8 @@ const Overview = () => {
     switch (value) {
       case 'time':
         return <Clock />;
+      case 'weather':
+        return <Weather />;
       case 'quicklinks':
         return <QuickLinks />;
       case 'date':

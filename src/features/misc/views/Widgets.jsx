@@ -30,6 +30,7 @@ const Widgets = () => {
       date: enabled('date') && <Date />,
       quicklinks: enabled('quicklinksenabled') && online ? <QuickLinks /> : null,
       message: enabled('message') && <Message />,
+      weather: enabled('weatherEnabled') && online ? <Weather /> : null,
     }),
     [order], // Re-create widgets when order changes
   );
@@ -67,10 +68,11 @@ const Widgets = () => {
   ) : (
     <WidgetsLayout>
       <Suspense fallback={<></>}>
-        {order.map((element, key) => (
-          <Fragment key={key}>{widgets[element]}</Fragment>
-        ))}
-        {enabled('weatherEnabled') && online ? <Weather /> : null}
+        {order.map((element, key) => {
+          const widget = widgets[element];
+          if (!widget) return null;
+          return <Fragment key={key}>{widget}</Fragment>;
+        })}
       </Suspense>
     </WidgetsLayout>
   );
