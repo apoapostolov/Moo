@@ -1,5 +1,6 @@
 import variables from 'config/variables';
 import { Checkbox } from 'components/Form/Settings';
+import { Text } from 'components/Form/Settings';
 import { Row, Content, Action } from 'components/Layout/Settings/Item';
 
 const DisplaySettings = ({ usingImage }) => {
@@ -23,6 +24,18 @@ const DisplaySettings = ({ usingImage }) => {
           text="Animated background"
           element=".other"
           disabled={!usingImage}
+        />
+        <Checkbox
+          name="backgroundAutoChange"
+          text="Auto-change background"
+          element=".other"
+          disabled={!usingImage}
+        />
+        <Text
+          name="backgroundAutoChangeInterval"
+          title="Change interval (minutes)"
+          default="60"
+          placeholder="60"
         />
         <Checkbox
           name="photoInformation"

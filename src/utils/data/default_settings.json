@@ -76,6 +76,14 @@
     "value": "false"
   },
   {
+    "name": "backgroundAutoChange",
+    "value": "false"
+  },
+  {
+    "name": "backgroundAutoChangeInterval",
+    "value": "60"
+  },
+  {
     "name": "blur",
     "value": "0"
   },
