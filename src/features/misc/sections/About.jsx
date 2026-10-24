@@ -1,6 +1,6 @@
 import variables from 'config/variables';
 import { PureComponent } from 'react';
-import { MdEmail, MdContactPage } from 'react-icons/md';
+import { MdEmail } from 'react-icons/md';
 import { FaDiscord } from 'react-icons/fa';
 import { SiX } from 'react-icons/si';
 
@@ -136,12 +136,6 @@ class About extends PureComponent {
             {variables.getMessage('modals.main.settings.sections.about.contact_us')}
           </span>
           <div className="aboutContact">
-            <Button
-              type="linkButton"
-              href="https://muetab.com/contact"
-              icon={<MdContactPage />}
-              label={variables.getMessage('modals.main.settings.sections.about.form_button')}
-            />
             <Button
               type="linkIconButton"
               href={'mailto:' + variables.constants.EMAIL}
