@@ -22,7 +22,7 @@
   .extra-info {
     width: 100%;
     font-size: 18px;
-    gap: 25px;
+    gap: 12px;
 
     @include themed {
       color: t($weather);
@@ -49,8 +49,8 @@
   display: flex;
   flex-flow: column;
   justify-content: flex-start;
-  gap: 7px;
-  padding: 12px 25px 25px 25px;
+  gap: 3px;
+  padding: 6px 25px 12px 25px;
 
   div {
     align-items: center;
