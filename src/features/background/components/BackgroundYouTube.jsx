@@ -33,11 +33,11 @@ function buildEmbedUrl(input) {
   const params = 'autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&loop=1';
 
   if (playlistId && !videoId) {
-    return `https://www.youtube.com/embed/videoseries?list=${playlistId}&shuffle=1&${params}`;
+    return `https://www.youtube-nocookie.com/embed/videoseries?list=${playlistId}&shuffle=1&${params}`;
   }
   if (videoId) {
     const listParam = playlistId ? `&list=${playlistId}` : '';
-    return `https://www.youtube.com/embed/${videoId}?${params}${listParam}`;
+    return `https://www.youtube-nocookie.com/embed/${videoId}?${params}${listParam}`;
   }
   return null;
 }
