@@ -16,9 +16,6 @@
     "48": "icons/48x48.png",
     "128": "icons/128x128.png"
   },
-  "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; frame-src https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com;"
-  },
   "browser_specific_settings": {
     "gecko": {
       "id": "moo@apoapostolov"

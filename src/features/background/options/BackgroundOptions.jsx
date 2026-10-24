@@ -10,7 +10,6 @@ import ColourSettings from './Colour';
 import CustomSettings from './Custom';
 import APISettings from './sections/APISettings';
 import DisplaySettings from './sections/DisplaySettings';
-import VideoscapesSettings from './sections/VideoscapesSettings';
 import EffectsSettings from './sections/EffectsSettings';
 import SourceSection from './sections/SourceSection';
 import NavigationCard from './sections/NavigationCard';
@@ -221,10 +220,6 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
 
       {!currentSubSection && showEffects && (
         <DisplaySettings usingImage={usingImage} />
-      )}
-
-      {!currentSubSection && (
-        <VideoscapesSettings />
       )}
 
       {currentSubSection === 'source' && (

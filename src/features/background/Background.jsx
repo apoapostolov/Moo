@@ -1,13 +1,12 @@
 import BackgroundImage from './components/BackgroundImage';
 import BackgroundVideo from './components/BackgroundVideo';
-import BackgroundYouTube from './components/BackgroundYouTube';
 
 import { useBackgroundState } from './hooks/useBackgroundState';
 import { useBackgroundLoader } from './hooks/useBackgroundLoader';
 import { useBackgroundRenderer, useBackgroundFilters, useBackgroundOverlayFilters } from './hooks/useBackgroundRenderer';
 import { useBackgroundEvents } from './hooks/useBackgroundEvents';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import EventBus from 'utils/eventbus';
 
 import './scss/index.scss';
@@ -27,7 +26,6 @@ export default function Background() {
 
   const autoChangeTimerRef = useRef(null);
   const prevSettingsRef = useRef({ enabled: null, mins: null });
-  const [settingsVersion, setSettingsVersion] = useState(0);
 
   const startAutoChange = useCallback(() => {
     const enabled = localStorage.getItem('backgroundAutoChange') === 'true';
@@ -53,7 +51,6 @@ export default function Background() {
     const onRefresh = (data) => {
       if (data === 'background' || data === 'bgpanzoom') apply();
       startAutoChange();
-      setSettingsVersion((v) => v + 1);
     };
     EventBus.on('refresh', onRefresh);
     startAutoChange();
@@ -63,14 +60,9 @@ export default function Background() {
     };
   }, [startAutoChange]);
 
-  const videoscapeEnabled = (settingsVersion >= 0) && localStorage.getItem('videoscape') === 'true';
-  const videoscapeUrl = localStorage.getItem('videoscapeUrl') || '';
-
   return (
     <>
-      {videoscapeEnabled ? (
-        <BackgroundYouTube url={videoscapeUrl} />
-      ) : backgroundData.video ? (
+      {backgroundData.video ? (
         <BackgroundVideo url={backgroundData.url} filterStyle={filterStyle} />
       ) : (
         <BackgroundImage
