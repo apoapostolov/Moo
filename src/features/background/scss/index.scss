@@ -52,10 +52,12 @@
 
 body.bg-animated #backgroundImage,
 body.bg-animated #backgroundOverlay {
-  animation: kenburns 50s ease-in-out infinite alternate;
+  animation: kenburns 60s linear infinite alternate;
   transform-origin: center center;
   will-change: transform;
   background-attachment: scroll !important;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -67,13 +69,13 @@ body.bg-animated #backgroundOverlay {
 
 @keyframes kenburns {
   0% {
-    transform: scale(1.12) translate(0, 0);
+    transform: translate3d(0, 0, 0) scale(1.1);
   }
   50% {
-    transform: scale(1.06) translate(-1%, -0.5%);
+    transform: translate3d(-1%, -0.5%, 0) scale(1.05);
   }
   100% {
-    transform: scale(1.0) translate(1%, 0.5%);
+    transform: translate3d(1%, 0.5%, 0) scale(1.0);
   }
 }
 
