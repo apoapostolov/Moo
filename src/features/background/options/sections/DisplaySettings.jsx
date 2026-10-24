@@ -20,7 +20,7 @@ const DisplaySettings = ({ usingImage }) => {
         />
         <Checkbox
           name="bgpanzoom"
-          text="Animated background (pan & zoom)"
+          text="Animated background"
           element=".other"
           disabled={!usingImage}
         />
