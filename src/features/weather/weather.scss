@@ -48,8 +48,9 @@
 .weatherCore {
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
-  padding: 25px;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 12px 25px 25px 25px;
 
   div {
     align-items: center;
