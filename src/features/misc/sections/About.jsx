@@ -128,16 +128,6 @@ class About extends PureComponent {
               </span>
             </div>
             <span className="subtitle">Licensed under the BSD-3-Clause License</span>
-            <span className="subtitle">
-              <a
-                href={variables.constants.PRIVACY_URL}
-                className="link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {variables.getMessage('modals.welcome.sections.privacy.links.privacy_policy')}
-              </a>
-            </span>
           </div>
         </div>
 
