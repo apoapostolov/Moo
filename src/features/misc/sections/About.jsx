@@ -114,16 +114,12 @@ class About extends PureComponent {
                 <a
                   className="link"
                   href={
-                    'https://github.com/' +
-                    variables.constants.ORG_NAME +
-                    '/' +
-                    variables.constants.REPO_NAME +
-                    '/graphs/contributors'
+                    'https://github.com/apoapostolov'
                   }
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  The Moo Authors
+                  Apostol Apostolov
                 </a>
               </span>
             </div>

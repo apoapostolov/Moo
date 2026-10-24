@@ -131,8 +131,8 @@ export function loadSettings(hotreload) {
   ██               ██      ██  ██████  ███████               ██ 
   ██                                                         ██ 
   ██                                                         ██                                                                                                 
-  ██           Copyright 2018-${new Date().getFullYear()} The Mue Authors           ██
-  ██           GitHub: https://github.com/mue/mue            ██
+  ██           Copyright 2018-${new Date().getFullYear()} Apostol Apostolov           ██
+  ██           GitHub: https://github.com/apoapostolov        ██
   ██                                                         ██
   ██               Thank you for using Mue!                  ██
   ██              Feedback: hello@muetab.com                 ██
