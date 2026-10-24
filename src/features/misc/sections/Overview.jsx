@@ -36,15 +36,35 @@ const widget_name = {
   message: variables.getMessage('modals.main.settings.sections.message.title'),
 };
 
-const SortableItem = ({ id }) => {
+const settingKeyFor = (value) => {
+  switch (value) {
+    case 'quicklinks':
+      return 'quicklinksenabled';
+    case 'weather':
+    case 'weatherline':
+      return 'weatherEnabled';
+    default:
+      return value;
+  }
+};
+
+const SortableItem = ({ id, enabled, onToggle }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
   const style = { transform: CSS.Transform.toString(transform), transition };
 
   return (
-    <li ref={setNodeRef} style={style} {...attributes} {...listeners} className="sortableItem">
+    <li ref={setNodeRef} style={style} {...attributes} className="sortableItem">
+      <input
+        type="checkbox"
+        checked={enabled}
+        onChange={() => onToggle(id)}
+        style={{ marginRight: '8px' }}
+      />
       {widget_name[id]}
-      <MdOutlineDragIndicator />
+      <span {...listeners} style={{ marginLeft: 'auto', cursor: 'grab' }}>
+        <MdOutlineDragIndicator />
+      </span>
     </li>
   );
 };
@@ -60,6 +80,13 @@ const Overview = () => {
         'message',
       ],
   );
+  const [enabledState, setEnabledState] = useState(() => ({
+    time: localStorage.getItem('time') === 'true',
+    date: localStorage.getItem('date') === 'true',
+    quicklinks: localStorage.getItem('quicklinksenabled') === 'true',
+    message: localStorage.getItem('message') === 'true',
+    weatherEnabled: localStorage.getItem('weatherEnabled') === 'true',
+  }));
   const [news, setNews] = useState({
     title: '',
     date: '',
@@ -87,20 +114,25 @@ const Overview = () => {
     }
   };
 
+  const toggleEnabled = (value) => {
+    const key = settingKeyFor(value);
+    const current = localStorage.getItem(key) === 'true';
+    localStorage.setItem(key, String(!current));
+    setEnabledState((prev) => ({ ...prev, [key]: !current }));
+    variables.stats.postEvent('setting', 'Widget toggle');
+    EventBus.emit('refresh', 'widgets');
+  };
+
+  const isEnabled = (value) => {
+    const key = settingKeyFor(value);
+    return enabledState[key] ?? (localStorage.getItem(key) === 'true');
+  };
+
   const reset = () => {
     const defaultOrder = ['time', 'weather', 'date', 'quicklinks', 'message'];
     localStorage.setItem('order', JSON.stringify(defaultOrder));
     setItems(defaultOrder);
     toast(variables.getMessage('toasts.reset'));
-  };
-
-  const enabled = (setting) => {
-    switch (setting) {
-      case 'quicklinks':
-        return localStorage.getItem('quicklinksenabled') === 'true';
-      default:
-        return localStorage.getItem(setting) === 'true';
-    }
   };
 
   const getTab = (value) => {
@@ -160,7 +192,7 @@ const Overview = () => {
           <div className="tabPreview">
             <div className="previewItem" style={{ maxWidth: '50%' }}>
               {items.map((value, index) => {
-                if (!enabled(value)) {
+                if (!isEnabled(value)) {
                   return null;
                 }
                 return (
@@ -183,12 +215,14 @@ const Overview = () => {
           >
             <SortableContext items={items} strategy={verticalListSortingStrategy}>
               <ul className="sortableContainer">
-                {items.map((value) => {
-                  if (!enabled(value)) {
-                    return null;
-                  }
-                  return <SortableItem key={value} id={value} />;
-                })}
+                {items.map((value) => (
+                  <SortableItem
+                    key={value}
+                    id={value}
+                    enabled={isEnabled(value)}
+                    onToggle={toggleEnabled}
+                  />
+                ))}
               </ul>
             </SortableContext>
           </DndContext>
