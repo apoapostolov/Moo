@@ -115,7 +115,7 @@ const Tabs = ({
   };
 
   // Show sidebar for Settings and Discover tabs
-  const showSidebar = activeTab === TAB_TYPES.SETTINGS || activeTab === TAB_TYPES.DISCOVER;
+  const showSidebar = activeTab === TAB_TYPES.SETTINGS;
 
   return (
     <div style={{ display: 'flex', width: '100%', height: '100%', overflow: 'hidden' }}>
