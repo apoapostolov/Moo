@@ -50,6 +50,32 @@
   min-height: 100%;
 }
 
+body.bg-animated #backgroundImage,
+body.bg-animated #backgroundOverlay {
+  animation: kenburns 40s ease-in-out infinite alternate;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.bg-animated #backgroundImage,
+  body.bg-animated #backgroundOverlay {
+    animation: none;
+  }
+}
+
+@keyframes kenburns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.12) translate(-1.5%, -1%);
+  }
+  100% {
+    transform: scale(1.06) translate(1.5%, 1%);
+  }
+}
+
 .fade-in {
   @include animation('fadein 0.8s ease-in-out');
 }

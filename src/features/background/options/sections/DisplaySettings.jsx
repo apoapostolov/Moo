@@ -19,6 +19,12 @@ const DisplaySettings = ({ usingImage }) => {
           disabled={!usingImage}
         />
         <Checkbox
+          name="bgpanzoom"
+          text="Animated background (pan & zoom)"
+          element=".other"
+          disabled={!usingImage}
+        />
+        <Checkbox
           name="photoInformation"
           text={variables.getMessage('modals.main.settings.sections.background.photo_information')}
           element=".other"

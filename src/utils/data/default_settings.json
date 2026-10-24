@@ -72,6 +72,10 @@
     "value": "true"
   },
   {
+    "name": "bgpanzoom",
+    "value": "false"
+  },
+  {
     "name": "blur",
     "value": "0"
   },
