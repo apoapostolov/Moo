@@ -14,7 +14,7 @@ export function importSettings(e, initial = false) {
   });
 
   toast(variables.getMessage('toasts.imported'));
-  // don't show achievements on welcome
+  // record settings import
   if (!initial) {
     variables.stats.postEvent('tab', 'Settings imported');
   }

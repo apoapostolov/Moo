@@ -71,7 +71,7 @@ function ExperimentalOptions() {
           <Button
             type="settings"
             onClick={() => toast.success('Toasted successfully')}
-            label="Achievement Unlocked Toast"
+            label="Success Toast"
           />
         </Action>
       </Row>

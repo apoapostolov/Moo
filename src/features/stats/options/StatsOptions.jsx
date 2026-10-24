@@ -1,13 +1,10 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   MdShowChart,
   MdRestartAlt,
   MdDownload,
-  MdAccessTime,
-  MdLock,
   MdError,
 } from 'react-icons/md';
-import { FaTrophy } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import Modal from 'react-modal';
 
@@ -18,38 +15,16 @@ import { ClearModal } from './ClearModal';
 import { saveFile } from 'utils/saveFile';
 import { formatNumber } from 'utils/formatNumber';
 import variables from 'config/variables';
-import {
-  getLocalisedAchievementData,
-  achievements as initialAchievements,
-  checkAchievements,
-} from 'features/stats/api/achievements';
 
 const Stats = () => {
   const isPreviewMode = localStorage.getItem('welcomePreview') === 'true';
   const [stats, setStats] = useState(() => JSON.parse(localStorage.getItem('statsData')) || {});
-  const [achievements, setAchievements] = useState(initialAchievements);
   const [clearmodal, setClearmodal] = useState(false);
-
-  const updateAchievements = useCallback(() => {
-    setAchievements(checkAchievements(stats));
-  }, [stats]);
-
-  useEffect(() => {
-    updateAchievements();
-  }, [stats, updateAchievements]);
-
-  const getUnlockedCount = useMemo(() => {
-    return achievements.filter((achievement) => achievement.achieved).length;
-  }, [achievements]);
 
   const resetStats = () => {
     const emptyStats = {};
     localStorage.setItem('statsData', JSON.stringify(emptyStats));
-    localStorage.setItem('achievements', JSON.stringify([]));
-    localStorage.setItem('achievementTimestamps', JSON.stringify({}));
     setStats(emptyStats);
-    // Update achievements based on the empty stats
-    setAchievements(checkAchievements(emptyStats));
     setClearmodal(false);
     toast(variables.getMessage('toasts.stats_reset'));
   };
@@ -59,25 +34,6 @@ const Stats = () => {
     const formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}_${date.getHours().toString().padStart(2, '0')}-${date.getMinutes().toString().padStart(2, '0')}-${date.getSeconds().toString().padStart(2, '0')}`;
     const filename = `mue_stats_${formattedDate}.json`;
     saveFile(JSON.stringify(stats, null, 2), filename);
-  };
-
-  const AchievementElement = ({ key, id, achieved, timestamp }) => {
-    const { name, description } = getLocalisedAchievementData(id);
-
-    return (
-      <div className="achievement" key={key}>
-        {achieved ? <FaTrophy className="trophy" /> : <MdLock className="trophyLocked" />}
-        <div className={'achievementContent' + (achieved ? ' achieved' : '')}>
-          {achieved && timestamp && (
-            <span className="timestamp">
-              <MdAccessTime /> {new Date(timestamp).toLocaleDateString()}
-            </span>
-          )}
-          <span className="achievementTitle">{name}</span>
-          <span className="subtitle">{achieved ? description : '?????'}</span>
-        </div>
-      </div>
-    );
   };
 
   const StatsElement = ({ title, value }) => (
@@ -161,10 +117,6 @@ const Stats = () => {
               value={stats.feature ? stats.feature['background-download'] || 0 : 0}
             />
             <StatsElement
-              title={variables.getMessage(`${STATS_SECTION}.sections.quotes_favourited`)}
-              value={stats.feature ? stats.feature['quoted-favourite'] || 0 : 0}
-            />
-            <StatsElement
               title={variables.getMessage(`${STATS_SECTION}.sections.quicklinks_added`)}
               value={stats.feature ? stats.feature['quicklink-add'] || 0 : 0}
             />
@@ -172,49 +124,6 @@ const Stats = () => {
               title={variables.getMessage(`${STATS_SECTION}.sections.settings_changed`)}
               value={stats.setting ? Object.keys(stats.setting).length : 0}
             />
-            <StatsElement
-              title={variables.getMessage(`${STATS_SECTION}.sections.addons_installed`)}
-              value={stats.marketplace?.install?.length || 0}
-            />
-          </div>
-        </div>
-        <div className="statSection leftPanel">
-          <span className="title">{variables.getMessage(`${STATS_SECTION}.achievements`)}</span>
-          <br />
-          <span className="subtitle">
-            {variables.getMessage(`${STATS_SECTION}.unlocked`, {
-              count: `${getUnlockedCount}/${achievements.length}`,
-            })}
-          </span>
-        </div>
-        <div className="achievements">
-          <div className="achievementsGrid">
-            {achievements.map((achievement, index) => {
-              if (achievement.achieved) {
-                return (
-                  <AchievementElement
-                    key={index}
-                    id={achievement.id}
-                    achieved={achievement.achieved}
-                    timestamp={achievement.timestamp}
-                  />
-                );
-              }
-            })}
-          </div>
-          <span className="title">{variables.getMessage(`${STATS_SECTION}.locked`)}</span>
-          <div className="achievementsGrid preferencesInactive">
-            {achievements.map((achievement, index) => {
-              if (!achievement.achieved) {
-                return (
-                  <AchievementElement
-                    key={index}
-                    id={achievement.id}
-                    achieved={achievement.achieved}
-                  />
-                );
-              }
-            })}
           </div>
         </div>
       </div>

@@ -1,13 +1,5 @@
 [
   {
-    "name": "achievementTimestamps",
-    "value": "{\"tentabs\":1774888163382,\"thankyou\":1777886384286,\"seasoning\":1789397749762}"
-  },
-  {
-    "name": "achievements",
-    "value": "[\"tentabs\",\"thankyou\",\"seasoning\"]"
-  },
-  {
     "name": "animations",
     "value": "true"
   },
