@@ -22,7 +22,7 @@ export const KNOWLEDGEBASE = 'https://support.muetab.com';
 export const ORG_NAME = 'apoapostolov';
 export const REPO_NAME = 'Moo';
 export const EMAIL = 'hello@muetab.com';
-export const TWITTER_HANDLE = 'getmue';
+export const TWITTER_HANDLE = 'apomakesmods';
 export const DISCORD_SERVER = 'zv8C9F8';
 
 export const VERSION = '1.0.0';
