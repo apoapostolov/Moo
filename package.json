@@ -1,12 +1,12 @@
 {
-  "name": "mue",
+  "name": "moo",
   "private": true,
-  "author": "The Mue Authors (https://github.com/mue/mue/graphs/contributors)",
-  "description": "Fast, open and free-to-use new tab page for modern browsers.",
+  "author": "Apostol Apostolov (https://github.com/apoapostolov)",
+  "description": "Fast, open and free-to-use new tab page for Firefox.",
   "repository": {
-    "url": "github:mue/mue"
+    "url": "github:apoapostolov/Moo"
   },
-  "homepage": "https://muetab.com",
+  "homepage": "https://github.com/apoapostolov/Moo",
   "bugs": "https://github.com/mue/mue/issues/new?assignees=&labels=bug&template=bug-report.md&title=%5BBUG%5D",
   "license": "BSD-3-Clause",
   "version": "7.6.0",

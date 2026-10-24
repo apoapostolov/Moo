@@ -1,19 +1,17 @@
 /**
- * Vite Configuration for Mue Browser Extension
+ * Vite Configuration for Moo (Firefox build)
  *
- * This configuration handles building the extension for multiple browsers:
- * - Chrome/Edge (Manifest V3)
- * - Firefox (Manifest V3)
- * - Safari (via Xcode project)
+ * Moo is a Firefox-focused fork of Mue. The build produces a single
+ * Firefox (Manifest V3) extension package under build/firefox.
  *
  * Build Process:
  * 1. Vite bundles the React app into /dist
  * 2. Assets are copied to dist/src/assets for proper path resolution
- * 3. Browser-specific builds are created in /build/{browser}
- * 4. Distribution .zip files are generated for Chrome and Firefox
+ * 3. A Firefox build is created in /build/firefox
+ * 4. A distribution .zip file is generated for Firefox
  *
  * Build Commands:
- * - `bun run build` - Production build for all browsers
+ * - `bun run build` - Production build for Firefox
  * - `bun run dev` - Development server with HMR
  */
 import { defineConfig, loadEnv } from 'vite';
@@ -30,7 +28,7 @@ const prepareBuilds = () => ({
   name: 'prepareBuilds',
   closeBundle() {
     if (isProd) {
-      console.log('📦 Building extension packages...');
+      console.log('📦 Building Firefox extension package...');
 
       // Ensure base directories exist
       fs.mkdirSync(path.resolve(__dirname, './build'), { recursive: true });
@@ -40,38 +38,6 @@ const prepareBuilds = () => ({
       const distAssetsPath = path.resolve(__dirname, './dist/src/assets');
       fs.mkdirSync(distAssetsPath, { recursive: true });
       fs.cpSync(path.resolve(__dirname, './src/assets'), distAssetsPath, { recursive: true });
-
-      // Chrome Build
-      console.log('🔨 Building Chrome extension...');
-      const chromeBuildPath = path.resolve(__dirname, './build/chrome');
-      fs.mkdirSync(chromeBuildPath, { recursive: true });
-
-      // Copy manifest and background script
-      fs.copyFileSync(
-        path.resolve(__dirname, './manifest/chrome.json'),
-        path.resolve(chromeBuildPath, 'manifest.json'),
-      );
-      fs.copyFileSync(
-        path.resolve(__dirname, './manifest/background.js'),
-        path.resolve(chromeBuildPath, 'background.js'),
-      );
-
-      // Copy locales
-      fs.cpSync(
-        path.resolve(__dirname, './manifest/_locales'),
-        path.resolve(chromeBuildPath, '_locales'),
-        { recursive: true },
-      );
-
-      // Copy dist (bundled app)
-      fs.cpSync(path.resolve(__dirname, './dist'), chromeBuildPath, { recursive: true });
-
-      // Copy extension icons (separate from bundled assets)
-      fs.cpSync(
-        path.resolve(__dirname, './src/assets/icons'),
-        path.resolve(chromeBuildPath, 'icons'),
-        { recursive: true },
-      );
 
       // Firefox Build
       console.log('🦊 Building Firefox extension...');
@@ -98,44 +64,15 @@ const prepareBuilds = () => ({
         { recursive: true },
       );
 
-      // Safari Build
-      console.log('🧭 Building Safari extension...');
-      const safariResourcesPath = path.resolve(__dirname, './safari/Mue Extension/Resources');
-      fs.mkdirSync(safariResourcesPath, { recursive: true });
-
-      // Copy background script
-      fs.copyFileSync(
-        path.resolve(__dirname, './manifest/background.js'),
-        path.resolve(safariResourcesPath, 'background.js'),
-      );
-
-      // Copy built files from dist (excluding manifest.json which Safari manages separately)
-      fs.cpSync(path.resolve(__dirname, './dist'), safariResourcesPath, {
-        recursive: true,
-        filter: (src) => !src.endsWith('manifest.json'),
-      });
-
-      // Copy extension icons
-      fs.cpSync(
-        path.resolve(__dirname, './src/assets/icons'),
-        path.resolve(safariResourcesPath, 'icons'),
-        { recursive: true },
-      );
-
       // Copy locales
       fs.cpSync(
         path.resolve(__dirname, './manifest/_locales'),
-        path.resolve(safariResourcesPath, '_locales'),
+        path.resolve(firefoxBuildPath, '_locales'),
         { recursive: true },
       );
 
-      // Create distribution zips
-      console.log('📦 Creating distribution packages...');
-      const chromeZip = new ADMZip();
-      chromeZip.addLocalFolder(chromeBuildPath);
-      chromeZip.writeZip(path.resolve(__dirname, `./build/chrome-${pkg.version}.zip`));
-      console.log(`✅ Chrome: chrome-${pkg.version}.zip`);
-
+      // Create distribution zip
+      console.log('📦 Creating distribution package...');
       const firefoxZip = new ADMZip();
       firefoxZip.addLocalFolder(firefoxBuildPath);
       firefoxZip.writeZip(path.resolve(__dirname, `./build/firefox-${pkg.version}.zip`));

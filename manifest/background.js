@@ -4,7 +4,7 @@ if (typeof browser === 'undefined') {
   var browser = chrome;
 }
 
-browser.runtime.setUninstallURL('https://muetab.com/uninstall');
+browser.runtime.setUninstallURL('https://github.com/apoapostolov/Moo');
 
 browser.runtime.onInstalled.addListener((details) => {
   if (details.reason === 'install') {
