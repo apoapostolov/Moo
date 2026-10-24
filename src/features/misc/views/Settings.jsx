@@ -6,7 +6,6 @@ import Tabs from 'components/Elements/MainModal/backend/Tabs';
 import { NavbarOptions } from 'features/navbar';
 import { TimeOptions, DateOptions } from 'features/time';
 import { QuickLinksOptions } from 'features/quicklinks';
-import { MessageOptions } from 'features/message';
 import { BackgroundOptions } from 'features/background';
 import { WeatherOptions } from 'features/weather';
 import { Stats } from 'features/stats';
@@ -34,11 +33,6 @@ const sections = [
     component: QuickLinksOptions,
   },
   { label: 'modals.main.settings.sections.date.title', name: 'date', component: DateOptions },
-  {
-    label: 'modals.main.settings.sections.message.title',
-    name: 'message',
-    component: MessageOptions,
-  },
   {
     label: 'modals.main.settings.sections.background.title',
     name: 'background',

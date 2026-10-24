@@ -22,7 +22,6 @@ import variables from 'config/variables';
 import Clock from './overview_skeletons/Clock';
 import QuickLinks from './overview_skeletons/QuickLinks';
 import Date from './overview_skeletons/Date';
-import Message from './overview_skeletons/Message';
 import Weather from './overview_skeletons/Weather';
 
 import EventBus from 'utils/eventbus';
@@ -33,7 +32,6 @@ const widget_name = {
   weatherline: variables.getMessage('modals.main.settings.sections.weather.title') + ' (1 line)',
   quicklinks: variables.getMessage('modals.main.settings.sections.quicklinks.title'),
   date: variables.getMessage('modals.main.settings.sections.date.title'),
-  message: variables.getMessage('modals.main.settings.sections.message.title'),
 };
 
 const settingKeyFor = (value) => {
@@ -76,15 +74,14 @@ const Overview = () => {
         'time',
         'weather',
         'date',
+        'weatherline',
         'quicklinks',
-        'message',
       ],
   );
   const [enabledState, setEnabledState] = useState(() => ({
     time: localStorage.getItem('time') === 'true',
     date: localStorage.getItem('date') === 'true',
     quicklinks: localStorage.getItem('quicklinksenabled') === 'true',
-    message: localStorage.getItem('message') === 'true',
     weatherEnabled: localStorage.getItem('weatherEnabled') === 'true',
   }));
   const [news, setNews] = useState({
@@ -129,7 +126,7 @@ const Overview = () => {
   };
 
   const reset = () => {
-    const defaultOrder = ['time', 'weather', 'date', 'quicklinks', 'message'];
+    const defaultOrder = ['time', 'weather', 'date', 'weatherline', 'quicklinks'];
     localStorage.setItem('order', JSON.stringify(defaultOrder));
     setItems(defaultOrder);
     toast(variables.getMessage('toasts.reset'));
@@ -147,8 +144,6 @@ const Overview = () => {
         return <QuickLinks />;
       case 'date':
         return <Date />;
-      case 'message':
-        return <Message />;
       default:
         return null;
     }

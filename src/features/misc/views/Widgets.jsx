@@ -3,7 +3,6 @@ import { useState, useEffect, Fragment, Suspense, lazy, useMemo } from 'react';
 import Clock from '../../time/Clock';
 import QuickLinks from '../../quicklinks/QuickLinks';
 import Date from '../../time/Date';
-import Message from '../../message/Message';
 import { WidgetsLayout } from 'components/Layout';
 
 import EventBus from 'utils/eventbus';
@@ -34,7 +33,6 @@ const Widgets = () => {
       ),
       date: enabled('date') && <Date />,
       quicklinks: enabled('quicklinksenabled') && online ? <QuickLinks /> : null,
-      message: enabled('message') && <Message />,
       weather: enabled('weatherEnabled') && online ? <Weather /> : null,
       weatherline: enabled('weatherEnabled') && online ? <Weather compact /> : null,
     }),
