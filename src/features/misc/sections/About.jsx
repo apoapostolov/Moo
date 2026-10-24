@@ -170,7 +170,7 @@ class About extends PureComponent {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  The Mue Authors
+                  The Moo Authors
                 </a>
               </span>
             </div>

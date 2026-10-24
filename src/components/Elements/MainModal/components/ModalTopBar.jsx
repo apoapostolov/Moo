@@ -159,7 +159,7 @@ function ModalTopBar({
         </div>
         <img
           src={mueAboutIcon}
-          alt="Mue"
+          alt="Moo"
           className="topBarLogo"
           draggable={false}
         />
