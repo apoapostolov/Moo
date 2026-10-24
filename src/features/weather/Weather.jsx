@@ -13,12 +13,42 @@ import { getWeather } from './api/getWeather.js';
 import './weather.scss';
 
 const WeatherWidget = memo(() => {
-  const [location, setLocation] = useState(localStorage.getItem('location') || 'London');
+  const [location, setLocation] = useState(localStorage.getItem('location') || '');
   const [done, setDone] = useState(false);
   const [weatherData, setWeatherData] = useState({});
 
-  const updateWeather = useCallback(async () => {
-    const data = await getWeather(location);
+  const autoFindLocation = useCallback(() => {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const data = await (
+            await fetch(
+              `${variables.constants.API_URL}/gps?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}`,
+            )
+          ).json();
+          if (data && data[0] && data[0].name) {
+            localStorage.setItem('location', data[0].name);
+            setLocation(data[0].name);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      },
+      (error) => {
+        console.error(error);
+      },
+      { enableHighAccuracy: true },
+    );
+  }, []);
+
+  useEffect(() => {
+    if (!location) {
+      autoFindLocation();
+    }
+  }, [location, autoFindLocation]);
+    const updateWeather = useCallback(async () => {
+      const data = await getWeather(location);
     console.log('Weather data received:', data);
     if (data) {
       setWeatherData(data);

@@ -8,7 +8,6 @@ import { TimeOptions, DateOptions } from 'features/time';
 import { QuickLinksOptions } from 'features/quicklinks';
 import { MessageOptions } from 'features/message';
 import { BackgroundOptions } from 'features/background';
-import { SearchOptions } from 'features/search';
 import { WeatherOptions } from 'features/weather';
 import { Stats } from 'features/stats';
 import {
@@ -45,12 +44,7 @@ const sections = [
     name: 'background',
     component: BackgroundOptions,
   },
-  { label: 'modals.main.settings.sections.search.title', name: 'search', component: SearchOptions },
-  {
-    label: 'modals.main.settings.sections.weather.title',
-    name: 'weather',
-    component: WeatherOptions,
-  },
+  { label: 'modals.main.settings.sections.weather.title', name: 'weather', component: WeatherOptions },
   {
     label: 'modals.main.settings.sections.appearance.title',
     name: 'appearance',

@@ -1,7 +1,6 @@
 import { useState, useEffect, Fragment, Suspense, lazy, useMemo } from 'react';
 
 import Clock from '../../time/Clock';
-import Search from '../../search/Search';
 import QuickLinks from '../../quicklinks/QuickLinks';
 import Date from '../../time/Date';
 import Message from '../../message/Message';
@@ -68,7 +67,6 @@ const Widgets = () => {
   ) : (
     <WidgetsLayout>
       <Suspense fallback={<></>}>
-        {enabled('searchBar') && <Search />}
         {order.map((element, key) => (
           <Fragment key={key}>{widgets[element]}</Fragment>
         ))}

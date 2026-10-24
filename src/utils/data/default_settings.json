@@ -248,10 +248,6 @@
     "value": "false"
   },
   {
-    "name": "searchBar",
-    "value": "false"
-  },
-  {
     "name": "searchEngine",
     "value": "duckduckgo"
   },
