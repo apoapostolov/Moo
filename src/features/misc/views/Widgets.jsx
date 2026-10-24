@@ -15,7 +15,20 @@ const Weather = lazy(() => import('../../weather/Weather'));
 
 const Widgets = () => {
   const online = localStorage.getItem('offlineMode') === 'false';
-  const [order, setOrder] = useState(JSON.parse(localStorage.getItem('order')));
+  const [order, setOrder] = useState(() => {
+    const stored = JSON.parse(localStorage.getItem('order'));
+    const base = stored || [
+      'time',
+      'weather',
+      'date',
+      'quickweather',
+      'quicklinks',
+    ];
+    if (!base.includes('quickweather')) {
+      base.splice(Math.min(2, base.length), 0, 'quickweather');
+    }
+    return base;
+  });
   const [welcome, setWelcome] = useState(localStorage.getItem('showWelcome'));
 
   const enabled = (key) => {
@@ -34,7 +47,7 @@ const Widgets = () => {
       date: enabled('date') && <Date />,
       quicklinks: enabled('quicklinksenabled') && online ? <QuickLinks /> : null,
       weather: enabled('weatherEnabled') && online ? <Weather /> : null,
-      weatherline: enabled('weatherEnabled') && online ? <Weather compact /> : null,
+      quickweather: enabled('weatherEnabled') && online ? <Weather compact /> : null,
     }),
     [order], // Re-create widgets when order changes
   );

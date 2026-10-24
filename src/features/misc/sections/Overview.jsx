@@ -29,7 +29,7 @@ import EventBus from 'utils/eventbus';
 const widget_name = {
   time: variables.getMessage('modals.main.settings.sections.time.title'),
   weather: variables.getMessage('modals.main.settings.sections.weather.title'),
-  weatherline: variables.getMessage('modals.main.settings.sections.weather.title') + ' (1 line)',
+  quickweather: 'Quick Weather',
   quicklinks: variables.getMessage('modals.main.settings.sections.quicklinks.title'),
   date: variables.getMessage('modals.main.settings.sections.date.title'),
 };
@@ -39,7 +39,7 @@ const settingKeyFor = (value) => {
     case 'quicklinks':
       return 'quicklinksenabled';
     case 'weather':
-    case 'weatherline':
+    case 'quickweather':
       return 'weatherEnabled';
     default:
       return value;
@@ -69,14 +69,20 @@ const SortableItem = ({ id, enabled, onToggle }) => {
 
 const Overview = () => {
   const [items, setItems] = useState(
-    () =>
-      JSON.parse(localStorage.getItem('order')) || [
+    () => {
+      const stored = JSON.parse(localStorage.getItem('order'));
+      const base = stored || [
         'time',
         'weather',
         'date',
-        'weatherline',
+        'quickweather',
         'quicklinks',
-      ],
+      ];
+      if (!base.includes('quickweather')) {
+        base.splice(Math.min(2, base.length), 0, 'quickweather');
+      }
+      return base;
+    },
   );
   const [enabledState, setEnabledState] = useState(() => ({
     time: localStorage.getItem('time') === 'true',
@@ -126,7 +132,7 @@ const Overview = () => {
   };
 
   const reset = () => {
-    const defaultOrder = ['time', 'weather', 'date', 'weatherline', 'quicklinks'];
+    const defaultOrder = ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
     localStorage.setItem('order', JSON.stringify(defaultOrder));
     setItems(defaultOrder);
     toast(variables.getMessage('toasts.reset'));
@@ -138,7 +144,7 @@ const Overview = () => {
         return <Clock />;
       case 'weather':
         return <Weather />;
-      case 'weatherline':
+      case 'quickweather':
         return <Weather />;
       case 'quicklinks':
         return <QuickLinks />;
