@@ -45,7 +45,7 @@ const Forecast = memo(({ location }) => {
         setLoading(false);
         return;
       }
-      const result = daily.time.slice(0, 7).map((t, i) => ({
+      const result = daily.time.slice(0, 5).map((t, i) => ({
         date: new Date(t),
         icon: wmoToIcon(daily.weathercode[i]),
         max: Math.round(daily.temperature_2m_max[i]),
