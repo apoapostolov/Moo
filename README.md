@@ -1,45 +1,69 @@
 # Moo
 
-<p align="center">A fast, open and free-to-use new tab page for Firefox — a Firefox-focused fork of <a href="https://github.com/mue/mue">Mue</a>.</p>
+<p align="center">
+  <img src="assets/icon.png" alt="Moo icon" width="96" />
+</p>
 
-<p align="center"><a href="https://github.com/apoapostolov/Moo">github.com/apoapostolov/Moo</a></p>
+<p align="center">
+  <strong>A fast, open and free-to-use new tab page for Firefox.</strong><br />
+  A simplified, Firefox-focused personal fork of <a href="https://github.com/mue/mue">Mue</a>.
+</p>
 
-<div align="center">
+<p align="center">
+  <img src="assets/hero.png" alt="Moo screenshot" width="800" />
+</p>
 
-[![Firefox](./assets/firefox.svg)](https://addons.mozilla.org/en-GB/firefox/addon/mue/)
+## What is Moo?
 
-</div>
+Moo is a new-tab page extension for Firefox (Manifest V3). It is a personal,
+simplified fork of [Mue](https://github.com/mue/mue) (BSD-3-Clause) that
+targets Firefox only and removes features that are no longer maintained or
+needed: Marketplace, Library, quotes, greetings, the achievement system and
+search (deprecated in Mue 7.2).
 
-## Why Moo?
+It keeps the parts that matter: a clean clock, date, quick links, notes, todo,
+weather, backgrounds, messages and a configurable navbar — all customisable.
+
+## Features
 
 - Firefox-focused build (Manifest V3, `browser_specific_settings.gecko`)
-- Beautiful and Minimalist Design
-- Customisable Layout
-- Widgets (such as weather, notes, bookmarks and more)
-- Privacy-Focused - does not track your browsing activity
-- Open Source under the BSD-3 License
+- Beautiful and minimalist design
+- Customisable layout and widget order
+- Widgets: clock, date, quick links, notes, todo, weather, messages
+- Privacy-focused — does not track your browsing activity
+- Open source under the BSD-3-Clause License
+- Bulgarian (bg) locale included
 
-## Installation
+## Installation (sideload)
 
-Build the Firefox extension locally and sideload it:
+Moo is not published to the Firefox Add-ons store. Sideload the built `.xpi`:
 
 1. `bun install`
 2. `bun run build`
-3. In Firefox, open `about:debugging` -> This Firefox -> Load Temporary Add-on -> select `build/firefox/manifest.json`
+3. Open Firefox (or Zen) and go to `about:debugging` → **This Firefox** → **Load Temporary Add-on** → select `build/firefox/manifest.json`
+
+For a permanent install in Zen/Firefox, copy `build/firefox-1.0.0.zip` (renamed to
+`moo@apoapostolov.xpi`) into your profile's `extensions/` folder and set
+`xpinstall.signatures.required = false` in `about:config` (unsigned extensions).
 
 ## Development
 
-Install dependencies with `bun install`, then:
+- `bun install` — install dependencies
+- `bun run dev` — development server with HMR
+- `bun run build` — production build for Firefox (`build/firefox/`, `firefox-1.0.0.zip`)
+- `bun run lint` / `bun run pretty` — lint / format
 
-- `bun run dev[:host]` - start development server
-- `bun run build` - build production copy for Firefox
-- `bun run lint[:fix]` - run linter
-- `bun run pretty` - run prettier
+## Credits
 
-### Contributing
+Moo is a fork of [Mue](https://github.com/mue/mue) by The Mue Authors
+(BSD-3-Clause). Mue's original code, design and assets remain credited to
+their authors. Moo is a personal, simplified derivative and is not affiliated
+with or endorsed by the Mue project.
 
-This is a personal fork. Upstream project: [mue/mue](https://github.com/mue/mue).
+Stock photos: [Pexels](https://pexels.com), [Unsplash](https://unsplash.com).
+Welcome modal images: [Undraw](https://undraw.co).
 
-## Attribution
+## License
 
-Forked from [Mue](https://github.com/mue/mue) (BSD-3-Clause). Stock photos: [Pexels](https://pexels.com), [Unsplash](https://unsplash.com). Welcome modal images: [Undraw](https://undraw.co).
+BSD-3-Clause. See [LICENSE](LICENSE). The original copyright notice for
+Mue is preserved in the `LICENSE` file, as required by the license.
