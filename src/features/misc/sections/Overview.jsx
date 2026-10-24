@@ -59,8 +59,8 @@ const SortableItem = ({ id, enabled, onToggle }) => {
         onChange={() => onToggle(id)}
         style={{ marginRight: '8px' }}
       />
-      {widget_name[id]}
-      <span {...listeners} style={{ marginLeft: 'auto', cursor: 'grab' }}>
+      <span style={{ flex: 1 }}>{widget_name[id]}</span>
+      <span className="dragHandle" {...listeners}>
         <MdOutlineDragIndicator />
       </span>
     </li>

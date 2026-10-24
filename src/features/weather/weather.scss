@@ -72,70 +72,22 @@
   align-items: center;
 }
 
-.iconAndTemps {
-  display: flex;
-  flex-flow: row;
-  width: 100%;
-  justify-content: space-between;
-
-  svg {
-    font-size: 2em !important;
-  }
-
-  span {
-    font-size: 34px;
-  }
-}
-
-.weatherExpandedInfo {
-  padding: 0 25px 25px;
-  text-align: left;
-
-  @include themed {
-    border-top: 1px solid t($btn-backgroundHover);
-  }
-}
-
-.weatherExpandedInfoItems {
-  font-size: 18px;
-  text-transform: capitalize;
-  gap: 10px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-
-  .tooltipTitle {
-    max-height: 12px;
-  }
-
-  span {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .tooltip {
-    width: 100%;
-  }
-
-  @include themed {
-    svg {
-      color: t($subColor);
-    }
-
-    .weatherIcon {
-      font-size: 21px !important;
-      display: grid;
-      align-items: center;
-    }
-
-    .materialWeatherIcon {
-      font-size: 18px !important;
-      padding: 2px;
-    }
-  }
-}
-
 .weather.skeleton {
+  .iconAndTemps {
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    justify-content: space-between;
+
+    svg {
+      font-size: 2em !important;
+    }
+
+    span {
+      font-size: 34px;
+    }
+  }
+
   .iconAndTemps {
     gap: 10px;
   }
@@ -193,5 +145,78 @@
   .subtitle {
     color: transparent;
     width: 50px;
+  }
+}
+
+.weatherExpandedInfo {
+  padding: 0 25px 25px;
+  text-align: left;
+
+  @include themed {
+    border-top: 1px solid t($btn-backgroundHover);
+  }
+}
+
+.weatherExpandedInfoItems {
+  font-size: 18px;
+  text-transform: capitalize;
+  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  .tooltipTitle {
+    max-height: 12px;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .tooltip {
+    width: 100%;
+  }
+
+  @include themed {
+    svg {
+      color: t($subColor);
+    }
+
+    .weatherIcon {
+      font-size: 21px !important;
+      display: grid;
+      align-items: center;
+    }
+
+    .materialWeatherIcon {
+      font-size: 18px !important;
+      padding: 2px;
+    }
+  }
+}
+
+.weather.weatherCompact {
+  position: static;
+  bottom: auto;
+  right: auto;
+  flex-flow: row;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+  animation: none;
+
+  .weatherCompactDesc {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+  .loc {
+    font-size: 12px;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
   }
 }

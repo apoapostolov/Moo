@@ -95,6 +95,17 @@ const WeatherWidget = memo(({ compact = false }) => {
     );
   }
 
+  if (compact) {
+    return (
+      <div className="weather weatherCompact">
+        <WeatherIcon name={weatherData.icon} />
+        <span>{`${formatNumber(weatherData.weather.temp)}${weatherData.temp_text}`}</span>
+        <span className="weatherCompactDesc">{weatherData.weather.description}</span>
+        <span className="loc">{location}</span>
+      </div>
+    );
+  }
+
   return (
     <div className="weather">
       <div className="weatherCore">
