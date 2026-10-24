@@ -89,6 +89,11 @@ class About extends PureComponent {
       return;
     }
 
+    if (!versionData || !Array.isArray(versionData) || versionData.length === 0) {
+      this.setState({ update: variables.getMessage('modals.main.settings.sections.about.version.no_update'), loading: null });
+      return;
+    }
+
     const newVersion = versionData[0].tag_name;
 
     let update = variables.getMessage('modals.main.settings.sections.about.version.no_update');
@@ -142,7 +147,7 @@ class About extends PureComponent {
               alt="Logo"
             />
             <div className="aboutText">
-              <span className="title">Mue</span>
+              <span className="title">Moo</span>
               <span className="subtitle">
                 {variables.getMessage('modals.main.settings.sections.about.version.title')}{' '}
                 {variables.constants.VERSION}

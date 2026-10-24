@@ -19,10 +19,10 @@ export const SENTRY_DSN =
 export const KNOWLEDGEBASE = 'https://support.muetab.com';
 
 // Mue Info
-export const ORG_NAME = 'mue';
-export const REPO_NAME = 'mue';
+export const ORG_NAME = 'apoapostolov';
+export const REPO_NAME = 'Moo';
 export const EMAIL = 'hello@muetab.com';
 export const TWITTER_HANDLE = 'getmue';
 export const DISCORD_SERVER = 'zv8C9F8';
 
-export const VERSION = '7.6.0';
+export const VERSION = '1.0.0';
