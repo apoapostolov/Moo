@@ -455,7 +455,13 @@
   background: rgb(255 255 255 / 45%);
 }
 
+// The settings Action column is a flex column aligned to the end, so a list
+// narrower than the column drifts to the right. Stretching it keeps the ticks
+// on the same left edge as every other control in the row.
 .gwCalendarPicker {
+  align-self: stretch;
+  box-sizing: border-box;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 9px;
@@ -476,13 +482,16 @@
   }
 
   input {
-    margin-right: 6px;
+    margin: 0 6px 0 0;
   }
 }
 
 // Category and folder ticks, each with its own glyph so the list reads as
 // Gmail's own category strip rather than five anonymous checkboxes.
 .gwOptionList {
+  align-self: stretch;
+  box-sizing: border-box;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -506,6 +515,7 @@
     margin: 0;
     accent-color: #7cb0ff;
   }
+
 }
 
 .gwOptionIcon {

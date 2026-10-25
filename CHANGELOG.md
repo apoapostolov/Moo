@@ -50,6 +50,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Dropdowns near the bottom of a settings pane open upwards, so the panel style switch is never cut off by the window edge.
 - The mail widget understands Gmail's inbox categories and can leave any of them out, with a tick list of Primary, Social, Promotions, Updates and Forums, plus your own folders and labels as extra sources. Mail now sits first in the Google widget settings.
 - The widget order lists the Google widgets by their plain names, Mail, Calendar and Tasks, instead of prefixing each with Google.
+- The calendar and folder tick lists line up with the other controls in Google settings instead of drifting to the right edge.
 
 ### Removed
 
