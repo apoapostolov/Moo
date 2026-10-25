@@ -77,6 +77,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The mail preview scrolls with the wheel now: a long message can be read inside the panel instead of the panel snapping shut the moment you scroll. Any other scroll still closes it, because the panel hangs off the row it belongs to.
 - The “click the row to open in Gmail” line is gone from the preview footer.
 - The example sentence in the event and task title box is a flat mid grey now, instead of a theme colour faded with opacity. Placeholders across the whole page use the same grey, so an empty field can never be mistaken for one that already holds something.
+- The mail preview now measures itself before it decides where to sit. Beside the row while the whole message fits below it, and lifted higher when a long message would run past the bottom of the window, so the last line is always on screen and the message scrolls inside the panel.
 - Settings has a Misc page after Google for the things that are not a widget of their own.
 
 ### Removed
