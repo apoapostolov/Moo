@@ -47,9 +47,8 @@ const WeatherWidget = memo(({ compact = false }) => {
       autoFindLocation();
     }
   }, [location, autoFindLocation]);
-    const updateWeather = useCallback(async () => {
-      const data = await getWeather(location);
-    console.log('Weather data received:', data);
+  const updateWeather = useCallback(async () => {
+    const data = await getWeather(location);
     if (data) {
       setWeatherData(data);
       setDone(data.done);

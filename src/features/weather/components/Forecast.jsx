@@ -23,11 +23,12 @@ const Forecast = memo(({ location }) => {
   const [days, setDays] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchForecast = useCallback(async () => {
+  const fetchForecast = useCallback(async (signal) => {
     setLoading(true);
     try {
       const geoRes = await fetch(
         `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location)}&count=1&language=en&format=json`,
+        { signal },
       );
       const geoData = await geoRes.json();
       if (!geoData.results || !geoData.results.length) {
@@ -38,6 +39,7 @@ const Forecast = memo(({ location }) => {
       const tempUnit = localStorage.getItem('tempformat') === 'fahrenheit' ? 'fahrenheit' : 'celsius';
       const fcRes = await fetch(
         `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=auto&temperature_unit=${tempUnit}`,
+        { signal },
       );
       const fcData = await fcRes.json();
       const daily = fcData.daily;
@@ -53,19 +55,23 @@ const Forecast = memo(({ location }) => {
       }));
       setDays(result);
     } catch (e) {
-      console.error('Forecast fetch error', e);
+      if (e.name !== 'AbortError') {
+        console.error('Forecast fetch error', e);
+      }
     } finally {
       setLoading(false);
     }
   }, [location]);
 
   useEffect(() => {
+    const controller = new AbortController();
     const handleRefresh = (data) => {
-      if (data === 'weather') fetchForecast();
+      if (data === 'weather') fetchForecast(controller.signal);
     };
     EventBus.on('refresh', handleRefresh);
-    fetchForecast();
+    fetchForecast(controller.signal);
     return () => {
+      controller.abort();
       EventBus.off('refresh', handleRefresh);
     };
   }, [fetchForecast]);
