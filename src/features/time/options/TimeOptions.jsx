@@ -9,6 +9,13 @@ import EventBus from 'utils/eventbus';
 import { MdRefresh } from 'react-icons/md';
 
 import DateOptions from './DateOptions';
+import {
+  WEEKDAYS,
+  readPercentageDays,
+  savePercentageDays,
+} from 'utils/clockDays';
+
+import './timeOptions.scss';
 
 const TimeOptions = () => {
   const [timeType, setTimeType] = useState(localStorage.getItem('timeType') || 'digital');
@@ -22,6 +29,7 @@ const TimeOptions = () => {
   // The date is switched on and off here, so this section has to know the state
   // to dim its options the same way every other section does.
   const [dateEnabled, setDateEnabled] = useState(localStorage.getItem('date') === 'true');
+  const [percentageDays, setPercentageDays] = useState(readPercentageDays);
   const TIME_SECTION = 'modals.main.settings.sections.time';
 
   const updateColour = (type, event) => {
@@ -66,31 +74,92 @@ const TimeOptions = () => {
     );
   };
 
+  const toggleDay = (day) => {
+    const next = percentageDays.includes(day)
+      ? percentageDays.filter((item) => item !== day)
+      : [...percentageDays, day];
+
+    setPercentageDays(next);
+    savePercentageDays(next);
+    EventBus.emit('refresh', 'clock');
+  };
+
   /**
    * A work shift turns the percentage into progress through the working day:
    * 9 and 17 means 50% at one in the afternoon, not 54% of the whole day.
    */
   const percentageSettings = (
-    <Row final={true}>
-      <Content
-        title={variables.getMessage(`${TIME_SECTION}.percentage.shift_title`)}
-        subtitle={variables.getMessage(`${TIME_SECTION}.percentage.shift_subtitle`)}
-      />
-      <Action>
-        <Text
-          name="percentageStart"
-          title={variables.getMessage(`${TIME_SECTION}.percentage.shift_start`)}
-          placeholder="9:00"
-          onChange={() => EventBus.emit('refresh', 'clock')}
+    <>
+      <Row>
+        <Content
+          title={variables.getMessage(`${TIME_SECTION}.percentage.shift_title`)}
+          subtitle={variables.getMessage(`${TIME_SECTION}.percentage.shift_subtitle`)}
         />
-        <Text
-          name="percentageEnd"
-          title={variables.getMessage(`${TIME_SECTION}.percentage.shift_end`)}
-          placeholder="17:00"
-          onChange={() => EventBus.emit('refresh', 'clock')}
+        <Action>
+          <Text
+            name="percentageStart"
+            title={variables.getMessage(`${TIME_SECTION}.percentage.shift_start`)}
+            placeholder="9:00"
+            onChange={() => EventBus.emit('refresh', 'clock')}
+          />
+          <Text
+            name="percentageEnd"
+            title={variables.getMessage(`${TIME_SECTION}.percentage.shift_end`)}
+            placeholder="17:00"
+            onChange={() => EventBus.emit('refresh', 'clock')}
+          />
+        </Action>
+      </Row>
+
+      {/* The clock answers only on the days switched on here, so a work week
+          keeps its percentage and the weekend stays an ordinary clock. */}
+      <Row>
+        <Content
+          title={variables.getMessage(`${TIME_SECTION}.percentage.days_title`)}
+          subtitle={variables.getMessage(`${TIME_SECTION}.percentage.days_subtitle`)}
         />
-      </Action>
-    </Row>
+        <Action>
+          <div className="daySwitcher">
+            {WEEKDAYS.map((day) => {
+              const on = percentageDays.includes(day.value);
+
+              return (
+                <button
+                  type="button"
+                  key={day.label}
+                  className={on ? 'daySwitch daySwitchOn' : 'daySwitch'}
+                  aria-pressed={on}
+                  onClick={() => toggleDay(day.value)}
+                >
+                  {day.label}
+                </button>
+              );
+            })}
+          </div>
+        </Action>
+      </Row>
+
+      <Row final={true}>
+        <Content
+          title={variables.getMessage(`${TIME_SECTION}.percentage.other_title`)}
+          subtitle={variables.getMessage(`${TIME_SECTION}.percentage.other_subtitle`)}
+        />
+        <Action>
+          <Dropdown
+            name="percentageOffType"
+            category="clock"
+            items={[
+              { value: 'digital', text: variables.getMessage(`${TIME_SECTION}.digital.title`) },
+              { value: 'analogue', text: variables.getMessage(`${TIME_SECTION}.analogue.title`) },
+              {
+                value: 'verticalClock',
+                text: variables.getMessage(`${TIME_SECTION}.vertical_clock.title`),
+              },
+            ]}
+          />
+        </Action>
+      </Row>
+    </>
   );
 
   const digitalSettings = (

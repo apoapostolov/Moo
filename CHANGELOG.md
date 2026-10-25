@@ -22,6 +22,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Weather Now: a one-line weather widget under the clock, with its own toggle and a place in the widget order.
 - Five-day forecast from Open-Meteo, replacing the single-day extra information.
 - Show and hide toggles for each widget in Overview.
+- The Progress clock can be limited to chosen days, switched on and off with MON to SUN buttons that start on the working week. Every other day falls back to a clock picked below them, Digital unless changed.
 - Three columns for the new tab page: any widget can sit in a rail down the left side, a rail down the right, or the middle column. In Overview the widgets are dropped into a Left, Right or Centre box around the preview, and moving one between those boxes moves it on the page.
 - Weather Full and Image Info are widgets now, so the full weather card and the photographer credit can be placed like any other. A profile that has never moved them keeps them in the corners they were always in.
 - Bulgarian language.

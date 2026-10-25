@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 import { convertTimezone } from 'utils/date';
 import { shiftFraction } from 'utils/timeShift';
+import { resolveTimeType } from 'utils/clockDays';
 import { formatPercentage, formatDigits } from 'utils/formatNumber';
 import { AnalogClock } from './components/AnalogClock';
 import { VerticalClock } from './components/VerticalClock';
@@ -17,7 +18,6 @@ const formatPaddedDigits = (value) => {
 };
 
 const Clock = () => {
-  const [timeType] = useState(localStorage.getItem('timeType'));
   const [time, setTime] = useState('');
   const [finalHour, setFinalHour] = useState('');
   const [finalMinute, setFinalMinute] = useState('');
@@ -30,9 +30,12 @@ const Clock = () => {
   const [fraction, setFraction] = useState(0);
   const timerRef = useRef(undefined);
 
+  // The Progress clock only answers on the days it is switched on for; every
+  // other day the clock falls back to the type chosen for them.
+  const type = resolveTimeType();
+
   const startTime = (
-    time = localStorage.getItem('seconds') === 'true' ||
-    localStorage.getItem('timeType') === 'analogue'
+    time = localStorage.getItem('seconds') === 'true' || type === 'analogue'
       ? 1000 - (Date.now() % 1000)
       : 60000 - (Date.now() % 60000),
   ) => {
@@ -43,7 +46,7 @@ const Clock = () => {
         now = convertTimezone(now, timezone);
       }
 
-      switch (localStorage.getItem('timeType')) {
+      switch (resolveTimeType()) {
         case 'percentageComplete': {
           // Percentage of the working day when a shift is set, otherwise of the
           // whole 24 hours.
@@ -141,7 +144,7 @@ const Clock = () => {
       }
     };
 
-    if (localStorage.getItem('timeType') !== 'analogue') {
+    if (resolveTimeType() !== 'analogue') {
       setFontSize(`${4 * Number((localStorage.getItem('zoomClock') || 100) / 100)}em`);
     }
 
@@ -156,17 +159,17 @@ const Clock = () => {
     };
   }, []);
 
-  if (localStorage.getItem('timeType') === 'analogue') {
+  if (type === 'analogue') {
     return <AnalogClock time={time} />;
   }
 
-  if (localStorage.getItem('timeType') === 'verticalClock') {
+  if (type === 'verticalClock') {
     return (
       <VerticalClock finalHour={finalHour} finalMinute={finalMinute} finalSeconds={finalSeconds} />
     );
   }
 
-  if (localStorage.getItem('timeType') === 'percentageComplete') {
+  if (type === 'percentageComplete') {
     return (
       <span
         className="clock clock-container clockProgress"

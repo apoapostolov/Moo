@@ -92,12 +92,12 @@
         "refresh": "Refresh"
       },
       "settings": {
-      "surface": {
-        "title": "Panel style",
-        "subtitle": "Classic is a dark panel you can just see through. Glass is lighter, blurs the wallpaper heavily and lets it show through the panel.",
-        "classic": "Classic",
-        "glass": "Glass"
-      },
+        "surface": {
+          "title": "Panel style",
+          "subtitle": "Classic is a dark panel you can just see through. Glass is lighter, blurs the wallpaper heavily and lets it show through the panel.",
+          "classic": "Classic",
+          "glass": "Glass"
+        },
         "enabled": "Enabled",
         "open_knowledgebase": "Open Knowledgebase",
         "additional_settings": "Additional Settings",
@@ -137,10 +137,14 @@
             },
             "percentage_complete": "Progress",
             "percentage": {
-                "shift_title": "Work shift",
-                "shift_subtitle": "The percentage counts from the start of your day to the end of your shift. Leave both empty to count the whole day. 9, 9:30, 9am and 17:00 all work.",
-                "shift_start": "Start of day",
-                "shift_end": "End of day"
+              "shift_title": "Work shift",
+              "shift_subtitle": "The percentage counts from the start of your day to the end of your shift. Leave both empty to count the whole day. 9, 9:30, 9am and 17:00 all work.",
+              "shift_start": "Start of day",
+              "shift_end": "End of day",
+              "days_title": "Days",
+              "days_subtitle": "The Progress clock shows on the days switched on here. Every other day shows the clock picked below.",
+              "other_title": "Other days",
+              "other_subtitle": "The clock to show when Progress is off for today."
             },
             "vertical_clock": {
               "title": "Vertical Clock",
@@ -150,8 +154,8 @@
             }
           },
           "date": {
-              "show": "Show date",
-              "show_subtitle": "Display the date under the clock",
+            "show": "Show date",
+            "show_subtitle": "Display the date under the clock",
             "title": "Date",
             "week_number": "Week number",
             "day_of_week": "Day of week",
