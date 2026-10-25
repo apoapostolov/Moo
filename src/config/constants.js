@@ -31,3 +31,7 @@ export const VERSION = '1.0.0';
 // The Experimental page and its toggle are hidden until it is reintroduced.
 // Its single feature (the debug hotkey) now loads unconditionally.
 export const SHOW_EXPERIMENTAL = false;
+// The Discord invite is hidden from Settings for now, not removed: the server
+// exists but is not somewhere to send people yet. Set to true to bring the
+// button back in About.
+export const SHOW_DISCORD_LINK = false;

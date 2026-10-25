@@ -1,4 +1,5 @@
 import variables from 'config/variables';
+import { SHOW_DISCORD_LINK } from 'config/constants';
 import { PureComponent } from 'react';
 import { MdEmail } from 'react-icons/md';
 import { FaDiscord } from 'react-icons/fa';
@@ -145,12 +146,14 @@ class About extends PureComponent {
                 icon={<SiX />}
                 tooltipTitle="X (Twitter)"
               />
-              <Button
-                type="linkIconButton"
-                href={'https://discord.gg/' + variables.constants.DISCORD_SERVER}
-                icon={<FaDiscord />}
-                tooltipTitle="Discord"
-              />
+              {SHOW_DISCORD_LINK && (
+                <Button
+                  type="linkIconButton"
+                  href={'https://discord.gg/' + variables.constants.DISCORD_SERVER}
+                  icon={<FaDiscord />}
+                  tooltipTitle="Discord"
+                />
+              )}
             </div>
           </Action>
         </Row>
