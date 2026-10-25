@@ -6,54 +6,15 @@ import { backgroundImageEffects } from '../optionTypes';
 
 const EffectsSettings = ({ backgroundFilter, onFilterChange }) => {
   return (
-    <Row final={true}>
-      <Content
-        title={variables.getMessage('modals.main.settings.sections.background.effects.title')}
-        subtitle={variables.getMessage(
-          'modals.main.settings.sections.background.effects.subtitle',
-        )}
-      />
-      <Action>
-        <Slider
+    <>
+      <Row>
+        <Content
           title={variables.getMessage('modals.main.settings.sections.background.effects.blur')}
-          name="blur"
-          min="0"
-          max="100"
-          default="0"
-          display="%"
-          marks={values.background}
-          category="backgroundeffect"
-          element="#backgroundImage"
         />
-        <Slider
-          title={variables.getMessage(
-            'modals.main.settings.sections.background.effects.brightness',
-          )}
-          name="brightness"
-          min="0"
-          max="100"
-          default="100"
-          display="%"
-          marks={values.background}
-          category="backgroundeffect"
-          element="#backgroundImage"
-        />
-        <Dropdown
-          label={variables.getMessage(
-            'modals.main.settings.sections.background.effects.filters.title',
-          )}
-          name="backgroundFilter"
-          onChange={onFilterChange}
-          category="backgroundeffect"
-          element="#backgroundImage"
-          items={backgroundImageEffects}
-        />
-        {backgroundFilter !== 'none' && (
+        <Action>
           <Slider
-            title={variables.getMessage(
-              'modals.main.settings.sections.background.effects.filters.amount',
-            )}
-            name="backgroundFilterAmount"
+            title={variables.getMessage('modals.main.settings.sections.background.effects.blur')}
+            name="blur"
             min="0"
             max="100"
             default="0"
@@ -62,9 +23,64 @@ const EffectsSettings = ({ backgroundFilter, onFilterChange }) => {
             category="backgroundeffect"
             element="#backgroundImage"
           />
-        )}
-      </Action>
-    </Row>
+        </Action>
+      </Row>
+
+      <Row>
+        <Content
+          title={variables.getMessage(
+            'modals.main.settings.sections.background.effects.brightness',
+          )}
+        />
+        <Action>
+          <Slider
+            title={variables.getMessage(
+              'modals.main.settings.sections.background.effects.brightness',
+            )}
+            name="brightness"
+            min="0"
+            max="100"
+            default="100"
+            display="%"
+            marks={values.background}
+            category="backgroundeffect"
+            element="#backgroundImage"
+          />
+        </Action>
+      </Row>
+
+      <Row final={true}>
+        <Content
+          title={variables.getMessage(
+            'modals.main.settings.sections.background.effects.filters.title',
+          )}
+        />
+        <Action>
+          <Dropdown
+            name="backgroundFilter"
+            onChange={onFilterChange}
+            category="backgroundeffect"
+            element="#backgroundImage"
+            items={backgroundImageEffects}
+          />
+          {backgroundFilter !== 'none' && (
+            <Slider
+              title={variables.getMessage(
+                'modals.main.settings.sections.background.effects.filters.amount',
+              )}
+              name="backgroundFilterAmount"
+              min="0"
+              max="100"
+              default="0"
+              display="%"
+              marks={values.background}
+              category="backgroundeffect"
+              element="#backgroundImage"
+            />
+          )}
+        </Action>
+      </Row>
+    </>
   );
 };
 
