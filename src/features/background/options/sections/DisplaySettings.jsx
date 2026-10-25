@@ -56,6 +56,12 @@ const DisplaySettings = ({ usingImage }) => {
             element=".other"
           />
           <Checkbox
+            name="photoInfoRequiresLocation"
+            text="Show Info if image has known location"
+            element=".other"
+            disabled={!usingImage}
+          />
+          <Checkbox
             name="photoMap"
             text={variables.getMessage('modals.main.settings.sections.background.show_map')}
             element=".other"
