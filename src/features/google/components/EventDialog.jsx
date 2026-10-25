@@ -24,6 +24,7 @@ const blankEvent = () => {
     start: toLocalInput(start.toISOString()),
     end: toLocalInput(end.toISOString()),
     allDay: false,
+    calendarId: '',
   };
 };
 
@@ -32,7 +33,14 @@ const blankEvent = () => {
  * without is created. Deleting lives here too, since that is where the event is
  * known.
  */
-const EventDialog = ({ event, onClose, onSaved, onDeleted }) => {
+const EventDialog = ({
+  event,
+  calendars = [],
+  defaultCalendarId = 'primary',
+  onClose,
+  onSaved,
+  onDeleted,
+}) => {
   const isEditing = Boolean(event?.id);
   const [form, setForm] = useState(() =>
     isEditing
@@ -43,8 +51,9 @@ const EventDialog = ({ event, onClose, onSaved, onDeleted }) => {
           start: toLocalInput(event.start),
           end: toLocalInput(event.end),
           allDay: event.allDay,
+          calendarId: event.calendarId || defaultCalendarId,
         }
-      : blankEvent(),
+      : { ...blankEvent(), calendarId: defaultCalendarId },
   );
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -90,7 +99,7 @@ const EventDialog = ({ event, onClose, onSaved, onDeleted }) => {
     setError('');
 
     try {
-      await deleteEvent(event.id);
+      await deleteEvent(event.id, event.calendarId || defaultCalendarId);
       onDeleted(event.id);
       onClose();
     } catch (deleteError) {
@@ -122,6 +131,19 @@ const EventDialog = ({ event, onClose, onSaved, onDeleted }) => {
       }
     >
       <form id="eventForm" className="gwForm" onSubmit={save}>
+        {calendars.length > 1 && (
+          <label>
+            Calendar
+            <select value={form.calendarId} onChange={update('calendarId')}>
+              {calendars.map((calendar) => (
+                <option key={calendar.id} value={calendar.id}>
+                  {calendar.summary}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+
         <label>
           Title
           <input value={form.title} onChange={update('title')} placeholder="Dentist" autoFocus />

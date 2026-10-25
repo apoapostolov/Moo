@@ -9,10 +9,11 @@ const toMessage = (message) => ({
   id: message.id,
   threadId: message.threadId,
   subject: headerValue(message, 'Subject') || '(no subject)',
-  from: headerValue(message, 'From').replace(/\s*<.*>$/, ''),
+  from: headerValue(message, 'From').replace(/\s*<.*>$/, '') || '(no sender)',
   date: headerValue(message, 'Date'),
   snippet: message.snippet ?? '',
   unread: (message.labelIds ?? []).includes('UNREAD'),
+  labels: message.labelIds ?? [],
 });
 
 export const getUnreadCount = async () => {
@@ -22,13 +23,14 @@ export const getUnreadCount = async () => {
 };
 
 /**
- * Gmail has no batch endpoint usable from a browser without a server, so the
- * list call is followed by one metadata request per message. The widget only
- * asks for a handful, which keeps that cheap.
+ * One list call, then one metadata call per message: Gmail has no browser-usable
+ * batch endpoint. The query is whatever the user set, so this covers unread,
+ * a label, a search, or anything else Gmail's search syntax understands.
  */
-export const listUnreadMessages = async (maxResults = 6) => {
+export const listMessages = async ({ query = 'is:unread', maxResults = 6 } = {}) => {
+  const search = query.trim() || 'is:unread';
   const list = await googleFetch(
-    `/gmail/v1/users/me/messages?q=${encodeURIComponent('is:unread')}&maxResults=${maxResults}`,
+    `/gmail/v1/users/me/messages?q=${encodeURIComponent(search)}&maxResults=${maxResults}`,
   );
 
   const ids = (list?.messages ?? []).map((message) => message.id);
@@ -37,9 +39,11 @@ export const listUnreadMessages = async (maxResults = 6) => {
 
   const [messages, unreadCount] = await Promise.all([
     Promise.all(
-      ids.map((id) => googleFetch(`/gmail/v1/users/me/messages/${id}?format=metadata&${MESSAGE_HEADERS}`)),
+      ids.map((id) =>
+        googleFetch(`/gmail/v1/users/me/messages/${id}?format=metadata&${MESSAGE_HEADERS}`),
+      ),
     ),
-    getUnreadCount().catch(() => ids.length),
+    getUnreadCount().catch(() => 0),
   ]);
 
   return { messages: messages.map(toMessage), unreadCount };

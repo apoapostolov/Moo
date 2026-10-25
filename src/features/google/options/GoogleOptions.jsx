@@ -7,6 +7,8 @@ import { Text } from 'components/Form/Settings';
 
 import { useGoogleAuth } from '../hooks/useGoogleAuth';
 import { getRedirectUri, SCOPES } from '../auth';
+import { ensureDefaults } from '../settings';
+import GoogleWidgetSettings from './WidgetSettings';
 import { describeError } from '../components/ConnectPrompt';
 
 import '../google.scss';
@@ -14,6 +16,7 @@ import '../google.scss';
 const SERVICE_LABELS = {
   'https://www.googleapis.com/auth/gmail.readonly': 'Mail, read only',
   'https://www.googleapis.com/auth/calendar.events': 'Calendar events, read and write',
+  'https://www.googleapis.com/auth/calendar.calendarlist.readonly': 'Calendar list, to pick which calendars show',
   'https://www.googleapis.com/auth/tasks': 'Tasks, read and write',
 };
 
@@ -43,6 +46,7 @@ const GoogleOptions = () => {
 
     setClientId(localStorage.getItem('googleClientId') || '');
     setClientSecret(localStorage.getItem('googleClientSecret') || '');
+    ensureDefaults();
   }, []);
 
   const ready = Boolean(clientId.trim() && clientSecret.trim());
@@ -184,6 +188,8 @@ const GoogleOptions = () => {
           <Content title="Last error" subtitle={describeError(error)} />
         </Row>
       )}
+
+      {auth && <GoogleWidgetSettings />}
     </>
   );
 };

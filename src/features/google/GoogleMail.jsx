@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import EventBus from 'utils/eventbus';
+
 import { useGoogleAuth } from './hooks/useGoogleAuth';
-import { getMessageUrl, listUnreadMessages } from './services/gmail';
+import { getMessageUrl, listMessages } from './services/gmail';
+import { getMailSettings, refreshMs } from './settings';
 import ConnectPrompt, { describeError } from './components/ConnectPrompt';
 
 import './google.scss';
-
-const REFRESH_MS = 5 * 60 * 1000;
 
 const formatTime = (value) => {
   if (!value) return '';
@@ -26,16 +27,19 @@ const formatTime = (value) => {
 
 const GoogleMail = () => {
   const { auth, loading, error, connectAccount } = useGoogleAuth();
+  const [settings, setSettings] = useState(getMailSettings);
   const [state, setState] = useState({ messages: [], unreadCount: 0 });
   const [fetchError, setFetchError] = useState('');
   const [busy, setBusy] = useState(false);
 
   const load = useCallback(async () => {
+    const current = getMailSettings();
+    setSettings(current);
     setBusy(true);
     setFetchError('');
 
     try {
-      setState(await listUnreadMessages(6));
+      setState(await listMessages({ query: current.query, maxResults: current.maxMessages }));
     } catch (loadError) {
       setFetchError(loadError.message);
     } finally {
@@ -48,10 +52,19 @@ const GoogleMail = () => {
 
     load();
 
-    const timer = setInterval(load, REFRESH_MS);
+    const timer = setInterval(load, refreshMs(settings.refreshMinutes));
 
-    return () => clearInterval(timer);
-  }, [auth, load]);
+    const onRefresh = (category) => {
+      if (!category || category === 'google' || category === 'mail') load();
+    };
+
+    EventBus.on('refresh', onRefresh);
+
+    return () => {
+      clearInterval(timer);
+      EventBus.off('refresh', onRefresh);
+    };
+  }, [auth, load, settings.refreshMinutes]);
 
   if (loading) return null;
 
@@ -59,18 +72,21 @@ const GoogleMail = () => {
     return <ConnectPrompt label="Mail" onConnect={connectAccount} error={error} />;
   }
 
+  const title = settings.query.trim() || 'is:unread';
+
   return (
     <div className="googleWidget">
       <header className="gwHead">
         <span className="gwLabel">Mail</span>
-        <span className="gwBadge">{state.unreadCount}</span>
+        {settings.badge === 'count' && <span className="gwBadge">{state.unreadCount}</span>}
+        {settings.badge === 'dot' && state.unreadCount > 0 && <span className="gwBadge dot" />}
         <button
           type="button"
           className="gwIconButton"
           onClick={load}
           disabled={busy}
           aria-label="Refresh mail"
-          title="Refresh"
+          title={title}
         >
           ↻
         </button>
@@ -78,26 +94,36 @@ const GoogleMail = () => {
 
       {fetchError && <p className="gwError">{describeError(fetchError)}</p>}
 
-      {!fetchError && !state.messages.length && <p className="gwEmpty">Inbox is clear.</p>}
+      {!fetchError && !state.messages.length && (
+        <p className="gwEmpty">{title === 'is:unread' ? 'Inbox is clear.' : 'Nothing matches.'}</p>
+      )}
 
       <ul className="gwList">
-        {state.messages.map((message) => (
-          <li key={message.id}>
-            <a
-              className="gwItem"
-              href={getMessageUrl(message)}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={message.snippet}
-            >
-              <span className="gwItemTop">
-                <span className="gwItemTitle">{message.from || message.subject}</span>
-                <span className="gwItemMeta">{formatTime(message.date)}</span>
-              </span>
-              <span className="gwItemSub">{message.subject}</span>
-            </a>
-          </li>
-        ))}
+        {state.messages.map((message) => {
+          const lead = settings.primary === 'subject' ? message.subject : message.from;
+          const second = settings.primary === 'subject' ? message.from : message.subject;
+
+          return (
+            <li key={message.id}>
+              <a
+                className="gwItem"
+                href={getMessageUrl(message)}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={message.snippet}
+              >
+                <span className="gwItemTop">
+                  <span className="gwItemTitle">{lead}</span>
+                  <span className="gwItemMeta">{formatTime(message.date)}</span>
+                </span>
+                <span className="gwItemSub">{second}</span>
+                {settings.showSnippet && message.snippet && (
+                  <span className="gwItemSub snippet">{message.snippet}</span>
+                )}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

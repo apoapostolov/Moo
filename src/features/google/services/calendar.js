@@ -1,9 +1,13 @@
 import { googleFetch } from '../api';
 
-const CALENDAR = '/calendar/v3/calendars/primary/events';
+const EVENTS = (calendarId) => `/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`;
+const CALENDAR_LIST = '/calendar/v3/users/me/calendarList';
 
-const toEvent = (event) => ({
+const toEvent = (event, calendar = {}) => ({
   id: event.id,
+  calendarId: calendar.id ?? 'primary',
+  calendarName: calendar.summary ?? '',
+  calendarColor: calendar.color ?? '',
   title: event.summary || '(no title)',
   description: event.description ?? '',
   location: event.location ?? '',
@@ -12,62 +16,123 @@ const toEvent = (event) => ({
   start: event.start?.dateTime ?? event.start?.date ?? '',
   end: event.end?.dateTime ?? event.end?.date ?? '',
   htmlLink: event.htmlLink ?? '',
+  declined: Boolean(
+    (event.attendees ?? []).some(
+      (attendee) => attendee.self && attendee.responseStatus === 'declined',
+    ),
+  ),
 });
 
-export const listEvents = async ({ timeMin, timeMax, maxResults = 10 }) => {
-  const params = new URLSearchParams({
-    singleEvents: 'true',
-    orderBy: 'startTime',
-    timeMin,
-    timeMax,
-    maxResults: String(maxResults),
-  });
+/** Every calendar the account can read, for the picker in the settings screen. */
+export const listCalendars = async () => {
+  const data = await googleFetch(`${CALENDAR_LIST}?minAccessRole=reader&maxResults=250`);
 
-  const data = await googleFetch(`${CALENDAR}?${params}`);
-
-  return (data?.items ?? []).map(toEvent);
+  return (data?.items ?? []).map((calendar) => ({
+    id: calendar.id,
+    summary: calendar.summaryOverride || calendar.summary || calendar.id,
+    color: calendar.backgroundColor ?? '',
+    primary: Boolean(calendar.primary),
+    accessRole: calendar.accessRole ?? 'reader',
+  }));
 };
 
-export const createEvent = async ({ title, description, location, start, end, allDay }) => {
+/**
+ * The agenda is a union across the calendars that are switched on, so each one
+ * is asked separately and the results merge in start order.
+ */
+export const listEvents = async ({
+  timeMin,
+  timeMax,
+  maxResults = 12,
+  calendarIds = [],
+  calendars = [],
+}) => {
+  const ids = calendarIds.length ? calendarIds : ['primary'];
+  const known = new Map(calendars.map((calendar) => [calendar.id, calendar]));
+
+  const pages = await Promise.all(
+    ids.map(async (id) => {
+      const params = new URLSearchParams({
+        singleEvents: 'true',
+        orderBy: 'startTime',
+        timeMin,
+        timeMax,
+        maxResults: String(maxResults),
+      });
+
+      try {
+        const data = await googleFetch(`${EVENTS(id)}?${params}`);
+
+        return (data?.items ?? []).map((event) =>
+          toEvent(event, known.get(id) ?? { id, summary: '', color: '' }),
+        );
+      } catch (error) {
+        // One unreadable calendar must not empty the whole agenda, but the
+        // reason still has to surface when every calendar fails.
+        return [{ error }];
+      }
+    }),
+  );
+
+  const failed = pages.filter((page) => page[0]?.error);
+  const events = pages.filter((page) => !page[0]?.error).flat();
+
+  if (!events.length && failed.length) throw failed[0][0].error;
+
+  return events.sort((a, b) => new Date(a.start) - new Date(b.start)).slice(0, maxResults);
+};
+
+export const createEvent = async ({
+  title,
+  description,
+  location,
+  start,
+  end,
+  allDay,
+  calendarId = 'primary',
+}) => {
   const bounds = allDay
     ? { start: { date: start.slice(0, 10) }, end: { date: end.slice(0, 10) } }
     : { start: { dateTime: start }, end: { dateTime: end } };
 
-  const event = await googleFetch(CALENDAR, {
+  const event = await googleFetch(EVENTS(calendarId), {
     method: 'POST',
     body: JSON.stringify({ summary: title, description, location, ...bounds }),
   });
 
-  return toEvent(event);
+  return toEvent(event, { id: calendarId });
 };
 
-export const updateEvent = async (id, { title, description, location, start, end, allDay }) => {
+export const updateEvent = async (
+  id,
+  { title, description, location, start, end, allDay, calendarId = 'primary' },
+) => {
   const bounds = allDay
     ? { start: { date: start.slice(0, 10) }, end: { date: end.slice(0, 10) } }
     : { start: { dateTime: start }, end: { dateTime: end } };
 
-  const event = await googleFetch(`${CALENDAR}/${encodeURIComponent(id)}`, {
+  const event = await googleFetch(`${EVENTS(calendarId)}/${encodeURIComponent(id)}`, {
     method: 'PATCH',
     body: JSON.stringify({ summary: title, description, location, ...bounds }),
   });
 
-  return toEvent(event);
+  return toEvent(event, { id: calendarId });
 };
 
-export const deleteEvent = async (id) => {
-  await googleFetch(`${CALENDAR}/${encodeURIComponent(id)}`, { method: 'DELETE' });
+export const deleteEvent = async (id, calendarId = 'primary') => {
+  await googleFetch(`${EVENTS(calendarId)}/${encodeURIComponent(id)}`, { method: 'DELETE' });
 };
 
 /**
- * A day is offered as a fixed window from midnight, so the widget does not need
- * the timezone offset of every event.
+ * The window starts at midnight so a day reads as one block, and runs for as
+ * many days as the lookahead is set to.
  */
-export const dayBounds = (date = new Date()) => {
+export const rangeBounds = (days = 7, date = new Date()) => {
   const start = new Date(date);
   start.setHours(0, 0, 0, 0);
 
   const end = new Date(start);
-  end.setDate(end.getDate() + 7);
+  end.setDate(end.getDate() + days);
 
   return { timeMin: start.toISOString(), timeMax: end.toISOString() };
 };
