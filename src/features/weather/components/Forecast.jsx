@@ -96,8 +96,8 @@ const Forecast = memo(({ location }) => {
               : d.date.toLocaleDateString(undefined, { weekday: 'short' })}
           </span>
           <WeatherIcon name={d.icon} />
-          <span className="wfTemps">
-            {d.max}{symbol} / {d.min}{symbol}
+          <span className="wfTemps" title={`High ${d.max}${symbol} · Low ${d.min}${symbol}`}>
+            {d.max}{symbol}
           </span>
         </div>
       ))}
