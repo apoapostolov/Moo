@@ -138,6 +138,8 @@
             }
           },
           "date": {
+              "show": "Show date",
+              "show_subtitle": "Display the date under the clock",
             "title": "Date",
             "week_number": "Week number",
             "day_of_week": "Day of week",

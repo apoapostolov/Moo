@@ -1,11 +1,15 @@
 import variables from 'config/variables';
 import { useState } from 'react';
 
-import { Header } from 'components/Layout/Settings';
 import { Checkbox, Dropdown } from 'components/Form/Settings';
 
-import { Row, Content, Action, PreferencesWrapper } from 'components/Layout/Settings';
+import { Row, Content, Action } from 'components/Layout/Settings/Item';
 
+/**
+ * The date is part of the clock, so its settings render inside the Time section.
+ * This component therefore holds only the rows: the section header and the
+ * switch that shows or hides the date belong to TimeOptions.
+ */
 function DateOptions() {
   const [dateType, setDateType] = useState(localStorage.getItem('dateType') || 'long');
   const dateFormats = ['DMY', 'MDY', 'YMD'];
@@ -80,25 +84,11 @@ function DateOptions() {
 
   return (
     <>
-      <Header
-        title={variables.getMessage('modals.main.settings.sections.date.title')}
-        setting="date"
-        category="date"
-        element=".date"
-        zoomSetting="zoomDate"
-        visibilityToggle={true}
-      />
-      <PreferencesWrapper
-        setting="date"
-        visibilityToggle={true}
-        category="date"
-        zoomSetting="zoomDate"
-      >
-        <Row>
-          <Content
-            title={variables.getMessage('modals.main.settings.sections.time.type')}
-            subtitle={variables.getMessage('modals.main.settings.sections.date.type.subtitle')}
-          />
+      <Row>
+        <Content
+          title={variables.getMessage('modals.main.settings.sections.time.type')}
+          subtitle={variables.getMessage('modals.main.settings.sections.date.type.subtitle')}
+        />
           <Action>
             <Dropdown
               name="dateType"
@@ -143,7 +133,6 @@ function DateOptions() {
             />
           </Action>
         </Row>
-      </PreferencesWrapper>
     </>
   );
 }

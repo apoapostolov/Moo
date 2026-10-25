@@ -6,6 +6,8 @@ import { Checkbox, Dropdown, Radio } from 'components/Form/Settings';
 
 import { MdRefresh } from 'react-icons/md';
 
+import DateOptions from './DateOptions';
+
 const TimeOptions = () => {
   const [timeType, setTimeType] = useState(localStorage.getItem('timeType') || 'digital');
   const [hourColour, setHourColour] = useState(localStorage.getItem('hourColour') || '#ffffff');
@@ -15,6 +17,9 @@ const TimeOptions = () => {
   const [secondColour, setSecondColour] = useState(
     localStorage.getItem('secondColour') || '#ffffff',
   );
+  // The date is switched on and off here, so this section has to know the state
+  // to dim its options the same way every other section does.
+  const [dateEnabled, setDateEnabled] = useState(localStorage.getItem('date') === 'true');
   const TIME_SECTION = 'modals.main.settings.sections.time';
 
   const updateColour = (type, event) => {
@@ -249,6 +254,32 @@ const TimeOptions = () => {
       >
         <WidgetType />
         {getTimeSettings()}
+      </PreferencesWrapper>
+
+      {/* The date is part of the clock, so it sits at the end of the time
+          options instead of owning a tab of its own. The switch below is the
+          date's on/off, the same flag the widget order reads. */}
+      <Row>
+        <Content
+          title={variables.getMessage('modals.main.settings.sections.date.title')}
+          subtitle={variables.getMessage('modals.main.settings.sections.date.show_subtitle')}
+        />
+        <Action>
+          <Checkbox
+            name="date"
+            text={variables.getMessage('modals.main.settings.sections.date.show')}
+            category="widgets"
+            onChange={setDateEnabled}
+          />
+        </Action>
+      </Row>
+      <PreferencesWrapper
+        key={dateEnabled ? 'date-on' : 'date-off'}
+        setting="date"
+        zoomSetting="zoomDate"
+        category="date"
+      >
+        <DateOptions />
       </PreferencesWrapper>
     </>
   );

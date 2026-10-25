@@ -32,6 +32,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Weather finds the location on its own at first launch, now that the search box is gone.
 - Excluded images are actually skipped, and the background service is asked again when a request fails.
 - Background sources are ordered by popularity, and only Coverr is marked as a video source, since Pixabay and Pexels fall back to an image without a key.
+- The date lives inside the Time section now, after the clock options, with its own switch to show or hide it.
 
 ### Fixed
 
