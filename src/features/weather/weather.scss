@@ -4,9 +4,8 @@
 .weather {
   @extend %basic;
 
-  position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+  // The card no longer positions itself: where it sits depends on the zone it
+  // was dropped in, so the rail or the middle column decides its place.
   cursor: initial;
   user-select: none;
   transition: 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);

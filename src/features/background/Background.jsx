@@ -2,6 +2,7 @@ import BackgroundImage from './components/BackgroundImage';
 import BackgroundVideo from './components/BackgroundVideo';
 
 import { useBackgroundState } from './hooks/useBackgroundState';
+import { setCurrentPhoto } from './photoStore';
 import { useBackgroundLoader } from './hooks/useBackgroundLoader';
 import { useBackgroundRenderer, useBackgroundFilters, useBackgroundOverlayFilters } from './hooks/useBackgroundRenderer';
 import { useBackgroundEvents } from './hooks/useBackgroundEvents';
@@ -23,6 +24,16 @@ export default function Background() {
 
   useBackgroundRenderer(backgroundData);
   useBackgroundEvents(backgroundData, refreshBackground);
+
+  // The credit card is a widget now, so it needs to know which photo is behind
+  // the page without being inside the element that draws it.
+  useEffect(() => {
+    setCurrentPhoto({
+      photoInfo: backgroundData.photoInfo,
+      api: backgroundData.currentAPI,
+      url: backgroundData.url,
+    });
+  }, [backgroundData.photoInfo, backgroundData.currentAPI, backgroundData.url]);
 
   const autoChangeTimerRef = useRef(null);
   const prevSettingsRef = useRef({ enabled: null, mins: null });
@@ -73,11 +84,7 @@ export default function Background() {
           maxHeight={backgroundData.maxHeight}
         />
       ) : (
-        <BackgroundImage
-          photoInfo={backgroundData.photoInfo}
-          currentAPI={backgroundData.currentAPI}
-          url={backgroundData.url}
-        />
+        <BackgroundImage />
       )}
       <div id="backgroundFilterOverlay" style={overlayFilterStyle} />
     </>

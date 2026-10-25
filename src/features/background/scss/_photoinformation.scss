@@ -1,9 +1,8 @@
 @use 'scss/variables' as *;
 
 .photoInformationHolder {
-  position: absolute;
-  bottom: 1rem;
-  left: 1rem;
+  // Image Info is a widget now, so the zone it is placed in decides where it
+  // sits rather than the card pinning itself to the corner of the background.
   flex-flow: column-reverse;
   display: flex;
 

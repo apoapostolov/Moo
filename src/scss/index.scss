@@ -17,6 +17,33 @@ body {
   outline: none;
 }
 
+/* The two side zones. They sit where the corner cards used to: pinned to the
+   bottom of the window, growing upwards as widgets are added. The rail itself
+   is transparent to the pointer so the page stays clickable around it. */
+.widgetRail {
+  position: fixed;
+  bottom: 1rem;
+  z-index: 2;
+  display: flex;
+  flex-flow: column;
+  gap: 12px;
+  pointer-events: none;
+
+  > * {
+    pointer-events: auto;
+  }
+}
+
+.widgetRail-left {
+  left: 1rem;
+  align-items: flex-start;
+}
+
+.widgetRail-right {
+  right: 1rem;
+  align-items: flex-end;
+}
+
 #center {
   font-size: calc(10px + 2vmin);
   text-align: center;

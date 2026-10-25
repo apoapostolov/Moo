@@ -1,21 +1,23 @@
 import { memo } from 'react';
 
 /**
- * A Google widget as the preview draws it: a card shaped like the real one, with
- * a single entry inside. Nothing here is a label for the widget; the name lives
- * in the order list beside the preview, so the box shows what the widget looks
- * like rather than spelling it out again.
+ * A widget as the preview draws it: a thumbnail card with a single entry, bars
+ * where the text would be and dots where the real card carries its glyph.
  *
- * Text is drawn as bars and the widgets' glyphs as dots, which keeps the shape
- * recognisable at preview size instead of rendering five tiny words.
+ * These are the widgets that cannot be cloned into the settings panel — the
+ * three that talk to Google, the weather card and the photo credit — so their
+ * shape is drawn instead. Nothing here is a label: the order list already names
+ * every widget beside the preview.
  */
 const LAYOUT = {
   mail: { icon: 'dot', lines: ['wide', 'medium'] },
   calendar: { icon: 'square', lines: ['medium', 'wide'] },
   tasks: { icon: 'check', lines: ['wide'] },
+  weather: { icon: 'dot', lines: ['medium', 'short'] },
+  photoinfo: { icon: null, lines: ['medium', 'short'] },
 };
 
-function GoogleWidgetSkeleton({ type, label }) {
+function WidgetThumb({ type, label }) {
   const layout = LAYOUT[type];
 
   if (!layout) return null;
@@ -28,7 +30,9 @@ function GoogleWidgetSkeleton({ type, label }) {
         <span className="gwSkeletonDot gwSkeletonDot-small" />
       </div>
       <div className="gwSkeletonEntry">
-        <span className={`gwSkeletonIcon gwSkeletonIcon-${layout.icon}`} />
+        {layout.icon ? (
+          <span className={`gwSkeletonIcon gwSkeletonIcon-${layout.icon}`} />
+        ) : null}
         <span className="gwSkeletonLines">
           {layout.lines.map((line) => (
             <span className={`gwSkeletonBar gwSkeletonBar-${line}`} key={line} />
@@ -39,4 +43,4 @@ function GoogleWidgetSkeleton({ type, label }) {
   );
 }
 
-export default memo(GoogleWidgetSkeleton);
+export default memo(WidgetThumb);

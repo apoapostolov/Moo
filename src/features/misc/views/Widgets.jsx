@@ -4,6 +4,7 @@ import Clock from '../../time/Clock';
 import QuickLinks from '../../quicklinks/QuickLinks';
 import Date from '../../time/Date';
 import { WidgetsLayout } from 'components/Layout';
+import { readOrder, readPlacement, groupByZone, isWidgetEnabled } from 'utils/widgets';
 
 import EventBus from 'utils/eventbus';
 
@@ -16,63 +17,44 @@ const QuickWeather = lazy(() => import('../../weather/QuickWeather'));
 const GoogleMail = lazy(() => import('../../google/GoogleMail'));
 const GoogleCalendar = lazy(() => import('../../google/GoogleCalendar'));
 const GoogleTasks = lazy(() => import('../../google/GoogleTasks'));
+const PhotoInfoWidget = lazy(() => import('../../background/components/PhotoInfoWidget'));
 
-// Widgets added after a profile already stored its order still need to appear,
-// otherwise they can never be switched on from Overview.
-const KNOWN_WIDGETS = [
-  'time',
-  'weather',
-  'date',
-  'quickweather',
-  'quicklinks',
-  'mail',
-  'calendar',
-  'tasks',
-];
-const DEFAULT_ORDER = ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
-
+/**
+ * The page is three zones: a rail down each side and the middle column the
+ * widgets have always used. Which zone a widget sits in is the user's choice in
+ * Overview; all this does is draw each one where it was put.
+ */
 const Widgets = () => {
   const online = localStorage.getItem('offlineMode') === 'false';
-  const [order, setOrder] = useState(() => {
-    const stored = JSON.parse(localStorage.getItem('order'));
-    let base = stored || DEFAULT_ORDER;
-    base = base.map((x) => (x === 'weatherline' ? 'quickweather' : x));
-    base = base.filter((x, i, a) => KNOWN_WIDGETS.includes(x) && a.indexOf(x) === i);
-    if (!base.includes('quickweather') && base.includes('weather')) {
-      base.splice(base.indexOf('weather') + 1, 0, 'quickweather');
-    }
-    KNOWN_WIDGETS.forEach((widget) => {
-      if (!base.includes(widget)) base.push(widget);
-    });
-    return base;
-  });
+  const [layout, setLayout] = useState(() => ({
+    order: readOrder(),
+    placement: readPlacement(),
+  }));
   const [welcome, setWelcome] = useState(localStorage.getItem('showWelcome'));
 
-  const enabled = (key) => {
-    if (key === 'quickWeatherEnabled' && localStorage.getItem(key) === null) return true;
-    return localStorage.getItem(key) === 'true';
-  };
+  const enabled = (id) => isWidgetEnabled(id);
 
-  // widgets we can re-order
+  // widgets we can re-order, by id
   const widgets = useMemo(
     () => ({
       time: enabled('time') && <Clock />,
       date: enabled('date') && <Date />,
-      quicklinks: enabled('quicklinksenabled') && online ? <QuickLinks /> : null,
-      weather: enabled('weatherEnabled') && online ? <Weather /> : null,
-      quickweather: enabled('quickWeatherEnabled') && online ? <QuickWeather /> : null,
-      mail: enabled('googleMailEnabled') ? <GoogleMail /> : null,
-      calendar: enabled('googleCalendarEnabled') ? <GoogleCalendar /> : null,
-      tasks: enabled('googleTasksEnabled') ? <GoogleTasks /> : null,
+      quicklinks: enabled('quicklinks') && online ? <QuickLinks /> : null,
+      weather: enabled('weather') && online ? <Weather /> : null,
+      quickweather: enabled('quickweather') && online ? <QuickWeather /> : null,
+      mail: enabled('mail') ? <GoogleMail /> : null,
+      calendar: enabled('calendar') ? <GoogleCalendar /> : null,
+      tasks: enabled('tasks') ? <GoogleTasks /> : null,
+      photoinfo: enabled('photoinfo') ? <PhotoInfoWidget /> : null,
     }),
-    [order], // Re-create widgets when order changes
+    [layout], // Re-create widgets when the order or placement changes
   );
 
   useEffect(() => {
     const handleRefresh = (data) => {
       switch (data) {
         case 'widgets':
-          return setOrder(JSON.parse(localStorage.getItem('order')));
+          return setLayout({ order: readOrder(), placement: readPlacement() });
         case 'widgetsWelcome':
           setWelcome(localStorage.getItem('showWelcome'));
           localStorage.setItem('showWelcome', true);
@@ -91,23 +73,30 @@ const Widgets = () => {
 
     EventBus.on('refresh', handleRefresh);
     return () => {
-      EventBus.off('refresh');
+      EventBus.off('refresh', handleRefresh);
     };
   }, []);
+
+  const groups = groupByZone(layout.order, layout.placement);
+
+  const draw = (ids) =>
+    ids.map((id) => {
+      const widget = widgets[id];
+
+      if (!widget) return null;
+
+      return <Fragment key={id}>{widget}</Fragment>;
+    });
 
   // don't show when welcome is there
   return welcome !== 'false' ? (
     <WidgetsLayout />
   ) : (
-    <WidgetsLayout>
-      <Suspense fallback={<></>}>
-        {order.map((element, key) => {
-          const widget = widgets[element];
-          if (!widget) return null;
-          return <Fragment key={key}>{widget}</Fragment>;
-        })}
-      </Suspense>
-    </WidgetsLayout>
+    <Suspense fallback={<></>}>
+      <div className="widgetRail widgetRail-left">{draw(groups.left)}</div>
+      <WidgetsLayout>{draw(groups.center)}</WidgetsLayout>
+      <div className="widgetRail widgetRail-right">{draw(groups.right)}</div>
+    </Suspense>
   );
 };
 

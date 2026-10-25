@@ -14,7 +14,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - A panel style switch in the weather, quick links and background information sections: Classic paints a dark panel, Glass lets the wallpaper show through.
 - Google widgets gained their own settings once connected: which calendars feed the agenda and how far ahead it looks, what each event line carries, task list, sorting, grouping and filters, and the Gmail filter, custom search, preview text and unread indicator.
 - Video backgrounds are queued ahead: the next clip is resolved and warmed, so a new tab starts on it at once.
-- Unsplash and the Mue library are picked directly as sources, each with its own settings.
+- Unsplash is picked directly as an image source, with its own settings.
 - Favouriting or downloading a library image now records it, so the trending picks improve as you use them.
 - Animated background: a slow pan and zoom across the image. Off by default.
 - Automatic background change on an interval you choose. Off by default.
@@ -22,6 +22,8 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Weather Now: a one-line weather widget under the clock, with its own toggle and a place in the widget order.
 - Five-day forecast from Open-Meteo, replacing the single-day extra information.
 - Show and hide toggles for each widget in Overview.
+- Three columns for the new tab page: any widget can sit in a rail down the left side, a rail down the right, or the middle column. In Overview the widgets are dropped into a Left, Right or Centre box around the preview, and moving one between those boxes moves it on the page.
+- Weather Full and Image Info are widgets now, so the full weather card and the photographer credit can be placed like any other. A profile that has never moved them keeps them in the corners they were always in.
 - Bulgarian language.
 
 ### Changed
@@ -35,6 +37,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Excluded images are actually skipped, and the background service is asked again when a request fails.
 - Background sources are ordered by popularity, and only Coverr is marked as a video source, since Pixabay and Pexels fall back to an image without a key.
 - The date lives inside the Time section now, after the clock options, with its own switch to show or hide it.
+- The widget list in Overview became three drop containers around a centred preview, with the grab handle on the left of each row and the switch on the right.
 
 ### Fixed
 

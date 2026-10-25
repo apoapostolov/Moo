@@ -1,5 +1,4 @@
 import { memo, useState, useEffect } from 'react';
-import PhotoInformation from './PhotoInformation';
 import variables from 'config/variables';
 import { updateHash } from 'utils/deepLinking';
 import EventBus from 'utils/eventbus';
@@ -8,7 +7,7 @@ import { getAllBackgrounds } from 'utils/customBackgroundDB';
 /**
  * BackgroundImage component for rendering image backgrounds
  */
-function BackgroundImage({ photoInfo, currentAPI, url }) {
+function BackgroundImage() {
   const isCustomType = localStorage.getItem('backgroundType') === 'custom';
   const [customBackgrounds, setCustomBackgrounds] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -85,7 +84,6 @@ function BackgroundImage({ photoInfo, currentAPI, url }) {
           </button>
         </div>
       )}
-      {photoInfo?.credit && <PhotoInformation info={photoInfo} api={currentAPI} url={url} />}
     </>
   );
 }

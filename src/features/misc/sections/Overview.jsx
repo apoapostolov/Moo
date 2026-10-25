@@ -2,9 +2,11 @@ import { useState, useEffect, useCallback } from 'react';
 import { MdOutlineDragIndicator } from 'react-icons/md';
 import {
   DndContext,
-  closestCenter,
+  closestCorners,
   KeyboardSensor,
+  pointerWithin,
   PointerSensor,
+  useDroppable,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -16,62 +18,49 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { toast } from 'react-toastify';
 
 import variables from 'config/variables';
 import Clock from './overview_skeletons/Clock';
 import QuickLinks from './overview_skeletons/QuickLinks';
 import Date from './overview_skeletons/Date';
-import Weather from './overview_skeletons/Weather';
 import QuickWeather from './overview_skeletons/QuickWeather';
-import GoogleWidget from './overview_skeletons/GoogleWidget';
+import WidgetThumb from './overview_skeletons/WidgetThumb';
+import {
+  WIDGETS,
+  ZONES,
+  readOrder,
+  readPlacement,
+  saveOrder,
+  savePlacement,
+  groupByZone,
+  placementFromGroups,
+  isWidgetEnabled,
+} from 'utils/widgets';
 
 import EventBus from 'utils/eventbus';
 
-const widget_name = {
-  time: variables.getMessage('modals.main.settings.sections.time.title'),
-  weather: variables.getMessage('modals.main.settings.sections.weather.title'),
-  quickweather: 'Weather Now',
-  quicklinks: variables.getMessage('modals.main.settings.sections.quicklinks.title'),
-  date: variables.getMessage('modals.main.settings.sections.date.title'),
-  // The widget's own header says Mail, Calendar or Tasks, so the order list
-  // uses the same plain names instead of prefixing every one with Google.
-  mail: 'Mail',
-  calendar: 'Calendar',
-  tasks: 'Tasks',
+// The three zones, in the order they are drawn around the preview.
+const ZONE_TITLES = { left: 'Left', center: 'Centre', right: 'Right' };
+
+const widgetLabel = (id) => {
+  const widget = WIDGETS.find((item) => item.id === id);
+
+  return widget ? widget.label() : id;
 };
 
-// Widgets added after a profile stored its order still have to show up here,
-// otherwise they can never be switched on.
-const KNOWN_WIDGETS = [
-  'time',
-  'weather',
-  'date',
-  'quickweather',
-  'quicklinks',
-  'mail',
-  'calendar',
-  'tasks',
-];
-const DEFAULT_ORDER = ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
+/**
+ * The row under the pointer wins over the container it sits in, and a container
+ * only answers where the pointer is really inside it. Corners alone let a large
+ * box on the far side of the panel claim a drop that was aimed at a row.
+ */
+const collisionDetection = (args) => {
+  const hits = pointerWithin(args);
 
-const settingKeyFor = (value) => {
-  switch (value) {
-    case 'quicklinks':
-      return 'quicklinksenabled';
-    case 'weather':
-      return 'weatherEnabled';
-    case 'quickweather':
-      return 'quickWeatherEnabled';
-    case 'mail':
-      return 'googleMailEnabled';
-    case 'calendar':
-      return 'googleCalendarEnabled';
-    case 'tasks':
-      return 'googleTasksEnabled';
-    default:
-      return value;
-  }
+  if (hits.length === 0) return closestCorners(args);
+
+  const row = hits.find((hit) => !ZONES.includes(hit.id));
+
+  return row ? [row] : hits;
 };
 
 const SortableItem = ({ id, enabled, onToggle }) => {
@@ -80,192 +69,241 @@ const SortableItem = ({ id, enabled, onToggle }) => {
   const style = { transform: CSS.Transform.toString(transform), transition };
 
   return (
-    <li ref={setNodeRef} style={style} {...attributes} className="sortableItem">
-      <input
-        type="checkbox"
-        checked={enabled}
-        onChange={() => onToggle(id)}
-        style={{ marginRight: '8px' }}
-      />
-      <span style={{ flex: 1 }}>{widget_name[id]}</span>
+    <li
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      className="sortableItem"
+      data-widget-id={id}
+    >
       <span className="dragHandle" {...listeners}>
         <MdOutlineDragIndicator />
       </span>
+      <span style={{ flex: 1 }}>{widgetLabel(id)}</span>
+      <input type="checkbox" checked={enabled} onChange={() => onToggle(id)} />
     </li>
   );
 };
 
-const Overview = () => {
-  const [items, setItems] = useState(
-    () => {
-      const stored = JSON.parse(localStorage.getItem('order'));
-      let base = stored || DEFAULT_ORDER;
-      base = base.map((x) => (x === 'weatherline' ? 'quickweather' : x));
-      base = base.filter((x, i, a) => KNOWN_WIDGETS.includes(x) && a.indexOf(x) === i);
-      if (!base.includes('quickweather') && base.includes('weather')) {
-        base.splice(base.indexOf('weather') + 1, 0, 'quickweather');
-      }
-      KNOWN_WIDGETS.forEach((widget) => {
-        if (!base.includes(widget)) base.push(widget);
-      });
-      return base;
-    },
+/**
+ * One of the three drop containers. The whole box is the drop target, so a
+ * widget can be dropped into a zone that is still empty.
+ */
+const Zone = ({ zone, items, onToggle, isEnabled }) => {
+  const { setNodeRef, isOver } = useDroppable({ id: zone });
+  const className = `widgetZone${isOver ? ' widgetZoneOver' : ''}`;
+
+  return (
+    <div ref={setNodeRef} className={className} data-zone={zone}>
+      <span className="title">{ZONE_TITLES[zone]}</span>
+      <SortableContext id={zone} items={items} strategy={verticalListSortingStrategy}>
+        <ul className="sortableContainer">
+          {items.length === 0 ? (
+            <li className="widgetZoneEmpty">Drop a widget here</li>
+          ) : null}
+          {items.map((id) => (
+            <SortableItem key={id} id={id} enabled={isEnabled(id)} onToggle={onToggle} />
+          ))}
+        </ul>
+      </SortableContext>
+    </div>
   );
-  const [enabledState, setEnabledState] = useState(() => ({
-    time: localStorage.getItem('time') === 'true',
-    date: localStorage.getItem('date') === 'true',
-    quicklinks: localStorage.getItem('quicklinksenabled') === 'true',
-    weatherEnabled: localStorage.getItem('weatherEnabled') === 'true',
-    googleMailEnabled: localStorage.getItem('googleMailEnabled') === 'true',
-    googleCalendarEnabled: localStorage.getItem('googleCalendarEnabled') === 'true',
-    googleTasksEnabled: localStorage.getItem('googleTasksEnabled') === 'true',
-  }));
-  const [news, setNews] = useState({
-    title: '',
-    date: '',
-    description: '',
-    link: '',
-    linkText: '',
-  });
-  const [newsDone, setNewsDone] = useState(false);
-  const [loading, setLoading] = useState(true);
+};
+
+const Overview = () => {
+  const [groups, setGroups] = useState(() => groupByZone(readOrder(), readPlacement()));
 
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
+  const findZone = useCallback(
+    (id) => ZONES.find((zone) => groups[zone].includes(id)),
+    [groups],
+  );
 
-    if (active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.indexOf(active.id);
-        const newIndex = items.indexOf(over.id);
-        return arrayMove(items, oldIndex, newIndex);
-      });
-    }
+  const zoneFor = (over) => {
+    if (!over) return null;
+
+    return ZONES.includes(over.id) ? over.id : findZone(over.id);
   };
 
-  const toggleEnabled = (value) => {
-    const key = settingKeyFor(value);
-    const current = localStorage.getItem(key) === 'true';
-    localStorage.setItem(key, String(!current));
-    setEnabledState((prev) => ({ ...prev, [key]: !current }));
+  const handleDragOver = ({ active, over }) => {
+    const from = findZone(active.id);
+    const to = zoneFor(over);
+
+    if (!from || !to || from === to) return;
+
+    setGroups((previous) => {
+      const next = { left: [...previous.left], center: [...previous.center], right: [...previous.right] };
+
+      next[from] = next[from].filter((id) => id !== active.id);
+
+      const overIndex = next[to].indexOf(over.id);
+
+      if (overIndex >= 0) next[to].splice(overIndex, 0, active.id);
+      else next[to].push(active.id);
+
+      return next;
+    });
+  };
+
+  /**
+   * Which row the dragged card was left over. `over` is usually a row, but the
+   * container itself is a drop target too, and then there is no row to take an
+   * index from: the card's own centre answers instead.
+   */
+  const dropIndex = (zone, active, over) => {
+    if (groups[zone].includes(over?.id)) return groups[zone].indexOf(over.id);
+
+    const dragged = active.rect?.current?.translated;
+
+    if (!dragged) return -1;
+
+    const centre = dragged.top + dragged.height / 2;
+    // The dragged card keeps its place in the list and follows the pointer, so
+    // it is always the nearest row to itself. It has to be left out, or dropping
+    // into the space between rows would resolve to where the card already is.
+    const rows = [
+      ...document.querySelectorAll(`.widgetZone[data-zone="${zone}"] .sortableItem`),
+    ].filter((row) => row.dataset.widgetId !== active.id);
+
+    let best = -1;
+    let nearest = Infinity;
+
+    rows.forEach((row) => {
+      const box = row.getBoundingClientRect();
+      const distance = Math.abs(box.top + box.height / 2 - centre);
+
+      if (distance < nearest) {
+        nearest = distance;
+        best = groups[zone].indexOf(row.dataset.widgetId);
+      }
+    });
+
+    return best;
+  };
+
+  const handleDragEnd = ({ active, over }) => {
+    const from = findZone(active.id);
+    const to = zoneFor(over);
+
+    if (!from || !to || from !== to) return;
+
+    const target = dropIndex(from, active, over);
+    const current = groups[from].indexOf(active.id);
+
+    if (target < 0 || target === current) return;
+
+    setGroups((previous) => ({
+      ...previous,
+      [from]: arrayMove(previous[from], current, target),
+    }));
+  };
+
+  const toggleEnabled = (id) => {
+    const widget = WIDGETS.find((item) => item.id === id);
+
+    if (!widget) return;
+
+    const current = localStorage.getItem(widget.setting) === 'true';
+
+    localStorage.setItem(widget.setting, String(!current));
     variables.stats.postEvent('setting', 'Widget toggle');
     EventBus.emit('refresh', 'widgets');
+    // The checkbox state lives in localStorage, so the list is re-read rather
+    // than tracked twice.
+    setGroups((previous) => ({ ...previous }));
   };
 
-  const isEnabled = (value) => {
-    const key = settingKeyFor(value);
-    if (key === 'quickWeatherEnabled' && localStorage.getItem(key) === null) return true;
-    return enabledState[key] ?? (localStorage.getItem(key) === 'true');
-  };
+  // Every drop writes both halves of the layout: the order inside a zone and the
+  // zone itself, which is what the page reads when it decides where to draw.
+  useEffect(() => {
+    saveOrder([...groups.left, ...groups.center, ...groups.right]);
+    savePlacement(placementFromGroups(groups));
+    variables.stats.postEvent('setting', 'Widget placement');
+    EventBus.emit('refresh', 'widgets');
+  }, [groups]);
 
-  const reset = () => {
-    localStorage.setItem('order', JSON.stringify(DEFAULT_ORDER));
-    setItems(DEFAULT_ORDER);
-    toast(variables.getMessage('toasts.reset'));
-  };
-
-  const getTab = (value) => {
-    switch (value) {
+  const previewItem = (id) => {
+    switch (id) {
       case 'time':
         return <Clock />;
-      case 'weather':
-        return <Weather />;
+      case 'date':
+        return <Date />;
       case 'quickweather':
         return <QuickWeather />;
       case 'quicklinks':
         return <QuickLinks />;
-      case 'date':
-        return <Date />;
+      case 'weather':
+      case 'photoinfo':
       case 'mail':
       case 'calendar':
       case 'tasks':
-        // These three talk to Google, so the preview draws their shape instead of
-        // cloning live data into the settings panel. The order list already names
-        // the widget, so a name here would only repeat it.
-        return <GoogleWidget type={value} label={widget_name[value]} />;
+        return <WidgetThumb type={id} label={widgetLabel(id)} />;
       default:
         return null;
     }
   };
 
-  const getNews = useCallback(async () => {
-    try {
-      const response = await fetch(`${variables.constants.API_URL}/news`);
-      const data = await response.json();
-      data.date = new window.Date(data.date).toLocaleDateString(
-        variables.languagecode.replace('_', '-'),
-        { year: 'numeric', month: 'long', day: 'numeric' },
-      );
-      setNews(data);
-      setNewsDone(true);
-    } catch (error) {
-      console.error('Failed to fetch news:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    getNews();
-  }, [getNews]);
-
-  useEffect(() => {
-    localStorage.setItem('order', JSON.stringify(items));
-    variables.stats.postEvent('setting', 'Widget order');
-    EventBus.emit('refresh', 'widgets');
-  }, [items]);
+  const previewZone = (zone) => (
+    <div className={`previewZone previewZone-${zone}`}>
+      {groups[zone]
+        .filter((id) => isWidgetEnabled(id))
+        .map((id) => (
+          <div className="previewItem" key={`preview-${id}`}>
+            {previewItem(id)}
+          </div>
+        ))}
+    </div>
+  );
 
   return (
     <>
       <span className="mainTitle">
         {variables.getMessage('modals.main.marketplace.product.overview')}
       </span>
-      <div className="overviewGrid">
-        <div>
-          <span className="title">{variables.getMessage('modals.welcome.buttons.preview')}</span>
-          <div className="tabPreview">
-            <div className="previewItem" style={{ maxWidth: '50%' }}>
-              {items.map((value, index) => {
-                if (!isEnabled(value)) {
-                  return null;
-                }
-                return (
-                  <div className="previewItem" key={`item-${value}`}>
-                    {getTab(value)}
-                  </div>
-                );
-              })}
+
+      <DndContext
+        sensors={sensors}
+        collisionDetection={collisionDetection}
+        onDragOver={handleDragOver}
+        onDragEnd={handleDragEnd}
+      >
+        <div className="overviewZones">
+          <div className="overviewSide overviewSide-left">
+            <Zone zone="left" items={groups.left} onToggle={toggleEnabled} isEnabled={isWidgetEnabled} />
+          </div>
+
+          <div className="overviewPreview">
+            <span className="title">{variables.getMessage('modals.welcome.buttons.preview')}</span>
+            <div className="tabPreview">
+              {previewZone('left')}
+              {previewZone('center')}
+              {previewZone('right')}
             </div>
           </div>
+
+          <div className="overviewSide overviewSide-right">
+            <Zone
+              zone="right"
+              items={groups.right}
+              onToggle={toggleEnabled}
+              isEnabled={isWidgetEnabled}
+            />
+          </div>
+
+          <div className="overviewBelow">
+            <Zone
+              zone="center"
+              items={groups.center}
+              onToggle={toggleEnabled}
+              isEnabled={isWidgetEnabled}
+            />
+          </div>
         </div>
-        <div>
-          <span className="title">
-            {variables.getMessage('modals.main.settings.sections.order.title')}
-          </span>
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext items={items} strategy={verticalListSortingStrategy}>
-              <ul className="sortableContainer">
-                {items.map((value) => (
-                  <SortableItem
-                    key={value}
-                    id={value}
-                    enabled={isEnabled(value)}
-                    onToggle={toggleEnabled}
-                  />
-                ))}
-              </ul>
-            </SortableContext>
-          </DndContext>
-        </div>
-      </div>
+      </DndContext>
     </>
   );
 };
