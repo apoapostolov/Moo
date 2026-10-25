@@ -487,15 +487,6 @@
     resize: vertical;
   }
 
-  // The empty title box teaches the sentence reader, so its example has to read
-  // as an example: dim, not the same weight as typed text.
-  input::placeholder {
-    @include themed {
-      color: t($subColor);
-    }
-
-    opacity: 0.65;
-  }
 
   // A checkbox is not a text field: the 100% width above stretched it across the
   // whole row, box and all.

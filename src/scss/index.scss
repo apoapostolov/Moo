@@ -46,11 +46,11 @@ body {
   }
 }
 
+// An empty field that teaches by example is not content. Mid grey, everywhere,
+// at full strength: a theme colour would put it back at reading brightness, which
+// is what makes an example look like something already typed.
 ::placeholder {
-  @include themed {
-    color: t($color);
-  }
-
+  color: #787878;
   opacity: 1;
 }
 
