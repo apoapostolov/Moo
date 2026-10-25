@@ -57,6 +57,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The widget settings in Google use one segmented Mail / Calendar / Tasks control instead of three small buttons, and nothing is shown until you pick one, so no widget's options look switched on by default.
 - The event and task dialogs open in the middle of the page instead of inside whichever card launched them, and they keep the solid dark panel even when the cards are switched to Glass.
 - The title field of a new event or task reads plain english: "lunch with Ana friday at 13:00 at Cafe Central" or "play in 9 days for 2 days each day at 11:00" fills the dates, the clock, the length, the place and the repeat on its own, a moment after typing stops.
+- The event and task dialogs live in the browser's top layer now, so a widget card can never paint over them, whatever its glass surface or stacking order.
 
 ### Removed
 

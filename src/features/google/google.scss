@@ -201,21 +201,17 @@
   }
 }
 
-// Dialogs render over the whole page on a new tab, so the overlay is fixed and
-// above the widgets rather than inside the widget card.
-.gwOverlay {
-  position: fixed;
-  z-index: 400;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  background: rgb(0 0 0 / 45%);
-  backdrop-filter: blur(3px);
-}
-
+// The dialog is a real <dialog> in the top layer, so it needs none of the
+// z-index juggling the page itself does. The scrim is its own ::backdrop: a
+// backdrop-filter here would put the scrim in the same composited layer that
+// makes the cards paint over ordinary overlays.
 .gwDialog {
   @extend %basic;
+
+  display: none;
+  margin: auto;
+  padding: 0;
+  border: 0;
 
   // Sized by what is inside: the event dialog has to fit two date fields side
   // by side, the task dialog only one column, so neither gets a fixed width that
@@ -224,9 +220,16 @@
   min-width: 380px;
   max-width: min(620px, calc(100vw - 48px));
   max-height: 86vh;
-  display: flex;
   flex-direction: column;
   overflow: hidden;
+
+  &[open] {
+    display: flex;
+  }
+
+  &::backdrop {
+    background: rgb(0 0 0 / 45%);
+  }
 }
 
 .gwDialogHead {
