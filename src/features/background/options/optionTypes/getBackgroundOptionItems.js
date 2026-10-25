@@ -1,5 +1,28 @@
 import variables from 'config/variables';
 
+export const API_BACKGROUND_TYPES = ['api', 'api_mue', 'api_unsplash'];
+
+export function isApiBackgroundType(type) {
+  return API_BACKGROUND_TYPES.includes(type);
+}
+
+/**
+ * Derives which image API a background type maps to.
+ */
+export function getApiForBackgroundType(type) {
+  if (type === 'api_unsplash') return 'unsplash';
+  if (type === 'api_mue') return 'mue';
+  return localStorage.getItem('backgroundAPI') === 'unsplash' ? 'unsplash' : 'mue';
+}
+
+/**
+ * Normalises the legacy `api` type into its explicit Mue/Unsplash variant.
+ */
+export function normalizeBackgroundType(type) {
+  if (type !== 'api') return type;
+  return getApiForBackgroundType('api') === 'unsplash' ? 'api_unsplash' : 'api_mue';
+}
+
 export function getBackgroundOptionItems(marketplaceEnabled) {
   return [
     marketplaceEnabled && {
@@ -7,8 +30,12 @@ export function getBackgroundOptionItems(marketplaceEnabled) {
       text: variables.getMessage('modals.main.marketplace.title'),
     },
     {
-      value: 'api',
-      text: variables.getMessage('modals.main.settings.sections.background.type.api'),
+      value: 'api_unsplash',
+      text: variables.getMessage('modals.main.settings.sections.background.type.unsplash'),
+    },
+    {
+      value: 'api_mue',
+      text: variables.getMessage('modals.main.settings.sections.background.type.mue_library'),
     },
     {
       value: 'custom',

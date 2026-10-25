@@ -231,6 +231,8 @@
             "type": {
               "title": "Тип",
               "api": "API",
+              "unsplash": "Unsplash",
+              "mue_library": "Mue библиотека",
               "custom_image": "Собствено изображение",
               "custom_colour": "Собствен цвят/градиент",
               "random_colour": "Случаен цвят",
@@ -239,8 +241,15 @@
             "unsplash": {
               "title": "Unsplash колекция(и)",
               "subtitle": "Изберете колекция(и) за фон",
+              "section_title": "Unsplash",
+              "section_subtitle": "Използвайте конкретна Unsplash колекция или изберете категории",
               "id": "ID на колекцията",
-              "id_subtitle": "Въведете списък с Unsplash ID, разделени със запетая"
+              "id_subtitle": "Въведете списък с Unsplash ID, разделени със запетая",
+              "categories": "Категории"
+            },
+            "mue_library": {
+              "title": "Mue библиотека",
+              "subtitle": "Подбрани изображения от библиотеката на Mue, организирани по категории"
             },
             "source": {
               "title": "Източник",

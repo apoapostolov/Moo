@@ -14,26 +14,46 @@ import EffectsSettings from './sections/EffectsSettings';
 import SourceSection from './sections/SourceSection';
 import NavigationCard from './sections/NavigationCard';
 
-import { getBackgroundOptionItems } from './optionTypes';
+import {
+  getBackgroundOptionItems,
+  getApiForBackgroundType,
+  isApiBackgroundType,
+  normalizeBackgroundType,
+} from './optionTypes';
 
 const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, sectionName }) => {
-  const [backgroundType, setBackgroundType] = useState(
-    localStorage.getItem('backgroundType') || 'api',
-  );
+  const [backgroundType, setBackgroundType] = useState(() => {
+    const stored = localStorage.getItem('backgroundType') || 'api';
+    const normalized = normalizeBackgroundType(stored);
+    if (normalized !== stored) localStorage.setItem('backgroundType', normalized);
+    return normalized;
+  });
   const [backgroundFilter, setBackgroundFilter] = useState(
     localStorage.getItem('backgroundFilter') || 'none',
   );
   const [backgroundCategories, setBackgroundCategories] = useState([
     variables.getMessage('modals.main.loading'),
   ]);
-  const [backgroundCategoriesOG, setBackgroundCategoriesOG] = useState([]);
-  const [backgroundAPI, setBackgroundAPI] = useState(localStorage.getItem('backgroundAPI') || 'mue');
   const [marketplaceEnabled] = useState(localStorage.getItem('photo_packs'));
+
+  const backgroundAPI = getApiForBackgroundType(backgroundType);
 
   // Auto-show source section for types without effects/display settings
   const shouldShowSourceByDefault = ['colour', 'random_colour', 'random_gradient'].includes(backgroundType);
 
   const controllerRef = useRef(null);
+
+  // Keep the stored API in sync with the chosen source
+  useEffect(() => {
+    if (!isApiBackgroundType(backgroundType)) return;
+
+    const api = getApiForBackgroundType(backgroundType);
+    if (localStorage.getItem('backgroundAPI') !== api) {
+      localStorage.setItem('nextImage', null);
+      localStorage.removeItem('imageQueue');
+      localStorage.setItem('backgroundAPI', api);
+    }
+  }, [backgroundType]);
 
   // Auto-navigate to source section when switching to colour/random types
   useEffect(() => {
@@ -53,34 +73,8 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
       return;
     }
 
-    if (backgroundAPI !== 'mue') {
-      // remove counts from unsplash categories
-      data.forEach((category) => {
-        delete category.count;
-      });
-    }
-
     setBackgroundCategories(data);
-    setBackgroundCategoriesOG(data);
-  }, [backgroundAPI]);
-
-  const updateAPI = useCallback((e) => {
-    localStorage.setItem('nextImage', null);
-    // Clear prefetch queue when API changes to prevent showing cached images from old API
-    localStorage.removeItem('imageQueue');
-    if (e === 'mue') {
-      setBackgroundCategories(backgroundCategoriesOG);
-      setBackgroundAPI('mue');
-    } else {
-      const data = [...backgroundCategories];
-      data.forEach((category) => {
-        delete category.count;
-      });
-
-      setBackgroundAPI('unsplash');
-      setBackgroundCategories(data);
-    }
-  }, [backgroundCategories, backgroundCategoriesOG]);
+  }, []);
 
   useEffect(() => {
     controllerRef.current = new AbortController();
@@ -97,6 +91,22 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
       controllerRef.current.abort();
     };
   }, [getBackgroundCategories]);
+
+  const handleTypeChange = useCallback((value) => {
+    // Clear prefetch queue when changing source
+    localStorage.removeItem('imageQueue');
+    setBackgroundType(value);
+
+    if (isApiBackgroundType(value)) {
+      localStorage.setItem('nextImage', null);
+      localStorage.setItem('backgroundAPI', getApiForBackgroundType(value));
+    }
+
+    // Refresh immediately when switching to custom images
+    if (value === 'custom') {
+      EventBus.emit('refresh', 'background');
+    }
+  }, []);
 
   const getBackgroundSettings = () => {
     switch (backgroundType) {
@@ -115,17 +125,13 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
       localStorage.getItem('photo_packs') &&
       backgroundType !== 'custom' &&
       backgroundType !== 'colour' &&
-      backgroundType !== 'api'
+      !isApiBackgroundType(backgroundType)
     ) {
       return null;
     }
 
     return (
-      <APISettings
-        backgroundAPI={backgroundAPI}
-        backgroundCategories={backgroundCategories}
-        onUpdateAPI={updateAPI}
-      />
+      <APISettings backgroundAPI={backgroundAPI} backgroundCategories={backgroundCategories} />
     );
   };
 
@@ -134,7 +140,7 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
     backgroundType !== 'random_colour' &&
     backgroundType !== 'random_gradient';
 
-  const showEffects = backgroundType === 'api' || backgroundType === 'custom' || marketplaceEnabled;
+  const showEffects = isApiBackgroundType(backgroundType) || backgroundType === 'custom' || marketplaceEnabled;
 
   const getHeader = () => {
     if (currentSubSection === 'effects') {
@@ -188,15 +194,7 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
               <Dropdown
                 label={variables.getMessage('modals.main.settings.sections.background.type.title')}
                 name="backgroundType"
-                onChange={(value) => {
-                  // Clear prefetch queue when changing background type
-                  localStorage.removeItem('imageQueue');
-                  setBackgroundType(value);
-                  // Automatically refresh background when switching to custom images
-                  if (value === 'custom') {
-                    EventBus.emit('refresh', 'background');
-                  }
-                }}
+                onChange={handleTypeChange}
                 category="background"
                 items={getBackgroundOptionItems(marketplaceEnabled)}
               />
@@ -227,11 +225,7 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
           <SourceSection
             backgroundType={backgroundType}
             marketplaceEnabled={marketplaceEnabled}
-            onTypeChange={(value) => {
-              // Clear prefetch queue when changing background type
-              localStorage.removeItem('imageQueue');
-              setBackgroundType(value);
-            }}
+            onTypeChange={handleTypeChange}
           />
           {getBackgroundSettings()}
         </>

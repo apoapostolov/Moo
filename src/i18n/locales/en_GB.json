@@ -231,6 +231,8 @@
             "type": {
               "title": "Type",
               "api": "API",
+              "unsplash": "Unsplash",
+              "mue_library": "Mue Library",
               "custom_image": "Custom image",
               "custom_colour": "Custom colour/gradient",
               "random_colour": "Random colour",
@@ -239,8 +241,15 @@
             "unsplash": {
               "title": "Unsplash Collection(s)",
               "subtitle": "Select the collection(s) you want to use for your background",
+              "section_title": "Unsplash",
+              "section_subtitle": "Use a specific Unsplash collection, or pick categories to draw from",
               "id": "Collection ID(s)",
-              "id_subtitle": "Enter a comma separated list of Unsplash IDs"
+              "id_subtitle": "Enter a comma separated list of Unsplash IDs",
+              "categories": "Categories"
+            },
+            "mue_library": {
+              "title": "Mue Library",
+              "subtitle": "Curated images from the Mue library, organised by category"
             },
             "source": {
               "title": "Source",

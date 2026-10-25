@@ -90,6 +90,8 @@ export async function getBackgroundData() {
 
   switch (type) {
     case 'api':
+    case 'api_mue':
+    case 'api_unsplash':
       return getAPIBackground(isOffline);
 
     case 'colour':
