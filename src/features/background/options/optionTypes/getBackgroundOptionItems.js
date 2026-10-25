@@ -34,6 +34,9 @@ export function normalizeBackgroundType(type) {
 }
 
 export function getBackgroundOptionItems(marketplaceEnabled) {
+  // Unsplash is the default, Coverr follows it as the keyless video source, and
+  // the rest of the services are ordered by monthly visits: Pixabay, then
+  // Pexels. The Mue library is our own source, so it closes the service list.
   return [
     marketplaceEnabled && {
       value: 'photo_pack',
@@ -42,10 +45,6 @@ export function getBackgroundOptionItems(marketplaceEnabled) {
     {
       value: 'api_unsplash',
       text: variables.getMessage('modals.main.settings.sections.background.type.unsplash'),
-    },
-    {
-      value: 'api_mue',
-      text: variables.getMessage('modals.main.settings.sections.background.type.mue_library'),
     },
     {
       value: 'api_coverr',
@@ -58,6 +57,10 @@ export function getBackgroundOptionItems(marketplaceEnabled) {
     {
       value: 'api_pexels',
       text: variables.getMessage('modals.main.settings.sections.background.type.pexels'),
+    },
+    {
+      value: 'api_mue',
+      text: variables.getMessage('modals.main.settings.sections.background.type.mue_library'),
     },
     {
       value: 'custom',
