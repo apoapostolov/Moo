@@ -149,12 +149,67 @@
     margin: 0 0 6px;
   }
 
+  /* A note is not a modal. The app sets every p to 1rem from the modal sheet,
+     which made a note's text 16px while its own face — the one the textarea
+     shows while typing — is 13px, so rendering a note grew it and left the
+     headings looking smaller than the words they head. */
+  p,
+  li {
+    font-size: inherit;
+  }
+
+  /* A note is markdown, so its headings have to be headings: each level is a
+     step under the one above and none of them is under the note's own size.
+     The last two cannot grow without leaving the note behind, so they are set
+     apart by case and tracking instead of by size. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
   h1,
   h2,
   h3 {
-    margin: 0 0 5px;
+    margin: 6px 0 5px;
+  }
+
+  h4,
+  h5,
+  h6 {
+    margin: 5px 0 4px;
+  }
+
+  h1 {
+    margin-bottom: 6px;
+    font-size: 1.6em;
+  }
+
+  h2 {
+    font-size: 1.4em;
+  }
+
+  h3 {
+    font-size: 1.25em;
+  }
+
+  h4 {
+    font-size: 1.12em;
+  }
+
+  h5 {
+    font-size: 1.02em;
+  }
+
+  h6 {
     font-size: 1em;
-    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.78;
   }
 
   ul,

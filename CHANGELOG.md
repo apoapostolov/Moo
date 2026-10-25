@@ -55,6 +55,8 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 
 - The Overview preview no longer draws a shrunken Weather Full card in one of its corners. The zone list beside the preview already says which column it lives in, and a squashed copy of the card read as a mistake.
 
+- Scratch notes keep the heading level they are written at, on a real six-step scale. `####` and `#####` used to be flattened into `h3`, and every heading sat at the note's own 13px while its paragraphs rendered at the app's 16px, so a heading came out smaller than the words under it. Text no longer grows when a note stops being edited, either.
+
 ### Fixed
 
 - The animated background can no longer pan past the edge of the image and show black strips.

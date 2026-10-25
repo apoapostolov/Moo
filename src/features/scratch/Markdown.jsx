@@ -70,7 +70,9 @@ const blocks = (tokens = []) =>
       case 'space':
         return null;
       case 'heading': {
-        const Tag = `h${Math.min(3, token.depth || 3)}`;
+        // The level a note writes is the level it gets: clamping #### and #####
+        // to h3 gave every heading past the third the same size.
+        const Tag = `h${Math.min(6, Math.max(1, token.depth || 1))}`;
 
         return <Tag key={key}>{inline(token.tokens)}</Tag>;
       }
