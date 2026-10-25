@@ -209,71 +209,156 @@ button.quicklinks {
 .addLinkModal {
   @extend %tabText;
 
-  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  width: min(520px, 92vw);
+  padding: 22px 24px 20px;
+  gap: 16px;
+  border-radius: 16px;
 
   @include themed {
     background: t($modal-secondaryColour);
   }
 
-  button {
-    @include modal-button(standard);
+  .shareHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    padding: 10px 30px;
-    float: right;
+    .title {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .close {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition:
+        background 0.15s ease,
+        color 0.15s ease;
+
+      @include themed {
+        color: t($subColor);
+
+        &:hover {
+          color: t($color);
+          background: t($modal-sidebarActive);
+        }
+      }
+    }
+  }
+
+  .linkFields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .linkField {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    > span {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+
+      @include themed {
+        color: t($subColor);
+      }
+    }
+
+    input {
+      width: 100%;
+      height: 46px;
+      padding: 0 14px;
+      font-size: 14px;
+      outline: none;
+      transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+
+      @include themed {
+        background: t($modal-sidebar);
+        border: 1px solid t($modal-sidebarActive);
+        border-radius: t($borderRadius);
+        color: t($color);
+
+        &::placeholder {
+          color: t($subColor);
+        }
+
+        &:hover {
+          border-color: t($color);
+        }
+
+        &:focus {
+          border-color: t($color);
+          box-shadow: 0 0 0 1px t($color);
+        }
+      }
+    }
+
+    small {
+      font-size: 11.5px;
+      line-height: 1.4;
+
+      @include themed {
+        color: t($subColor);
+      }
+    }
+  }
+
+  .linkError {
+    margin: 0;
+    font-size: 12.5px;
+    color: #e74c3c;
   }
 
   .addFooter {
     display: flex;
     flex-flow: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 2px;
+
+    // The shared settings button is neutral by design; in a dialog the save
+    // action has to read as the primary one.
+    .btn-settings {
+      font-weight: 600;
+
+      @include themed {
+        border: 1px solid t($color);
+      }
+    }
   }
 
-  .dropdown-error {
-    font-size: 16px;
-    padding-left: 5px;
-    color: #e74c3c;
-  }
-}
+  .linkSecondary {
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
 
-.quicklinkModalTextbox {
-  display: grid;
-  grid-template-rows: auto 1fr; /* Two rows: first auto-sized, second filling remaining space */
-  grid-template-columns: repeat(2, 1fr); /* Two equal-width columns for the first row */
-  grid-gap: 10px; /* Optional gap between items */
-  padding: 15px 0;
-
-  button {
-    display: flex;
-    flex-flow: row;
-    gap: 20px;
-    justify-content: center;
-  }
-
-  .dropdown-error {
-    font-size: 30px;
-    padding-left: 5px;
-    color: #e74c3c;
-  }
-
-  @include themed {
-    textarea {
-      background: t($modal-sidebar);
-      border: 1px solid t($modal-sidebarActive);
-      color: t($color);
-      border-radius: t($borderRadius);
-      padding: 10px 20px;
+    @include themed {
+      color: t($subColor);
+      background: transparent;
 
       &:hover {
-        box-shadow: 0 0 0 1px t($color);
-      }
-
-      &:active {
-        box-shadow: 0 0 0 1px t($color);
-      }
-
-      &:focus {
-        box-shadow: 0 0 0 1px t($color);
+        color: t($color);
+        background: t($modal-sidebarActive);
       }
     }
   }

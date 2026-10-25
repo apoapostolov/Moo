@@ -21,6 +21,17 @@
   place-items: center;
 }
 
+// Dialogs opened over the settings panel had no scrim at all, so the panel
+// behind them competed with the dialog. The reset dialogs are all small forms,
+// and every one of them reads better with the page pushed back. The class has
+// to be react-modal's own: the `resetoverlay` name passed in does not survive
+// onto the rendered node.
+.ReactModal__Overlay {
+  background: rgb(0 0 0 / 45%);
+  backdrop-filter: blur(3px);
+  z-index: 300;
+}
+
 .Modal {
   @include themed {
     color: t($color);

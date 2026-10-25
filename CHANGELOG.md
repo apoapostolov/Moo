@@ -40,6 +40,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Weather spacing, and the min/max temperature alignment in the widget and the forecast.
 - The weather widget no longer jumps in size while it loads: the placeholder matches the real layout.
 - Hearts on library images were counted as missing likes.
+- The quick link dialog had unlabelled fields rendered as raw browser inputs, and no backdrop behind it.
 
 ### Removed
 
