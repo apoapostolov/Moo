@@ -324,6 +324,10 @@
               "title": "Scratch notes",
               "subtitle": "Double-click any empty part of the page to drop a note. Drag it to move it, click it to write in it, and click the × twice to throw it away. Markdown works."
             },
+            "scratch_images": {
+              "title": "Scratch images",
+              "subtitle": "Paste a picture anywhere on the page and it lands where the pointer is, at the size of a note. Drag a corner to resize it, and the buttons on it copy it, save it or remove it."
+            },
             "signature": {
               "title": "Signature colour",
               "subtitle": "The tint on links, ticks, switches and the ring around the buttons.",

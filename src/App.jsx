@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Background from 'features/background/Background';
 import Widgets from 'features/misc/views/Widgets';
-import ScratchNotes from 'features/scratch/ScratchNotes';
+import Scratch from 'features/scratch/Scratch';
 import Modals from 'features/misc/modals/Modals';
 import { applySignature } from 'features/misc/signature';
 import { loadSettings, moveSettings } from 'utils/settings';
@@ -75,7 +75,7 @@ const App = () => {
       />
       <div id="center">
         <Widgets />
-        <ScratchNotes />
+        <Scratch />
         <Modals />
       </div>
     </TranslationProvider>

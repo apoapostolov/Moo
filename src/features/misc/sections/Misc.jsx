@@ -68,7 +68,7 @@ const MiscOptions = () => {
         title={variables.getMessage(`${MISC_SECTION}.scratch.title`)}
         subtitle={variables.getMessage(`${MISC_SECTION}.scratch.subtitle`)}
       />
-      <Row final={true}>
+      <Row>
         <Content
           title={variables.getMessage(`${MISC_SECTION}.scratch_notes.title`)}
           subtitle={variables.getMessage(`${MISC_SECTION}.scratch_notes.subtitle`)}
@@ -76,6 +76,20 @@ const MiscOptions = () => {
         <Action>
           <Switch
             name="scratchNotes"
+            category="other"
+            text={variables.getMessage('modals.main.settings.enabled')}
+          />
+        </Action>
+      </Row>
+
+      <Row final={true}>
+        <Content
+          title={variables.getMessage(`${MISC_SECTION}.scratch_images.title`)}
+          subtitle={variables.getMessage(`${MISC_SECTION}.scratch_images.subtitle`)}
+        />
+        <Action>
+          <Switch
+            name="scratchImages"
             category="other"
             text={variables.getMessage('modals.main.settings.enabled')}
           />

@@ -72,6 +72,8 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The signature colour is the Moo navy now instead of orange: the colour of the app icon, lifted so it reads on a dark page. Links, ticks, switches, sliders, the order picker and the ring around the buttons all follow it.
 - Settings → Misc carries a signature colour of your own: five fixed choices, any colour you pick, or one read out of the wallpaper you are looking at.
 - A scratch note keeps the lean it was dragged with, and holds that lean while your hand is still, instead of standing back up or jumping to a new angle when you let go.
+- Scratch images: paste a picture anywhere on the page and it lands under the pointer at the size of a note, keeping the picture's own proportions and filling its card to the edges. Drag it to move it, pull the bottom-right corner to resize it, and use the corners to copy it, save it or remove it. Off by default, its own switch in Settings → Misc.
+- The clipboard permission is declared, so copying a pasted picture actually reaches the system clipboard instead of failing silently.
 - Settings has a Misc page after Google for the things that are not a widget of their own.
 
 ### Removed

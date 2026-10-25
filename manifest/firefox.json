@@ -21,7 +21,7 @@
       "id": "moo@apoapostolov"
     }
   },
-  "permissions": ["identity", "storage"],
+  "permissions": ["identity", "storage", "clipboardWrite"],
   "host_permissions": [
     "https://www.googleapis.com/*",
     "https://oauth2.googleapis.com/*",
