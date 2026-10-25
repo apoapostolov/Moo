@@ -136,6 +136,12 @@
               "round_clock": "Rounded background"
             },
             "percentage_complete": "Percentage complete",
+            "percentage": {
+                "shift_title": "Work shift",
+                "shift_subtitle": "The percentage counts from the start of your day to the end of your shift. Leave both empty to count the whole day. 9, 9:30, 9am and 17:00 all work.",
+                "shift_start": "Start of day",
+                "shift_end": "End of day"
+            },
             "vertical_clock": {
               "title": "Vertical Clock",
               "change_hour_colour": "Change hour text colour",

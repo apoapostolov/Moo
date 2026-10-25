@@ -2,7 +2,9 @@ import variables from 'config/variables';
 import React, { useState } from 'react';
 
 import { Header, Row, Content, Action, PreferencesWrapper } from 'components/Layout/Settings';
-import { Checkbox, Dropdown, Radio } from 'components/Form/Settings';
+import { Checkbox, Dropdown, Radio, Text } from 'components/Form/Settings';
+
+import EventBus from 'utils/eventbus';
 
 import { MdRefresh } from 'react-icons/md';
 
@@ -36,7 +38,7 @@ const TimeOptions = () => {
 
   const WidgetType = () => {
     return (
-      <Row final={timeType === 'percentageComplete'}>
+      <Row final={timeType !== 'percentageComplete'}>
         <Content
           title={variables.getMessage(`${TIME_SECTION}.type`)}
           subtitle={variables.getMessage(`${TIME_SECTION}.type_subtitle`)}
@@ -63,6 +65,33 @@ const TimeOptions = () => {
       </Row>
     );
   };
+
+  /**
+   * A work shift turns the percentage into progress through the working day:
+   * 9 and 17 means 50% at one in the afternoon, not 54% of the whole day.
+   */
+  const percentageSettings = (
+    <Row final={true}>
+      <Content
+        title={variables.getMessage(`${TIME_SECTION}.percentage.shift_title`)}
+        subtitle={variables.getMessage(`${TIME_SECTION}.percentage.shift_subtitle`)}
+      />
+      <Action>
+        <Text
+          name="percentageStart"
+          title={variables.getMessage(`${TIME_SECTION}.percentage.shift_start`)}
+          placeholder="9:00"
+          onChange={() => EventBus.emit('refresh', 'clock')}
+        />
+        <Text
+          name="percentageEnd"
+          title={variables.getMessage(`${TIME_SECTION}.percentage.shift_end`)}
+          placeholder="17:00"
+          onChange={() => EventBus.emit('refresh', 'clock')}
+        />
+      </Action>
+    </Row>
+  );
 
   const digitalSettings = (
     <Row final={true}>
@@ -226,6 +255,8 @@ const TimeOptions = () => {
         return analogSettings;
       case 'verticalClock':
         return verticalClock;
+      case 'percentageComplete':
+        return percentageSettings;
       default:
         return null;
     }

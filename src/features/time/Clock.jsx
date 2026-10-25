@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 import { convertTimezone } from 'utils/date';
+import { shiftFraction } from 'utils/timeShift';
 import { formatPercentage, formatDigits } from 'utils/formatNumber';
 import { AnalogClock } from './components/AnalogClock';
 import { VerticalClock } from './components/VerticalClock';
@@ -41,7 +42,17 @@ const Clock = () => {
 
       switch (localStorage.getItem('timeType')) {
         case 'percentageComplete':
-          setTime(formatPercentage(now.getHours() / 24));
+          // Percentage of the working day when a shift is set, otherwise of the
+          // whole 24 hours.
+          setTime(
+            formatPercentage(
+              shiftFraction(
+                now,
+                localStorage.getItem('percentageStart'),
+                localStorage.getItem('percentageEnd'),
+              ),
+            ),
+          );
           setAmpm('');
           break;
         case 'analogue':

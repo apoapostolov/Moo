@@ -46,6 +46,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The appointment and task dialogs sized themselves to their content and use the same panel as the weather and background information widgets.
 - The analogue clock draws straight onto the wallpaper: no panel, no frost and no shadow behind the ring.
 - Google widget rows keep to the card's own insets, the add button is a bare glyph, the task list name is plain text, and a ticked task stays in the list struck through instead of vanishing.
+- The percentage clock can follow a work shift: set the start and end of your day (9 and 17, 9am and 5pm, or 9:30 and 17:30) and the percentage counts through the shift, not the whole 24 hours. Empty fields keep counting the whole day, and a shift that ends before it starts runs over midnight.
 
 ### Removed
 
