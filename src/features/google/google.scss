@@ -1,3 +1,5 @@
+@use 'scss/variables' as *;
+
 // Widgets sit on top of a photo or video, so they need their own contrast
 // instead of inheriting the page text colour.
 .googleWidget {
@@ -335,4 +337,58 @@
       background: rgb(226 74 84 / 95%);
     }
   }
+}
+
+// The Google section is a three step setup, so the numbers have to survive a
+// narrow settings column and read as a sequence, not as decoration.
+.googleStepNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  vertical-align: 1px;
+  border-radius: 50%;
+
+  @include themed {
+    color: t($modal-background);
+    background: t($color);
+  }
+}
+
+.googleRedirect {
+  display: inline-block;
+  padding: 7px 10px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  word-break: break-all;
+  user-select: all;
+  border-radius: 8px;
+
+  @include themed {
+    color: t($color);
+    background: t($modal-sidebarActive);
+    border: 1px solid t($modal-sidebarActive);
+  }
+}
+
+.googleScopeList {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 12.5px;
+  line-height: 1.7;
+
+  @include themed {
+    color: t($subColor);
+  }
+}
+
+.googleOpenLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  text-decoration: none;
 }

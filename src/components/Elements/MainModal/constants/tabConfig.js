@@ -25,6 +25,7 @@ import {
   MdAddCircleOutline,
   MdViewAgenda,
   MdCollectionsBookmark,
+  MdMailOutline,
 } from 'react-icons/md';
 
 // Tab type constants
@@ -48,6 +49,7 @@ export const ICON_COMPONENTS = {
   MESSAGE: MdOutlineTextsms,
   BACKGROUND: MdOutlinePhoto,
   WEATHER: MdCloudQueue,
+  GOOGLE: MdMailOutline,
   APPEARANCE: MdFormatPaint,
   LANGUAGE: MdTranslate,
   ADVANCED: MdOutlineSettings,
@@ -76,6 +78,7 @@ export const MESSAGE_KEYS = {
   MESSAGE: 'modals.main.settings.sections.message.title',
   BACKGROUND: 'modals.main.settings.sections.background.title',
   WEATHER: 'modals.main.settings.sections.weather.title',
+  GOOGLE: 'modals.main.settings.sections.google.title',
   APPEARANCE: 'modals.main.settings.sections.appearance.title',
   LANGUAGE: 'modals.main.settings.sections.language.title',
   ADVANCED: 'modals.main.settings.sections.advanced.title',
@@ -109,6 +112,7 @@ export const getIconComponent = (label, variables) => {
     [variables.getMessage(MESSAGE_KEYS.MESSAGE)]: ICON_COMPONENTS.MESSAGE,
     [variables.getMessage(MESSAGE_KEYS.BACKGROUND)]: ICON_COMPONENTS.BACKGROUND,
     [variables.getMessage(MESSAGE_KEYS.WEATHER)]: ICON_COMPONENTS.WEATHER,
+    [variables.getMessage(MESSAGE_KEYS.GOOGLE)]: ICON_COMPONENTS.GOOGLE,
     [variables.getMessage(MESSAGE_KEYS.APPEARANCE)]: ICON_COMPONENTS.APPEARANCE,
     [variables.getMessage(MESSAGE_KEYS.LANGUAGE)]: ICON_COMPONENTS.LANGUAGE,
     [variables.getMessage(MESSAGE_KEYS.ADVANCED)]: ICON_COMPONENTS.ADVANCED,
