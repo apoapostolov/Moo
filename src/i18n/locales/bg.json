@@ -233,6 +233,7 @@
               "api": "API",
               "unsplash": "Unsplash",
               "mue_library": "Pexels",
+              "coverr": "Coverr",
               "custom_image": "Собствено изображение",
               "custom_colour": "Собствен цвят/градиент",
               "random_colour": "Случаен цвят",
@@ -251,6 +252,12 @@
             "mue_library": {
               "title": "Pexels",
               "subtitle": "Подбрани изображения, организирани по категории"
+            },
+            "coverr": {
+              "title": "Coverr",
+              "subtitle": "Безплатни циклични видеоклипове без звук",
+              "search": "Търсене",
+              "search_subtitle": "Оставете празно за произволен клип или стеснете до тема"
             },
             "source": {
               "title": "Източник",

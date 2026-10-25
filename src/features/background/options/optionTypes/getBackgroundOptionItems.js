@@ -1,6 +1,6 @@
 import variables from 'config/variables';
 
-export const API_BACKGROUND_TYPES = ['api', 'api_mue', 'api_unsplash'];
+export const API_BACKGROUND_TYPES = ['api', 'api_mue', 'api_unsplash', 'api_coverr'];
 
 export function isApiBackgroundType(type) {
   return API_BACKGROUND_TYPES.includes(type);
@@ -12,6 +12,7 @@ export function isApiBackgroundType(type) {
 export function getApiForBackgroundType(type) {
   if (type === 'api_unsplash') return 'unsplash';
   if (type === 'api_mue') return 'mue';
+  if (type === 'api_coverr') return 'coverr';
   return localStorage.getItem('backgroundAPI') === 'mue' ? 'mue' : 'unsplash';
 }
 
@@ -36,6 +37,10 @@ export function getBackgroundOptionItems(marketplaceEnabled) {
     {
       value: 'api_mue',
       text: variables.getMessage('modals.main.settings.sections.background.type.mue_library'),
+    },
+    {
+      value: 'api_coverr',
+      text: variables.getMessage('modals.main.settings.sections.background.type.coverr'),
     },
     {
       value: 'custom',

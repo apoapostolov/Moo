@@ -63,7 +63,12 @@ export default function Background() {
   return (
     <>
       {backgroundData.video ? (
-        <BackgroundVideo url={backgroundData.url} filterStyle={filterStyle} />
+        <BackgroundVideo
+          url={backgroundData.url}
+          filterStyle={filterStyle}
+          loop={backgroundData.loop}
+          muted={backgroundData.muted}
+        />
       ) : (
         <BackgroundImage
           photoInfo={backgroundData.photoInfo}

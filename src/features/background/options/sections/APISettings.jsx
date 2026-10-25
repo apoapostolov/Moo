@@ -58,6 +58,30 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
     />
   );
 
+  if (backgroundAPI === 'coverr') {
+    return (
+      <Row final={true}>
+        <Content
+          title={variables.getMessage('modals.main.settings.sections.background.coverr.title')}
+          subtitle={variables.getMessage(
+            'modals.main.settings.sections.background.coverr.subtitle',
+          )}
+        />
+        <Action>
+          <Text
+            title={variables.getMessage('modals.main.settings.sections.background.coverr.search')}
+            subtitle={variables.getMessage(
+              'modals.main.settings.sections.background.coverr.search_subtitle',
+            )}
+            placeholder="e.g. ocean, forest, city"
+            name="coverrQuery"
+            onChange={clearImageQueue}
+          />
+        </Action>
+      </Row>
+    );
+  }
+
   if (backgroundAPI === 'unsplash') {
     return (
       <Row final={true}>

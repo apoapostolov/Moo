@@ -233,6 +233,7 @@
               "api": "API",
               "unsplash": "Unsplash",
               "mue_library": "Pexels",
+              "coverr": "Coverr",
               "custom_image": "Custom image",
               "custom_colour": "Custom colour/gradient",
               "random_colour": "Random colour",
@@ -251,6 +252,12 @@
             "mue_library": {
               "title": "Pexels",
               "subtitle": "Curated images, organised by category"
+            },
+            "coverr": {
+              "title": "Coverr",
+              "subtitle": "Free looping video clips, played muted",
+              "search": "Search",
+              "search_subtitle": "Leave empty for any clip, or narrow it to a subject"
             },
             "source": {
               "title": "Source",

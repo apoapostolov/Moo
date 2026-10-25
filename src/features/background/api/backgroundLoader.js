@@ -3,6 +3,7 @@ import { supportsAVIF } from './avifSupport';
 import { getOfflineImage } from './offlineImage';
 import { randomColourStyleBuilder } from './randomColour';
 import videoCheck from './videoCheck';
+import { fetchCoverrVideo } from './coverr';
 import { getAllBackgrounds, getAllBackgroundsWithMetadata } from 'utils/customBackgroundDB';
 
 const parseJSON = (key, fallback = null) => {
@@ -117,7 +118,7 @@ export async function getBackgroundData() {
     if (fav.type === 'random_colour' || fav.type === 'random_gradient') {
       return { type: 'colour', style: `background:${fav.url}` };
     }
-    return { url: fav.url, photoInfo: { ...fav, url: fav.url } };
+    return { url: fav.url, video: videoCheck(fav.url), photoInfo: { ...fav, url: fav.url } };
   }
 
   const type = localStorage.getItem('backgroundType');
@@ -127,6 +128,9 @@ export async function getBackgroundData() {
     case 'api_mue':
     case 'api_unsplash':
       return getAPIBackground(isOffline);
+
+    case 'api_coverr':
+      return getCoverrBackground(isOffline);
 
     case 'colour':
       return getColourBackground();
@@ -200,6 +204,23 @@ async function getAPIBackground(isOffline) {
       }
     });
   }
+
+  return data;
+}
+
+/**
+ * Gets a looping video background from Coverr
+ */
+async function getCoverrBackground(isOffline) {
+  if (isOffline) return getOfflineImage('api');
+
+  // Clips are several megabytes, so only the one on screen is fetched: there is
+  // no prefetch queue for video.
+  const data = await fetchCoverrVideo();
+
+  if (!data) return getOfflineImage('api');
+
+  localStorage.setItem('currentBackground', JSON.stringify(data));
 
   return data;
 }

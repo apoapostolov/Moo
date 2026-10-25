@@ -35,9 +35,11 @@ export function useBackgroundEvents(backgroundData, refreshBackground) {
 
       // Check if refresh needed
       const rawType = localStorage.getItem('backgroundType');
-      // API sources are stored as an explicit Mue/Unsplash variant but load as `api`
+      // API sources are stored as an explicit variant but load as `api`
       const type =
-        rawType === 'api_mue' || rawType === 'api_unsplash' ? 'api' : rawType;
+        rawType === 'api_mue' || rawType === 'api_unsplash' || rawType === 'api_coverr'
+          ? 'api'
+          : rawType;
       const needsRefresh =
         (type !== backgroundData.type && !(backgroundData.photoInfo?.offline && type === backgroundData.type)) ||
         (backgroundData.type === 'api' && localStorage.getItem('backgroundAPI') !== backgroundData.currentAPI) ||
