@@ -33,7 +33,24 @@ const widget_name = {
   quickweather: 'Quick Weather',
   quicklinks: variables.getMessage('modals.main.settings.sections.quicklinks.title'),
   date: variables.getMessage('modals.main.settings.sections.date.title'),
+  mail: 'Google Mail',
+  calendar: 'Google Calendar',
+  tasks: 'Google Tasks',
 };
+
+// Widgets added after a profile stored its order still have to show up here,
+// otherwise they can never be switched on.
+const KNOWN_WIDGETS = [
+  'time',
+  'weather',
+  'date',
+  'quickweather',
+  'quicklinks',
+  'mail',
+  'calendar',
+  'tasks',
+];
+const DEFAULT_ORDER = ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
 
 const settingKeyFor = (value) => {
   switch (value) {
@@ -43,6 +60,12 @@ const settingKeyFor = (value) => {
       return 'weatherEnabled';
     case 'quickweather':
       return 'quickWeatherEnabled';
+    case 'mail':
+      return 'googleMailEnabled';
+    case 'calendar':
+      return 'googleCalendarEnabled';
+    case 'tasks':
+      return 'googleTasksEnabled';
     default:
       return value;
   }
@@ -73,13 +96,15 @@ const Overview = () => {
   const [items, setItems] = useState(
     () => {
       const stored = JSON.parse(localStorage.getItem('order'));
-      const known = ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
-      let base = stored || ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
+      let base = stored || DEFAULT_ORDER;
       base = base.map((x) => (x === 'weatherline' ? 'quickweather' : x));
-      base = base.filter((x, i, a) => known.includes(x) && a.indexOf(x) === i);
+      base = base.filter((x, i, a) => KNOWN_WIDGETS.includes(x) && a.indexOf(x) === i);
       if (!base.includes('quickweather') && base.includes('weather')) {
         base.splice(base.indexOf('weather') + 1, 0, 'quickweather');
       }
+      KNOWN_WIDGETS.forEach((widget) => {
+        if (!base.includes(widget)) base.push(widget);
+      });
       return base;
     },
   );
@@ -88,6 +113,9 @@ const Overview = () => {
     date: localStorage.getItem('date') === 'true',
     quicklinks: localStorage.getItem('quicklinksenabled') === 'true',
     weatherEnabled: localStorage.getItem('weatherEnabled') === 'true',
+    googleMailEnabled: localStorage.getItem('googleMailEnabled') === 'true',
+    googleCalendarEnabled: localStorage.getItem('googleCalendarEnabled') === 'true',
+    googleTasksEnabled: localStorage.getItem('googleTasksEnabled') === 'true',
   }));
   const [news, setNews] = useState({
     title: '',
@@ -132,9 +160,8 @@ const Overview = () => {
   };
 
   const reset = () => {
-    const defaultOrder = ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
-    localStorage.setItem('order', JSON.stringify(defaultOrder));
-    setItems(defaultOrder);
+    localStorage.setItem('order', JSON.stringify(DEFAULT_ORDER));
+    setItems(DEFAULT_ORDER);
     toast(variables.getMessage('toasts.reset'));
   };
 
@@ -150,6 +177,14 @@ const Overview = () => {
         return <QuickLinks />;
       case 'date':
         return <Date />;
+      case 'mail':
+      case 'calendar':
+      case 'tasks':
+        // These three talk to Google, so the preview shows their name rather
+        // than cloning live data into the settings panel.
+        return (
+          <div style={{ padding: 8, fontSize: 12, opacity: 0.7 }}>{widget_name[value]}</div>
+        );
       default:
         return null;
     }

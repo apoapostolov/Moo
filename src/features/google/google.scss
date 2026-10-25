@@ -1,0 +1,338 @@
+// Widgets sit on top of a photo or video, so they need their own contrast
+// instead of inheriting the page text colour.
+.googleWidget {
+  width: 320px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1.4;
+  // A heavier scrim keeps the cards looking like one set: a thinner one lets
+  // the photo behind each card tint it a different colour.
+  background: rgb(0 0 0 / 62%);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 22%);
+  border: 1px solid rgb(255 255 255 / 9%);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 45%);
+  user-select: none;
+
+  button {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+.googleWidgetEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.gwHead {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.gwLabel {
+  flex: 1;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.gwBadge {
+  min-width: 20px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  background: rgb(255 255 255 / 22%);
+}
+
+.gwIconButton {
+  padding: 0 6px;
+  border: 0;
+  border-radius: 8px;
+  font-size: 15px;
+  line-height: 20px;
+  background: rgb(255 255 255 / 12%);
+  cursor: pointer;
+
+  &:hover {
+    background: rgb(255 255 255 / 22%);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.gwList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gwDay + .gwDay {
+  margin-top: 8px;
+}
+
+.gwDayLabel {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.gwItem {
+  display: block;
+  width: 100%;
+  padding: 6px 6px 6px 8px;
+  border: 0;
+  border-radius: 9px;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background: rgb(255 255 255 / 10%);
+  }
+
+  &.bare {
+    padding-left: 4px;
+  }
+}
+
+.gwItemTop {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.gwItemTitle {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.gwItemMeta {
+  flex: 0 0 auto;
+  font-size: 11px;
+  opacity: 0.78;
+}
+
+.gwItemSub {
+  display: block;
+  overflow: hidden;
+  font-size: 11.5px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0.78;
+}
+
+.gwTaskRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.gwCheck {
+  margin: 9px 0 0;
+  accent-color: #7cb0ff;
+}
+
+.gwEmpty {
+  margin: 2px 0 6px;
+  font-size: 12px;
+  opacity: 0.72;
+}
+
+.gwError {
+  margin: 4px 0 8px;
+  font-size: 11.5px;
+  color: #ffb4b4;
+}
+
+.gwSelect {
+  max-width: 100%;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgb(255 255 255 / 12%);
+
+  option {
+    color: #111;
+  }
+}
+
+// Dialogs render over the whole page on a new tab, so the overlay is fixed and
+// above the widgets rather than inside the widget card.
+.gwOverlay {
+  position: fixed;
+  z-index: 400;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgb(0 0 0 / 45%);
+  backdrop-filter: blur(3px);
+}
+
+.gwDialog {
+  width: min(460px, 100%);
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  color: #fff;
+  background: rgb(24 24 27 / 96%);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 45%);
+  overflow: hidden;
+}
+
+.gwDialogHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 10px;
+
+  h3 {
+    flex: 1;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .gwIconButton {
+    font-size: 18px;
+  }
+}
+
+.gwDialogBody {
+  padding: 4px 16px 8px;
+  overflow-y: auto;
+}
+
+.gwDialogFoot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px 16px;
+}
+
+.gwSpacer {
+  flex: 1;
+}
+
+.gwForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  input,
+  textarea {
+    padding: 8px 10px;
+    border: 1px solid rgb(255 255 255 / 14%);
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
+    color: #fff;
+    background: rgb(255 255 255 / 6%);
+
+    &:focus {
+      border-color: rgb(124 176 255 / 70%);
+      outline: none;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .gwInline {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 400;
+  }
+}
+
+.gwRow {
+  display: flex;
+  gap: 10px;
+
+  label {
+    flex: 1;
+  }
+}
+
+.gwButton {
+  padding: 7px 14px;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: 9px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #fff;
+  background: rgb(255 255 255 / 8%);
+  cursor: pointer;
+
+  &:hover {
+    background: rgb(255 255 255 / 16%);
+  }
+
+  &:disabled {
+    opacity: 0.55;
+    cursor: default;
+  }
+
+  &.primary {
+    border-color: transparent;
+    background: #4c8dff;
+
+    &:hover {
+      background: #5f99ff;
+    }
+  }
+
+  &.danger {
+    border-color: transparent;
+    background: rgb(220 60 70 / 85%);
+
+    &:hover {
+      background: rgb(226 74 84 / 95%);
+    }
+  }
+}

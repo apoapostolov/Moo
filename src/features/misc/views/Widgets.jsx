@@ -13,18 +13,37 @@ import EventBus from 'utils/eventbus';
 // as seen here it is ridiculously large
 const Weather = lazy(() => import('../../weather/Weather'));
 const QuickWeather = lazy(() => import('../../weather/QuickWeather'));
+const GoogleMail = lazy(() => import('../../google/GoogleMail'));
+const GoogleCalendar = lazy(() => import('../../google/GoogleCalendar'));
+const GoogleTasks = lazy(() => import('../../google/GoogleTasks'));
+
+// Widgets added after a profile already stored its order still need to appear,
+// otherwise they can never be switched on from Overview.
+const KNOWN_WIDGETS = [
+  'time',
+  'weather',
+  'date',
+  'quickweather',
+  'quicklinks',
+  'mail',
+  'calendar',
+  'tasks',
+];
+const DEFAULT_ORDER = ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
 
 const Widgets = () => {
   const online = localStorage.getItem('offlineMode') === 'false';
   const [order, setOrder] = useState(() => {
     const stored = JSON.parse(localStorage.getItem('order'));
-    const known = ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
-    let base = stored || ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
+    let base = stored || DEFAULT_ORDER;
     base = base.map((x) => (x === 'weatherline' ? 'quickweather' : x));
-    base = base.filter((x, i, a) => known.includes(x) && a.indexOf(x) === i);
+    base = base.filter((x, i, a) => KNOWN_WIDGETS.includes(x) && a.indexOf(x) === i);
     if (!base.includes('quickweather') && base.includes('weather')) {
       base.splice(base.indexOf('weather') + 1, 0, 'quickweather');
     }
+    KNOWN_WIDGETS.forEach((widget) => {
+      if (!base.includes(widget)) base.push(widget);
+    });
     return base;
   });
   const [welcome, setWelcome] = useState(localStorage.getItem('showWelcome'));
@@ -42,6 +61,9 @@ const Widgets = () => {
       quicklinks: enabled('quicklinksenabled') && online ? <QuickLinks /> : null,
       weather: enabled('weatherEnabled') && online ? <Weather /> : null,
       quickweather: enabled('quickWeatherEnabled') && online ? <QuickWeather /> : null,
+      mail: enabled('googleMailEnabled') ? <GoogleMail /> : null,
+      calendar: enabled('googleCalendarEnabled') ? <GoogleCalendar /> : null,
+      tasks: enabled('googleTasksEnabled') ? <GoogleTasks /> : null,
     }),
     [order], // Re-create widgets when order changes
   );
