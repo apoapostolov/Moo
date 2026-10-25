@@ -75,11 +75,48 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
             )}
             placeholder="e.g. ocean, forest, city"
             name="coverrQuery"
+            category="backgroundrefresh"
             onChange={clearImageQueue}
           />
         </Action>
       </Row>
     );
+  }
+
+  // Pixabay and Pexels both need a key the user creates on their own account.
+  const keyedVideoSource = (source) => {
+    const base = `modals.main.settings.sections.background.${source}`;
+
+    return (
+      <Row final={true}>
+        <Content
+          title={variables.getMessage(`${base}.title`)}
+          subtitle={variables.getMessage(`${base}.subtitle`)}
+        />
+        <Action>
+          <Text
+            title={variables.getMessage(`${base}.key`)}
+            subtitle={variables.getMessage(`${base}.key_subtitle`)}
+            placeholder={variables.getMessage(`${base}.key_placeholder`)}
+            name={`${source}Key`}
+            category="backgroundrefresh"
+            onChange={clearImageQueue}
+          />
+          <Text
+            title={variables.getMessage(`${base}.search`)}
+            subtitle={variables.getMessage(`${base}.search_subtitle`)}
+            placeholder="e.g. ocean, forest, city"
+            name={`${source}Query`}
+            category="backgroundrefresh"
+            onChange={clearImageQueue}
+          />
+        </Action>
+      </Row>
+    );
+  };
+
+  if (backgroundAPI === 'pixabay' || backgroundAPI === 'pexels') {
+    return keyedVideoSource(backgroundAPI);
   }
 
   if (backgroundAPI === 'unsplash') {

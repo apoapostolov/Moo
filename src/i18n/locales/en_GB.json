@@ -232,8 +232,10 @@
               "title": "Type",
               "api": "API",
               "unsplash": "Unsplash",
-              "mue_library": "Pexels",
+              "mue_library": "Mue Library",
               "coverr": "Coverr",
+              "pixabay": "Pixabay",
+              "pexels": "Pexels",
               "custom_image": "Custom image",
               "custom_colour": "Custom colour/gradient",
               "random_colour": "Random colour",
@@ -250,12 +252,30 @@
               "categories": "Categories"
             },
             "mue_library": {
-              "title": "Pexels",
+              "title": "Mue Library",
               "subtitle": "Curated images, organised by category"
             },
             "coverr": {
               "title": "Coverr",
               "subtitle": "Free looping video clips, played muted",
+              "search": "Search",
+              "search_subtitle": "Leave empty for any clip, or narrow it to a subject"
+            },
+            "pixabay": {
+              "title": "Pixabay",
+              "subtitle": "Free video clips. Needs an API key from your own Pixabay account.",
+              "key": "API key",
+              "key_subtitle": "Create one free at pixabay.com/api/docs",
+              "key_placeholder": "Pixabay API key",
+              "search": "Search",
+              "search_subtitle": "Leave empty for any clip, or narrow it to a subject"
+            },
+            "pexels": {
+              "title": "Pexels",
+              "subtitle": "Free video clips. Needs an API key from your own Pexels account.",
+              "key": "API key",
+              "key_subtitle": "Create one free at pexels.com/api",
+              "key_placeholder": "Pexels API key",
               "search": "Search",
               "search_subtitle": "Leave empty for any clip, or narrow it to a subject"
             },

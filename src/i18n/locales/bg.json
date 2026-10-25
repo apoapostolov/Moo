@@ -232,8 +232,10 @@
               "title": "Тип",
               "api": "API",
               "unsplash": "Unsplash",
-              "mue_library": "Pexels",
+              "mue_library": "Mue библиотека",
               "coverr": "Coverr",
+              "pixabay": "Pixabay",
+              "pexels": "Pexels",
               "custom_image": "Собствено изображение",
               "custom_colour": "Собствен цвят/градиент",
               "random_colour": "Случаен цвят",
@@ -250,12 +252,30 @@
               "categories": "Категории"
             },
             "mue_library": {
-              "title": "Pexels",
+              "title": "Mue библиотека",
               "subtitle": "Подбрани изображения, организирани по категории"
             },
             "coverr": {
               "title": "Coverr",
               "subtitle": "Безплатни циклични видеоклипове без звук",
+              "search": "Търсене",
+              "search_subtitle": "Оставете празно за произволен клип или стеснете до тема"
+            },
+            "pixabay": {
+              "title": "Pixabay",
+              "subtitle": "Безплатни видеоклипове. Изисква ключ от вашия профил в Pixabay.",
+              "key": "API ключ",
+              "key_subtitle": "Създайте безплатен на pixabay.com/api/docs",
+              "key_placeholder": "Pixabay API ключ",
+              "search": "Търсене",
+              "search_subtitle": "Оставете празно за произволен клип или стеснете до тема"
+            },
+            "pexels": {
+              "title": "Pexels",
+              "subtitle": "Безплатни видеоклипове. Изисква ключ от вашия профил в Pexels.",
+              "key": "API ключ",
+              "key_subtitle": "Създайте безплатен на pexels.com/api",
+              "key_placeholder": "Pexels API ключ",
               "search": "Търсене",
               "search_subtitle": "Оставете празно за произволен клип или стеснете до тема"
             },

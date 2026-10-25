@@ -4,6 +4,8 @@ import { getOfflineImage } from './offlineImage';
 import { randomColourStyleBuilder } from './randomColour';
 import videoCheck from './videoCheck';
 import { fetchCoverrVideo } from './coverr';
+import { fetchPixabayVideo } from './pixabay';
+import { fetchPexelsVideo } from './pexels';
 import { getAllBackgrounds, getAllBackgroundsWithMetadata } from 'utils/customBackgroundDB';
 
 const parseJSON = (key, fallback = null) => {
@@ -130,7 +132,13 @@ export async function getBackgroundData() {
       return getAPIBackground(isOffline);
 
     case 'api_coverr':
-      return getCoverrBackground(isOffline);
+      return getVideoBackground(isOffline, fetchCoverrVideo);
+
+    case 'api_pixabay':
+      return getVideoBackground(isOffline, fetchPixabayVideo);
+
+    case 'api_pexels':
+      return getVideoBackground(isOffline, fetchPexelsVideo);
 
     case 'colour':
       return getColourBackground();
@@ -209,14 +217,14 @@ async function getAPIBackground(isOffline) {
 }
 
 /**
- * Gets a looping video background from Coverr
+ * Gets a looping video background from one of the video sources
  */
-async function getCoverrBackground(isOffline) {
+async function getVideoBackground(isOffline, fetchVideo) {
   if (isOffline) return getOfflineImage('api');
 
   // Clips are several megabytes, so only the one on screen is fetched: there is
   // no prefetch queue for video.
-  const data = await fetchCoverrVideo();
+  const data = await fetchVideo();
 
   if (!data) return getOfflineImage('api');
 

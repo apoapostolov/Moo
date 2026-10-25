@@ -1,28 +1,17 @@
-import variables from 'config/variables';
+import { readRecent, rememberClip, pickUnseen } from './videoHistory';
 
 // Coverr's site API. It is not a documented public API, so every response is
 // treated as untrusted: premium clips and vertical clips are skipped, and the
 // caller falls back to the offline image when nothing usable comes back.
 const COVERR_URL = 'https://coverr.co/api/videos';
 const RECENT_KEY = 'coverrRecent';
-const RECENT_LIMIT = 8;
 const PAGES = 40;
 const ATTEMPTS = 4;
 
-const readRecent = () => {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(RECENT_KEY) || '[]');
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-};
+const usableClip = (hit) =>
+  Boolean(hit?.urls?.mp4) && hit.is_premium !== true && hit.is_vertical !== true;
 
-const usableClip = (hit, recent) =>
-  Boolean(hit?.urls?.mp4) &&
-  hit.is_premium !== true &&
-  hit.is_vertical !== true &&
-  !recent.includes(hit.slug);
+const clipKey = (hit) => (usableClip(hit) ? hit.slug : null);
 
 /**
  * Fetches one random looping video clip. Coverr has no exclude parameter, so a
@@ -30,7 +19,7 @@ const usableClip = (hit, recent) =>
  */
 export async function fetchCoverrVideo() {
   const query = (localStorage.getItem('coverrQuery') || '').trim();
-  const recent = readRecent();
+  const recent = readRecent(RECENT_KEY);
 
   for (let attempt = 0; attempt < ATTEMPTS; attempt++) {
     const params = new URLSearchParams({
@@ -50,18 +39,18 @@ export async function fetchCoverrVideo() {
       }
 
       const data = await response.json();
-      const clip = (Array.isArray(data?.hits) ? data.hits : []).find((hit) =>
-        usableClip(hit, recent),
+      // The last attempt accepts a repeat: an older clip beats a blank fallback.
+      const clip = pickUnseen(
+        Array.isArray(data?.hits) ? data.hits : [],
+        attempt === ATTEMPTS - 1 ? [] : recent,
+        clipKey,
       );
 
       if (!clip) {
         continue;
       }
 
-      localStorage.setItem(
-        RECENT_KEY,
-        JSON.stringify([clip.slug, ...recent].slice(0, RECENT_LIMIT)),
-      );
+      rememberClip(RECENT_KEY, clip.slug);
 
       return {
         url: clip.urls.mp4,

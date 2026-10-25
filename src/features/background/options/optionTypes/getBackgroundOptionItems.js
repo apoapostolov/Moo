@@ -1,18 +1,27 @@
 import variables from 'config/variables';
 
-export const API_BACKGROUND_TYPES = ['api', 'api_mue', 'api_unsplash', 'api_coverr'];
+export const API_BACKGROUND_TYPES = [
+  'api',
+  'api_mue',
+  'api_unsplash',
+  'api_coverr',
+  'api_pixabay',
+  'api_pexels',
+];
 
 export function isApiBackgroundType(type) {
   return API_BACKGROUND_TYPES.includes(type);
 }
 
 /**
- * Derives which image API a background type maps to.
+ * Derives which image or video API a background type maps to.
  */
 export function getApiForBackgroundType(type) {
   if (type === 'api_unsplash') return 'unsplash';
   if (type === 'api_mue') return 'mue';
   if (type === 'api_coverr') return 'coverr';
+  if (type === 'api_pixabay') return 'pixabay';
+  if (type === 'api_pexels') return 'pexels';
   return localStorage.getItem('backgroundAPI') === 'mue' ? 'mue' : 'unsplash';
 }
 
@@ -41,6 +50,14 @@ export function getBackgroundOptionItems(marketplaceEnabled) {
     {
       value: 'api_coverr',
       text: variables.getMessage('modals.main.settings.sections.background.type.coverr'),
+    },
+    {
+      value: 'api_pixabay',
+      text: variables.getMessage('modals.main.settings.sections.background.type.pixabay'),
+    },
+    {
+      value: 'api_pexels',
+      text: variables.getMessage('modals.main.settings.sections.background.type.pexels'),
     },
     {
       value: 'custom',
