@@ -21,7 +21,7 @@ export const KNOWLEDGEBASE = 'https://support.muetab.com';
 // Moo Info
 export const ORG_NAME = 'apoapostolov';
 export const REPO_NAME = 'Moo';
-export const EMAIL = 'hello@muetab.com';
+export const EMAIL = 'theapoapostolov@gmail.com';
 export const TWITTER_HANDLE = 'apomakesmods';
 export const DISCORD_SERVER = 'zv8C9F8';
 

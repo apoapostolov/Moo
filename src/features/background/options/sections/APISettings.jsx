@@ -154,48 +154,31 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
     );
   }
 
-  if (backgroundAPI === 'unsplash') {
-    return (
-      <Row final={true}>
-        <Content
-          title={variables.getMessage(
-            'modals.main.settings.sections.background.unsplash.section_title',
-          )}
-          subtitle={variables.getMessage(
-            'modals.main.settings.sections.background.unsplash.section_subtitle',
-          )}
-        />
-        <Action>
-          {topicsControl}
-          <Text
-            title={variables.getMessage('modals.main.settings.sections.background.unsplash.id')}
-            subtitle={variables.getMessage(
-              'modals.main.settings.sections.background.unsplash.id_subtitle',
-            )}
-            placeholder="e.g. 123456, 654321"
-            name="unsplashCollections"
-            category="background"
-            element="#backgroundImage"
-            onChange={clearPrefetch}
-          />
-          {qualityControl}
-        </Action>
-      </Row>
-    );
-  }
-
+  // Unsplash is the only image source left, so it is also the fallback: a profile
+  // still pointing at the retired library lands here rather than on a blank panel.
   return (
     <Row final={true}>
       <Content
         title={variables.getMessage(
-          'modals.main.settings.sections.background.mue_library.title',
+          'modals.main.settings.sections.background.unsplash.section_title',
         )}
         subtitle={variables.getMessage(
-          'modals.main.settings.sections.background.mue_library.subtitle',
+          'modals.main.settings.sections.background.unsplash.section_subtitle',
         )}
       />
       <Action>
-        {categoriesControl(backgroundCategories)}
+        {topicsControl}
+        <Text
+          title={variables.getMessage('modals.main.settings.sections.background.unsplash.id')}
+          subtitle={variables.getMessage(
+            'modals.main.settings.sections.background.unsplash.id_subtitle',
+          )}
+          placeholder="e.g. 123456, 654321"
+          name="unsplashCollections"
+          category="background"
+          element="#backgroundImage"
+          onChange={clearPrefetch}
+        />
         {qualityControl}
       </Action>
     </Row>

@@ -5,6 +5,7 @@ import { FaDiscord } from 'react-icons/fa';
 import { SiX } from 'react-icons/si';
 
 import { Button } from 'components/Elements';
+import { Row, Content, Action } from 'components/Layout/Settings/Item';
 
 class About extends PureComponent {
   constructor() {
@@ -49,7 +50,10 @@ class About extends PureComponent {
     }
 
     if (!versionData || !Array.isArray(versionData) || versionData.length === 0) {
-      this.setState({ update: variables.getMessage('modals.main.settings.sections.about.version.no_update'), loading: null });
+      this.setState({
+        update: variables.getMessage('modals.main.settings.sections.about.version.no_update'),
+        loading: null,
+      });
       return;
     }
 
@@ -113,9 +117,7 @@ class About extends PureComponent {
                 {new Date().getFullYear()}{' '}
                 <a
                   className="link"
-                  href={
-                    'https://github.com/apoapostolov'
-                  }
+                  href={'https://github.com/apoapostolov'}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -127,57 +129,31 @@ class About extends PureComponent {
           </div>
         </div>
 
-        <div className="settingsRow" style={{ flexFlow: 'column', alignItems: 'flex-start' }}>
-          <span className="title" style={{ marginBottom: '1em' }}>
-            {variables.getMessage('modals.main.settings.sections.about.contact_us')}
-          </span>
-          <div className="aboutContact">
-            <Button
-              type="linkIconButton"
-              href={'mailto:' + variables.constants.EMAIL}
-              icon={<MdEmail />}
-              tooltipTitle="Email"
-            />
-            <Button
-              type="linkIconButton"
-              href={'https://x.com/' + variables.constants.TWITTER_HANDLE}
-              icon={<SiX />}
-              tooltipTitle="X (Twitter)"
-            />
-            <Button
-              type="linkIconButton"
-              href={'https://discord.gg/' + variables.constants.DISCORD_SERVER}
-              icon={<FaDiscord />}
-              tooltipTitle="Discord"
-            />
-          </div>
-        </div>
-
-        <div className="settingsRow" style={{ flexFlow: 'column', alignItems: 'flex-start' }}>
-          <span className="title">
-            {variables.getMessage('modals.main.settings.sections.about.resources_used.title')}
-          </span>
-          <span className="subtitle">
-            <a
-              href="https://www.pexels.com"
-              className="link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Pexels
-            </a>
-            ,{' '}
-            <a
-              href="https://unsplash.com"
-              className="link"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Unsplash
-            </a>{' '}
-            ({variables.getMessage('modals.main.settings.sections.about.resources_used.bg_images')})
-          </span>
-        </div>
+        <Row final={true}>
+          <Content title={variables.getMessage('modals.main.settings.sections.about.contact_us')} />
+          <Action>
+            <div className="aboutContact">
+              <Button
+                type="linkIconButton"
+                href={'mailto:' + variables.constants.EMAIL}
+                icon={<MdEmail />}
+                tooltipTitle="Email"
+              />
+              <Button
+                type="linkIconButton"
+                href={'https://x.com/' + variables.constants.TWITTER_HANDLE}
+                icon={<SiX />}
+                tooltipTitle="X (Twitter)"
+              />
+              <Button
+                type="linkIconButton"
+                href={'https://discord.gg/' + variables.constants.DISCORD_SERVER}
+                icon={<FaDiscord />}
+                tooltipTitle="Discord"
+              />
+            </div>
+          </Action>
+        </Row>
       </div>
     );
   }

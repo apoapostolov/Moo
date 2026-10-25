@@ -82,6 +82,9 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The navbar is shown unless you ask otherwise: “Only display on hover” is off by default now, so a fresh page has its buttons in plain sight. A profile that was set up when it was on loses that one setting once, and the checkbox decides from then on.
 - The mail preview follows the hand: running the pointer down the list moves the panel from message to message instead of leaving the previous one up until you leave the row and hover it again. Each message keeps its own panel, so a cached one can never show the previous message's text.
 - The Progress clock fills its bar when the page opens: the completed part of the day sweeps up from empty, fast off the mark and slowing into place with one small spring overshoot before it settles exactly on the real percentage.
+- The Mue library is no longer offered as an image source; Unsplash, Coverr, the live channels, Pixabay and Pexels remain. A profile that was pointed at it moves to Unsplash on its own, and a picture already queued for it is dropped rather than shown once more.
+- About's Contact Us is a settings row now: the label sits on the left and the three contact buttons on the right, level with it.
+- About writes to the new address, theapoapostolov@gmail.com, and no longer carries the resources section.
 - Settings has a Misc page after Google for the things that are not a widget of their own.
 
 ### Removed
