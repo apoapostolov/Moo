@@ -13,8 +13,79 @@ const Dropdown = memo((props) => {
   );
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
+  const [opensUp, setOpensUp] = useState(false);
   const containerRef = useRef(null);
   const optionsRef = useRef([]);
+
+  /**
+   * A dropdown sitting at the bottom of a settings pane has no room below it.
+   * Measure against the nearest scrolling ancestor and flip the menu upwards
+   * when that is where the space is.
+   */
+  const measureDirection = useCallback(() => {
+    const control = containerRef.current?.querySelector('.dropdown-control');
+
+    if (!control) return false;
+
+    const rect = control.getBoundingClientRect();
+    let bounds = { top: 0, bottom: window.innerHeight };
+    let pane = null;
+    let parent = control.parentElement;
+
+    // Every ancestor that clips has a say in where the menu can go: the
+    // scrolling pane, but also the rounded frame around it.
+    while (parent) {
+      const style = window.getComputedStyle(parent);
+      const clips = /(auto|scroll|hidden|clip)/.test(style.overflowY);
+
+      if (clips) {
+        const box = parent.getBoundingClientRect();
+
+        bounds = {
+          top: Math.max(bounds.top, box.top),
+          bottom: Math.min(bounds.bottom, box.bottom),
+        };
+
+        if (!pane && /(auto|scroll)/.test(style.overflowY)) pane = parent;
+      }
+
+      parent = parent.parentElement;
+    }
+
+    const rows = props.items.filter(Boolean).length;
+    const needed = Math.min(rows * 34 + 12, 250);
+    const below = bounds.bottom - rect.bottom - 8;
+    const above = rect.top - bounds.top - 8;
+
+    // The menu opens upwards when it cannot fit below, or when the control is
+    // one of the last rows of the list and the list ends just under it — the
+    // Panel style switch lives exactly there. Room above is required either way.
+    const contentBelow = pane
+      ? pane.scrollHeight - (pane.scrollTop + rect.bottom - bounds.top)
+      : needed;
+
+    return above >= needed && (below < needed || contentBelow < needed);
+  }, [props.items]);
+
+  const openMenu = useCallback(() => {
+    setOpensUp(measureDirection());
+    setIsOpen(true);
+  }, [measureDirection]);
+
+  // Keep the direction honest while the pane is scrolled or the window resized.
+  useEffect(() => {
+    if (!isOpen) return undefined;
+
+    const remeasure = () => setOpensUp(measureDirection());
+
+    document.addEventListener('scroll', remeasure, true);
+    window.addEventListener('resize', remeasure);
+
+    return () => {
+      document.removeEventListener('scroll', remeasure, true);
+      window.removeEventListener('resize', remeasure);
+    };
+  }, [isOpen, measureDirection]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -69,7 +140,8 @@ const Dropdown = memo((props) => {
         case 'Enter':
         case ' ':
           e.preventDefault();
-          setIsOpen(!isOpen);
+          if (isOpen) setIsOpen(false);
+          else openMenu();
           break;
         case 'Escape':
           setIsOpen(false);
@@ -78,7 +150,7 @@ const Dropdown = memo((props) => {
         case 'ArrowDown':
           e.preventDefault();
           if (!isOpen) {
-            setIsOpen(true);
+            openMenu();
           } else {
             setFocusedIndex((prev) => (prev < props.items.filter((i) => i !== null).length - 1 ? prev + 1 : prev));
           }
@@ -91,7 +163,7 @@ const Dropdown = memo((props) => {
           break;
       }
     },
-    [isOpen, props.items, props.disabled],
+    [isOpen, props.items, props.disabled, openMenu],
   );
 
   const handleOptionKeyDown = useCallback(
@@ -115,7 +187,10 @@ const Dropdown = memo((props) => {
   const selectedItem = props.items.find((item) => item?.value === value);
 
   return (
-    <div className={`dropdown ${id} ${props.disabled ? 'disabled' : ''}`} ref={containerRef}>
+    <div
+      className={`dropdown ${id} ${props.disabled ? 'disabled' : ''} ${opensUp ? 'up' : ''}`}
+      ref={containerRef}
+    >
       {label && (
         <div className="dropdown-header">
           <label className="dropdown-label">{label}</label>
@@ -127,7 +202,11 @@ const Dropdown = memo((props) => {
       )}
       <div
         className="dropdown-control"
-        onClick={() => !props.disabled && setIsOpen(!isOpen)}
+        onClick={() => {
+          if (props.disabled) return;
+          if (isOpen) setIsOpen(false);
+          else openMenu();
+        }}
         onKeyDown={handleKeyDown}
         role="button"
         aria-haspopup="listbox"

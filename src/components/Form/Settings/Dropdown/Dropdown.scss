@@ -13,6 +13,19 @@
   }
 }
 
+// The same reveal, from the other side, for a menu that opens upwards.
+@include keyframes(dropdownSlideUp) {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .dropdown {
   position: relative;
   width: 300px;
@@ -120,6 +133,14 @@
     &.open {
       transform: rotate(180deg);
     }
+  }
+
+  // A control near the bottom of a scrolling pane has nowhere to open, so the
+  // menu flips above it instead of running past the edge.
+  &.up .dropdown-menu {
+    top: auto;
+    bottom: calc(100% + 4px);
+    @include animation(dropdownSlideUp 0.2s ease-out);
   }
 
   .dropdown-menu {
