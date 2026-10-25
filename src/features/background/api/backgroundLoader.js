@@ -33,7 +33,7 @@ export async function fetchAPIImageData(excludedPun = null) {
   const url =
     api === 'unsplash' || api === 'pexels'
       ? `${baseURL}/unsplash?${collection ? `collections=${collection}` : `categories=${categories || ''}`}&quality=${quality}`
-      : `${baseURL}/random?categories=${categories || ''}&quality=${quality}&excludes=${excludes}`;
+      : `${baseURL}/random?categories=${categories || ''}&quality=${quality}&exclude=${excludes}`;
 
   try {
     const accept = `application/json, ${(await supportsAVIF()) ? 'image/avif' : 'image/webp'}`;
@@ -56,7 +56,7 @@ export async function fetchAPIImageData(excludedPun = null) {
         longitude: data.location.longitude,
         views: data.views,
         downloads: data.downloads,
-        likes: data.likes,
+        likes: data.likes ?? data.hearts,
         description: data.description,
         colour: data.colour,
         blur_hash: data.blur_hash,

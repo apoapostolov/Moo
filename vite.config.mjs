@@ -42,7 +42,13 @@ const prepareBuilds = () => ({
       // Firefox Build
       console.log('🦊 Building Firefox extension...');
       const firefoxBuildPath = path.resolve(__dirname, './build/firefox');
+      // Wipe the previous build so stale hashed bundles don't ship in the package.
+      // Only the contents are removed; the directory itself can be held open by
+      // another process, which makes rmdir fail with EBUSY on Windows.
       fs.mkdirSync(firefoxBuildPath, { recursive: true });
+      for (const entry of fs.readdirSync(firefoxBuildPath)) {
+        fs.rmSync(path.join(firefoxBuildPath, entry), { recursive: true, force: true });
+      }
 
       // Copy manifest and background script
       fs.copyFileSync(
