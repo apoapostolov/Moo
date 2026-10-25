@@ -44,6 +44,7 @@ const CHANGELOG = [
           'Only the current widget style remains; the old style switch is gone.',
           'Weather finds the location on its own at first launch, now that the search box is gone.',
           'Excluded images are actually skipped, and the background service is asked again when a request fails.',
+          'Background sources are ordered by popularity, and only Coverr is marked as a video source, since Pixabay and Pexels fall back to an image without a key.',
         ],
       },
       {
