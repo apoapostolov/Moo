@@ -134,5 +134,68 @@ export const listMessages = async ({
   return { messages: sorted, unreadCount };
 };
 
+/**
+ * Gmail sends message bodies as base64url, split over a tree of MIME parts. A
+ * plain text part is used when there is one; an HTML-only message is reduced to
+ * text rather than rendered, because this panel must never run a stranger's
+ * markup or load their tracking pixels.
+ */
+const decodeBody = (data) => {
+  const base64 = String(data).replace(/-/g, '+').replace(/_/g, '/');
+  const binary = atob(base64);
+  const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
+
+  return new TextDecoder('utf-8').decode(bytes);
+};
+
+const htmlToText = (html) =>
+  html
+    .replace(/<(script|style|head)[\s\S]*?<\/\1>/gi, '')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(p|div|tr|li|h[1-6]|blockquote)>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#(\d+);/g, (_, code) => String.fromCharCode(Number(code)))
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+
+const walkParts = (part, found = { text: '', html: '', attachments: 0 }) => {
+  if (!part) return found;
+
+  if (part.filename) found.attachments += 1;
+
+  if (part.mimeType === 'text/plain' && part.body?.data) {
+    found.text += decodeBody(part.body.data);
+  } else if (part.mimeType === 'text/html' && part.body?.data) {
+    found.html += decodeBody(part.body.data);
+  }
+
+  (part.parts ?? []).forEach((child) => walkParts(child, found));
+
+  return found;
+};
+
+/** One whole message, body included, for the hover preview. */
+export const getMessage = async (id) => {
+  const message = await googleFetch(
+    `/gmail/v1/users/me/messages/${encodeURIComponent(id)}?format=full`,
+  );
+
+  const parts = walkParts(message.payload);
+  const body = (parts.text || htmlToText(parts.html) || message.snippet || '').trim();
+
+  return {
+    ...toMessage(message),
+    to: headerValue(message, 'To'),
+    body,
+    attachments: parts.attachments,
+  };
+};
+
 export const getMessageUrl = (message) =>
   `https://mail.google.com/mail/u/0/#inbox/${message.threadId ?? message.id}`;

@@ -205,6 +205,115 @@
 // z-index juggling the page itself does. The scrim is its own ::backdrop: a
 // backdrop-filter here would put the scrim in the same composited layer that
 // makes the cards paint over ordinary overlays.
+// The hover preview of a whole message. It is a popover, so the top layer holds
+// it above the card that spawned it; the numbers here are only its shape.
+.gwPreview {
+  @extend %basic;
+
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: none;
+  flex-direction: column;
+  max-height: 62vh;
+  overflow: hidden;
+
+  &:popover-open {
+    display: flex;
+  }
+}
+
+.gwPreviewHead {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 12px 14px 0;
+
+  @include themed {
+    color: t($subColor);
+  }
+}
+
+.gwPreviewFrom {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12.5px;
+
+  @include themed {
+    color: t($color);
+  }
+}
+
+.gwPreviewDate {
+  flex: 0 0 auto;
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.gwPreviewSubject {
+  margin: 4px 14px 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+
+  @include themed {
+    color: t($color);
+  }
+}
+
+.gwPreviewBody {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  margin: 8px 0 0;
+  padding: 0 14px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+
+  @include themed {
+    color: t($subColor);
+  }
+}
+
+.gwPreviewNote {
+  margin: 0;
+  font-style: italic;
+
+  @include themed {
+    color: t($subColor);
+  }
+}
+
+.gwPreviewFoot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px 12px;
+  font-size: 11px;
+
+  @include themed {
+    color: t($subColor);
+  }
+
+  span + span::before {
+    content: '·';
+    margin: 0 8px 0 2px;
+    opacity: 0.5;
+  }
+}
+
+.gwPreviewHint {
+  margin-left: auto;
+  opacity: 0.75;
+}
+
 .gwDialog {
   @extend %basic;
 

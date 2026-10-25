@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import EventBus from 'utils/eventbus';
 import { getSurface } from 'utils/widgetSurface';
@@ -7,6 +7,7 @@ import { useGoogleAuth } from './hooks/useGoogleAuth';
 import { getMessageUrl, listMessages } from './services/gmail';
 import { MAIL_CATEGORIES, getMailSettings, refreshMs } from './settings';
 import ConnectPrompt, { describeError } from './components/ConnectPrompt';
+import MailPreview from './components/MailPreview';
 
 import './google.scss';
 
@@ -32,6 +33,41 @@ const GoogleMail = () => {
   const [state, setState] = useState({ messages: [], unreadCount: 0 });
   const [fetchError, setFetchError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [preview, setPreview] = useState(null);
+  const hoverTimer = useRef(null);
+
+  // A short intent delay, so sweeping the pointer across the list does not fire
+  // a message fetch for every row it crosses.
+  const openPreview = (message) => (hoverEvent) => {
+    const anchor = hoverEvent.currentTarget;
+
+    clearTimeout(hoverTimer.current);
+    hoverTimer.current = setTimeout(() => setPreview({ message, anchor }), 280);
+  };
+
+  const keepPreview = () => clearTimeout(hoverTimer.current);
+
+  // Not immediate: the pointer has to be able to cross the gap into the panel to
+  // scroll a long message, and crossing the gap leaves the row first.
+  const closePreview = () => {
+    clearTimeout(hoverTimer.current);
+    hoverTimer.current = setTimeout(() => setPreview(null), 240);
+  };
+
+  useEffect(() => {
+    if (!preview) return undefined;
+
+    // The panel is placed from the row's box at hover time, so a scroll would
+    // leave it pointing at the wrong row.
+    const close = () => setPreview(null);
+
+    window.addEventListener('scroll', close, true);
+
+    return () => {
+      window.removeEventListener('scroll', close, true);
+      clearTimeout(hoverTimer.current);
+    };
+  }, [preview]);
 
   const load = useCallback(async () => {
     const current = getMailSettings();
@@ -119,13 +155,16 @@ const GoogleMail = () => {
           const second = settings.primary === 'subject' ? message.from : message.subject;
 
           return (
-            <li key={message.id}>
+            <li
+              key={message.id}
+              onMouseEnter={openPreview(message)}
+              onMouseLeave={closePreview}
+            >
               <a
                 className="gwItem"
                 href={getMessageUrl(message)}
                 target="_blank"
                 rel="noopener noreferrer"
-                title={message.snippet}
               >
                 <span className="gwItemTop">
                   <span className="gwItemTitle">{lead}</span>
@@ -140,6 +179,15 @@ const GoogleMail = () => {
           );
         })}
       </ul>
+
+      {preview && (
+        <MailPreview
+          message={preview.message}
+          anchor={preview.anchor}
+          onEnter={keepPreview}
+          onLeave={closePreview}
+        />
+      )}
     </div>
   );
 };
