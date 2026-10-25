@@ -93,6 +93,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - About writes to the new address, theapoapostolov@gmail.com, and no longer carries the resources section.
 - The Overview preview draws Mail, Calendar and Tasks instead of naming them: a thumbnail of a widget card with grey bars where the text would be, a dot, a date square or a tick box where the card carries its glyph, and a single entry inside. Stacked widgets keep a few pixels between them so each one reads as its own card.
 - Settings has a Misc page after Google for the things that are not a widget of their own.
+- A live channel that publishes captions no longer draws them over the wallpaper. The background has no text of its own, and a webcam stream that ships a caption rendition used to have it switched on automatically.
 
 ### Removed
 

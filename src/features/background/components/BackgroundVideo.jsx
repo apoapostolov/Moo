@@ -39,6 +39,12 @@ function BackgroundVideo({ url, filterStyle, loop, muted, hls, live, maxHeight }
         enableWorker: false,
         maxBufferLength: 10,
         backBufferLength: 5,
+        // Webcam channels publish a caption rendition — a timestamp, the
+        // location, a greyscale label — and a DEFAULT=YES one is selected on
+        // its own. The wallpaper is scenery: subtitles would be drawn over the
+        // clock. Both switches are off so nothing renders either way.
+        subtitleDisplay: false,
+        renderTextTracksNatively: false,
       });
 
       player.loadSource(url);
@@ -65,6 +71,19 @@ function BackgroundVideo({ url, filterStyle, loop, muted, hls, live, maxHeight }
       player.on(Hls.Events.ERROR, (_event, data) => {
         if (data.fatal) console.warn('Live background failed:', data.type, data.details);
       });
+
+      // A manifest can name a subtitle rendition after the player started, and
+      // clips carry tracks of their own. Nothing on the background is allowed to
+      // switch one on, so every track goes back to disabled whenever the list
+      // changes.
+      const silence = () => {
+        if (!player) return;
+        if (player.subtitleTrack !== -1) player.subtitleTrack = -1;
+        for (const track of video.textTracks) track.mode = 'disabled';
+      };
+
+      player.on(Hls.Events.SUBTITLE_TRACKS_UPDATED, silence);
+      player.on(Hls.Events.MANIFEST_PARSED, silence);
     })();
 
     return () => {
@@ -88,6 +107,27 @@ function BackgroundVideo({ url, filterStyle, loop, muted, hls, live, maxHeight }
     document.addEventListener('visibilitychange', onVisibility);
     return () => document.removeEventListener('visibilitychange', onVisibility);
   }, [live]);
+
+  // The scenery rule holds for plain clips too: an MP4 can carry a subtitle
+  // track, and a `<video>` given one will show it. Turn every track off on the
+  // way in and again whenever another arrives, whatever the source.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return undefined;
+
+    const disableTextTracks = () => {
+      for (const track of video.textTracks) track.mode = 'disabled';
+    };
+
+    disableTextTracks();
+    video.addEventListener('loadedmetadata', disableTextTracks);
+    video.textTracks.addEventListener('addtrack', disableTextTracks);
+
+    return () => {
+      video.removeEventListener('loadedmetadata', disableTextTracks);
+      video.textTracks.removeEventListener('addtrack', disableTextTracks);
+    };
+  }, [url, hls]);
 
   return (
     <video
