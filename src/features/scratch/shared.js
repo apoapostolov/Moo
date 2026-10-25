@@ -12,8 +12,18 @@ const MIN_TILT = 1.2;
 const MAX_TILT = 3.6;
 // How much a fast drag adds to the tilt before it is clamped.
 const DRAG_TILT = 6;
-// How much of the distance to the wanted lean is covered on each pointer move.
-const TILT_EASE = 0.2;
+// The lean follows the hand over this much pointer travel rather than from one
+// report to the next. A single frame's delta is mostly mouse jitter: one pixel
+// in eight milliseconds reads as a full-speed flick, which is what made small
+// corrections snap the paper from edge to edge.
+const TILT_WINDOW = 90;
+// Speeds below this do not lean the paper at all, so nudging it into place
+// leaves it as straight as it was.
+const TILT_DEADZONE = 0.05;
+// At this speed the lean is at its limit.
+const TILT_FULL_SPEED = 0.55;
+// How long the lean takes to close on its target.
+const TILT_TAU = 90;
 const MOVE_THRESHOLD = 4;
 
 // Byte limits for a stored picture: a paste is re-encoded rather than trusted,
@@ -40,17 +50,63 @@ const randomTilt = () =>
   (MIN_TILT + Math.random() * (MAX_TILT - MIN_TILT)) * (Math.random() < 0.5 ? -1 : 1);
 
 /**
- * Speed in pixels per millisecond, so a fast flick and a slow crawl lean by
- * different amounts instead of by whatever the frame rate happened to be.
+ * The lean a given speed asks for, in degrees. Speed is in pixels per
+ * millisecond, so a fast flick and a slow crawl lean by different amounts
+ * instead of by whatever the frame rate happened to be.
+ *
+ * The ramp is squared rather than linear: the first pixels of a movement lean
+ * the paper by almost nothing, and only a real flick reaches the full lean. A
+ * straight line from zero would still startle at walking pace.
  */
-const dragTarget = (speed) => clamp(speed * 120, -DRAG_TILT, DRAG_TILT);
+const dragTarget = (speed) => {
+  const magnitude = Math.abs(speed);
+
+  if (magnitude <= TILT_DEADZONE) return 0;
+
+  const ramp = Math.min(1, (magnitude - TILT_DEADZONE) / (TILT_FULL_SPEED - TILT_DEADZONE));
+
+  return Math.sign(speed) * ramp * ramp * DRAG_TILT;
+};
+
+/**
+ * Speed over the last TILT_WINDOW of pointer travel, in pixels per millisecond.
+ * The samples are the drag's own history; the oldest one at least a window away
+ * is the anchor. A drag younger than the window is measured over its whole
+ * length, which keeps the first moments honest instead of inventing a speed.
+ */
+const windowedSpeed = (samples, now) => {
+  const newest = samples[samples.length - 1];
+  let anchor = samples[0];
+
+  for (let index = samples.length - 1; index >= 0; index--) {
+    if (newest.t - samples[index].t >= TILT_WINDOW) {
+      anchor = samples[index];
+      break;
+    }
+  }
+
+  const span = Math.max(16, newest.t - anchor.t);
+
+  return (newest.x - anchor.x) / span;
+};
+
+/**
+ * One step of an ease that behaves the same at any pointer rate: the share of
+ * the distance covered grows with the time since the last step, so a 60 Hz mouse
+ * and a 144 Hz mouse lean alike. `dt` is in milliseconds.
+ */
+const easeToward = (current, target, dt) =>
+  current + (target - current) * (1 - Math.exp(-Math.max(1, dt) / TILT_TAU));
 
 export {
   NOTE_WIDTH,
   MIN_TILT,
   MAX_TILT,
   DRAG_TILT,
-  TILT_EASE,
+  TILT_WINDOW,
+  TILT_DEADZONE,
+  TILT_FULL_SPEED,
+  TILT_TAU,
   MOVE_THRESHOLD,
   IMAGE_MAX_EDGE,
   IMAGE_QUALITY,
@@ -60,4 +116,6 @@ export {
   settleAngle,
   randomTilt,
   dragTarget,
+  windowedSpeed,
+  easeToward,
 };
