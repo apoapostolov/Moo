@@ -81,6 +81,14 @@
   top: 6px;
   right: 6px;
   font-size: 15px;
+
+  // Armed: the second click is the one that removes the picture. Same red the
+  // note's close control turns, so both layers ask the same way.
+  &.armed {
+    opacity: 1;
+    color: #ff9d9d;
+    background: rgb(150 30 30 / 78%);
+  }
 }
 
 .scratchImageCopy {

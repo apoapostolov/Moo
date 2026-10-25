@@ -389,11 +389,13 @@ const Scratch = () => {
     }
   };
 
-  const armClose = (id) => {
+  // First click arms, second click runs `confirm`. Notes and pictures share it so
+  // a picture can never vanish under a single click while a note needs two.
+  const armClose = (id, confirm) => {
     if (armedId === id) {
       setArmedId(null);
       setEditingId((current) => (current === id ? null : current));
-      commitNotes(notes.filter((note) => note.id !== id));
+      confirm();
 
       return;
     }
@@ -689,7 +691,9 @@ const Scratch = () => {
               <button
                 type="button"
                 className={`scratchNoteClose${armedId === note.id ? ' armed' : ''}`}
-                onClick={() => armClose(note.id)}
+                onClick={() =>
+                  armClose(note.id, () => commitNotes(notes.filter((item) => item.id !== note.id)))
+                }
                 title={armedId === note.id ? 'Click again to remove' : 'Remove note'}
                 aria-label={armedId === note.id ? 'Click again to remove the note' : 'Remove note'}
               >
@@ -763,10 +767,14 @@ const Scratch = () => {
               </button>
               <button
                 type="button"
-                className="scratchImageButton scratchImageClose"
-                title="Remove"
-                aria-label="Remove this picture"
-                onClick={() => removeImage(image.id)}
+                className={`scratchImageButton scratchImageClose${
+                  armedId === image.id ? ' armed' : ''
+                }`}
+                title={armedId === image.id ? 'Click again to remove' : 'Remove picture'}
+                aria-label={
+                  armedId === image.id ? 'Click again to remove the picture' : 'Remove this picture'
+                }
+                onClick={() => armClose(image.id, () => removeImage(image.id))}
               >
                 ×
               </button>
