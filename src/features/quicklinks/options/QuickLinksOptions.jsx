@@ -8,6 +8,7 @@ import { Button } from 'components/Elements';
 import Modal from 'react-modal';
 
 import { AddModal } from 'components/Elements/AddModal';
+import WidgetSurface from 'components/Form/Settings/WidgetSurface/WidgetSurface';
 import { SortableList } from './components';
 import { readQuicklinks } from './utils/quicklinksUtils';
 
@@ -254,6 +255,7 @@ const QuickLinksOptions = () => {
       >
         <AdditionalSettings />
         <StylingOptions />
+        <WidgetSurface setting="surfaceQuicklinks" category="quicklinks" />
         <AddLink />
 
         {items.length === 0 && (

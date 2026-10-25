@@ -2,6 +2,8 @@ import { memo, useRef, useState, useEffect, useCallback } from 'react';
 import { Tooltip } from 'components/Elements';
 
 import EventBus from 'utils/eventbus';
+import { getSurface } from 'utils/widgetSurface';
+
 
 import './quicklinks.scss';
 
@@ -102,7 +104,7 @@ const QuickLinks = memo(() => {
     if (localStorage.getItem('quickLinksStyle') === 'metro') {
       return (
         <a
-          className="quickLinksMetro"
+          className={`quickLinksMetro ${getSurface('quicklinks')}`}
           key={`quicklink-${item.key}-${index}`}
           href={item.url}
           target={target}

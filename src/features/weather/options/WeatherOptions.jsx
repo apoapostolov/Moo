@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { MdAutoAwesome } from 'react-icons/md';
 import { Header, Row, Content, Action, PreferencesWrapper } from 'components/Layout/Settings';
+import WidgetSurface from 'components/Form/Settings/WidgetSurface/WidgetSurface';
 import { useLocalStorageState } from 'utils/useLocalStorageState';
 import { Radio, Dropdown, Checkbox } from 'components/Form/Settings';
 import variables from 'config/variables';
@@ -202,6 +203,7 @@ const WeatherOptions = () => {
         {LocationSetting()}
         <TemperatureFormat />
         {weatherType === '4' && <CustomOptions />}
+        <WidgetSurface setting="surfaceWeather" category="weather" />
       </PreferencesWrapper>
     </>
   );

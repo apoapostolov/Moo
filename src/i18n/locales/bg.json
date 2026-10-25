@@ -92,6 +92,12 @@
         "refresh": "Обнови"
       },
       "settings": {
+      "surface": {
+        "title": "Стил на панела",
+        "subtitle": "Classic е тъмен панел, през който едва се вижда. Glass е по-светъл, силно замъглява фона и го оставя да прозира през панела.",
+        "classic": "Classic",
+        "glass": "Glass"
+      },
         "enabled": "Включено",
         "open_knowledgebase": "Отвори база знания",
         "additional_settings": "Допълнителни настройки",

@@ -1,6 +1,6 @@
 import variables from 'config/variables';
 import { Checkbox } from 'components/Form/Settings';
-import { Text } from 'components/Form/Settings';
+import { Text, Dropdown } from 'components/Form/Settings';
 import { Row, Content, Action } from 'components/Layout/Settings/Item';
 
 const DisplaySettings = ({ usingImage }) => {
@@ -60,6 +60,18 @@ const DisplaySettings = ({ usingImage }) => {
             text={variables.getMessage('modals.main.settings.sections.background.show_map')}
             element=".other"
             disabled={!usingImage}
+          />
+          <Dropdown
+            label={variables.getMessage('modals.main.settings.surface.title')}
+            name="surfaceBackground"
+            category="background"
+            items={[
+              {
+                value: 'classic',
+                text: variables.getMessage('modals.main.settings.surface.classic'),
+              },
+              { value: 'glass', text: variables.getMessage('modals.main.settings.surface.glass') },
+            ]}
           />
         </Action>
       </Row>

@@ -1,8 +1,9 @@
+import { getSurface } from 'utils/widgetSurface';
 import { memo } from 'react';
 
 function WeatherSkeleton({ weatherType }) {
   return (
-    <div className="weather skeleton">
+    <div className={`weather skeleton ${getSurface('weather')}`}>
       <div className="weatherCore">
         <div className="iconAndTemps">
           <div className="weathericon">

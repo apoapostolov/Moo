@@ -3,6 +3,7 @@ import { memo, useState, useEffect, useCallback } from 'react';
 import { formatNumber } from 'utils/formatNumber';
 
 import WeatherIcon from './components/WeatherIcon';
+import { getSurface } from 'utils/widgetSurface';
 import Forecast from './components/Forecast';
 import WeatherSkeleton from './components/WeatherSkeleton';
 
@@ -88,7 +89,7 @@ const WeatherWidget = memo(({ compact = false }) => {
 
   if (!weatherData.weather) {
     return (
-      <div className="weather">
+      <div className={`weather ${getSurface('weather')}`}>
         <span className="loc">{location}</span>
       </div>
     );
@@ -96,7 +97,7 @@ const WeatherWidget = memo(({ compact = false }) => {
 
   if (compact) {
     return (
-      <div className="weather weatherCompact">
+      <div className={`weather weatherCompact ${getSurface('weather')}`}>
         <WeatherIcon name={weatherData.icon} />
         <span>{`${formatNumber(weatherData.weather.temp)}${weatherData.temp_text}`}</span>
         <span className="weatherCompactDesc">{weatherData.weather.description}</span>
@@ -106,7 +107,7 @@ const WeatherWidget = memo(({ compact = false }) => {
   }
 
   return (
-    <div className="weather">
+    <div className={`weather ${getSurface('weather')}`}>
       <div className="weatherCore">
         <div className="iconAndTemps">
           <div className="weathericon">

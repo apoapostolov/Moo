@@ -4,6 +4,9 @@
 @use 'mixins' as *;
 
 $background: 'background';
+$glassBackground: 'glassBackground';
+$glassBorder: 'glassBorder';
+$glassShadow: 'glassShadow';
 $boxShadow: 'boxShadow';
 $borderRadius: 'borderRadius';
 $color: 'color';
@@ -56,6 +59,9 @@ $themes: (
   light: (
     'weather': #333,
     'background': rgb(255 255 255 / 70%),
+    'glassBackground': rgb(255 255 255 / 42%),
+    'glassBorder': rgb(0 0 0 / 7%),
+    'glassShadow': 0 10px 30px rgb(0 0 0 / 12%),
     'backgroundBlur': 15px,
     'color': rgb(0 0 0),
     'subColor': #333,
@@ -73,6 +79,9 @@ $themes: (
   dark: (
     'weather': #e7e7e7,
     'background': rgb(0 0 0 / 70%),
+    'glassBackground': rgb(0 0 0 / 38%),
+    'glassBorder': rgb(255 255 255 / 12%),
+    'glassShadow': 0 10px 30px rgb(0 0 0 / 26%),
     'backgroundBlur': 15px,
     'color': rgb(255 255 255),
     'subColor': #a0a0a0,
@@ -142,6 +151,21 @@ $theme-map: null;
     }
   }
 }
+
+// The other surface: a far lighter scrim with a heavier blur and a hairline
+// edge, so the wallpaper reads through the panel instead of sitting behind a
+// dark box. Widgets opt in per section via the Panel style switch; the doubled
+// class raises specificity above the widget rules so order cannot defeat it.
+.glassSurface.glassSurface {
+  backdrop-filter: blur(20px) saturate(150%);
+
+  @include themed {
+    background: t($glassBackground);
+    border: 1px solid t($glassBorder);
+    box-shadow: t($glassShadow);
+  }
+}
+
 
 %tabText {
   .mainTitle {

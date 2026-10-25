@@ -2,6 +2,7 @@ import variables from 'config/variables';
 import { useState, memo } from 'react';
 import { useT } from 'contexts';
 import Favourite from './Favourite';
+import { getSurface } from 'utils/widgetSurface';
 import { recordImageCounter } from '../api/imageCounters';
 import {
   MdInfo,
@@ -309,7 +310,7 @@ function PhotoInformation({ info, url, api }) {
       )}
       {widgetStyle !== 'legacy' || other ? (
         <div
-          className="photoInformation orHover"
+          className={`photoInformation orHover ${getSurface('background')}`}
           style={{ padding: widgetStyle === 'legacy' && '20px' }}
           onMouseEnter={() => setshowExtraInfo(true)}
           onMouseLeave={() => setshowExtraInfo(false)}
