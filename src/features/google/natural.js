@@ -313,6 +313,12 @@ export const parseNatural = (text, { now = new Date(), kind = 'event' } = {}) =>
     state,
     /(?:from\s+)?\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\s*(?:-|–|to|until|till)\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i,
     (match) => {
+      // "3-5 dec" and "20-22 nov" are ranges of days. A month right after the
+      // numbers settles it, and the date pass below claims the phrase instead.
+      const after = state.work.slice(match.index + match[0].length);
+
+      if (new RegExp(`^\\s*(?:of\\s+)?(${MONTH_PATTERN})\\b`, 'i').test(after)) return null;
+
       const start = meridiem(setTime(match[1], match[2]), match[3] || match[6]);
       const end = meridiem(setTime(match[4], match[5]), match[6] || match[3]);
 
@@ -427,7 +433,10 @@ export const parseNatural = (text, { now = new Date(), kind = 'event' } = {}) =>
       },
     ],
     [
-      new RegExp(`\\b(\\d{1,2})(?:st|nd|rd|th)?\\s+(?:of\\s+)?(${MONTH_PATTERN})\\b`, 'i'),
+      new RegExp(
+        `\\b(?:on\\s+)?(?:the\\s+)?(\\d{1,2})(?:st|nd|rd|th)?\\s+(?:of\\s+)?(${MONTH_PATTERN})\\b`,
+        'i',
+      ),
       (match) => forwardDate(now, MONTHS[match[2].toLowerCase()], Number(match[1])),
     ],
     [
@@ -471,8 +480,15 @@ export const parseNatural = (text, { now = new Date(), kind = 'event' } = {}) =>
       },
     ],
     [
-      new RegExp(`\\b(?:next|this|coming|on)\\s+(${WEEKDAY_PATTERN})\\b`, 'i'),
-      (match) => nextWeekday(now, WEEKDAYS[match[1].toLowerCase()]),
+      new RegExp(`\\b(next|this|coming|on)\\s+(${WEEKDAY_PATTERN})\\b`, 'i'),
+      (match) => {
+        const day = nextWeekday(now, WEEKDAYS[match[2].toLowerCase()]);
+
+        // "next sunday" typed on a sunday means the one after, not today.
+        return match[1].toLowerCase() === 'next' && day.getTime() === atMidnight(now).getTime()
+          ? addDays(day, 7)
+          : day;
+      },
     ],
     [
       new RegExp(`\\b(${WEEKDAY_PATTERN})\\b`, 'i'),
@@ -529,14 +545,27 @@ export const parseNatural = (text, { now = new Date(), kind = 'event' } = {}) =>
     ]);
   }
 
-  // 6. What nobody claimed is the title.
-  result.title = state.work
-    .replace(/\s+/g, ' ')
-    .replace(/^[\s,;:.–—-]+|[\s,;:.–—-]+$/g, '')
-    .replace(/^(?:on|at|for|in|the|from|by|of)\s+/i, '')
-    .replace(/\s+(?:on|at|for|in|the|from|by|of)$/i, '')
-    .replace(/^[\s,;:.–—-]+|[\s,;:.–—-]+$/g, '')
-    .trim();
+  // 6. What nobody claimed is the title. The edges are tidied in a loop: one
+  //    phrase can leave two connectives behind, as "on the 1st of december" does.
+  const tidy = (text) =>
+    text
+      .replace(/\s+/g, ' ')
+      .replace(/^[\s,;:.–—-]+|[\s,;:.–—-]+$/g, '')
+      .replace(/^(?:on|at|for|in|the|from|by|of)\s+/i, '')
+      .replace(/\s+(?:on|at|for|in|the|from|by|of)$/i, '')
+      .replace(/^[\s,;:.–—-]+|[\s,;:.–—-]+$/g, '');
+
+  let title = tidy(state.work);
+
+  for (let pass = 0; pass < 4; pass += 1) {
+    const next = tidy(title);
+
+    if (next === title) break;
+
+    title = next;
+  }
+
+  result.title = title.trim();
 
   result.understood = Boolean(
     result.date || result.time || result.repeat || result.durationMinutes || result.location,

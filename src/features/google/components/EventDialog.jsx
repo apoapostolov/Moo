@@ -11,6 +11,7 @@ import {
   updateEvent,
 } from '../services/calendar';
 import { eventCalendarId, rememberCalendar } from '../settings';
+import { examplePlaceholder } from '../examples';
 
 const blankEvent = () => {
   const start = new Date();
@@ -61,6 +62,9 @@ const EventDialog = ({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [repeat, setRepeat] = useState(null);
+  // One example per opening, so the title box keeps showing the same sentence
+  // while it is being read instead of changing under the cursor.
+  const [titlePlaceholder] = useState(() => examplePlaceholder('event'));
   const autoLocation = useRef('');
 
   /**
@@ -212,7 +216,7 @@ const EventDialog = ({
           <input
             value={form.title}
             onChange={update('title')}
-            placeholder="Dentist on 24th oct at 9 for 45 minutes"
+            placeholder={titlePlaceholder}
             autoFocus
           />
         </label>

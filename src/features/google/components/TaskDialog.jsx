@@ -4,6 +4,7 @@ import Dialog from './Dialog';
 import { useNaturalTitle } from '../useNaturalTitle';
 import { describe } from '../natural';
 import { createTask, deleteTask, setTaskCompleted, toDueInput, updateTask } from '../services/tasks';
+import { examplePlaceholder } from '../examples';
 
 /**
  * Create, rename, re-date, complete and delete a Google Task. Completing from
@@ -11,6 +12,10 @@ import { createTask, deleteTask, setTaskCompleted, toDueInput, updateTask } from
  */
 const TaskDialog = ({ task, listId, onClose, onSaved, onDeleted }) => {
   const isEditing = Boolean(task?.id);
+
+  // One example per opening, so the title box keeps showing the same sentence
+  // while it is being read instead of changing under the cursor.
+  const [titlePlaceholder] = useState(() => examplePlaceholder('task'));
   const [form, setForm] = useState(() => ({
     title: task?.title ?? '',
     notes: task?.notes ?? '',
@@ -131,7 +136,7 @@ const TaskDialog = ({ task, listId, onClose, onSaved, onDeleted }) => {
           <input
             value={form.title}
             onChange={update('title')}
-            placeholder="Pay the rent on the 1st"
+            placeholder={titlePlaceholder}
             autoFocus
           />
         </label>
