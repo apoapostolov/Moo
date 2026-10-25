@@ -1,5 +1,15 @@
 @use 'scss/variables' as *;
 
+/* The weekday switches under Work shift. Seven short buttons that read as one
+   control: off is outlined, on is filled the way the other selected chips in
+   settings are. */
+.daySwitcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
 /* Seven of these have to sit on one line inside the 300px action column, so the
    measurements are chosen to add up: 7 x 38 plus six 4px gaps is 290.
    The margin is cancelled because `.action button` lifts every button by 10px
