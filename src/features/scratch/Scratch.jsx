@@ -4,6 +4,7 @@ import EventBus from 'utils/eventbus';
 import Markdown from './Markdown';
 import {
   NOTE_WIDTH,
+  TILT_EASE,
   MOVE_THRESHOLD,
   IMAGE_MAX_EDGE,
   IMAGE_QUALITY,
@@ -13,9 +14,6 @@ import {
   settleAngle,
   randomTilt,
   dragTarget,
-  windowedSpeed,
-  easeToward,
-  TILT_WINDOW,
 } from './shared';
 
 import './scratchNotes.scss';
@@ -303,8 +301,6 @@ const Scratch = () => {
 
     tiltRef.current = 0;
 
-    const startedAt = event.timeStamp || performance.now();
-
     dragRef.current = {
       id: note.id,
       startX: event.clientX,
@@ -312,10 +308,7 @@ const Scratch = () => {
       baseX: note.x,
       baseY: note.y,
       lastX: event.clientX,
-      lastTime: startedAt,
-      // The lean is measured over recent pointer travel, so the press is the
-      // first sample of that history.
-      samples: [{ x: event.clientX, t: startedAt }],
+      lastTime: event.timeStamp || performance.now(),
       moved: false,
     };
 
@@ -336,22 +329,13 @@ const Scratch = () => {
     current.moved = true;
 
     const now = event.timeStamp || performance.now();
-
-    current.samples.push({ x: event.clientX, t: now });
-    // Only the last window of travel is needed; the rest would grow for as long
-    // as the hand keeps moving.
-    // Anything older than two windows is dropped, so a pause mid-drag cannot
-    // leave a stale anchor measuring the speed of the whole pause.
-    while (current.samples.length > 2 && now - current.samples[0].t > TILT_WINDOW * 2) {
-      current.samples.shift();
-    }
-
-    const speed = windowedSpeed(current.samples, now);
-
-    tiltRef.current = easeToward(tiltRef.current, dragTarget(speed), now - current.lastTime);
+    const elapsed = Math.max(8, now - current.lastTime);
+    const speed = (event.clientX - current.lastX) / elapsed;
 
     current.lastX = event.clientX;
     current.lastTime = now;
+
+    tiltRef.current += (dragTarget(speed) - tiltRef.current) * TILT_EASE;
 
     setDrag({ id: current.id, dx, dy, tilt: tiltRef.current });
   };
@@ -496,8 +480,6 @@ const Scratch = () => {
 
     tiltRef.current = 0;
 
-    const startedAt = event.timeStamp || performance.now();
-
     imageDragRef.current = {
       mode: 'move',
       id: image.id,
@@ -507,8 +489,7 @@ const Scratch = () => {
       baseY: image.y,
       startWidth: image.width,
       lastX: event.clientX,
-      lastTime: startedAt,
-      samples: [{ x: event.clientX, t: startedAt }],
+      lastTime: event.timeStamp || performance.now(),
       moved: false,
     };
 
@@ -536,20 +517,13 @@ const Scratch = () => {
     current.moved = true;
 
     const now = event.timeStamp || performance.now();
-
-    current.samples.push({ x: event.clientX, t: now });
-    // Anything older than two windows is dropped, so a pause mid-drag cannot
-    // leave a stale anchor measuring the speed of the whole pause.
-    while (current.samples.length > 2 && now - current.samples[0].t > TILT_WINDOW * 2) {
-      current.samples.shift();
-    }
-
-    const speed = windowedSpeed(current.samples, now);
-
-    tiltRef.current = easeToward(tiltRef.current, dragTarget(speed), now - current.lastTime);
+    const elapsed = Math.max(8, now - current.lastTime);
+    const speed = (event.clientX - current.lastX) / elapsed;
 
     current.lastX = event.clientX;
     current.lastTime = now;
+
+    tiltRef.current += (dragTarget(speed) - tiltRef.current) * TILT_EASE;
 
     setImageDrag({ id: current.id, mode: 'move', dx, dy, tilt: tiltRef.current });
   };
