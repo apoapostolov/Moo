@@ -539,6 +539,16 @@
       }
     }
   }
+
+  // The preview clones the real widgets, and the weather card is pinned to the
+  // bottom-right corner of the page. Inside this box it is ordinary content;
+  // left alone it escapes the preview and hangs in the corner of the settings
+  // panel, which reads as a broken pill floating over the page.
+  .weather {
+    position: static;
+    bottom: auto;
+    right: auto;
+  }
 }
 
 .overviewNews {
