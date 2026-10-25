@@ -89,7 +89,9 @@ const TimeOptions = () => {
    * 9 and 17 means 50% at one in the afternoon, not 54% of the whole day.
    */
   const percentageSettings = (
-    <>
+    // One block, not three: the shift, the days and the fallback clock all answer
+    // the same question, so no rule is drawn between them.
+    <div className="settingsGroup">
       <Row>
         <Content
           title={variables.getMessage(`${TIME_SECTION}.percentage.shift_title`)}
@@ -139,7 +141,7 @@ const TimeOptions = () => {
         </Action>
       </Row>
 
-      <Row final={true}>
+      <Row>
         <Content
           title={variables.getMessage(`${TIME_SECTION}.percentage.other_title`)}
           subtitle={variables.getMessage(`${TIME_SECTION}.percentage.other_subtitle`)}
@@ -159,7 +161,7 @@ const TimeOptions = () => {
           />
         </Action>
       </Row>
-    </>
+    </div>
   );
 
   const digitalSettings = (
