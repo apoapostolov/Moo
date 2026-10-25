@@ -25,6 +25,9 @@ const Clock = () => {
   const [ampm, setAmpm] = useState('');
   const [display, setDisplay] = useState('block');
   const [fontSize, setFontSize] = useState('4em');
+  // Only the percentage clock has a shape to draw: how far through the day (or
+  // shift) the moment is, between 0 and 1.
+  const [fraction, setFraction] = useState(0);
   const timerRef = useRef(undefined);
 
   const startTime = (
@@ -41,20 +44,20 @@ const Clock = () => {
       }
 
       switch (localStorage.getItem('timeType')) {
-        case 'percentageComplete':
+        case 'percentageComplete': {
           // Percentage of the working day when a shift is set, otherwise of the
           // whole 24 hours.
-          setTime(
-            formatPercentage(
-              shiftFraction(
-                now,
-                localStorage.getItem('percentageStart'),
-                localStorage.getItem('percentageEnd'),
-              ),
-            ),
+          const elapsed = shiftFraction(
+            now,
+            localStorage.getItem('percentageStart'),
+            localStorage.getItem('percentageEnd'),
           );
+
+          setFraction(elapsed);
+          setTime(formatPercentage(elapsed));
           setAmpm('');
           break;
+        }
         case 'analogue':
           // load analog clock css
           import('react-clock/dist/Clock.css');
@@ -160,6 +163,26 @@ const Clock = () => {
   if (localStorage.getItem('timeType') === 'verticalClock') {
     return (
       <VerticalClock finalHour={finalHour} finalMinute={finalMinute} finalSeconds={finalSeconds} />
+    );
+  }
+
+  if (localStorage.getItem('timeType') === 'percentageComplete') {
+    return (
+      <span
+        className="clock clock-container clockProgress"
+        // The inline display is what hides a switched-off clock, so it has to
+        // carry the bar's own layout too rather than the plain block.
+        style={{ display: display === 'none' ? 'none' : 'inline-flex', fontSize }}
+      >
+        <span className="clockProgressValue">{time}</span>
+        {/* The number already says the percentage, so the bar is decoration. */}
+        <span className="clockProgressTrack" aria-hidden="true">
+          <span
+            className="clockProgressFill"
+            style={{ width: `${Math.round(fraction * 1000) / 10}%` }}
+          />
+        </span>
+      </span>
     );
   }
 
