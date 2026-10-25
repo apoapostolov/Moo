@@ -69,6 +69,9 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Google sits with the other widgets in the settings sidebar, just after Weather, inside the same group.
 - Scratch notes: double-click any empty part of the page and a small tilted note opens under your cursor, ready to type. Drag it to move it, click it to write, and it takes markdown. Each note carries an × that needs a second click before it goes, and a note always sits above the ones it is picked up over. Off by default, in Settings → Misc.
 - Mail, Calendar and Tasks appear only once their first answer has arrived, instead of sitting there empty while the data loads.
+- The signature colour is the Moo navy now instead of orange: the colour of the app icon, lifted so it reads on a dark page. Links, ticks, switches, sliders, the order picker and the ring around the buttons all follow it.
+- Settings → Misc carries a signature colour of your own: five fixed choices, any colour you pick, or one read out of the wallpaper you are looking at.
+- A scratch note keeps the lean it was dragged with, and holds that lean while your hand is still, instead of standing back up or jumping to a new angle when you let go.
 - Settings has a Misc page after Google for the things that are not a widget of their own.
 
 ### Removed

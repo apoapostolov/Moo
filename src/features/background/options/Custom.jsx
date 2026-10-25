@@ -556,7 +556,7 @@ const CustomSettings = memo(() => {
         style={
           isDragging
             ? {
-                outline: '2px dashed #ff5c25',
+                outline: '2px dashed var(--signature)',
                 outlineOffset: '-2px',
                 backgroundColor: 'rgba(255, 92, 37, 0.1)',
                 transition: 'all 0.2s ease',

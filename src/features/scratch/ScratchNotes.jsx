@@ -20,6 +20,8 @@ const MIN_TILT = 1.2;
 const MAX_TILT = 3.6;
 // How much a fast drag adds to the tilt before it is clamped.
 const DRAG_TILT = 6;
+// How much of the distance to the wanted lean is covered on each pointer move.
+const TILT_EASE = 0.2;
 const MOVE_THRESHOLD = 4;
 const ARM_TIMEOUT = 4000;
 
@@ -29,6 +31,17 @@ const NOT_BACKGROUND =
   '.scratchNote, #widgets, #navbar, .navbar, .modal, dialog, .ReactModal__Overlay, label, button, a, input, textarea, select, [contenteditable="true"], [role="button"], .Toastify, .reminder-info';
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+/**
+ * A note the hand lets go of keeps the lean it was left with, but only within
+ * the range that stays readable — and never perfectly straight, because paper
+ * dropped on a desk is never perfectly straight.
+ */
+const settleAngle = (angle) => {
+  const size = clamp(Math.abs(angle), MIN_TILT, MAX_TILT);
+
+  return Number((angle < 0 ? -size : size).toFixed(2));
+};
 
 const readNotes = () => {
   try {
@@ -63,6 +76,7 @@ const ScratchNotes = () => {
   // Kept as a number, so the note touched last is the one on top.
   const topZ = useRef(notes.reduce((highest, note) => Math.max(highest, note.z), 0));
   const dragRef = useRef(null);
+  const tiltRef = useRef(0);
   const disarmTimer = useRef(null);
   const inputs = useRef({});
 
@@ -161,6 +175,10 @@ const ScratchNotes = () => {
 
     event.currentTarget.setPointerCapture?.(event.pointerId);
 
+    // The lean starts from nothing and is carried rather than recomputed, so it
+    // grows into the pull instead of flicking to whatever the last pixel said.
+    tiltRef.current = 0;
+
     dragRef.current = {
       id: note.id,
       startX: event.clientX,
@@ -168,6 +186,7 @@ const ScratchNotes = () => {
       baseX: note.x,
       baseY: note.y,
       lastX: event.clientX,
+      lastTime: event.timeStamp || performance.now(),
       moved: false,
     };
 
@@ -187,12 +206,21 @@ const ScratchNotes = () => {
 
     current.moved = true;
 
-    // The note leans into the pull and stands back up when the hand slows down.
-    const speed = event.clientX - current.lastX;
+    // Speed in pixels per millisecond, so a fast flick and a slow crawl lean by
+    // different amounts instead of by whatever the frame rate happened to be.
+    const now = event.timeStamp || performance.now();
+    const elapsed = Math.max(8, now - current.lastTime);
+    const speed = (event.clientX - current.lastX) / elapsed;
 
     current.lastX = event.clientX;
+    current.lastTime = now;
 
-    setDrag({ id: current.id, dx, dy, tilt: clamp(speed * 1.4, -DRAG_TILT, DRAG_TILT) });
+    const target = clamp(speed * 120, -DRAG_TILT, DRAG_TILT);
+
+    // Eased, not assigned: the paper follows the hand instead of repeating it.
+    tiltRef.current += (target - tiltRef.current) * TILT_EASE;
+
+    setDrag({ id: current.id, dx, dy, tilt: tiltRef.current });
   };
 
   const endDrag = (event) => {
@@ -219,6 +247,10 @@ const ScratchNotes = () => {
               ...note,
               x: clamp(current.baseX + dx, 4, Math.max(4, window.innerWidth - 60)),
               y: clamp(current.baseY + dy, 4, Math.max(4, window.innerHeight - 40)),
+              // The lean the note ended the drag with is the lean it keeps: a
+              // note that slid sideways should still be crooked afterwards, and
+              // it keeps the side it leaned towards.
+              angle: settleAngle(note.angle + tiltRef.current),
             }
           : note,
       ),

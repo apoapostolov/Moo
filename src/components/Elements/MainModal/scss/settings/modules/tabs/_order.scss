@@ -120,7 +120,7 @@
       cursor: pointer;
 
       &.selected {
-        outline: 3px solid #ff5c25;
+        outline: 3px solid var(--signature);
         outline-offset: -3px;
       }
 
@@ -164,8 +164,8 @@
           position: relative;
 
           &:checked {
-            background: #ff5c25;
-            border-color: #ff5c25;
+            background: var(--signature);
+            border-color: var(--signature);
             opacity: 1;
 
             &::after {
@@ -182,7 +182,7 @@
           }
 
           &:hover {
-            border-color: #ff5c25;
+            border-color: var(--signature);
             transform: scale(1.1);
           }
         }
@@ -450,8 +450,8 @@
         border-color: t($modal-sidebarActive);
 
         &:focus {
-          border-color: #ff5c25;
-          box-shadow: 0 0 0 3px rgba(255, 92, 37, 0.1);
+          border-color: var(--signature);
+          box-shadow: 0 0 0 3px color-mix(in srgb, var(--signature) 22%, transparent);
         }
       }
     }

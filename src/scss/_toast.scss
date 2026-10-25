@@ -68,7 +68,7 @@
   &--default,
   &--info {
     @include themed() {
-      background: linear-gradient(90deg, t($link) 0%, #dd3b67 100%) !important;
+      background: linear-gradient(90deg, var(--signature) 0%, var(--signature-light) 100%) !important;
     }
   }
 

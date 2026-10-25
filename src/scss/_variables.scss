@@ -73,7 +73,7 @@ $themes: (
     'modal-sidebar': #feffff,
     'modal-sidebarActive': #f5f5f5,
     'modal-secondaryColour': #fafafa,
-    'link': #ff5c25,
+    'link': var(--signature-link),
     'slightGradient': linear-gradient(#fff, #ddd),
   ),
   dark: (
@@ -93,7 +93,7 @@ $themes: (
     'modal-sidebar': #151515,
     'modal-sidebarActive': #262626,
     'modal-secondaryColour': #111,
-    'link': #ff5c25,
+    'link': var(--signature-link),
     'slightGradient': linear-gradient(#0e1013, #322a2a),
   ),
 );

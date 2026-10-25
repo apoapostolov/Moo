@@ -373,9 +373,21 @@
           },
           "misc": {
             "title": "Misc",
+            "scratch": {
+              "title": "Scratch",
+              "subtitle": "What you drop on the page itself, outside any widget."
+            },
             "scratch_notes": {
               "title": "Scratch notes",
               "subtitle": "Double-click any empty part of the page to drop a note. Drag it to move it, click it to write in it, and click the × twice to throw it away. Markdown works."
+            },
+            "signature": {
+              "title": "Signature colour",
+              "subtitle": "The tint on links, ticks, switches and the ring around the buttons.",
+              "colour": {
+                "title": "Colour",
+                "subtitle": "Pick one, or take the colour the wallpaper is already wearing."
+              }
             }
           },
           "weather": {

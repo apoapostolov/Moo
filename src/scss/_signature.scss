@@ -1,0 +1,22 @@
+/*
+ * The signature colour: every link, tick, ring and filled control in the mod is
+ * drawn in one colour, and it comes from the Moo logo — the dark navy of the
+ * icon (#1d293b), lifted until it can be read as text on a dark background.
+ *
+ * Everything downstream reads these custom properties, so a new colour is one
+ * write away: the Misc page sets --signature from a preset, a picked colour or
+ * a colour sampled out of the wallpaper.
+ */
+:root {
+  --signature: #6b86a8;
+  /* Filled shapes need a shade that white text still sits on. */
+  --signature-strong: color-mix(in srgb, var(--signature) 72%, #0b1622);
+  /* The lighter end of the ring and the toast bar. */
+  --signature-light: color-mix(in srgb, var(--signature) 58%, #ffffff);
+  --signature-link: var(--signature);
+}
+
+/* On white the same colour needs to go darker to keep its contrast. */
+body.light {
+  --signature-link: color-mix(in srgb, var(--signature) 62%, #0c1622);
+}

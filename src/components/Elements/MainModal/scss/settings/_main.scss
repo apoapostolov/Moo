@@ -189,7 +189,7 @@ h4 {
           transition: opacity 0.2s;
 
           @include themed {
-            color: #ff5c25;
+            color: var(--signature-link);
           }
 
           &:hover {
