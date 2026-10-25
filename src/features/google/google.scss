@@ -199,14 +199,17 @@
 }
 
 .gwDialog {
-  width: min(460px, 100%);
+  @extend %basic;
+
+  // Sized by what is inside: the event dialog has to fit two date fields side
+  // by side, the task dialog only one column, so neither gets a fixed width that
+  // is wrong for the other.
+  width: max-content;
+  min-width: 380px;
+  max-width: min(620px, calc(100vw - 48px));
   max-height: 86vh;
   display: flex;
   flex-direction: column;
-  border-radius: 16px;
-  color: #fff;
-  background: rgb(24 24 27 / 96%);
-  box-shadow: 0 24px 60px rgb(0 0 0 / 45%);
   overflow: hidden;
 }
 
@@ -221,6 +224,10 @@
     margin: 0;
     font-size: 15px;
     font-weight: 600;
+
+    @include themed {
+      color: t($color);
+    }
   }
 
   .gwIconButton {
@@ -257,24 +264,32 @@
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    opacity: 0.75;
+
+    @include themed {
+      color: t($subColor);
+    }
   }
 
   input,
   textarea {
+    width: 100%;
+    min-width: 300px;
     padding: 8px 10px;
-    border: 1px solid rgb(255 255 255 / 14%);
     border-radius: 9px;
     font-size: 13px;
     font-weight: 400;
     letter-spacing: normal;
     text-transform: none;
-    color: #fff;
-    background: rgb(255 255 255 / 6%);
 
-    &:focus {
-      border-color: rgb(124 176 255 / 70%);
-      outline: none;
+    @include themed {
+      color: t($color);
+      background: t($modal-sidebar);
+      border: 1px solid t($modal-sidebarActive);
+
+      &:focus {
+        border-color: t($color);
+        outline: none;
+      }
     }
   }
 
@@ -296,23 +311,34 @@
   display: flex;
   gap: 10px;
 
+  // The row must report its real width so the dialog can grow to hold it; a
+  // percentage width here collapses the intrinsic size and the fields end up
+  // wider than the panel that contains them.
   label {
     flex: 1;
+  }
+
+  input {
+    flex: 1;
+    min-width: 200px;
   }
 }
 
 .gwButton {
   padding: 7px 14px;
-  border: 1px solid rgb(255 255 255 / 16%);
   border-radius: 9px;
   font-size: 12.5px;
   font-weight: 500;
-  color: #fff;
-  background: rgb(255 255 255 / 8%);
   cursor: pointer;
 
-  &:hover {
-    background: rgb(255 255 255 / 16%);
+  @include themed {
+    color: t($color);
+    background: t($modal-sidebar);
+    border: 1px solid t($modal-sidebarActive);
+
+    &:hover {
+      background: t($modal-sidebarActive);
+    }
   }
 
   &:disabled {

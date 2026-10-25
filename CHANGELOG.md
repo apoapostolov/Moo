@@ -42,6 +42,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The weather widget no longer jumps in size while it loads: the placeholder matches the real layout.
 - Hearts on library images were counted as missing likes.
 - The quick link dialog had unlabelled fields rendered as raw browser inputs, and no backdrop behind it.
+- The appointment and task dialogs sized themselves to their content and use the same panel as the weather and background information widgets.
 
 ### Removed
 
