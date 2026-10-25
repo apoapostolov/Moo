@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/hero.png" alt="Moo screenshot" width="800" />
+  <img src="assets/moo.gif" alt="Moo new tab page with a looping video background" width="800" />
 </p>
 
 ## What is Moo?
