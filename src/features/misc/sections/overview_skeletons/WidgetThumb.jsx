@@ -13,7 +13,6 @@ const LAYOUT = {
   mail: { icon: 'dot', lines: ['wide', 'medium'] },
   calendar: { icon: 'square', lines: ['medium', 'wide'] },
   tasks: { icon: 'check', lines: ['wide'] },
-  weather: { icon: 'dot', lines: ['medium', 'short'] },
   photoinfo: { icon: null, lines: ['medium', 'short'] },
 };
 
@@ -30,9 +29,7 @@ function WidgetThumb({ type, label }) {
         <span className="gwSkeletonDot gwSkeletonDot-small" />
       </div>
       <div className="gwSkeletonEntry">
-        {layout.icon ? (
-          <span className={`gwSkeletonIcon gwSkeletonIcon-${layout.icon}`} />
-        ) : null}
+        {layout.icon ? <span className={`gwSkeletonIcon gwSkeletonIcon-${layout.icon}`} /> : null}
         <span className="gwSkeletonLines">
           {layout.lines.map((line) => (
             <span className={`gwSkeletonBar gwSkeletonBar-${line}`} key={line} />

@@ -53,6 +53,8 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 
 - The Settings header no longer repeats a Settings button beside the close X. The modal is the settings panel already, so the tab row in its header was a second way to say where you are.
 
+- The Overview preview no longer draws a shrunken Weather Full card in one of its corners. The zone list beside the preview already says which column it lives in, and a squashed copy of the card read as a mistake.
+
 ### Fixed
 
 - The animated background can no longer pan past the edge of the image and show black strips.

@@ -69,13 +69,7 @@ const SortableItem = ({ id, enabled, onToggle }) => {
   const style = { transform: CSS.Transform.toString(transform), transition };
 
   return (
-    <li
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      className="sortableItem"
-      data-widget-id={id}
-    >
+    <li ref={setNodeRef} style={style} {...attributes} className="sortableItem" data-widget-id={id}>
       <span className="dragHandle" {...listeners}>
         <MdOutlineDragIndicator />
       </span>
@@ -98,9 +92,7 @@ const Zone = ({ zone, items, onToggle, isEnabled }) => {
       <span className="title">{ZONE_TITLES[zone]}</span>
       <SortableContext id={zone} items={items} strategy={verticalListSortingStrategy}>
         <ul className="sortableContainer">
-          {items.length === 0 ? (
-            <li className="widgetZoneEmpty">Drop a widget here</li>
-          ) : null}
+          {items.length === 0 ? <li className="widgetZoneEmpty">Drop a widget here</li> : null}
           {items.map((id) => (
             <SortableItem key={id} id={id} enabled={isEnabled(id)} onToggle={onToggle} />
           ))}
@@ -118,10 +110,7 @@ const Overview = () => {
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
   );
 
-  const findZone = useCallback(
-    (id) => ZONES.find((zone) => groups[zone].includes(id)),
-    [groups],
-  );
+  const findZone = useCallback((id) => ZONES.find((zone) => groups[zone].includes(id)), [groups]);
 
   const zoneFor = (over) => {
     if (!over) return null;
@@ -136,7 +125,11 @@ const Overview = () => {
     if (!from || !to || from === to) return;
 
     setGroups((previous) => {
-      const next = { left: [...previous.left], center: [...previous.center], right: [...previous.right] };
+      const next = {
+        left: [...previous.left],
+        center: [...previous.center],
+        right: [...previous.right],
+      };
 
       next[from] = next[from].filter((id) => id !== active.id);
 
@@ -236,7 +229,9 @@ const Overview = () => {
         return <QuickWeather />;
       case 'quicklinks':
         return <QuickLinks />;
-      case 'weather':
+      // Weather Full is the page's own corner card. A skeleton of it sat in the
+      // preview's bottom corner like a squashed copy of the real thing, and the
+      // zone list right beside the preview already names it, so it draws nothing.
       case 'photoinfo':
       case 'mail':
       case 'calendar':
@@ -251,9 +246,11 @@ const Overview = () => {
     <div className={`previewZone previewZone-${zone}`}>
       {groups[zone]
         .filter((id) => isWidgetEnabled(id))
-        .map((id) => (
+        .map((id) => ({ id, node: previewItem(id) }))
+        .filter(({ node }) => node !== null)
+        .map(({ id, node }) => (
           <div className="previewItem" key={`preview-${id}`}>
-            {previewItem(id)}
+            {node}
           </div>
         ))}
     </div>
@@ -273,7 +270,12 @@ const Overview = () => {
       >
         <div className="overviewZones">
           <div className="overviewSide overviewSide-left">
-            <Zone zone="left" items={groups.left} onToggle={toggleEnabled} isEnabled={isWidgetEnabled} />
+            <Zone
+              zone="left"
+              items={groups.left}
+              onToggle={toggleEnabled}
+              isEnabled={isWidgetEnabled}
+            />
           </div>
 
           <div className="overviewPreview">
