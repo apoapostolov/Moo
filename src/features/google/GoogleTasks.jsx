@@ -161,9 +161,9 @@ const GoogleTasks = () => {
   }, []);
 
   const ordered = useMemo(() => {
-    const kept = tasks
-      .filter((task) => (settings.showCompleted ? true : task.status !== 'completed'))
-      .filter((task) => (settings.hideUndated ? Boolean(task.due) : true));
+    // A task that is ticked stays in the list, struck through, until Google is
+    // asked again: making it vanish under the finger reads as a delete.
+    const kept = tasks.filter((task) => (settings.hideUndated ? Boolean(task.due) : true));
 
     const sorted = [...kept];
 

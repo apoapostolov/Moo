@@ -3,8 +3,12 @@
 // Widgets sit on top of a photo or video, so they need their own contrast
 // instead of inheriting the page text colour.
 .googleWidget {
-  width: 320px;
+  // The page centres everything, and these rows are laid out edge to edge
+  // inside the card, so both have to be settled here rather than inherited.
+  box-sizing: border-box;
+  width: 340px;
   padding: 12px 14px;
+  text-align: left;
   border-radius: 14px;
   color: #fff;
   font-size: 13px;
@@ -17,6 +21,12 @@
   border: 1px solid rgb(255 255 255 / 9%);
   text-shadow: 0 1px 2px rgb(0 0 0 / 45%);
   user-select: none;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
   button {
     font: inherit;
@@ -40,6 +50,7 @@
 
 .gwLabel {
   flex: 1;
+  text-align: left;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -58,16 +69,16 @@
 }
 
 .gwIconButton {
-  padding: 0 6px;
+  padding: 0 2px;
   border: 0;
-  border-radius: 8px;
   font-size: 15px;
   line-height: 20px;
-  background: rgb(255 255 255 / 12%);
+  opacity: 0.75;
+  background: none;
   cursor: pointer;
 
   &:hover {
-    background: rgb(255 255 255 / 22%);
+    opacity: 1;
   }
 
   &:disabled {
@@ -170,15 +181,15 @@
 
 .gwSelect {
   max-width: 100%;
-  padding: 2px 4px;
+  padding: 0;
   border: 0;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #fff;
-  background: rgb(255 255 255 / 12%);
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: left;
+  text-transform: inherit;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
 
   option {
     color: #111;

@@ -45,6 +45,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The quick link dialog had unlabelled fields rendered as raw browser inputs, and no backdrop behind it.
 - The appointment and task dialogs sized themselves to their content and use the same panel as the weather and background information widgets.
 - The analogue clock draws straight onto the wallpaper: no panel, no frost and no shadow behind the ring.
+- Google widget rows keep to the card's own insets, the add button is a bare glyph, the task list name is plain text, and a ticked task stays in the list struck through instead of vanishing.
 
 ### Removed
 
