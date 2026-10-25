@@ -229,6 +229,15 @@ const Overview = () => {
         return <QuickWeather />;
       case 'quicklinks':
         return <QuickLinks />;
+      case 'aiask':
+        // The query line has no card to fake: it is a hint and a hairline, so
+        // that is what the preview draws.
+        return (
+          <div className="aiAskSkeleton" aria-hidden="true">
+            <span className="aiAskSkeletonText" />
+            <span className="aiAskSkeletonLine" />
+          </div>
+        );
       // Weather Full is the page's own corner card. A skeleton of it sat in the
       // preview's bottom corner like a squashed copy of the real thing, and the
       // zone list right beside the preview already names it, so it draws nothing.

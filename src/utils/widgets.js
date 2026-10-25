@@ -35,6 +35,14 @@ export const WIDGETS = [
     onByDefault: true,
   },
   {
+    // The query line: a question typed on the new tab page goes to an AI
+    // service, Google's AI Mode by default.
+    id: 'aiask',
+    label: () => 'AI Ask',
+    setting: 'aiAskEnabled',
+    onByDefault: true,
+  },
+  {
     id: 'quicklinks',
     label: () => variables.getMessage('modals.main.settings.sections.quicklinks.title'),
     setting: 'quicklinksenabled',
@@ -68,7 +76,7 @@ export const ZONES = ['left', 'center', 'right'];
 
 export const WIDGET_IDS = WIDGETS.map((widget) => widget.id);
 
-export const DEFAULT_ORDER = ['time', 'weather', 'date', 'quickweather', 'quicklinks'];
+export const DEFAULT_ORDER = ['time', 'weather', 'date', 'quickweather', 'quicklinks', 'aiask'];
 
 export const widgetById = (id) => WIDGETS.find((widget) => widget.id === id);
 

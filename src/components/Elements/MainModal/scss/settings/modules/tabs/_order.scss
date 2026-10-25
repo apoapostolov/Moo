@@ -648,6 +648,31 @@
   // same card reads correctly in both themes without a second palette.
   // Drawn at a third of the measurements the design was worked out at, so it
   // reads as a thumbnail of a widget rather than a second widget in the panel.
+  /* AI Ask is a line, not a card, so its preview is a hint and a hairline drawn
+     in the same tints of currentColor as the widget skeletons beside it. */
+  .aiAskSkeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 72px;
+    padding-bottom: 2px;
+  }
+
+  .aiAskSkeletonText {
+    width: 62%;
+    height: 5px;
+    border-radius: 3px;
+    background: currentColor;
+    opacity: 0.3;
+  }
+
+  .aiAskSkeletonLine {
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.32;
+  }
+
   .gwSkeleton {
     box-sizing: border-box;
     width: 66px;

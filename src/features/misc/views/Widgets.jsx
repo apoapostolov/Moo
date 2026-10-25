@@ -3,6 +3,7 @@ import { useState, useEffect, Fragment, Suspense, lazy, useMemo } from 'react';
 import Clock from '../../time/Clock';
 import QuickLinks from '../../quicklinks/QuickLinks';
 import Date from '../../time/Date';
+import AIAsk from '../../aiask/AIAsk';
 import { WidgetsLayout } from 'components/Layout';
 import { readOrder, readPlacement, groupByZone, isWidgetEnabled } from 'utils/widgets';
 
@@ -40,6 +41,7 @@ const Widgets = () => {
       time: enabled('time') && <Clock />,
       date: enabled('date') && <Date />,
       quicklinks: enabled('quicklinks') && online ? <QuickLinks /> : null,
+      aiask: enabled('aiask') ? <AIAsk /> : null,
       weather: enabled('weather') && online ? <Weather /> : null,
       quickweather: enabled('quickweather') && online ? <QuickWeather /> : null,
       mail: enabled('mail') ? <GoogleMail /> : null,
