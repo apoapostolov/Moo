@@ -242,9 +242,10 @@
               "title": "Unsplash колекция(и)",
               "subtitle": "Изберете колекция(и) за фон",
               "section_title": "Unsplash",
-              "section_subtitle": "Използвайте конкретна Unsplash колекция или изберете категории",
+              "section_subtitle": "Изберете теми или конкретна колекция",
               "id": "ID на колекцията",
               "id_subtitle": "Въведете списък с Unsplash ID, разделени със запетая",
+              "topics": "Теми",
               "categories": "Категории"
             },
             "mue_library": {

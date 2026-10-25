@@ -5,34 +5,48 @@ import { APIQualityOptions } from '../optionTypes';
 
 const clearImageQueue = () => localStorage.removeItem('imageQueue');
 
-const APISettings = ({ backgroundAPI, backgroundCategories }) => {
-  const loading = backgroundCategories[0] === variables.getMessage('modals.main.loading');
+const loadingItems = [
+  { value: 'loading', text: variables.getMessage('modals.main.loading') },
+  { value: 'loading', text: variables.getMessage('modals.main.loading') },
+];
 
-  // Mue returns categories with image counts; Unsplash has no counts to show.
-  const unsplashCategories = backgroundCategories.map((category) => {
-    const copy = { ...category };
-    delete copy.count;
-    return copy;
-  });
+const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) => {
+  const loading = backgroundCategories[0] === variables.getMessage('modals.main.loading');
 
   const categoriesControl = (options) =>
     loading ? (
       <Dropdown
         label={variables.getMessage('modals.main.settings.sections.background.category')}
         name="apiCategories"
-        items={[
-          { value: 'loading', text: variables.getMessage('modals.main.loading') },
-          { value: 'loading', text: variables.getMessage('modals.main.loading') },
-        ]}
+        items={loadingItems}
       />
     ) : (
       <ChipSelect
+        key="apiCategories"
         label={variables.getMessage('modals.main.settings.sections.background.categories')}
         options={options}
         name="apiCategories"
         onChange={clearImageQueue}
       />
     );
+
+  // Unsplash topics replace the four fixed collections the categories mapped to.
+  const topicsControl = Array.isArray(unsplashTopics) ? (
+    <ChipSelect
+      key="unsplashTopics"
+      label={variables.getMessage('modals.main.settings.sections.background.unsplash.topics')}
+      options={unsplashTopics}
+      name="unsplashTopics"
+      storageKey="unsplashTopics"
+      onChange={clearImageQueue}
+    />
+  ) : (
+    <Dropdown
+      label={variables.getMessage('modals.main.settings.sections.background.unsplash.topics')}
+      name="unsplashTopics"
+      items={loadingItems}
+    />
+  );
 
   const qualityControl = (
     <Dropdown
@@ -56,6 +70,7 @@ const APISettings = ({ backgroundAPI, backgroundCategories }) => {
           )}
         />
         <Action>
+          {topicsControl}
           <Text
             title={variables.getMessage('modals.main.settings.sections.background.unsplash.id')}
             subtitle={variables.getMessage(
@@ -67,7 +82,6 @@ const APISettings = ({ backgroundAPI, backgroundCategories }) => {
             element="#backgroundImage"
             onChange={clearImageQueue}
           />
-          {categoriesControl(unsplashCategories)}
           {qualityControl}
         </Action>
       </Row>

@@ -29,15 +29,47 @@ export async function fetchAPIImageData(excludedPun = null) {
 
   const baseURL = `${variables.constants.API_URL}/images`;
   const collection = localStorage.getItem('unsplashCollections');
+  const topics = localStorage.getItem('unsplashTopics');
+  const excludeList = excludes.filter(Boolean).join(',');
 
-  const url =
-    api === 'unsplash' || api === 'pexels'
-      ? `${baseURL}/unsplash?${collection ? `collections=${collection}` : `categories=${categories || ''}`}&quality=${quality}`
-      : `${baseURL}/random?categories=${categories || ''}&quality=${quality}&exclude=${excludes}`;
+  let url;
+  if (api === 'unsplash' || api === 'pexels') {
+    const params = new URLSearchParams({ quality });
+    // Topics replace the four fixed collections. A typed collection only wins
+    // when no topic is picked, because Unsplash intersects the two filters.
+    if (topics) {
+      params.set('topics', topics);
+    } else if (collection) {
+      params.set('collections', collection);
+    }
+    if (excludeList) {
+      params.set('exclude', excludeList);
+    }
+    url = `${baseURL}/unsplash?${params.toString()}`;
+  } else {
+    const params = new URLSearchParams({ categories: categories || '', quality });
+    if (excludeList) {
+      params.set('exclude', excludeList);
+    }
+    url = `${baseURL}/random?${params.toString()}`;
+  }
 
   try {
     const accept = `application/json, ${(await supportsAVIF()) ? 'image/avif' : 'image/webp'}`;
-    const data = await (await fetch(url, { headers: { accept } })).json();
+
+    // The library API answers 500 to a small share of requests, so it is asked
+    // again before giving up and dropping to the offline image.
+    let data = null;
+    for (let attempt = 0; attempt < 3 && !data?.file; attempt++) {
+      const response = await fetch(url, { headers: { accept } });
+      data = await response.json().catch(() => null);
+    }
+
+    if (!data?.file) {
+      throw new Error('The image API did not return a usable image');
+    }
+
+    const location = data.location ?? {};
 
     return {
       url: data.file,
@@ -45,15 +77,17 @@ export async function fetchAPIImageData(excludedPun = null) {
       currentAPI: api,
       photoInfo: {
         hidden: false,
+        id: data.id,
+        api: api === 'pexels' ? 'unsplash' : api,
         category: data.category,
         credit: data.photographer,
-        location: data.location.name,
+        location: location.name,
         camera: data.camera,
         url: data.file,
         photographerURL: api === 'unsplash' ? data.photographer_page : undefined,
         photoURL: api === 'unsplash' ? data.photo_page : undefined,
-        latitude: data.location.latitude,
-        longitude: data.location.longitude,
+        latitude: location.latitude,
+        longitude: location.longitude,
         views: data.views,
         downloads: data.downloads,
         likes: data.likes ?? data.hearts,
@@ -148,15 +182,15 @@ async function getAPIBackground(isOffline) {
   const currentQueueSize = cachedQueue.length;
 
   if (currentQueueSize < targetQueueSize) {
-    const excludedPuns = [
-      data.photoInfo.pun,
-      ...cachedQueue.map((img) => img.photoInfo?.pun).filter(Boolean),
-    ];
+    // Unsplash photos have no pun, so their id is used to skip repeats.
+    const imageKey = (image) => image?.photoInfo?.id ?? image?.photoInfo?.pun;
+    const currentKey = imageKey(data);
+    const excludedPuns = [currentKey, ...cachedQueue.map(imageKey).filter(Boolean)];
 
     // Prefetch remaining images asynchronously
     Promise.all(
       Array.from({ length: targetQueueSize - currentQueueSize }, (_, i) =>
-        fetchAPIImageData(excludedPuns[i] || data.photoInfo.pun),
+        fetchAPIImageData(excludedPuns[i] || currentKey),
       ),
     ).then((newImages) => {
       const validImages = newImages.filter(Boolean);

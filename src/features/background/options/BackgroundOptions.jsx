@@ -34,6 +34,7 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
   const [backgroundCategories, setBackgroundCategories] = useState([
     variables.getMessage('modals.main.loading'),
   ]);
+  const [unsplashTopics, setUnsplashTopics] = useState(null);
   const [marketplaceEnabled] = useState(localStorage.getItem('photo_packs'));
 
   const backgroundAPI = getApiForBackgroundType(backgroundType);
@@ -76,6 +77,32 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
     setBackgroundCategories(data);
   }, []);
 
+  const getUnsplashTopics = useCallback(async () => {
+    try {
+      const response = await fetch(variables.constants.API_URL + '/images/unsplash/topics', {
+        signal: controllerRef.current.signal,
+      });
+
+      if (!response.ok) {
+        return;
+      }
+
+      const data = await response.json();
+
+      if (controllerRef.current.signal.aborted === true || !Array.isArray(data)) {
+        return;
+      }
+
+      setUnsplashTopics(
+        data
+          .filter((topic) => topic?.id && topic?.title)
+          .map((topic) => ({ name: topic.id, label: topic.title })),
+      );
+    } catch {
+      // Leave the picker empty when the topic list cannot be fetched.
+    }
+  }, []);
+
   useEffect(() => {
     controllerRef.current = new AbortController();
 
@@ -85,12 +112,13 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
     }
 
     getBackgroundCategories();
+    getUnsplashTopics();
 
     return () => {
       // stop making requests
       controllerRef.current.abort();
     };
-  }, [getBackgroundCategories]);
+  }, [getBackgroundCategories, getUnsplashTopics]);
 
   const handleTypeChange = useCallback((value) => {
     // Clear prefetch queue when changing source
@@ -131,7 +159,11 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
     }
 
     return (
-      <APISettings backgroundAPI={backgroundAPI} backgroundCategories={backgroundCategories} />
+      <APISettings
+        backgroundAPI={backgroundAPI}
+        backgroundCategories={backgroundCategories}
+        unsplashTopics={unsplashTopics}
+      />
     );
   };
 

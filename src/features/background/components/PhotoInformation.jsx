@@ -2,6 +2,7 @@ import variables from 'config/variables';
 import { useState, memo } from 'react';
 import { useT } from 'contexts';
 import Favourite from './Favourite';
+import { recordImageCounter } from '../api/imageCounters';
 import {
   MdInfo,
   MdLocationOn,
@@ -45,6 +46,8 @@ const formatText = (text) => {
  * @param {object} info The photo information.
  */
 const downloadImage = async (info) => {
+  // Count the download when the user asks for it, even if saving the file fails.
+  recordImageCounter(info, 'download');
   const link = document.createElement('a');
   link.href = await toDataURL(info.url);
   link.download = `mue-${formatText(info.credit)}-${formatText(info.location)}.jpg`; // image is more likely to be webp or avif btw
@@ -201,6 +204,7 @@ function PhotoInformation({ info, url, api }) {
             offline={info.offline}
             credit={info.credit}
             photoURL={info.url}
+            photoInfo={info}
             tooltipText={(text) => setFavouriteTooltipText(text)}
           />
         </Tooltip>

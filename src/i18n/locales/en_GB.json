@@ -242,9 +242,10 @@
               "title": "Unsplash Collection(s)",
               "subtitle": "Select the collection(s) you want to use for your background",
               "section_title": "Unsplash",
-              "section_subtitle": "Use a specific Unsplash collection, or pick categories to draw from",
+              "section_subtitle": "Pick topics to draw from, or use a specific collection",
               "id": "Collection ID(s)",
               "id_subtitle": "Enter a comma separated list of Unsplash IDs",
+              "topics": "Topics",
               "categories": "Categories"
             },
             "mue_library": {

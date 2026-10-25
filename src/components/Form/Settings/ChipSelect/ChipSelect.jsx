@@ -3,8 +3,12 @@ import { MdExpandMore, MdClose } from 'react-icons/md';
 
 import './ChipSelect.scss';
 
-function ChipSelect({ label, options, onChange }) {
-  let start = (localStorage.getItem('apiCategories') || '').split(',');
+function ChipSelect({ label, options, onChange, storageKey = 'apiCategories' }) {
+  const optionLabel = (value) =>
+    options.find((option) => option.name === value)?.label ??
+    value.charAt(0).toUpperCase() + value.slice(1);
+
+  let start = (localStorage.getItem(storageKey) || '').split(',');
   if (start[0] === '') {
     start = [];
   }
@@ -33,7 +37,7 @@ function ChipSelect({ label, options, onChange }) {
     }
 
     setOptionsSelected(newSelected);
-    localStorage.setItem('apiCategories', newSelected.join(','));
+    localStorage.setItem(storageKey, newSelected.join(','));
 
     if (onChange) {
       onChange(newSelected);
@@ -56,7 +60,7 @@ function ChipSelect({ label, options, onChange }) {
             <div className="chipSelect-chips">
               {optionsSelected.map((value) => (
                 <span key={value} className="chipSelect-chip">
-                  {value.charAt(0).toUpperCase() + value.slice(1)}
+                  {optionLabel(value)}
                   <button
                     type="button"
                     className="chipSelect-chip-remove"
@@ -83,7 +87,7 @@ function ChipSelect({ label, options, onChange }) {
                 {optionsSelected.includes(option.name) && '✓'}
               </span>
               <span className="chipSelect-option-label">
-                {option.name.charAt(0).toUpperCase() + option.name.slice(1)}
+                {optionLabel(option.name)}
                 {option.count && ` (${option.count})`}
               </span>
             </div>

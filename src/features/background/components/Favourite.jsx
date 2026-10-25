@@ -1,8 +1,9 @@
 import variables from 'config/variables';
 import { memo, useState, useCallback, useEffect, useRef } from 'react';
 import { MdStar, MdStarBorder } from 'react-icons/md';
+import { recordHeartOnce } from '../api/imageCounters';
 
-const Favourite = memo(({ tooltipText, credit, offline, pun }) => {
+const Favourite = memo(({ tooltipText, credit, offline, pun, photoInfo }) => {
   const getInitialButton = () => {
     return localStorage.getItem('favourite') ? 'favourited' : 'unfavourited';
   };
@@ -77,11 +78,12 @@ const Favourite = memo(({ tooltipText, credit, offline, pun }) => {
         }
       }
 
+      recordHeartOnce(photoInfo);
       setFavourited('favourited');
       tooltipText(variables.getMessage('widgets.quote.unfavourite'));
       variables.stats.postEvent('feature', 'Background unfavourite');
     }
-  }, [tooltipText, credit, offline, pun]);
+  }, [tooltipText, credit, offline, pun, photoInfo]);
 
   const updateTooltip = useCallback(() => {
     if (tooltipText) {
