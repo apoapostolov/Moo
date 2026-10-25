@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import EventBus from 'utils/eventbus';
+import { getSurface } from 'utils/widgetSurface';
 
 import { useGoogleAuth } from './hooks/useGoogleAuth';
 import { getMessageUrl, listMessages } from './services/gmail';
@@ -83,7 +84,7 @@ const GoogleMail = () => {
   const title = settings.query.trim() || 'is:unread';
 
   return (
-    <div className="googleWidget">
+    <div className={`googleWidget ${getSurface('mail')}`}>
       <header className="gwHead">
         <span className="gwLabel">Mail</span>
         {settings.badge === 'count' && <span className="gwBadge">{state.unreadCount}</span>}

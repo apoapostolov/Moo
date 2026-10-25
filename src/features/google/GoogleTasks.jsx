@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import EventBus from 'utils/eventbus';
+import { getSurface } from 'utils/widgetSurface';
 
 import { useGoogleAuth } from './hooks/useGoogleAuth';
 import { listTaskLists, listTasks, setTaskCompleted } from './services/tasks';
@@ -226,7 +227,7 @@ const GoogleTasks = () => {
   );
 
   return (
-    <div className="googleWidget">
+    <div className={`googleWidget ${getSurface('tasks')}`}>
       <header className="gwHead">
         <span className="gwLabel">
           {lists.length > 1 ? (

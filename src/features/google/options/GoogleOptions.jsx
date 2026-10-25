@@ -4,6 +4,7 @@ import { MdOpenInNew } from 'react-icons/md';
 
 import { Row, Content, Action } from 'components/Layout/Settings/Item';
 import { Text } from 'components/Form/Settings';
+import WidgetSurface from 'components/Form/Settings/WidgetSurface/WidgetSurface';
 
 import { useGoogleAuth } from '../hooks/useGoogleAuth';
 import { getRedirectUri, SCOPES } from '../auth';
@@ -190,6 +191,12 @@ const GoogleOptions = () => {
       )}
 
       {auth && <GoogleWidgetSettings />}
+
+      {/* One switch per card: the three can sit over very different wallpapers,
+          so the panel style is stored per widget like the other sections. */}
+      {auth && <WidgetSurface setting="surfaceMail" category="google" title="Mail" />}
+      {auth && <WidgetSurface setting="surfaceCalendar" category="google" title="Calendar" />}
+      {auth && <WidgetSurface setting="surfaceTasks" category="google" title="Tasks" final />}
     </>
   );
 };

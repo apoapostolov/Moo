@@ -14,6 +14,9 @@ const SURFACE_SETTINGS = {
   weather: 'surfaceWeather',
   quicklinks: 'surfaceQuicklinks',
   background: 'surfaceBackground',
+  mail: 'surfaceMail',
+  calendar: 'surfaceCalendar',
+  tasks: 'surfaceTasks',
 };
 
 function getSurface(setting) {

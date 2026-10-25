@@ -8,13 +8,15 @@ const SECTION = 'modals.main.settings.surface';
 /**
  * The panel style switch. Sections that hold a widget pass their own setting
  * name and refresh category, so changing the style repaints that widget only.
+ * A `title` override lets one section carry a row per widget, where repeating
+ * the shared "Panel style" heading three times would read as a glitch.
  */
-function WidgetSurface({ setting, category = 'all' }) {
+function WidgetSurface({ setting, category = 'all', title, subtitle, final }) {
   return (
-    <Row>
+    <Row final={final}>
       <Content
-        title={variables.getMessage(`${SECTION}.title`)}
-        subtitle={variables.getMessage(`${SECTION}.subtitle`)}
+        title={title ?? variables.getMessage(`${SECTION}.title`)}
+        subtitle={subtitle ?? variables.getMessage(`${SECTION}.subtitle`)}
       />
       <Action>
         <Dropdown

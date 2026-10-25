@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import EventBus from 'utils/eventbus';
+import { getSurface } from 'utils/widgetSurface';
 
 import { useGoogleAuth } from './hooks/useGoogleAuth';
 import { listCalendars, listEvents, rangeBounds } from './services/calendar';
@@ -171,7 +172,7 @@ const GoogleCalendar = () => {
   );
 
   return (
-    <div className="googleWidget">
+    <div className={`googleWidget ${getSurface('calendar')}`}>
       <header className="gwHead">
         <span className="gwLabel">Calendar</span>
         <button
