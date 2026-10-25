@@ -28,6 +28,7 @@
     "@sentry/react": "^10.36.0",
     "blurhash": "^2.0.5",
     "fast-blurhash": "^1.1.4",
+    "hls.js": "^1.7.3",
     "image-conversion": "^2.1.1",
     "react": "^19.2.3",
     "react-best-gradient-color-picker": "^3.0.14",

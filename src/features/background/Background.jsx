@@ -68,6 +68,9 @@ export default function Background() {
           filterStyle={filterStyle}
           loop={backgroundData.loop}
           muted={backgroundData.muted}
+          hls={backgroundData.hls}
+          live={backgroundData.live}
+          maxHeight={backgroundData.maxHeight}
         />
       ) : (
         <BackgroundImage

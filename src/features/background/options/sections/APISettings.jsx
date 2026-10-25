@@ -2,6 +2,7 @@ import variables from 'config/variables';
 import { Dropdown, Text, ChipSelect } from 'components/Form/Settings';
 import { Row, Content, Action } from 'components/Layout/Settings/Item';
 import { APIQualityOptions } from '../optionTypes';
+import { LIVE_CHANNELS, LIVE_CHANNEL_ANY } from '../../api/live';
 
 const clearPrefetch = () => {
   localStorage.removeItem('imageQueue');
@@ -120,6 +121,37 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
 
   if (backgroundAPI === 'pixabay' || backgroundAPI === 'pexels') {
     return keyedVideoSource(backgroundAPI);
+  }
+
+  if (backgroundAPI === 'live') {
+    const liveItems = [
+      {
+        value: LIVE_CHANNEL_ANY,
+        text: variables.getMessage('modals.main.settings.sections.background.live.channel_any'),
+      },
+      ...LIVE_CHANNELS.map((channel) => ({
+        value: channel.id,
+        text: `${channel.name} (${channel.quality})`,
+      })),
+    ];
+
+    return (
+      <Row final={true}>
+        <Content
+          title={variables.getMessage('modals.main.settings.sections.background.live.title')}
+          subtitle={variables.getMessage('modals.main.settings.sections.background.live.subtitle')}
+        />
+        <Action>
+          <Dropdown
+            label={variables.getMessage('modals.main.settings.sections.background.live.channel')}
+            name="liveChannel"
+            items={liveItems}
+            category="backgroundrefresh"
+            onChange={clearPrefetch}
+          />
+        </Action>
+      </Row>
+    );
   }
 
   if (backgroundAPI === 'unsplash') {

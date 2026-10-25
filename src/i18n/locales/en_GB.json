@@ -234,6 +234,7 @@
               "unsplash": "Unsplash",
               "mue_library": "Mue Library",
               "coverr": "Coverr (Video)",
+              "live": "Live channels",
               "pixabay": "Pixabay",
               "pexels": "Pexels",
               "custom_image": "Custom image",
@@ -260,6 +261,12 @@
               "subtitle": "Free looping video clips, played muted",
               "search": "Search",
               "search_subtitle": "Leave empty for any clip, or narrow it to a subject"
+            },
+            "live": {
+              "title": "Live channels",
+              "subtitle": "24/7 ambient channels, played muted. A live stream keeps downloading while the tab is open, so it uses far more data than a looping clip.",
+              "channel": "Channel",
+              "channel_any": "Any channel"
             },
             "pixabay": {
               "title": "Pixabay",

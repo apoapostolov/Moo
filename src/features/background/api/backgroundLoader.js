@@ -6,6 +6,7 @@ import videoCheck from './videoCheck';
 import { fetchCoverrVideo } from './coverr';
 import { fetchPixabayVideo } from './pixabay';
 import { fetchPexelsVideo } from './pexels';
+import { getLiveBackground } from './live';
 import { getAllBackgrounds, getAllBackgroundsWithMetadata } from 'utils/customBackgroundDB';
 
 const parseJSON = (key, fallback = null) => {
@@ -139,6 +140,9 @@ export async function getBackgroundData() {
 
     case 'api_pexels':
       return getVideoBackground(isOffline, 'pexels', fetchPexelsVideo);
+
+    case 'api_live':
+      return getLiveBackground(isOffline);
 
     case 'colour':
       return getColourBackground();

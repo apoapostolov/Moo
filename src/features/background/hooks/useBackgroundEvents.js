@@ -36,7 +36,7 @@ export function useBackgroundEvents(backgroundData, refreshBackground) {
       // Check if refresh needed
       const rawType = localStorage.getItem('backgroundType');
       // API sources are stored as an explicit variant but load as `api`
-      const type = ['api_mue', 'api_unsplash', 'api_coverr', 'api_pixabay', 'api_pexels'].includes(
+      const type = ['api_mue', 'api_unsplash', 'api_coverr', 'api_live', 'api_pixabay', 'api_pexels'].includes(
         rawType,
       )
         ? 'api'
