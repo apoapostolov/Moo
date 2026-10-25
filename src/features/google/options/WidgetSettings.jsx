@@ -27,6 +27,7 @@ import {
   readCalendarIds,
   readMailCategories,
   readMailFolders,
+  readPrimaryCalendar,
 } from '../settings';
 
 const CATEGORY_ICONS = {
@@ -75,6 +76,7 @@ const Section = ({ title, subtitle, children }) => (
 const CalendarPicker = () => {
   const [calendars, setCalendars] = useState([]);
   const [selected, setSelected] = useState(readCalendarIds);
+  const [primary, setPrimary] = useState(readPrimaryCalendar);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
@@ -95,6 +97,18 @@ const CalendarPicker = () => {
     EventBus.emit('refresh', 'google');
   };
 
+  /**
+   * Only one calendar can be the one new events start in, so ticking a second
+   * moves the mark. Ticking the marked one clears it, and then the next new
+   * event simply opens on whichever calendar was used last.
+   */
+  const pickPrimary = (id) => {
+    const next = primary === id ? '' : id;
+
+    setPrimary(next);
+    localStorage.setItem('googlePrimaryCalendar', next);
+  };
+
   if (failed) {
     return (
       <p className="gwEmpty">
@@ -108,20 +122,41 @@ const CalendarPicker = () => {
 
   return (
     <div className="gwCalendarPicker">
-      {calendars.map((calendar) => (
-        <label key={calendar.id} className="gwCalendarOption">
-          <input
-            type="checkbox"
-            checked={selected.includes(calendar.id)}
-            onChange={() => toggle(calendar.id)}
-          />
-          <span className="gwDot" style={calendar.color ? { background: calendar.color } : {}} />
-          {calendar.summary}
-          {calendar.primary && <span className="gwMuted">primary</span>}
-        </label>
-      ))}
+      {calendars.map((calendar) => {
+        const writable = calendar.accessRole === 'owner' || calendar.accessRole === 'writer';
+
+        return (
+          // The row is not one label any more: a tick inside it would otherwise
+          // also switch the calendar on or off.
+          <div key={calendar.id} className="gwCalendarOption">
+            <label className="gwCalendarTick">
+              <input
+                type="checkbox"
+                checked={selected.includes(calendar.id)}
+                onChange={() => toggle(calendar.id)}
+              />
+              <span className="gwDot" style={calendar.color ? { background: calendar.color } : {}} />
+              <span className="gwCalendarName">{calendar.summary}</span>
+              {calendar.primary && <span className="gwMuted">primary</span>}
+            </label>
+            <input
+              type="checkbox"
+              className="gwPrimaryTick"
+              checked={primary === calendar.id}
+              onChange={() => pickPrimary(calendar.id)}
+              disabled={!writable}
+              aria-label={`Start new events in ${calendar.summary}`}
+              title={writable ? 'New events start here' : 'This calendar is read-only'}
+            />
+          </div>
+        );
+      })}
       <span className="gwMuted">
         {selected.length ? 'Only the ticked calendars are shown.' : 'Nothing ticked: only the primary calendar is shown.'}
+      </span>
+      <span className="gwMuted">
+        The box on the right is the calendar new events start in. Nothing ticked there: the last one
+        you used.
       </span>
     </div>
   );

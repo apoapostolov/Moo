@@ -656,9 +656,8 @@
 .gwCalendarOption {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 8px;
   font-size: 13px;
-  cursor: pointer;
 
   @include themed {
     color: t($color);
@@ -667,6 +666,26 @@
   input {
     margin: 0 6px 0 0;
   }
+
+  .gwPrimaryTick {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+}
+
+.gwCalendarTick {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  cursor: pointer;
+}
+
+.gwCalendarName {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 // Category and folder ticks, each with its own glyph so the list reads as

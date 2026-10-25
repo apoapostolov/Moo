@@ -10,6 +10,7 @@ import {
   toLocalInput,
   updateEvent,
 } from '../services/calendar';
+import { eventCalendarId, rememberCalendar } from '../settings';
 
 const blankEvent = () => {
   const start = new Date();
@@ -55,7 +56,7 @@ const EventDialog = ({
           allDay: event.allDay,
           calendarId: event.calendarId || defaultCalendarId,
         }
-      : { ...blankEvent(), calendarId: defaultCalendarId },
+      : { ...blankEvent(), calendarId: eventCalendarId(calendars, defaultCalendarId) },
   );
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -109,6 +110,15 @@ const EventDialog = ({
   const update = (key) => (changeEvent) =>
     setForm((current) => ({ ...current, [key]: changeEvent.target.value }));
 
+  // Picking a calendar counts as using it, so the next new event opens on it
+  // even before this one is saved.
+  const changeCalendar = (changeEvent) => {
+    const id = changeEvent.target.value;
+
+    setForm((current) => ({ ...current, calendarId: id }));
+    rememberCalendar(id);
+  };
+
   const save = async (submitEvent) => {
     submitEvent.preventDefault();
 
@@ -135,6 +145,8 @@ const EventDialog = ({
       const saved = isEditing
         ? await updateEvent(event.id, payload)
         : await createEvent(payload);
+
+      rememberCalendar(form.calendarId);
 
       onSaved(saved);
       onClose();
@@ -185,7 +197,7 @@ const EventDialog = ({
         {calendars.length > 1 && (
           <label>
             Calendar
-            <select value={form.calendarId} onChange={update('calendarId')}>
+            <select value={form.calendarId} onChange={changeCalendar}>
               {calendars.map((calendar) => (
                 <option key={calendar.id} value={calendar.id}>
                   {calendar.summary}

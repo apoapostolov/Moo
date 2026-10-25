@@ -102,6 +102,33 @@ export const readCalendarIds = () => {
   }
 };
 
+/**
+ * The calendar a new event starts in. One picked in settings wins, then the one
+ * used last, and only then whatever the caller would have guessed: Google's own
+ * default, or the first calendar that is listed.
+ */
+export const eventCalendarId = (calendars = [], fallback = 'primary') => {
+  const listed = (id) => Boolean(id) && calendars.some((calendar) => calendar.id === id);
+
+  const picked = readText('googlePrimaryCalendar');
+
+  if (listed(picked)) return picked;
+
+  const last = readText('googleLastCalendar');
+
+  if (listed(last)) return last;
+
+  return fallback;
+};
+
+/** The calendar picked in settings, or an empty string for "use the last one". */
+export const readPrimaryCalendar = () => readText('googlePrimaryCalendar');
+
+/** Remembered so the next new event opens on the calendar just used. */
+export const rememberCalendar = (id) => {
+  if (id) localStorage.setItem('googleLastCalendar', id);
+};
+
 export const getCalendarSettings = () => ({
   calendarIds: readCalendarIds(),
   rangeDays: readNumber('googleCalendarRange', 7),
