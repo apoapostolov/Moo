@@ -163,6 +163,37 @@ $theme-map: null;
     background: t($glassBackground);
     border: 1px solid t($glassBorder);
     box-shadow: t($glassShadow);
+    /* The panel states the colour of its own text. A widget built for the dark
+       scrim paints white type, and on the light panel white type is invisible:
+       glass in the light theme is paper, so the text is the theme's ink. */
+    color: t($color);
+  }
+}
+
+/* Anything a card painted for a dark scrim has to let go on light glass: the
+   shadow behind the type would smudge black text, and labels that hardcode a
+   white tint are restated in ink. */
+.light .glassSurface.glassSurface {
+  text-shadow: none;
+
+  .subtitle {
+    color: rgb(0 0 0 / 72%);
+  }
+
+  /* The cards also painted their hover light, their badges and their calendar
+     dots white, which is what light looks like on something dark. On paper none
+     of it shows, so those are stated in ink too. An inline calendar colour still
+     wins over the dot. */
+  .gwItem:hover {
+    background: rgb(0 0 0 / 7%);
+  }
+
+  .gwBadge {
+    background: rgb(0 0 0 / 8%);
+  }
+
+  .gwDot {
+    background: rgb(0 0 0 / 30%);
   }
 }
 

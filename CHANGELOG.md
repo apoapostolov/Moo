@@ -49,6 +49,8 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - A pasted picture no longer disappears on one click. Its close control turns red and asks again, the way a note's does, and lets go after four seconds if the second click never comes.
 - The location pin in the Image Info card is a bare glyph now. It shared the card's surface rule, so a 50px tile with a background, a 1px ring and its own backdrop blur sat behind a 24px icon; without the tile the pin also sits 6px from the text instead of 30.
 
+- Glass in the light theme is paper, not a lighter dark card. The panels state their own text colour, so mail, calendar, tasks and metro quick links read as dark type on the white scrim instead of white on white, with their hovers, badges and calendar dots drawn in ink too.
+
 ### Fixed
 
 - The animated background can no longer pan past the edge of the image and show black strips.
