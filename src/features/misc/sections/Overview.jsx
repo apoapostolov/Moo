@@ -99,9 +99,9 @@ const SortableItem = ({ id, enabled, onToggle, secondColumn, makingRoom }) => {
  * One of the three drop containers. The whole box is the drop target, so a
  * widget can be dropped into a zone that is still empty.
  */
-const Zone = ({ zone, items, onToggle, isEnabled, secondLane, makingRoomId }) => {
+const Zone = ({ zone, items, onToggle, isEnabled, secondLane, makingRoomId, hovered }) => {
   const { setNodeRef, isOver } = useDroppable({ id: zone });
-  const className = `widgetZone${isOver ? ' widgetZoneOver' : ''}`;
+  const className = `widgetZone${isOver || hovered ? ' widgetZoneOver' : ''}`;
 
   return (
     <div ref={setNodeRef} className={className} data-zone={zone}>
@@ -131,6 +131,9 @@ const Overview = () => {
   // The card that has been held over long enough to step aside, and the drag
   // handler that is waiting for it.
   const [steppedAside, setSteppedAside] = useState(null);
+  // The column a card is being dragged over, so the box it will land in says so
+  // without the lists having to move anything mid-gesture.
+  const [hoverZone, setHoverZone] = useState(null);
   const holdRef = useRef(null);
 
   const sensors = useSensors(
@@ -181,6 +184,13 @@ const Overview = () => {
     };
   }, []);
 
+  /**
+   * Nothing moves between the lists while a card is in the air. Moving a row to
+   * another container unmounts the element dnd-kit is dragging, which ends the
+   * gesture on the spot: the card stops at the border of the list it came from
+   * and drops back into it. So the drag only lights up the column it is over,
+   * and the move itself happens once, on the drop.
+   */
   const handleDragOver = ({ active, over }) => {
     const from = findZone(active.id);
     const to = zoneFor(over);
@@ -197,25 +207,7 @@ const Overview = () => {
       !isFullWidth(active.id);
 
     holdOver(overCentreRow ? over.id : null);
-
-    if (!from || !to || from === to) return;
-
-    setGroups((previous) => {
-      const next = {
-        left: [...previous.left],
-        center: [...previous.center],
-        right: [...previous.right],
-      };
-
-      next[from] = next[from].filter((id) => id !== active.id);
-
-      const overIndex = next[to].indexOf(over.id);
-
-      if (overIndex >= 0) next[to].splice(overIndex, 0, active.id);
-      else next[to].push(active.id);
-
-      return next;
-    });
+    setHoverZone(to && to !== from ? to : null);
   };
 
   /**
@@ -223,56 +215,71 @@ const Overview = () => {
    * container itself is a drop target too, and then there is no row to take an
    * index from: the card's own centre answers instead.
    */
-  const dropIndex = (zone, active, over) => {
-    if (groups[zone].includes(over?.id)) return groups[zone].indexOf(over.id);
+  const dropIndex = (zone, ids, active, over) => {
+    if (over && ids.includes(over.id)) return ids.indexOf(over.id);
 
     const dragged = active.rect?.current?.translated;
 
     if (!dragged) return -1;
 
     const centre = dragged.top + dragged.height / 2;
-    // The dragged card keeps its place in the list and follows the pointer, so
-    // it is always the nearest row to itself. It has to be left out, or dropping
-    // into the space between rows would resolve to where the card already is.
-    const rows = [
-      ...document.querySelectorAll(`.widgetZone[data-zone="${zone}"] .sortableItem`),
-    ].filter((row) => row.dataset.widgetId !== active.id);
+    // The dragged card follows the pointer, so it is the nearest row to itself
+    // whenever the pointer has not left the row it came from — which resolves to
+    // its own index and leaves the list alone, exactly what a drop that barely
+    // moved should do. In another column it is not in the list at all and the
+    // row it was dropped over answers instead.
+    const rows = [...document.querySelectorAll(`.widgetZone[data-zone="${zone}"] .sortableItem`)];
 
     let best = -1;
     let nearest = Infinity;
 
     rows.forEach((row) => {
+      const index = ids.indexOf(row.dataset.widgetId);
+
+      if (index < 0) return;
+
       const box = row.getBoundingClientRect();
       const distance = Math.abs(box.top + box.height / 2 - centre);
 
       if (distance < nearest) {
         nearest = distance;
-        best = groups[zone].indexOf(row.dataset.widgetId);
+        best = index;
       }
     });
 
     return best;
   };
 
+  /**
+   * The card joins the column of the card it was dropped beside, which is how
+   * both columns grow; dropped anywhere else in the middle it goes to the first.
+   */
+  const laneFor = (id, over) => {
+    const beside = over && groups.center.includes(over.id) && over.id !== id ? over.id : null;
+
+    return beside && secondLane.includes(beside) ? [...lane(), id] : lane();
+  };
+
+  const lane = (id) => secondLane.filter((item) => item !== id);
+
   const handleDragEnd = ({ active, over }) => {
     const aside = steppedAside;
 
     clearHold();
+    setHoverZone(null);
 
     const from = findZone(active.id);
     const to = zoneFor(over);
 
     if (!from || !to) return;
 
-    let lane = secondLane.filter((id) => id !== active.id);
-
     if (to !== 'center') {
       // Leaving the middle column means leaving its second column as well.
-      setSecondLane(lane);
+      setSecondLane(lane(active.id));
     } else if (aside && aside !== active.id) {
       // Dropped into the space the held card opened: the dragged card takes
       // that place in the first column and the other one keeps the second.
-      setSecondLane([...lane.filter((id) => id !== aside), aside]);
+      setSecondLane([...lane(active.id).filter((id) => id !== aside), aside]);
 
       setGroups((previous) => {
         const rest = previous.center.filter((id) => id !== active.id);
@@ -286,27 +293,40 @@ const Overview = () => {
       });
 
       return;
-    } else if (over && groups.center.includes(over.id) && over.id !== active.id) {
-      // Otherwise a card joins the column of the card it was dropped beside,
-      // which is how both columns grow.
-      lane = lane.filter((id) => id !== over.id);
-
-      if (secondLane.includes(over.id)) lane.push(active.id);
-
-      setSecondLane(lane);
+    } else if (from === 'center' || to === 'center') {
+      setSecondLane(laneFor(active.id, over));
     }
 
-    if (from !== to) return;
+    const target = dropIndex(to, groups[to], active, over);
 
-    const target = dropIndex(from, active, over);
-    const current = groups[from].indexOf(active.id);
+    if (from === to) {
+      const current = groups[from].indexOf(active.id);
 
-    if (target < 0 || target === current) return;
+      if (target < 0 || target === current) return;
 
-    setGroups((previous) => ({
-      ...previous,
-      [from]: arrayMove(previous[from], current, target),
-    }));
+      setGroups((previous) => ({
+        ...previous,
+        [from]: arrayMove(previous[from], current, target),
+      }));
+
+      return;
+    }
+
+    setGroups((previous) => {
+      const next = {
+        left: [...previous.left],
+        center: [...previous.center],
+        right: [...previous.right],
+      };
+
+      next[from] = next[from].filter((id) => id !== active.id);
+
+      const at = target < 0 || target > next[to].length ? next[to].length : target;
+
+      next[to].splice(at, 0, active.id);
+
+      return next;
+    });
   };
 
   const toggleEnabled = (id) => {
@@ -437,6 +457,7 @@ const Overview = () => {
               onToggle={toggleEnabled}
               isEnabled={isWidgetEnabled}
               secondLane={secondLane}
+              hovered={hoverZone === 'left'}
             />
           </div>
 
@@ -456,6 +477,7 @@ const Overview = () => {
               onToggle={toggleEnabled}
               isEnabled={isWidgetEnabled}
               secondLane={secondLane}
+              hovered={hoverZone === 'right'}
             />
           </div>
 
@@ -467,6 +489,7 @@ const Overview = () => {
               isEnabled={isWidgetEnabled}
               secondLane={secondLane}
               makingRoomId={steppedAside}
+              hovered={hoverZone === 'center'}
             />
           </div>
         </div>
