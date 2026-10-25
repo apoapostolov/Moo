@@ -56,6 +56,8 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The Overview preview no longer draws a shrunken Weather Full card in one of its corners. The zone list beside the preview already says which column it lives in, and a squashed copy of the card read as a mistake.
 
 - **AI Ask**: a query line at the foot of the middle column. Type a question, press Enter, and it opens Google AI Mode — the AI view of a search, not the ordinary results page — or ChatGPT search, and the glyph on the right picks which. The line takes the keyboard when the page appears, so you can start typing without clicking.
+
+- Mail, Calendar and Tasks fade in over a tenth of a second when their data arrives and the card appears, so a card that had to wait for the network no longer snaps into place.
 - Scratch notes keep the heading level they are written at, on a real six-step scale. `####` and `#####` used to be flattened into `h3`, and every heading sat at the note's own 13px while its paragraphs rendered at the app's 16px, so a heading came out smaller than the words under it. Text no longer grows when a note stops being edited, either.
 
 ### Fixed

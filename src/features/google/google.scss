@@ -1,8 +1,23 @@
 @use 'scss/variables' as *;
 
+/* A card is drawn only once its data has arrived, so mounting is the moment it
+   becomes visible, and that is the moment the fade belongs to. It is short on
+   purpose: the card should read as having been there, not as having arrived
+   late. */
+@keyframes googleWidgetIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 // Widgets sit on top of a photo or video, so they need their own contrast
 // instead of inheriting the page text colour.
 .googleWidget {
+  animation: googleWidgetIn 150ms ease-out both;
   // The page centres everything, and these rows are laid out edge to edge
   // inside the card, so both have to be settled here rather than inherited.
   box-sizing: border-box;
@@ -814,4 +829,11 @@
   border-radius: 50%;
   font-size: 0;
   background: #4c8dff;
+}
+
+/* Asked for less motion: the card is simply there. */
+@media (prefers-reduced-motion: reduce) {
+  .googleWidget {
+    animation: none;
+  }
 }
