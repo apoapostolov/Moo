@@ -77,7 +77,19 @@ const Forecast = memo(({ location }) => {
   }, [fetchForecast]);
 
   if (loading) {
-    return <div className="weatherForecast">Loading…</div>;
+    // Placeholders mirror the finished cell (day, icon, temperature) so the row
+    // keeps its size while the forecast is being fetched.
+    return (
+      <div className="weatherForecast" aria-hidden="true">
+        {[0, 1, 2, 3, 4].map((index) => (
+          <div key={index} className="weatherForecastDay">
+            <div className="wfSkeletonDay pulse" />
+            <div className="wfSkeletonIcon pulse" />
+            <div className="wfSkeletonTemp pulse" />
+          </div>
+        ))}
+      </div>
+    );
   }
 
   if (!days.length) {

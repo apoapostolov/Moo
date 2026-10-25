@@ -57,7 +57,6 @@ export const getWeather = async (location) => {
     }
 
     const data = await response.json();
-    console.log('Weather API response:', data);
 
     if (data.status === 404) {
       return {

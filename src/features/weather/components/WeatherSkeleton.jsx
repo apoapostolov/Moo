@@ -24,22 +24,14 @@ function WeatherSkeleton({ weatherType }) {
         )}
       </div>
       {weatherType >= 3 && (
-        <div className="weatherExpandedInfo">
-          <span className="subtitle pulse">extra information</span>
-          <div className="weatherExpandedInfoItems">
-            <div className="infoItemSkeleton">
-              <div className="smallSkeletonIcon pulse"></div>
-              <span className="loc pulse">location</span>
+        <div className="weatherForecast">
+          {[0, 1, 2, 3, 4].map((index) => (
+            <div key={index} className="weatherForecastDay">
+              <div className="wfSkeletonDay pulse"></div>
+              <div className="wfSkeletonIcon pulse"></div>
+              <div className="wfSkeletonTemp pulse"></div>
             </div>
-            <div className="infoItemSkeleton">
-              <div className="smallSkeletonIcon pulse"></div>
-              <span className="loc pulse">location</span>
-            </div>
-            <div className="infoItemSkeleton">
-              <div className="smallSkeletonIcon pulse"></div>
-              <span className="loc pulse">location</span>
-            </div>
-          </div>
+          ))}
         </div>
       )}
     </div>

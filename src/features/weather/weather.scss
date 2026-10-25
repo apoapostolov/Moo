@@ -77,6 +77,28 @@
 }
 
 .weather.skeleton {
+  // The placeholder blocks are sized to the real widget so nothing moves when
+  // the data arrives. Values are measured from the loaded widget at 100% zoom.
+  .mainSkeletonIcon {
+    width: 52px;
+    height: 52px;
+    border-radius: 100%;
+  }
+
+  .minmax .subtitle {
+    width: 32px;
+  }
+
+  .extra-info {
+    span:first-child {
+      width: 126px;
+    }
+
+    .loc {
+      width: 45px;
+    }
+  }
+
   .iconAndTemps {
     display: flex;
     flex-flow: row;
@@ -87,21 +109,20 @@
       font-size: 2em !important;
     }
 
-    span {
+    // Only the temperature placeholder is set at temperature size; the min/max
+    // placeholders stay at subtitle size like the real widget.
+    .weathericon span {
       font-size: 34px;
+      width: 59px;
     }
   }
 
-  .iconAndTemps {
-    gap: 10px;
-  }
-
   .weatherCore {
-    gap: 10px;
+    gap: 6px;
   }
 
   .weathericon {
-    gap: 10px;
+    gap: 0;
   }
 
   .minmax {
@@ -115,12 +136,6 @@
 
   .weatherExpandedInfoItems {
     padding-top: 10px;
-  }
-
-  .mainSkeletonIcon {
-    width: 70px;
-    height: 70px;
-    border-radius: 100%;
   }
 
   .infoItemSkeleton {
@@ -222,6 +237,29 @@
   svg {
     width: 18px;
     height: 18px;
+  }
+}
+
+.weather .weatherForecast {
+  // Forecast placeholders. Sized here so they beat the global .pulse 100% rule.
+  // Each bar matches the text it stands in for, so the row keeps the exact size
+  // of the finished forecast and the widget does not resize when it arrives.
+  .wfSkeletonDay {
+    width: 35px;
+    height: 15px;
+    border-radius: 4px;
+  }
+
+  .wfSkeletonIcon {
+    width: 24px;
+    height: 24px;
+    border-radius: 100%;
+  }
+
+  .wfSkeletonTemp {
+    width: 25px;
+    height: 14px;
+    border-radius: 4px;
   }
 }
 

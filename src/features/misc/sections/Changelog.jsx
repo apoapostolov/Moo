@@ -50,6 +50,7 @@ const CHANGELOG = [
         items: [
           'The animated background can no longer pan past the edge of the image and show black strips.',
           'Weather spacing, and the min/max temperature alignment in the widget and the forecast.',
+          'The weather widget no longer jumps in size while it loads: the placeholder matches the real layout.',
           'Hearts on library images were counted as missing likes.',
         ],
       },
