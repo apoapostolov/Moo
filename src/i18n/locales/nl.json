@@ -129,7 +129,7 @@
               "minute_marks": "Minute marks",
               "round_clock": "Afgeronde achtergrond"
             },
-            "percentage_complete": "Percentage complete",
+            "percentage_complete": "Progress",
             "vertical_clock": {
               "title": "Verticale Klok",
               "change_hour_colour": "Wijzig de kleur van de uurtekst",

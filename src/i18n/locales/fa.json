@@ -129,7 +129,7 @@
               "minute_marks": "Minute marks",
               "round_clock": "Rounded background"
             },
-            "percentage_complete": "Percentage complete",
+            "percentage_complete": "Progress",
             "vertical_clock": {
               "title": "Vertical Clock",
               "change_hour_colour": "Change hour text colour",

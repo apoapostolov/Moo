@@ -60,6 +60,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The event and task dialogs live in the browser's top layer now, so a widget card can never paint over them, whatever its glass surface or stacking order.
 - Hovering a message in the mail card opens a panel of your own that shows the whole email, sender, subject, date, attachments and all, instead of the browser's one line tooltip.
 - Task due dates can read as a countdown or as a date: "in 12 days", "Today", "2 days ago" or "7 nov". The countdown is the default and the switch lives in Settings → Google → Tasks.
+- The clock type that was called Percentage complete is called Progress.
 
 ### Removed
 
