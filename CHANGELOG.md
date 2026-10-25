@@ -45,6 +45,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The Image Info card stops growing sideways. Its width is capped a wide margin short of the middle column, and a long place name or credit ends in an ellipsis instead of running into the clock.
 - The signature colour choices are circles now: six in one row, all the same size, with “From the background” as a full-width button underneath. They had been squeezed into a single line until the browser squashed them into ovals.
 - The Image Info card reads at one scale: the place and the credit sit close together instead of two lines a card-height apart, and the view, download and like counts are small detail on the right rather than the largest text on the card.
+- Scratch notes and pasted pictures arrive instead of appearing: each one lifts a few pixels and settles from slightly small as it fades in, 60ms after the one before it, so a page full of them assembles in one run. Hovering a note deepens its shadow without moving it.
 
 ### Fixed
 

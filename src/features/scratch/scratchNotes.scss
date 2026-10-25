@@ -11,8 +11,29 @@
   pointer-events: none;
 }
 
+/*
+ * A note arrives rather than appearing: it lifts a few pixels, settles from
+ * just under its own size, and fades up. `translate` and `scale` are their own
+ * properties, so this composes with the tilt the note carries in `transform`
+ * instead of overwriting it. The stagger per note is inline in the component.
+ */
+@keyframes scratchNoteIn {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+    scale: 0.94;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
 .scratchNote {
   position: fixed;
+  animation: scratchNoteIn 420ms cubic-bezier(0.2, 0.75, 0.3, 1) backwards;
   width: 240px;
   padding: 12px 14px 13px;
   border-radius: 12px;
@@ -30,6 +51,12 @@
   transition:
     transform 0.2s ease-out,
     box-shadow 0.2s ease-out;
+
+  /* Only the shadow moves on hover: the note is picked up on press, and a
+     travel here would fight the hand. */
+  &:hover:not(.dragging) {
+    box-shadow: 0 20px 44px rgb(0 0 0 / 34%);
+  }
 
   &.dragging {
     cursor: grabbing;
@@ -184,5 +211,14 @@
     font-family: inherit;
     white-space: pre-wrap;
     opacity: 0.85;
+  }
+}
+
+/* With reduced motion asked for, the notes simply are there: no travel, no
+   fade to wait through. */
+@media (prefers-reduced-motion: reduce) {
+  .scratchNote,
+  .scratchImage {
+    animation: none;
   }
 }

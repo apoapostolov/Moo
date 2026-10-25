@@ -3,7 +3,23 @@
  * corner, the card takes the picture's own proportions, and the four controls
  * sit in the four corners they were asked for.
  */
+/* The pictures arrive the same way the notes do, one after another. */
+@keyframes scratchImageIn {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+    scale: 0.95;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
 .scratchImage {
+  animation: scratchImageIn 420ms cubic-bezier(0.2, 0.75, 0.3, 1) backwards;
   position: fixed;
   overflow: hidden;
   pointer-events: auto;

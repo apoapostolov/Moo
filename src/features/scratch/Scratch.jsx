@@ -41,8 +41,7 @@ const IMAGE_BUDGET = 4.2 * 1024 * 1024;
 const NOT_BACKGROUND =
   '.scratchNote, .scratchImage, #widgets, #navbar, .navbar, .modal, dialog, .ReactModal__Overlay, label, button, a, input, textarea, select, [contenteditable="true"], [role="button"], .Toastify, .reminder-info';
 
-const TYPING =
-  'input, textarea, [contenteditable="true"], [contenteditable=""], [role="textbox"]';
+const TYPING = 'input, textarea, [contenteditable="true"], [contenteditable=""], [role="textbox"]';
 
 const nextZ = () => {
   const top = Number(localStorage.getItem(TOP_Z) || 0) + 1;
@@ -235,32 +234,29 @@ const Scratch = () => {
     }
   }, []);
 
-  const lift = useCallback(
-    (id, kind) => {
-      const z = nextZ();
+  const lift = useCallback((id, kind) => {
+    const z = nextZ();
 
-      if (kind === 'image') {
-        setImages((current) => {
-          const next = current.map((image) => (image.id === id ? { ...image, z } : image));
+    if (kind === 'image') {
+      setImages((current) => {
+        const next = current.map((image) => (image.id === id ? { ...image, z } : image));
 
-          saveImages(next);
-
-          return next;
-        });
-
-        return;
-      }
-
-      setNotes((current) => {
-        const next = current.map((note) => (note.id === id ? { ...note, z } : note));
-
-        saveNotes(next);
+        saveImages(next);
 
         return next;
       });
-    },
-    [],
-  );
+
+      return;
+    }
+
+    setNotes((current) => {
+      const next = current.map((note) => (note.id === id ? { ...note, z } : note));
+
+      saveNotes(next);
+
+      return next;
+    });
+  }, []);
 
   /* ------------------------------------------------------------------ notes */
 
@@ -409,37 +405,34 @@ const Scratch = () => {
 
   /* ----------------------------------------------------------------- images */
 
-  const addImage = useCallback(
-    async (file) => {
-      const { src, ratio } = await prepareImage(file);
-      const at = pointer.current ?? {
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
-      };
-      // A wide picture and a tall one both start at the width of a note, so the
-      // first thing you see is a small card, not a wall.
-      const width = NOTE_WIDTH;
-      const height = width / ratio;
+  const addImage = useCallback(async (file) => {
+    const { src, ratio } = await prepareImage(file);
+    const at = pointer.current ?? {
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+    };
+    // A wide picture and a tall one both start at the width of a note, so the
+    // first thing you see is a small card, not a wall.
+    const width = NOTE_WIDTH;
+    const height = width / ratio;
 
-      const image = {
-        id: `i${Date.now()}${Math.random().toString(36).slice(2, 6)}`,
-        x: clamp(at.x - width / 2, 8, Math.max(8, window.innerWidth - width - 8)),
-        y: clamp(at.y - height / 2, 8, Math.max(8, window.innerHeight - height - 8)),
-        width,
-        ratio,
-        angle: randomTilt(),
-        z: nextZ(),
-        src,
-      };
+    const image = {
+      id: `i${Date.now()}${Math.random().toString(36).slice(2, 6)}`,
+      x: clamp(at.x - width / 2, 8, Math.max(8, window.innerWidth - width - 8)),
+      y: clamp(at.y - height / 2, 8, Math.max(8, window.innerHeight - height - 8)),
+      width,
+      ratio,
+      angle: randomTilt(),
+      z: nextZ(),
+      src,
+    };
 
-      setImages((current) => {
-        const next = [...current, image];
+    setImages((current) => {
+      const next = [...current, image];
 
-        return saveImages(next);
-      });
-    },
-    [],
-  );
+      return saveImages(next);
+    });
+  }, []);
 
   useEffect(() => {
     const track = (event) => {
@@ -670,7 +663,7 @@ const Scratch = () => {
   return (
     <div className="scratchLayer">
       {notesOn &&
-        notes.map((note) => {
+        notes.map((note, index) => {
           const editing = editingId === note.id;
           const active = drag?.id === note.id;
           const angle = note.angle + (active ? drag.tilt : 0);
@@ -684,6 +677,9 @@ const Scratch = () => {
                 top: note.y + (active ? drag.dy : 0),
                 zIndex: note.z,
                 transform: `rotate(${angle.toFixed(2)}deg)`,
+                // Each note arrives just after the one before it, so the page
+                // assembles itself instead of appearing all at once.
+                animationDelay: `${Math.min(index, 9) * 60}ms`,
               }}
               onPointerDown={(event) => startDrag(event, note)}
               onPointerMove={moveDrag}
@@ -724,7 +720,7 @@ const Scratch = () => {
         })}
 
       {imagesOn &&
-        images.map((image) => {
+        images.map((image, index) => {
           const active = imageDrag?.id === image.id;
           const width = active && imageDrag.mode === 'resize' ? imageDrag.width : image.width;
           const angle = image.angle + (active && imageDrag.tilt ? imageDrag.tilt : 0);
@@ -740,6 +736,9 @@ const Scratch = () => {
                 aspectRatio: image.ratio,
                 zIndex: image.z,
                 transform: `rotate(${angle.toFixed(2)}deg)`,
+                // The pictures follow the notes, so a page holding both
+                // assembles in one run instead of two that start together.
+                animationDelay: `${Math.min(index + notes.length, 9) * 60}ms`,
               }}
               onPointerDown={(event) => startImageDrag(event, image)}
               onPointerMove={moveImageDrag}
