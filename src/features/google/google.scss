@@ -190,9 +190,14 @@
   color: inherit;
   background: transparent;
   cursor: pointer;
+  // The closed control stays invisible on the card, but the list it opens is
+  // drawn by the browser: without a dark scheme it paints a light popup and the
+  // card's white text turns into white-on-white.
+  color-scheme: dark;
 
   option {
-    color: #111;
+    background: #1c1c1f;
+    color: #fff;
   }
 }
 
@@ -291,6 +296,16 @@
       color: t($color);
       background: t($modal-sidebar);
       border: 1px solid t($modal-sidebarActive);
+    }
+  }
+
+  // The list a select opens is painted by the browser from the option's own
+  // colours, so a themed control with unthemed options can open a light list
+  // under light text.
+  option {
+    @include themed {
+      color: t($color);
+      background: t($modal-background);
     }
   }
 

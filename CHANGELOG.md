@@ -52,6 +52,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The widget order lists the Google widgets by their plain names, Mail, Calendar and Tasks, instead of prefixing each with Google.
 - The calendar and folder tick lists line up with the other controls in Google settings instead of drifting to the right edge.
 - The Mail, Calendar and Tasks cards each carry their own Classic or Glass panel switch at the bottom of the Google settings, so one card can go see-through while the others stay dark.
+- The task list picker in the tasks card opens white on dark instead of near-black on dark grey, and the selects in the Google dialogs and settings follow the theme in their own lists.
 
 ### Removed
 
