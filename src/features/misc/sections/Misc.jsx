@@ -129,15 +129,15 @@ const MiscOptions = () => {
                   onChange={(event) => choose(event.target.value)}
                 />
               </label>
-              <button
-                type="button"
-                className="signatureSample"
-                disabled={sampling}
-                onClick={takeFromBackground}
-              >
-                {sampling ? 'Reading…' : 'From the background'}
-              </button>
             </div>
+            <button
+              type="button"
+              className="signatureSample"
+              disabled={sampling}
+              onClick={takeFromBackground}
+            >
+              {sampling ? 'Reading…' : 'From the background'}
+            </button>
           </Action>
         </Row>
       </Group>

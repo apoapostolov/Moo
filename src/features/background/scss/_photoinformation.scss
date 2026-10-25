@@ -378,7 +378,9 @@
 }
 
 .photoInformation-content {
-  line-height: 2em;
+  /* 2em here is 2em of the card's own size, which is how two lines of text
+     ended up 42px apart in a 14px face. */
+  line-height: 1.4;
   padding-right: 10px;
   display: flex;
   flex-flow: row;
@@ -480,18 +482,29 @@
   display: none;
   flex-flow: column;
   justify-content: space-between;
+  /* They inherited the card's size, so three counts read larger than the place
+     they belong to. They are the smallest thing on the card, like the rows in
+     the open detail. */
+  flex: 0 0 auto;
+  font-size: 12px;
+  line-height: 1.5;
 
   div {
     display: flex;
     flex-flow: row;
-    gap: 10px;
+    gap: 7px;
     align-items: center;
+  }
+
+  svg {
+    font-size: 14px;
   }
 }
 
 .photoInformation-text {
   display: flex;
   flex-flow: column;
+  flex: 1 1 auto;
   /* A flex child will not shrink below its content unless it is told to, and a
      long location or credit would then push the capped card wider than its cap. */
   min-width: 0;
