@@ -68,6 +68,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The empty title box now shows one of twenty example sentences, picked at random each time it opens, so the plain-English reader is discoverable without a manual. Reading them also taught the reader three things it had wrong: "3-5 dec" was a clock instead of three days, "on the 1st of december" left an "on" in the title, and "next sunday" typed on a sunday meant today.
 - Google sits with the other widgets in the settings sidebar, just after Weather, inside the same group.
 - Scratch notes: double-click any empty part of the page and a small tilted note opens under your cursor, ready to type. Drag it to move it, click it to write, and it takes markdown. Each note carries an × that needs a second click before it goes, and a note always sits above the ones it is picked up over. Off by default, in Settings → Misc.
+- Mail, Calendar and Tasks appear only once their first answer has arrived, instead of sitting there empty while the data loads.
 - Settings has a Misc page after Google for the things that are not a widget of their own.
 
 ### Removed

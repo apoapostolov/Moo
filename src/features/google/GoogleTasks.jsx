@@ -84,6 +84,9 @@ const GoogleTasks = () => {
   const [listId, setListId] = useState(() => getTasksSettings().listId);
   const [tasks, setTasks] = useState([]);
   const [fetchError, setFetchError] = useState('');
+  // Nothing is drawn until the first answer is in: an empty card that fills in a
+  // moment later reads as a broken widget.
+  const [ready, setReady] = useState(false);
   const [editing, setEditing] = useState(null);
 
   const loadLists = useCallback(async () => {
@@ -128,10 +131,15 @@ const GoogleTasks = () => {
 
     let timer;
 
-    loadLists().then((id) => {
-      loadTasks(id);
-      timer = setInterval(() => loadTasks(id), refreshMs(getTasksSettings().refreshMinutes));
-    });
+    loadLists()
+      .then((id) =>
+        // The interval only starts once the first list has been answered, so it
+        // never races the initial load for the same data.
+        loadTasks(id).then(() => {
+          timer = setInterval(() => loadTasks(id), refreshMs(getTasksSettings().refreshMinutes));
+        }),
+      )
+      .finally(() => setReady(true));
 
     const onRefresh = (category) => {
       if (!category || category === 'google' || category === 'tasks') {
@@ -231,6 +239,8 @@ const GoogleTasks = () => {
   if (!auth) {
     return <ConnectPrompt label="Tasks" onConnect={connectAccount} error={error} />;
   }
+
+  if (!ready) return null;
 
   const row = (task) => (
     <li

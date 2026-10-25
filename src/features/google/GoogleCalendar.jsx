@@ -44,6 +44,9 @@ const GoogleCalendar = () => {
   const [fetchError, setFetchError] = useState('');
   const [editing, setEditing] = useState(null);
   const [busy, setBusy] = useState(false);
+  // Nothing is drawn until there is something to draw: an empty card that fills
+  // in a moment later reads as a broken widget.
+  const [ready, setReady] = useState(false);
   const calendarsRef = useRef([]);
 
   const load = useCallback(async () => {
@@ -72,6 +75,7 @@ const GoogleCalendar = () => {
       setFetchError(loadError.message);
     } finally {
       setBusy(false);
+      setReady(true);
     }
   }, []);
 
@@ -133,6 +137,8 @@ const GoogleCalendar = () => {
   if (!auth) {
     return <ConnectPrompt label="Calendar" onConnect={connectAccount} error={error} />;
   }
+
+  if (!ready) return null;
 
   const byDay = visible.reduce((groups, event) => {
     const key = new Date(event.start).toDateString();
@@ -214,7 +220,6 @@ const GoogleCalendar = () => {
         />
       )}
 
-      {busy && !events.length && <p className="gwEmpty">Loading…</p>}
     </div>
   );
 };

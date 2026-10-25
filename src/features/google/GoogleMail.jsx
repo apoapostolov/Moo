@@ -33,6 +33,9 @@ const GoogleMail = () => {
   const [state, setState] = useState({ messages: [], unreadCount: 0 });
   const [fetchError, setFetchError] = useState('');
   const [busy, setBusy] = useState(false);
+  // Nothing is drawn until the first answer is in: an empty card that fills in a
+  // moment later reads as a broken widget.
+  const [ready, setReady] = useState(false);
   const [preview, setPreview] = useState(null);
   const hoverTimer = useRef(null);
 
@@ -89,6 +92,7 @@ const GoogleMail = () => {
       setFetchError(loadError.message);
     } finally {
       setBusy(false);
+      setReady(true);
     }
   }, []);
 
@@ -116,6 +120,8 @@ const GoogleMail = () => {
   if (!auth) {
     return <ConnectPrompt label="Mail" onConnect={connectAccount} error={error} />;
   }
+
+  if (!ready) return null;
 
   const title = settings.query.trim() || 'is:unread';
 
