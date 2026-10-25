@@ -338,15 +338,20 @@
   padding: 0;
   border: 0;
 
-  // Sized by what is inside: the event dialog has to fit two date fields side
-  // by side, the task dialog only one column, so neither gets a fixed width that
-  // is wrong for the other.
-  width: max-content;
-  min-width: 380px;
-  max-width: min(620px, calc(100vw - 48px));
+  // One definite width for every dialog. Sizing this by its contents made the
+  // panel narrower than the controls it held, so the body grew a horizontal
+  // scrollbar and the fields ran past the right padding.
+  width: min(500px, calc(100vw - 48px));
   max-height: 86vh;
   flex-direction: column;
   overflow: hidden;
+
+  // Padding is part of the box from here down, so a 100% field is 100% of the
+  // space it actually sits in.
+  &,
+  * {
+    box-sizing: border-box;
+  }
 
   &[open] {
     display: flex;
@@ -382,6 +387,9 @@
 .gwDialogBody {
   padding: 4px 16px 8px;
   overflow-y: auto;
+  // overflow-y: auto already computes overflow-x to auto; saying it out loud
+  // keeps a stray wide child from adding a sideways scrollbar.
+  overflow-x: hidden;
 }
 
 .gwDialogFoot {
@@ -433,7 +441,7 @@
   }
 
   select {
-    min-width: 220px;
+    min-width: 0;
     padding: 8px 10px;
     border-radius: 9px;
     font-size: 13px;
@@ -458,7 +466,9 @@
   input,
   textarea {
     width: 100%;
-    min-width: 300px;
+    // No fixed floor: a field narrower than the dialog is the dialog's business,
+    // and a hard minimum here is what pushed the form past its own padding.
+    min-width: 0;
     padding: 8px 10px;
     border-radius: 9px;
     font-size: 13px;
@@ -482,6 +492,17 @@
     resize: vertical;
   }
 
+  // A checkbox is not a text field: the 100% width above stretched it across the
+  // whole row, box and all.
+  input[type='checkbox'] {
+    width: auto;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    accent-color: #7cb0ff;
+  }
+
   .gwInline {
     flex-direction: row;
     align-items: center;
@@ -496,16 +517,17 @@
   display: flex;
   gap: 10px;
 
-  // The row must report its real width so the dialog can grow to hold it; a
-  // percentage width here collapses the intrinsic size and the fields end up
-  // wider than the panel that contains them.
+  // The fields share the row, so neither may hold a minimum of its own: a
+  // date input's intrinsic width is wider than half a narrow dialog and would
+  // push its neighbour out of the panel.
   label {
     flex: 1;
+    min-width: 0;
   }
 
   input {
     flex: 1;
-    min-width: 200px;
+    min-width: 0;
   }
 }
 

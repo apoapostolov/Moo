@@ -63,6 +63,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The clock type that was called Percentage complete is called Progress.
 - The Progress clock draws a soft bar under the percentage, faint for the whole day and firmer for the part already gone, set in from the edges of the number.
 - The checkbox, the title and the due date of a task now share one middle line, whatever the text size.
+- The event and task dialogs are one steady width, with the fields kept inside them and the same space on both sides instead of a sideways scrollbar.
 
 ### Removed
 
