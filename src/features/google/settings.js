@@ -44,6 +44,11 @@ export const REFRESH_OPTIONS = [
   { value: '30', label: 'Every 30 minutes' },
 ];
 
+export const TASK_DATE_STYLES = [
+  { value: 'relative', label: 'In 12 days' },
+  { value: 'absolute', label: '7 Nov' },
+];
+
 export const TASK_SORTS = [
   { value: 'due', label: 'Due date' },
   { value: 'title', label: 'Title' },
@@ -117,6 +122,7 @@ export const getTasksSettings = () => ({
   showNotes: readFlag('googleTasksNotes', false),
   groupByDue: readFlag('googleTasksGroup', false),
   sort: readText('googleTasksSort', 'due'),
+  dateStyle: readText('googleTasksDateStyle', 'relative'),
   maxItems: readNumber('googleTasksMax', 20),
   refreshMinutes: readNumber('googleTasksRefresh', 5),
 });
@@ -151,6 +157,7 @@ const DEFAULTS = {
   googleTasksNotes: 'false',
   googleTasksGroup: 'false',
   googleTasksSort: 'due',
+  googleTasksDateStyle: 'relative',
   googleTasksMax: '20',
   googleTasksRefresh: '5',
   googleMailQuery: 'is:unread',

@@ -18,15 +18,43 @@ const endOfDay = (date) => {
   return copy;
 };
 
-const dueLabel = (due, useRelative = true) => {
+/**
+ * A task is due on a day, not at a moment: Google pins the stamp to midnight UTC,
+ * so both sides of the comparison are pulled back to local midnight or a task due
+ * today reads as yesterday west of Greenwich.
+ */
+const dayNumber = (value) => {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) return null;
+
+  return Math.floor(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000,
+  );
+};
+
+const dueLabel = (due, dateStyle = 'relative') => {
   if (!due) return '';
 
   const date = new Date(due);
-  const today = new Date();
 
-  if (useRelative && date.toDateString() === today.toDateString()) return 'Today';
+  if (Number.isNaN(date.getTime())) return '';
 
-  return date.toLocaleDateString([], { day: 'numeric', month: 'short' });
+  if (dateStyle === 'absolute') {
+    // Day first and a lower case month, the way a date is said out loud.
+    const month = date.toLocaleDateString('en-GB', { month: 'short' }).toLowerCase();
+
+    return `${date.getDate()} ${month}`;
+  }
+
+  const days = dayNumber(due) - dayNumber(new Date());
+
+  if (days === 0) return 'Today';
+  if (days === 1) return 'Tomorrow';
+  if (days === -1) return 'Yesterday';
+  if (days > 1) return `in ${days} days`;
+
+  return `${Math.abs(days)} days ago`;
 };
 
 /** Overdue, today, next seven days, later, and anything without a date. */
@@ -219,7 +247,9 @@ const GoogleTasks = () => {
       <button type="button" className="gwItem bare" onClick={() => setEditing(task)}>
         <span className="gwItemTop">
           <span className="gwItemTitle">{task.title}</span>
-          {task.due && <span className="gwItemMeta">{dueLabel(task.due)}</span>}
+          {task.due && (
+                      <span className="gwItemMeta">{dueLabel(task.due, settings.dateStyle)}</span>
+                    )}
         </span>
         {settings.showNotes && task.notes && <span className="gwItemSub">{task.notes}</span>}
       </button>

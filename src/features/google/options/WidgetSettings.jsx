@@ -19,6 +19,7 @@ import { listLabels } from '../services/gmail';
 import { listTaskLists } from '../services/tasks';
 import {
   CALENDAR_RANGES,
+  TASK_DATE_STYLES,
   MAIL_CATEGORIES,
   MAIL_QUERIES,
   REFRESH_OPTIONS,
@@ -303,6 +304,13 @@ export const GoogleWidgetSettings = () => {
           <Section title="Filtering" subtitle="What is left out of the list.">
             <Checkbox name="googleTasksCompleted" text="Show completed tasks" category="google" />
             <Checkbox name="googleTasksHideUndated" text="Hide tasks without a date" category="google" />
+          </Section>
+          <Section title="Due dates" subtitle="Written as a countdown or as a date.">
+            <Dropdown
+              name="googleTasksDateStyle"
+              category="google"
+              items={options(TASK_DATE_STYLES)}
+            />
           </Section>
           <Section title="Details" subtitle="What each row shows.">
             <Checkbox name="googleTasksNotes" text="Notes" category="google" />

@@ -59,6 +59,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The title field of a new event or task reads plain english: "lunch with Ana friday at 13:00 at Cafe Central" or "play in 9 days for 2 days each day at 11:00" fills the dates, the clock, the length, the place and the repeat on its own, a moment after typing stops.
 - The event and task dialogs live in the browser's top layer now, so a widget card can never paint over them, whatever its glass surface or stacking order.
 - Hovering a message in the mail card opens a panel of your own that shows the whole email, sender, subject, date, attachments and all, instead of the browser's one line tooltip.
+- Task due dates can read as a countdown or as a date: "in 12 days", "Today", "2 days ago" or "7 nov". The countdown is the default and the switch lives in Settings → Google → Tasks.
 
 ### Removed
 
