@@ -12,7 +12,7 @@ export function isApiBackgroundType(type) {
 export function getApiForBackgroundType(type) {
   if (type === 'api_unsplash') return 'unsplash';
   if (type === 'api_mue') return 'mue';
-  return localStorage.getItem('backgroundAPI') === 'unsplash' ? 'unsplash' : 'mue';
+  return localStorage.getItem('backgroundAPI') === 'mue' ? 'mue' : 'unsplash';
 }
 
 /**

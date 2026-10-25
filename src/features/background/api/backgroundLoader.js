@@ -22,7 +22,7 @@ const parseJSON = (key, fallback = null) => {
  * Fetches image data from the configured API
  */
 export async function fetchAPIImageData(excludedPun = null) {
-  const api = localStorage.getItem('backgroundAPI') || 'mue';
+  const api = localStorage.getItem('backgroundAPI') || 'unsplash';
   const quality = localStorage.getItem('apiQuality') || 'high';
   const categories = parseJSON('apiCategories', localStorage.getItem('apiCategories'));
   const excludes = [...parseJSON('backgroundExclude', []), ...(excludedPun ? [excludedPun] : [])];

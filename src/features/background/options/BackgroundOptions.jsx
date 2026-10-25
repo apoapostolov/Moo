@@ -23,7 +23,7 @@ import {
 
 const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, sectionName }) => {
   const [backgroundType, setBackgroundType] = useState(() => {
-    const stored = localStorage.getItem('backgroundType') || 'api';
+    const stored = localStorage.getItem('backgroundType') || 'api_unsplash';
     const normalized = normalizeBackgroundType(stored);
     if (normalized !== stored) localStorage.setItem('backgroundType', normalized);
     return normalized;
