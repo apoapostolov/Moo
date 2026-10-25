@@ -1,16 +1,39 @@
-import { memo, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 
 import variables from 'config/variables';
+import EventBus from 'utils/eventbus';
 
 import { Checkbox, Dropdown, Radio, Slider, Text } from 'components/Form/Settings';
-import { Header, Section, Row, Content, Action } from 'components/Layout/Settings';
+import { Header, Section, Row, Content, Action, Group } from 'components/Layout/Settings';
 
 import { MdAccessibility } from 'react-icons/md';
 
 import values from 'utils/data/slider_values.json';
 
-function AppearanceOptions({ currentSubSection, onSubSectionChange, sectionName }) {
+import {
+  SIGNATURE_PRESETS as PRESETS,
+  readSignature,
+  setSignature,
+  sampleBackgroundSignature,
+} from '../signature';
 
+import './Appearance.scss';
+
+/**
+ * The keys still read from `misc`: the picker moved to this page, but its
+ * heading and subtitle are translated in every locale, and renaming the path
+ * would blank both of them wherever the new one is missing.
+ */
+const SIGNATURE_SECTION = 'modals.main.settings.sections.misc.signature';
+
+// The same shape the Misc page uses for a labelled group inside a page.
+const GroupHeading = ({ title, subtitle }) => (
+  <Row>
+    <Content title={title} subtitle={subtitle} />
+  </Row>
+);
+
+function AppearanceOptions({ currentSubSection, onSubSectionChange, sectionName }) {
   const ThemeSelection = () => {
     return (
       <Row>
@@ -41,6 +64,90 @@ function AppearanceOptions({ currentSubSection, onSubSectionChange, sectionName 
           />
         </Action>
       </Row>
+    );
+  };
+
+  const [colour, setColour] = useState(readSignature);
+  const [trouble, setTrouble] = useState('');
+  const [sampling, setSampling] = useState(false);
+
+  useEffect(() => {
+    const reread = () => setColour(readSignature());
+
+    EventBus.on('refresh', reread);
+
+    return () => EventBus.off('refresh', reread);
+  }, []);
+
+  const choose = useCallback((hex) => {
+    setTrouble('');
+    setSignature(hex);
+    setColour(hex);
+  }, []);
+
+  const takeFromBackground = useCallback(async () => {
+    setTrouble('');
+    setSampling(true);
+
+    try {
+      choose(await sampleBackgroundSignature());
+    } catch (sampleError) {
+      setTrouble(sampleError.message);
+    } finally {
+      setSampling(false);
+    }
+  }, [choose]);
+
+  /**
+   * Sits between the theme and the font because it is the same decision: how
+   * the page looks. The colour runs through links, ticks and switches, so it
+   * follows the theme rather than sitting apart from it in Advanced.
+   */
+  const SignatureOptions = () => {
+    return (
+      <Group>
+        <GroupHeading
+          title={variables.getMessage(`${SIGNATURE_SECTION}.title`)}
+          subtitle={variables.getMessage(`${SIGNATURE_SECTION}.subtitle`)}
+        />
+        <Row>
+          <Content
+            title={variables.getMessage(`${SIGNATURE_SECTION}.colour.title`)}
+            subtitle={trouble || variables.getMessage(`${SIGNATURE_SECTION}.colour.subtitle`)}
+          />
+          <Action>
+            <div className="signaturePicker">
+              {PRESETS.map((preset) => (
+                <button
+                  key={preset.value}
+                  type="button"
+                  className={`signatureSwatch${colour.toLowerCase() === preset.value ? ' active' : ''}`}
+                  style={{ '--swatch': preset.value }}
+                  title={preset.name}
+                  aria-label={preset.name}
+                  onClick={() => choose(preset.value)}
+                />
+              ))}
+              <label className="signatureCustom" title="Any colour you like">
+                <input
+                  type="color"
+                  value={colour}
+                  aria-label="Pick any colour"
+                  onChange={(event) => choose(event.target.value)}
+                />
+              </label>
+            </div>
+            <button
+              type="button"
+              className="signatureSample"
+              disabled={sampling}
+              onClick={takeFromBackground}
+            >
+              {sampling ? 'Reading…' : 'From the background'}
+            </button>
+          </Action>
+        </Row>
+      </Group>
     );
   };
 
@@ -248,6 +355,7 @@ function AppearanceOptions({ currentSubSection, onSubSectionChange, sectionName 
             onClick={() => onSubSectionChange('accessibility', sectionName)}
           />
           <ThemeSelection />
+          <SignatureOptions />
           <FontOptions />
         </>
       )}

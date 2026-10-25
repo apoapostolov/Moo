@@ -3,7 +3,8 @@
 /*
  * The signature colour picker: the fixed choices, one free picker, and a button
  * that reads a colour out of the wallpaper. Every swatch is drawn from its own
- * colour, so the strip is the palette rather than a description of it.
+ * colour, so the strip is the palette rather than a description of it. These
+ * rules travelled with the row when it moved from Misc to Appearance.
  */
 /* Three circles to a row, two rows, then the wallpaper button across the
    column. A flex line squeezed five colours and the free picker into the 300px
