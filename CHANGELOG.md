@@ -41,6 +41,8 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The mail preview no longer follows the pointer: it opens beside the mail card, level with the middle of the window, on whichever side the card leaves free. The wheel belongs to it while it is open, wherever the pointer is, and the message glides to a stop instead of jumping a line per notch.
 - The widget list in Overview became three drop containers around a centred preview, with the grab handle on the left of each row and the switch on the right.
 - Settings rows that configure one thing are drawn as one block: a heading and the controls under it, or a switch and the options it reveals, no longer have a rule between them. Only separate settings do.
+- The Image Info card keeps its counts to itself until you look at it: views, downloads and likes appear when the card is hovered, and the resting card is just the place and the credit. The words "Photo by" are a plain grey label now, with the signature colour left to the photographer's name.
+- The Image Info card stops growing sideways. Its width is capped a wide margin short of the middle column, and a long place name or credit ends in an ellipsis instead of running into the clock.
 
 ### Fixed
 

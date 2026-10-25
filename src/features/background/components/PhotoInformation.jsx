@@ -83,7 +83,12 @@ function PhotoInformation({ info, url, api }) {
   // unsplash credit
   if (info.photographerURL && info.photographerURL !== '' && !info.offline && api) {
     photo = (
-      <a href={info.photoURL} target="_blank" rel="noopener noreferrer">
+      <a
+        href={info.photoURL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="creditSource"
+      >
         {photo}
       </a>
     );
