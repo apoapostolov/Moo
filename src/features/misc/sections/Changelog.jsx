@@ -1,106 +1,126 @@
-const linkStyle = { color: 'var(--modal-link)', textDecoration: 'none' };
+import { useMemo } from 'react';
+import { marked } from 'marked';
 
-const CHANGELOG = [
-  {
-    version: '1.0.0',
-    date: '25 October 2026',
-    summary: (
-      <>
-        Moo is a Firefox-only fork of{' '}
-        <a href="https://muetab.com" target="_blank" rel="noopener noreferrer" style={linkStyle}>
-          Mue
-        </a>
-        , the new tab extension by The Mue Authors. It keeps the backgrounds, the weather and the
-        widgets, drops the store and the account extras, and adds what this setup was missing.
-      </>
-    ),
-    groups: [
-      {
-        title: 'Added',
-        items: [
-          'Unsplash topics: pick from the live topic list instead of four fixed collections.',
-          'Coverr: free looping video clips as a background source, with an optional search.',
-          'Pixabay and Pexels video clips, each using your own free API key.',
-          'Live channels: 24/7 ambient streams (WildEarth, ZenLIFE, Love Nature, Red Bull TV) played behind the clock.',
-          'Video backgrounds are queued ahead: the next clip is resolved and warmed, so a new tab starts on it at once.',
-          'Unsplash and the Mue library are picked directly as sources, each with its own settings.',
-          'Favouriting or downloading a library image now records it, so the trending picks improve as you use them.',
-          'Animated background: a slow pan and zoom across the image. Off by default.',
-          'Automatic background change on an interval you choose. Off by default.',
-          'Background Information section, keeping the photo details and the location map apart from the display options.',
-          'Quick Weather: a one-line weather widget under the clock, with its own toggle and a place in the widget order.',
-          'Five-day forecast from Open-Meteo, replacing the single-day extra information.',
-          'Show and hide toggles for each widget in Overview.',
-          'Bulgarian language.',
-        ],
-      },
-      {
-        title: 'Changed',
-        items: [
-          'Firefox only, with its own add-on id so it installs next to Mue.',
-          'The first run keeps the settings already in use in Mue.',
-          'Background effects each get their own heading (blur, brightness, filter) instead of one shared block.',
-          'Statistics fit on a single row with centred values.',
-          'Only the current widget style remains; the old style switch is gone.',
-          'Weather finds the location on its own at first launch, now that the search box is gone.',
-          'Excluded images are actually skipped, and the background service is asked again when a request fails.',
-          'Background sources are ordered by popularity, and only Coverr is marked as a video source, since Pixabay and Pexels fall back to an image without a key.',
-        ],
-      },
-      {
-        title: 'Fixed',
-        items: [
-          'The animated background can no longer pan past the edge of the image and show black strips.',
-          'Weather spacing, and the min/max temperature alignment in the widget and the forecast.',
-          'The weather widget no longer jumps in size while it loads: the placeholder matches the real layout.',
-          'Hearts on library images were counted as missing likes.',
-        ],
-      },
-      {
-        title: 'Removed',
-        items: [
-          'Marketplace and Library.',
-          'Quotes and greetings.',
-          'Achievements.',
-          'Search.',
-          'The message form, and the support, contributors, supporters, photographers and curators sections in About.',
-        ],
-      },
-    ],
-  },
-];
+import changelogSource from '../../../../CHANGELOG.md?raw';
+
+import './Changelog.scss';
+
+// A link opened from the changelog leaves the new tab page, so it opens in a tab
+// of its own rather than replacing the one the user is looking at.
+const linkProps = {
+  target: '_blank',
+  rel: 'noopener noreferrer',
+};
+
+const renderInline = (tokens = []) =>
+  tokens.map((token, index) => {
+    switch (token.type) {
+      case 'text':
+        return token.tokens
+          ? <span key={index}>{renderInline(token.tokens)}</span>
+          : token.text;
+
+      case 'strong':
+        return <strong key={index}>{renderInline(token.tokens)}</strong>;
+
+      case 'em':
+        return <em key={index}>{renderInline(token.tokens)}</em>;
+
+      case 'codespan':
+        return <code key={index}>{token.text}</code>;
+
+      case 'link':
+        return (
+          <a key={index} href={token.href} {...linkProps}>
+            {renderInline(token.tokens)}
+          </a>
+        );
+
+      case 'br':
+        return <br key={index} />;
+
+      default:
+        return token.raw ?? token.text ?? null;
+    }
+  });
+
+// A list item wraps its content in a text token, a paragraph does not: unwrap it
+// so both render the same way.
+const inlineOf = (token) => token.tokens?.[0]?.tokens ?? token.tokens ?? [];
+
+const splitHeading = (text) => {
+  const [version, date] = text.split(/\s+[—–-]\s+/);
+
+  return { version: version?.trim() || text, date: date?.trim() };
+};
+
+const renderBlock = (token, index) => {
+  switch (token.type) {
+    case 'paragraph':
+      return (
+        <p key={index} className="releaseSummary">
+          {renderInline(token.tokens)}
+        </p>
+      );
+
+    case 'heading':
+      return (
+        <h3 key={index} className="releaseGroup">
+          {renderInline(token.tokens)}
+        </h3>
+      );
+
+    case 'list':
+      return (
+        <ul key={index} className="releaseItems">
+          {token.items.map((item, itemIndex) => (
+            <li key={itemIndex}>{renderInline(inlineOf(item))}</li>
+          ))}
+        </ul>
+      );
+
+    case 'hr':
+      return <hr key={index} className="releaseRule" />;
+
+    default:
+      return null;
+  }
+};
+
+const readReleases = (source) => {
+  const releases = [];
+  let current = null;
+
+  marked.lexer(source).forEach((token) => {
+    if (token.type === 'heading' && token.depth === 2) {
+      current = { version: splitHeading(token.text), blocks: [] };
+      releases.push(current);
+      return;
+    }
+
+    // Everything after a release heading belongs to it, depth-3 headings
+    // included, since those are the Added / Changed / Fixed group titles.
+    if (!current) return;
+
+    current.blocks.push(token);
+  });
+
+  return releases;
+};
 
 const Changelog = () => {
+  const releases = useMemo(() => readReleases(changelogSource), []);
+
   return (
-    <div style={{ padding: '16px', overflowY: 'auto', height: '100%' }}>
-      {CHANGELOG.map((entry) => (
-        <div key={entry.version} style={{ marginBottom: '24px' }}>
-          <h2 style={{ margin: '0 0 4px 0' }}>
-            {entry.version}{' '}
-            <span style={{ fontSize: '0.7em', opacity: 0.6, fontWeight: 'normal' }}>
-              ({entry.date})
-            </span>
-          </h2>
-          {entry.summary && (
-            <p style={{ margin: '8px 0 0 0', lineHeight: 1.6, maxWidth: '75ch' }}>
-              {entry.summary}
-            </p>
-          )}
-          {entry.groups.map((group) => (
-            <div key={group.title} style={{ marginTop: '16px' }}>
-              <h3 style={{ margin: '0 0 6px 0', fontSize: '1em', opacity: 0.85 }}>
-                {group.title}
-              </h3>
-              <ul style={{ margin: '0 0 0 20px', padding: 0 }}>
-                {group.items.map((item) => (
-                  <li key={item} style={{ marginBottom: '4px', lineHeight: 1.5 }}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+    <div className="changelog">
+      {releases.map((release) => (
+        <section className="release" key={release.version.version}>
+          <header className="releaseHead">
+            <h2 className="releaseVersion">{release.version.version}</h2>
+            {release.version.date && <span className="releaseDate">{release.version.date}</span>}
+          </header>
+          {release.blocks.map(renderBlock)}
+        </section>
       ))}
     </div>
   );
