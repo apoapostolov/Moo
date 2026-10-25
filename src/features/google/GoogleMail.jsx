@@ -35,7 +35,7 @@ const anchorFor = (node) => (node && node.closest('.googleWidget')) || node;
 const GoogleMail = () => {
   const { auth, loading, error, connectAccount } = useGoogleAuth();
   const [settings, setSettings] = useState(getMailSettings);
-  const [state, setState] = useState({ messages: [], unreadCount: 0 });
+  const [state, setState] = useState({ messages: [], unreadCount: 0, unreadOverflow: false });
   const [fetchError, setFetchError] = useState('');
   const [busy, setBusy] = useState(false);
   // Nothing is drawn until the first answer is in: an empty card that fills in a
@@ -126,9 +126,7 @@ const GoogleMail = () => {
     // under the hand, and anywhere else the panel would point at the wrong row.
     const scheduleFollow = (closeWhenMissing) => {
       window.cancelAnimationFrame(followFrame.current);
-      followFrame.current = window.requestAnimationFrame(() =>
-        followHoveredRow(closeWhenMissing),
-      );
+      followFrame.current = window.requestAnimationFrame(() => followHoveredRow(closeWhenMissing));
     };
 
     const onScroll = (event) => {
@@ -221,7 +219,12 @@ const GoogleMail = () => {
     <div className={`googleWidget ${getSurface('mail')}`}>
       <header className="gwHead">
         <span className="gwLabel">Mail</span>
-        {settings.badge === 'count' && <span className="gwBadge">{state.unreadCount}</span>}
+        {settings.badge === 'count' && (
+          <span className="gwBadge">
+            {state.unreadCount}
+            {state.unreadOverflow ? '+' : ''}
+          </span>
+        )}
         {settings.badge === 'dot' && state.unreadCount > 0 && <span className="gwBadge dot" />}
         <button
           type="button"

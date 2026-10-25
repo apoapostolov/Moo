@@ -1,6 +1,8 @@
 import { googleFetch } from '../api';
 
-const MESSAGE_HEADERS = ['Subject', 'From', 'Date'].map((name) => `metadataHeaders=${name}`).join('&');
+const MESSAGE_HEADERS = ['Subject', 'From', 'Date']
+  .map((name) => `metadataHeaders=${name}`)
+  .join('&');
 
 const headerValue = (message, name) =>
   message.payload?.headers?.find((header) => header.name === name)?.value ?? '';
@@ -36,10 +38,37 @@ export const listLabels = async () => {
     .sort((a, b) => a.display.localeCompare(b.display));
 };
 
-export const getUnreadCount = async () => {
-  const label = await googleFetch('/gmail/v1/users/me/labels/INBOX');
+/**
+ * How many messages the search finds, not how many the widget shows. Gmail has
+ * no count endpoint for a search and `resultSizeEstimate` is an estimate, so the
+ * ids are paged and counted. A mailbox that never gets to the end is capped
+ * rather than paged forever, and the caller says "1000+" instead.
+ */
+const COUNT_CAP = 1000;
 
-  return label?.messagesUnread ?? 0;
+const countMatching = async (sources, cap = COUNT_CAP) => {
+  const seen = new Set();
+
+  for (const source of sources) {
+    let pageToken = '';
+
+    do {
+      const query = `/gmail/v1/users/me/messages?q=${encodeURIComponent(source)}&maxResults=500${
+        pageToken ? `&pageToken=${encodeURIComponent(pageToken)}` : ''
+      }`;
+      // One source failing should not zero a count the other sources answered.
+      const page = await googleFetch(query).catch(() => null);
+
+      if (!page) break;
+
+      (page.messages ?? []).forEach((message) => seen.add(message.id));
+      pageToken = page.nextPageToken ?? '';
+    } while (pageToken && seen.size < cap);
+
+    if (seen.size >= cap) break;
+  }
+
+  return { unreadCount: Math.min(seen.size, cap), unreadOverflow: seen.size >= cap };
 };
 
 /**
@@ -66,6 +95,9 @@ const folderQuery = (folder) => {
 };
 
 const searchIds = async (query, maxResults) => {
+  // `maxResults` is the display limit; the badge counts the whole search, which
+  // is a separate pass over the same sources.
+
   const list = await googleFetch(
     `/gmail/v1/users/me/messages?q=${encodeURIComponent(query)}&maxResults=${maxResults}`,
   );
@@ -102,7 +134,7 @@ export const listMessages = async ({
   ];
 
   // Every category off and no folder chosen: there is nothing to ask for.
-  if (!sources.length) return { messages: [], unreadCount: 0 };
+  if (!sources.length) return { messages: [], unreadCount: 0, unreadOverflow: false };
 
   const pages = await Promise.all(
     sources.map((source) => searchIds(source, maxResults).catch(() => [])),
@@ -111,19 +143,19 @@ export const listMessages = async ({
   // Sources overlap often, so the same message can arrive twice.
   const ids = [...new Set(pages.flat())];
 
-  if (!ids.length) return { messages: [], unreadCount: 0 };
+  if (!ids.length) return { messages: [], unreadCount: 0, unreadOverflow: false };
 
   // A little slack over the limit, because the merged order only becomes exact
   // once the dates are known.
   const wanted = ids.slice(0, maxResults * 2);
 
-  const [messages, unreadCount] = await Promise.all([
+  const [messages, counted] = await Promise.all([
     Promise.all(
       wanted.map((id) =>
         googleFetch(`/gmail/v1/users/me/messages/${id}?format=metadata&${MESSAGE_HEADERS}`),
       ),
     ),
-    getUnreadCount().catch(() => 0),
+    countMatching(sources).catch(() => ({ unreadCount: 0, unreadOverflow: false })),
   ]);
 
   const sorted = messages
@@ -131,7 +163,7 @@ export const listMessages = async ({
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, maxResults);
 
-  return { messages: sorted, unreadCount };
+  return { messages: sorted, ...counted };
 };
 
 /**

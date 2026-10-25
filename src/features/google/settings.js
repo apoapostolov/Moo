@@ -83,9 +83,12 @@ const readList = (key, fallback = []) => {
   }
 };
 
-/** Categories left switched on. An empty list means every category is on. */
+/** Categories left switched on. An empty list fetches no category at all. */
 export const readMailCategories = () =>
-  readList('googleMailCategories', MAIL_CATEGORIES.map((category) => category.id));
+  readList(
+    'googleMailCategories',
+    MAIL_CATEGORIES.map((category) => category.id),
+  );
 
 export const readMailFolders = () =>
   readList('googleMailFolders', []).filter((folder) =>
@@ -155,7 +158,7 @@ export const getTasksSettings = () => ({
 });
 
 export const getMailSettings = () => ({
-  query: (readText('googleMailCustomQuery', '').trim() || readText('googleMailQuery', 'is:unread')),
+  query: readText('googleMailCustomQuery', '').trim() || readText('googleMailQuery', 'is:unread'),
   categories: readMailCategories(),
   folders: readMailFolders(),
   maxMessages: readNumber('googleMailMax', 6),
