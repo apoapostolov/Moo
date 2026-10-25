@@ -12,6 +12,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import { initTranslations } from 'lib/translations';
 
+import runMigrations from './utils/settings/migrations';
+
+// Before anything reads a setting, so no component mounts with a stale value.
+runMigrations();
+
 const languagecode = localStorage.getItem('language') || 'en_GB';
 variables.language = initTranslations(languagecode);
 variables.languagecode = languagecode;
