@@ -18,6 +18,7 @@ import {
   Changelog,
   ExperimentalOptions,
   LanguageOptions,
+  MiscOptions,
   Overview,
 } from '../sections';
 
@@ -40,6 +41,11 @@ const sections = [
     label: 'modals.main.settings.sections.google.title',
     name: 'google',
     component: GoogleOptions,
+  },
+  {
+    label: 'modals.main.settings.sections.misc.title',
+    name: 'misc',
+    component: MiscOptions,
   },
   {
     label: 'modals.main.settings.sections.appearance.title',

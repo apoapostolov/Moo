@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Background from 'features/background/Background';
 import Widgets from 'features/misc/views/Widgets';
+import ScratchNotes from 'features/scratch/ScratchNotes';
 import Modals from 'features/misc/modals/Modals';
 import { loadSettings, moveSettings } from 'utils/settings';
 import EventBus from 'utils/eventbus';
@@ -69,6 +70,7 @@ const App = () => {
       />
       <div id="center">
         <Widgets />
+        <ScratchNotes />
         <Modals />
       </div>
     </TranslationProvider>

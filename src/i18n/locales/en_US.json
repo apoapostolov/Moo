@@ -314,6 +314,13 @@
             "focus": "Focus on tab open",
             "chrome_policy_warning": "In version 7.2, the ability to choose your search engine within Moo was removed to comply with new Chrome Web Store guidelines. Moo now uses your browser's default search engine. You can change this in Chrome Settings."
           },
+          "misc": {
+            "title": "Misc",
+            "scratch_notes": {
+              "title": "Scratch notes",
+              "subtitle": "Double-click any empty part of the page to drop a note. Drag it to move it, click it to write in it, and click the × twice to throw it away. Markdown works."
+            }
+          },
           "weather": {
             "title": "Weather",
             "location": "Location",

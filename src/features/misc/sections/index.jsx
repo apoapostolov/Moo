@@ -4,4 +4,5 @@ export * from './Appearance';
 export * from './Changelog';
 export * from './Experimental';
 export * from './Language';
+export * from './Misc';
 export * from './Overview';

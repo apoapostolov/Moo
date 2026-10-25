@@ -25,6 +25,7 @@ import {
   MdAddCircleOutline,
   MdViewAgenda,
   MdCollectionsBookmark,
+  MdStickyNote2,
   MdMailOutline,
 } from 'react-icons/md';
 
@@ -50,6 +51,7 @@ export const ICON_COMPONENTS = {
   BACKGROUND: MdOutlinePhoto,
   WEATHER: MdCloudQueue,
   GOOGLE: MdMailOutline,
+  MISC: MdStickyNote2,
   APPEARANCE: MdFormatPaint,
   LANGUAGE: MdTranslate,
   ADVANCED: MdOutlineSettings,
@@ -79,6 +81,7 @@ export const MESSAGE_KEYS = {
   BACKGROUND: 'modals.main.settings.sections.background.title',
   WEATHER: 'modals.main.settings.sections.weather.title',
   GOOGLE: 'modals.main.settings.sections.google.title',
+  MISC: 'modals.main.settings.sections.misc.title',
   APPEARANCE: 'modals.main.settings.sections.appearance.title',
   LANGUAGE: 'modals.main.settings.sections.language.title',
   ADVANCED: 'modals.main.settings.sections.advanced.title',
@@ -113,6 +116,7 @@ export const getIconComponent = (label, variables) => {
     [variables.getMessage(MESSAGE_KEYS.BACKGROUND)]: ICON_COMPONENTS.BACKGROUND,
     [variables.getMessage(MESSAGE_KEYS.WEATHER)]: ICON_COMPONENTS.WEATHER,
     [variables.getMessage(MESSAGE_KEYS.GOOGLE)]: ICON_COMPONENTS.GOOGLE,
+    [variables.getMessage(MESSAGE_KEYS.MISC)]: ICON_COMPONENTS.MISC,
     [variables.getMessage(MESSAGE_KEYS.APPEARANCE)]: ICON_COMPONENTS.APPEARANCE,
     [variables.getMessage(MESSAGE_KEYS.LANGUAGE)]: ICON_COMPONENTS.LANGUAGE,
     [variables.getMessage(MESSAGE_KEYS.ADVANCED)]: ICON_COMPONENTS.ADVANCED,
@@ -143,7 +147,7 @@ export const NAVBAR_BUTTONS = [
 
 // Labels that should have dividers after them
 export const DIVIDER_LABELS = [
-  'modals.main.settings.sections.google.title',
+  'modals.main.settings.sections.misc.title',
   'modals.main.settings.sections.language.title',
   'modals.main.marketplace.all',
   'modals.main.settings.sections.experimental.title',

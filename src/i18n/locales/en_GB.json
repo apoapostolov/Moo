@@ -371,6 +371,13 @@
           "google": {
             "title": "Google"
           },
+          "misc": {
+            "title": "Misc",
+            "scratch_notes": {
+              "title": "Scratch notes",
+              "subtitle": "Double-click any empty part of the page to drop a note. Drag it to move it, click it to write in it, and click the × twice to throw it away. Markdown works."
+            }
+          },
           "weather": {
             "title": "Weather",
             "location": "Location",
