@@ -526,6 +526,9 @@
     display: flex;
     flex-flow: column;
     align-items: center;
+    // A widget on its own line needs air between it and the next one; the cards
+    // draw their own edges and would otherwise touch into one tall block.
+    gap: 6px;
 
     .quotediv .quote {
       max-width: 100%;
@@ -548,14 +551,16 @@
   // widget with one entry inside it, bars where the text would be and dots where
   // the real card carries its glyph. The tint comes from currentColor, so the
   // same card reads correctly in both themes without a second palette.
+  // Drawn at a third of the measurements the design was worked out at, so it
+  // reads as a thumbnail of a widget rather than a second widget in the panel.
   .gwSkeleton {
     box-sizing: border-box;
-    width: 200px;
+    width: 66px;
     display: flex;
     flex-flow: column;
-    gap: 10px;
-    padding: 10px 12px 12px;
-    border-radius: 12px;
+    gap: 3px;
+    padding: 3px 4px 4px;
+    border-radius: 4px;
     text-shadow: none;
     background: color-mix(in srgb, currentColor 6%, transparent);
     border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
@@ -564,20 +569,20 @@
   .gwSkeletonHead {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 2px;
   }
 
   .gwSkeletonDot {
     flex: 0 0 auto;
-    width: 8px;
-    height: 8px;
+    width: 3px;
+    height: 3px;
     border-radius: 50%;
     background: currentColor;
     opacity: 0.5;
 
     &.gwSkeletonDot-small {
-      width: 5px;
-      height: 5px;
+      width: 2px;
+      height: 2px;
       margin-left: auto;
       opacity: 0.3;
     }
@@ -586,7 +591,7 @@
   .gwSkeletonEntry {
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 3px;
   }
 
   // A dot where the entry has an avatar, a square where a date sits, a tick box
@@ -597,25 +602,25 @@
     opacity: 0.3;
 
     &.gwSkeletonIcon-dot {
-      width: 20px;
-      height: 20px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
     }
 
     &.gwSkeletonIcon-square {
-      width: 20px;
-      height: 20px;
-      border-radius: 5px;
+      width: 7px;
+      height: 7px;
+      border-radius: 2px;
     }
 
     // A task row is a tick waiting to happen, so it is a ring rather than a
     // filled block: the only glyph in the set that is drawn open.
     &.gwSkeletonIcon-check {
-      width: 14px;
-      height: 14px;
-      border-radius: 4px;
+      width: 5px;
+      height: 5px;
+      border-radius: 1px;
       background: transparent;
-      border: 1.5px solid currentColor;
+      border: 1px solid currentColor;
       opacity: 0.45;
     }
   }
@@ -624,11 +629,11 @@
     flex: 1;
     display: flex;
     flex-flow: column;
-    gap: 6px;
+    gap: 2px;
   }
 
   .gwSkeletonBar {
-    height: 6px;
+    height: 2px;
     border-radius: 999px;
     background: currentColor;
     opacity: 0.22;
@@ -642,8 +647,8 @@
     }
 
     &.gwSkeletonBar-short {
-      width: 40px;
-      height: 5px;
+      width: 13px;
+      height: 2px;
       opacity: 0.34;
     }
   }
