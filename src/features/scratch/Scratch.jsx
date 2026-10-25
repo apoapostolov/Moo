@@ -706,7 +706,7 @@ const Scratch = () => {
                   }}
                   className="scratchNoteInput"
                   value={note.text}
-                  placeholder="Write here. Markdown works."
+                  placeholder="Write here. Markdown supported."
                   autoFocus
                   onChange={(event) => changeText(note.id, event.target.value)}
                   onBlur={() => finishEditing(note)}

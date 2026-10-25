@@ -96,7 +96,10 @@
   resize: none;
 
   &::placeholder {
-    color: rgb(255 255 255 / 45%);
+    /* The note's own colour, held back, so the hint belongs to the note instead
+       of looking like a second, greyer element placed on top of it. */
+    color: inherit;
+    opacity: 0.42;
   }
 }
 
