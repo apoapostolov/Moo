@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 import Dialog from './Dialog';
+import { useNaturalTitle } from '../useNaturalTitle';
+import { describe, toRrule } from '../natural';
 import {
   createEvent,
   deleteEvent,
@@ -57,6 +59,52 @@ const EventDialog = ({
   );
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [repeat, setRepeat] = useState(null);
+  const autoLocation = useRef('');
+
+  /**
+   * The title box doubles as the whole form: a date, a clock, a length and a
+   * place typed into it land in their own fields, and whatever no reader claims
+   * stays as the title.
+   */
+  const applyParsed = (parsed) => {
+    setRepeat(parsed.repeat || null);
+
+    setForm((current) => {
+      const next = { ...current };
+      // A place read from the sentence replaces the previous place read from the
+      // sentence, but never a location typed in by hand.
+      next.location =
+        parsed.location || (current.location === autoLocation.current ? '' : current.location);
+      autoLocation.current = parsed.location || '';
+
+      if (!parsed.date) return next;
+
+      const day = new Date(parsed.date);
+
+      if (parsed.time) {
+        day.setHours(parsed.time.hours, parsed.time.minutes, 0, 0);
+
+        const finish = parsed.endTime
+          ? new Date(day.getFullYear(), day.getMonth(), day.getDate(), parsed.endTime.hours, parsed.endTime.minutes)
+          : new Date(day.getTime() + (parsed.durationMinutes || 60) * 60000);
+
+        next.allDay = false;
+        next.start = toLocalInput(day.toISOString());
+        next.end = toLocalInput(finish.toISOString());
+
+        return next;
+      }
+
+      next.allDay = true;
+      next.start = toLocalInput(day.toISOString());
+      next.end = toLocalInput((parsed.endDate ? new Date(parsed.endDate) : day).toISOString());
+
+      return next;
+    });
+  };
+
+  const parsed = useNaturalTitle(form.title, 'event', applyParsed);
 
   const update = (key) => (changeEvent) =>
     setForm((current) => ({ ...current, [key]: changeEvent.target.value }));
@@ -75,7 +123,10 @@ const EventDialog = ({
 
     const payload = {
       ...form,
-      title: form.title.trim(),
+      // The sentence is trimmed once the reader has taken the date, clock and
+      // place out of it, so the saved event is not called "meeting on 24th oct".
+      title: (parsed?.title || form.title).trim(),
+      recurrence: !isEditing && repeat ? [toRrule(repeat)] : undefined,
       start: form.allDay ? `${form.start.slice(0, 10)}T00:00:00` : fromLocalInput(form.start),
       end: form.allDay ? `${form.end.slice(0, 10)}T00:00:00` : fromLocalInput(form.end),
     };
@@ -146,8 +197,24 @@ const EventDialog = ({
 
         <label>
           Title
-          <input value={form.title} onChange={update('title')} placeholder="Dentist" autoFocus />
+          <input
+            value={form.title}
+            onChange={update('title')}
+            placeholder="Dentist on 24th oct at 9 for 45 minutes"
+            autoFocus
+          />
         </label>
+
+        {parsed && (
+          <p className="gwParsedHint">
+            {parsed.title && parsed.title !== form.title.trim() && (
+              <span className="gwParsedTitle">“{parsed.title}”</span>
+            )}
+            {parsed.title && parsed.title !== form.title.trim() && ' · '}
+            {describe(parsed, 'event')}
+            {repeat && isEditing && ' · repeats are only set on new events'}
+          </p>
+        )}
 
         <label className="gwInline">
           <input

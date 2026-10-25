@@ -1,6 +1,8 @@
 import { useState } from 'react';
 
 import Dialog from './Dialog';
+import { useNaturalTitle } from '../useNaturalTitle';
+import { describe } from '../natural';
 import { createTask, deleteTask, setTaskCompleted, toDueInput, updateTask } from '../services/tasks';
 
 /**
@@ -16,6 +18,20 @@ const TaskDialog = ({ task, listId, onClose, onSaved, onDeleted }) => {
   }));
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+
+  /** The title box takes the day as well: "pay rent in 9 days" sets the due date. */
+  const applyParsed = (parsed) => {
+    if (!parsed.date) return;
+
+    const day = new Date(parsed.date);
+    const stamp = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, '0')}-${String(
+      day.getDate(),
+    ).padStart(2, '0')}`;
+
+    setForm((current) => ({ ...current, due: stamp }));
+  };
+
+  const parsed = useNaturalTitle(form.title, 'task', applyParsed);
 
   const update = (key) => (changeEvent) =>
     setForm((current) => ({ ...current, [key]: changeEvent.target.value }));
@@ -34,7 +50,7 @@ const TaskDialog = ({ task, listId, onClose, onSaved, onDeleted }) => {
 
     try {
       const payload = {
-        title: form.title.trim(),
+        title: (parsed?.title || form.title).trim(),
         notes: form.notes,
         // Google Tasks wants a date at midnight UTC.
         due: form.due ? `${form.due}T00:00:00.000Z` : '',
@@ -112,8 +128,25 @@ const TaskDialog = ({ task, listId, onClose, onSaved, onDeleted }) => {
       <form id="taskForm" className="gwForm" onSubmit={save}>
         <label>
           Task
-          <input value={form.title} onChange={update('title')} placeholder="Call the landlord" autoFocus />
+          <input
+            value={form.title}
+            onChange={update('title')}
+            placeholder="Pay the rent on the 1st"
+            autoFocus
+          />
         </label>
+
+        {parsed && (
+          <p className="gwParsedHint">
+            {parsed.title && parsed.title !== form.title.trim() && (
+              <>
+                <span className="gwParsedTitle">“{parsed.title}”</span>
+                {' · '}
+              </>
+            )}
+            {describe(parsed, 'task')}
+          </p>
+        )}
 
         <label>
           Due

@@ -90,6 +90,7 @@ export const createEvent = async ({
   end,
   allDay,
   calendarId = 'primary',
+  recurrence = [],
 }) => {
   const bounds = allDay
     ? { start: { date: start.slice(0, 10) }, end: { date: end.slice(0, 10) } }
@@ -97,7 +98,13 @@ export const createEvent = async ({
 
   const event = await googleFetch(EVENTS(calendarId), {
     method: 'POST',
-    body: JSON.stringify({ summary: title, description, location, ...bounds }),
+    body: JSON.stringify({
+      summary: title,
+      description,
+      location,
+      ...bounds,
+      ...(recurrence.length ? { recurrence } : {}),
+    }),
   });
 
   return toEvent(event, { id: calendarId });

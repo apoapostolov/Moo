@@ -267,6 +267,24 @@
   flex: 1;
 }
 
+// What the title box was understood to mean, so a date read out of the sentence
+// is never a surprise at save time.
+.gwParsedHint {
+  margin: -4px 0 0;
+  font-size: 11.5px;
+  line-height: 1.45;
+
+  @include themed {
+    color: t($subColor);
+  }
+}
+
+.gwParsedTitle {
+  @include themed {
+    color: t($color);
+  }
+}
+
 .gwForm {
   display: flex;
   flex-direction: column;
