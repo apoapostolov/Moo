@@ -232,7 +232,7 @@
               "title": "Тип",
               "api": "API",
               "unsplash": "Unsplash",
-              "mue_library": "Mue библиотека",
+              "mue_library": "Pexels",
               "custom_image": "Собствено изображение",
               "custom_colour": "Собствен цвят/градиент",
               "random_colour": "Случаен цвят",
@@ -248,8 +248,8 @@
               "categories": "Категории"
             },
             "mue_library": {
-              "title": "Mue библиотека",
-              "subtitle": "Подбрани изображения от библиотеката на Mue, организирани по категории"
+              "title": "Pexels",
+              "subtitle": "Подбрани изображения, организирани по категории"
             },
             "source": {
               "title": "Източник",
@@ -298,6 +298,10 @@
             },
             "display": "Показване",
             "display_subtitle": "Променете как се зареждат фонът и информацията за снимката",
+            "information": {
+              "title": "Информация за фона",
+              "subtitle": "Изберете какво да се показва за текущото изображение"
+            },
             "api": "API настройки",
             "api_subtitle": "Опции за получаване на изображение от външна услуга (API)"
           },
@@ -478,12 +482,12 @@
           "stats": {
             "title": "Статистики",
             "sections": {
-              "tabs_opened": "Отворени раздели",
-              "backgrounds_favourited": "Любими фонове",
-              "backgrounds_downloaded": "Изтеглени фонове",
+              "tabs_opened": "Раздели",
+              "backgrounds_favourited": "Любими",
+              "backgrounds_downloaded": "Изтегляния",
               "quotes_favourited": "Любими цитати",
-              "quicklinks_added": "Добавени бързи връзки",
-              "settings_changed": "Променени настройки",
+              "quicklinks_added": "Връзки",
+              "settings_changed": "Настройки",
               "addons_installed": "Инсталирани добавки"
             },
             "usage": "Статистики за използване",

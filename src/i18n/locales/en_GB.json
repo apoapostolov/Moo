@@ -232,7 +232,7 @@
               "title": "Type",
               "api": "API",
               "unsplash": "Unsplash",
-              "mue_library": "Mue Library",
+              "mue_library": "Pexels",
               "custom_image": "Custom image",
               "custom_colour": "Custom colour/gradient",
               "random_colour": "Random colour",
@@ -248,8 +248,8 @@
               "categories": "Categories"
             },
             "mue_library": {
-              "title": "Mue Library",
-              "subtitle": "Curated images from the Mue library, organised by category"
+              "title": "Pexels",
+              "subtitle": "Curated images, organised by category"
             },
             "source": {
               "title": "Source",
@@ -298,6 +298,10 @@
             },
             "display": "Display",
             "display_subtitle": "Change how background and photo information are loaded",
+            "information": {
+              "title": "Background Information",
+              "subtitle": "Choose what is shown about the current background image"
+            },
             "api": "API Settings",
             "api_subtitle": "Options for getting an image from an external service (API)"
           },
@@ -478,12 +482,12 @@
           "stats": {
             "title": "Stats",
             "sections": {
-              "tabs_opened": "Tabs opened",
-              "backgrounds_favourited": "Backgrounds favourited",
-              "backgrounds_downloaded": "Backgrounds downloaded",
+              "tabs_opened": "Tabs",
+              "backgrounds_favourited": "Favourites",
+              "backgrounds_downloaded": "Downloads",
               "quotes_favourited": "Quotes favourited",
-              "quicklinks_added": "Quicklinks added",
-              "settings_changed": "Settings changed",
+              "quicklinks_added": "Quicklinks",
+              "settings_changed": "Settings",
               "addons_installed": "Add-ons installed"
             },
             "usage": "Usage Stats",

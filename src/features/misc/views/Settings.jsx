@@ -2,6 +2,7 @@ import { memo, useMemo } from 'react';
 import { useT } from 'contexts/TranslationContext';
 
 import Tabs from 'components/Elements/MainModal/backend/Tabs';
+import { SHOW_EXPERIMENTAL } from 'config/constants';
 
 import { NavbarOptions } from 'features/navbar';
 import { TimeOptions, DateOptions } from 'features/time';
@@ -66,7 +67,7 @@ const sections = [
     component: Changelog,
   },
   { label: 'modals.main.settings.sections.about.title', name: 'about', component: About },
-];
+].filter((section) => SHOW_EXPERIMENTAL || section.name !== 'experimental');
 
 function Settings(props) {
   const t = useT();

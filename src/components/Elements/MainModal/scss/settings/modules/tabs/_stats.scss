@@ -15,12 +15,18 @@
 
     .statGrid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       grid-gap: 10px;
 
       div {
         display: flex;
         flex-flow: column;
+        min-width: 0;
+      }
+
+      .subtitle {
+        font-size: 12px;
+        line-height: 1.2;
       }
     }
 

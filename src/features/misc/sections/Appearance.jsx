@@ -47,7 +47,7 @@ function AppearanceOptions({ currentSubSection, onSubSectionChange, sectionName 
   const FontOptions = () => {
     const fontWeight = 'modals.main.settings.sections.appearance.font.weight';
     return (
-      <Row>
+      <Row final={true}>
         <Content
           title={variables.getMessage('modals.main.settings.sections.appearance.font.title')}
           subtitle={variables.getMessage(
@@ -134,36 +134,6 @@ function AppearanceOptions({ currentSubSection, onSubSectionChange, sectionName 
                 ),
               },
             ]}
-          />
-        </Action>
-      </Row>
-    );
-  };
-
-  const WidgetStyle = () => {
-    return (
-      <Row final={true}>
-        <Content
-          title={variables.getMessage('modals.main.settings.sections.appearance.style.title')}
-          subtitle={variables.getMessage(
-            'modals.main.settings.sections.appearance.style.description',
-          )}
-        />
-        <Action>
-          <Radio
-            name="widgetStyle"
-            element=".other"
-            options={[
-              {
-                name: variables.getMessage('modals.main.settings.sections.appearance.style.legacy'),
-                value: 'legacy',
-              },
-              {
-                name: variables.getMessage('modals.main.settings.sections.appearance.style.new'),
-                value: 'new',
-              },
-            ]}
-            category="widgets"
           />
         </Action>
       </Row>
@@ -279,7 +249,6 @@ function AppearanceOptions({ currentSubSection, onSubSectionChange, sectionName 
           />
           <ThemeSelection />
           <FontOptions />
-          <WidgetStyle />
         </>
       )}
     </>

@@ -26,3 +26,8 @@ export const TWITTER_HANDLE = 'apomakesmods';
 export const DISCORD_SERVER = 'zv8C9F8';
 
 export const VERSION = '1.0.0';
+
+// Feature flags
+// The Experimental page and its toggle are hidden until it is reintroduced.
+// Its single feature (the debug hotkey) now loads unconditionally.
+export const SHOW_EXPERIMENTAL = false;

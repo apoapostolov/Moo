@@ -116,9 +116,8 @@ export function loadSettings(hotreload) {
     return;
   }
 
-  if (localStorage.getItem('experimental') === 'true') {
-    ExperimentalInit();
-  }
+  // The experimental gate is gone: the debug hotkey is now a normal feature
+  ExperimentalInit();
 
   // easter egg
   console.log(`

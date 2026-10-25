@@ -15,6 +15,7 @@ import { FileUpload, Text, Switch, Dropdown } from 'components/Form/Settings';
 import { ResetModal, Button } from 'components/Elements';
 
 import { Header, Section, Row, Content, Action } from 'components/Layout/Settings';
+import { SHOW_EXPERIMENTAL } from 'config/constants';
 
 import time_zones from 'features/time/timezones.json';
 
@@ -162,7 +163,7 @@ function AdvancedOptions({ currentSubSection, onSubSectionChange, sectionName })
               <Text name="tabName" default={variables.getMessage('tabname')} category="other" />
             </Action>
           </Row>
-          <Row>
+          <Row final={!SHOW_EXPERIMENTAL}>
             <Content
               title={variables.getMessage('modals.main.settings.sections.advanced.custom_css')}
               subtitle={variables.getMessage(
@@ -173,21 +174,23 @@ function AdvancedOptions({ currentSubSection, onSubSectionChange, sectionName })
               <Text name="customcss" textarea={true} category="other" customcss={true} />
             </Action>
           </Row>
-          <Row final={true}>
-            <Content
-              title={variables.getMessage('modals.main.settings.sections.experimental.title')}
-              subtitle={variables.getMessage(
-                'modals.main.settings.sections.advanced.experimental_warning',
-              )}
-            />
-            <Action>
-              <Switch
-                name="experimental"
-                text={variables.getMessage('modals.main.settings.enabled')}
-                element=".other"
+          {SHOW_EXPERIMENTAL && (
+            <Row final={true}>
+              <Content
+                title={variables.getMessage('modals.main.settings.sections.experimental.title')}
+                subtitle={variables.getMessage(
+                  'modals.main.settings.sections.advanced.experimental_warning',
+                )}
               />
-            </Action>
-          </Row>
+              <Action>
+                <Switch
+                  name="experimental"
+                  text={variables.getMessage('modals.main.settings.enabled')}
+                  element=".other"
+                />
+              </Action>
+            </Row>
+          )}
         </>
       )}
     </>
