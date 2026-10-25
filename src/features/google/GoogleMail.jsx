@@ -27,6 +27,11 @@ const formatTime = (value) => {
   return date.toLocaleDateString([], { day: 'numeric', month: 'short' });
 };
 
+// The hover panel is placed against the card, not the row: it floats beside the
+// widget, level with the middle of the window, and stays there while the hand
+// moves down the list.
+const anchorFor = (node) => (node && node.closest('.googleWidget')) || node;
+
 const GoogleMail = () => {
   const { auth, loading, error, connectAccount } = useGoogleAuth();
   const [settings, setSettings] = useState(getMailSettings);
@@ -47,7 +52,7 @@ const GoogleMail = () => {
   // A short intent delay, so sweeping the pointer across the list does not fire
   // a message fetch for every row it crosses.
   const openPreview = (message) => (hoverEvent) => {
-    const anchor = hoverEvent.currentTarget;
+    const anchor = anchorFor(hoverEvent.currentTarget);
 
     clearTimeout(hoverTimer.current);
     hoverTimer.current = setTimeout(() => setPreview({ message, anchor }), 280);
@@ -90,7 +95,7 @@ const GoogleMail = () => {
         return;
       }
 
-      const anchor = row.querySelector('.gwItem') || row;
+      const anchor = anchorFor(row);
 
       setPreview({ message, anchor });
     },

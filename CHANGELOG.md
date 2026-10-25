@@ -38,6 +38,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Excluded images are actually skipped, and the background service is asked again when a request fails.
 - Background sources are ordered by popularity, and only Coverr is marked as a video source, since Pixabay and Pexels fall back to an image without a key.
 - The date lives inside the Time section now, after the clock options, with its own switch to show or hide it.
+- The mail preview no longer follows the pointer: it opens beside the mail card, level with the middle of the window, on whichever side the card leaves free. The wheel belongs to it while it is open, wherever the pointer is, and the message glides to a stop instead of jumping a line per notch.
 - The widget list in Overview became three drop containers around a centred preview, with the grab handle on the left of each row and the switch on the right.
 
 ### Fixed

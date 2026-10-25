@@ -7,6 +7,16 @@ import { describeError } from './ConnectPrompt';
 /** Hovering the same row twice should not mean a second trip to Gmail. */
 const cache = new Map();
 
+/**
+ * The wheel is not applied straight to the scroll position. Each notch pushes a
+ * target and the text is drawn chasing it: that lag is what makes a long message
+ * feel like it has weight instead of jumping line by line.
+ */
+const SPRING_STIFFNESS = 220;
+const SPRING_DAMPING = 26;
+const REST_DISTANCE = 0.4;
+const REST_SPEED = 4;
+
 const formatDate = (value) => {
   const date = new Date(value);
 
@@ -21,16 +31,33 @@ const formatDate = (value) => {
   });
 };
 
+/** Line and page deltas mean different things to different mice. */
+const wheelDistance = (event, viewport) => {
+  if (event.deltaMode === 1) return event.deltaY * 16;
+  if (event.deltaMode === 2) return event.deltaY * viewport;
+
+  return event.deltaY;
+};
+
 /**
- * The whole message, floating next to the row it belongs to.
+ * The whole message, floating beside the mail card.
  *
  * It is a manual popover, so the browser puts it in the top layer: the card it
  * belongs to carries a backdrop-filter and would otherwise paint over anything
  * this close to it, and the card also clips its own contents.
+ *
+ * Where it sits does not depend on the pointer: it is pinned to the middle of
+ * the window and to the free side of the card, so reading a message never means
+ * reading it through a panel that runs away with the hand.
  */
 const MailPreview = ({ message, anchor, onEnter, onLeave }) => {
   const panel = useRef(null);
+  const body = useRef(null);
+  const kinetic = useRef({ target: 0, position: 0, velocity: 0, frame: 0, last: 0 });
   const [height, setHeight] = useState(0);
+  // The card can change size under an open panel: a row arrives, the zoom moves,
+  // the window changes. The placement is kept as state so it can follow.
+  const [card, setCard] = useState(() => anchor.getBoundingClientRect());
   const [state, setState] = useState(() =>
     cache.has(message.id)
       ? { loading: false, data: cache.get(message.id), error: '' }
@@ -98,28 +125,125 @@ const MailPreview = ({ message, anchor, onEnter, onLeave }) => {
     };
   }, []);
 
+  useLayoutEffect(() => {
+    const node = anchor;
+
+    if (!node) return undefined;
+
+    const update = () => setCard(node.getBoundingClientRect());
+
+    update();
+
+    const observer = typeof ResizeObserver === 'function' ? new ResizeObserver(update) : null;
+
+    observer?.observe(node);
+    window.addEventListener('resize', update);
+
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', update);
+    };
+  }, [anchor]);
+
+  /**
+   * The wheel belongs to the message while the message is up, wherever the
+   * pointer is. It is caught on the window rather than on the panel because the
+   * hand is usually still down on the list.
+   */
+  useEffect(() => {
+    const node = body.current;
+
+    if (!node) return undefined;
+
+    const motion = kinetic.current;
+
+    motion.position = node.scrollTop;
+    motion.target = node.scrollTop;
+    motion.velocity = 0;
+
+    const tick = (now) => {
+      const elapsed = Math.min(0.032, Math.max(0.001, (now - motion.last) / 1000));
+      const furthest = node.scrollHeight - node.clientHeight;
+
+      motion.last = now;
+
+      const displacement = motion.position - motion.target;
+      const acceleration = -SPRING_STIFFNESS * displacement - SPRING_DAMPING * motion.velocity;
+
+      motion.velocity += acceleration * elapsed;
+      motion.position += motion.velocity * elapsed;
+
+      // A message has two ends. Hitting one stops the glide instead of bouncing
+      // past it, which would read as a broken scroll rather than a soft landing.
+      if (motion.position < 0) {
+        motion.position = 0;
+        motion.velocity = 0;
+      } else if (motion.position > furthest) {
+        motion.position = furthest;
+        motion.velocity = 0;
+      }
+
+      node.scrollTop = motion.position;
+
+      const settled =
+        Math.abs(motion.position - motion.target) < REST_DISTANCE &&
+        Math.abs(motion.velocity) < REST_SPEED;
+
+      if (settled) {
+        motion.position = motion.target;
+        node.scrollTop = motion.target;
+        motion.velocity = 0;
+        motion.frame = 0;
+
+        return;
+      }
+
+      motion.frame = window.requestAnimationFrame(tick);
+    };
+
+    const onWheel = (event) => {
+      if (!event.deltaY) return;
+
+      const furthest = node.scrollHeight - node.clientHeight;
+
+      // Nothing to read past the edges: leave the wheel alone.
+      if (furthest <= 0) return;
+
+      event.preventDefault();
+
+      motion.target = Math.max(
+        0,
+        Math.min(furthest, motion.target + wheelDistance(event, node.clientHeight)),
+      );
+
+      if (!motion.frame) {
+        motion.last = window.performance.now();
+        motion.frame = window.requestAnimationFrame(tick);
+      }
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', onWheel);
+
+      if (motion.frame) window.cancelAnimationFrame(motion.frame);
+
+      motion.frame = 0;
+    };
+  }, []);
+
   const width = Math.min(430, window.innerWidth - 48);
-  const card = anchor.getBoundingClientRect();
 
-  // Beside the card when there is room, otherwise over the row it came from.
-  const roomRight = window.innerWidth - card.right;
+  // The card's own half of the window decides the side: a card on the left opens
+  // its message to the right, a card on the right opens it to the left.
+  const besideRight = card.left + card.width / 2 < window.innerWidth / 2;
+  const wantedLeft = besideRight ? card.right + 12 : card.left - width - 12;
+  const left = Math.max(16, Math.min(wantedLeft, window.innerWidth - width - 16));
 
-  const left =
-    roomRight > width + 24
-      ? card.right + 12
-      : Math.max(16, Math.min(card.left + 12, window.innerWidth - width - 16));
-
-  // Tall messages stop at 62% of the window, and never at more than the window
-  // can hold with a margin above and below.
+  // Pinned to the middle of the window, whatever the row's own position is.
   const maxHeight = Math.min(window.innerHeight * 0.62, window.innerHeight - 32);
-
-  // Placed from the row while the whole panel fits below it. When it would hang
-  // past the bottom edge the window wins: the panel is lifted until its last line
-  // is on screen. Only a panel taller than the window itself, which max-height
-  // has already capped, ends up at the top edge.
-  const wanted = Math.max(16, card.top - 8);
-  const overflow = wanted + height - (window.innerHeight - 16);
-  const top = overflow > 0 ? Math.max(16, wanted - overflow) : wanted;
+  const top = Math.max(16, (window.innerHeight - height) / 2);
 
   return createPortal(
     <div
@@ -145,7 +269,7 @@ const MailPreview = ({ message, anchor, onEnter, onLeave }) => {
 
       <p className="gwPreviewSubject">{state.data?.subject || message.subject}</p>
 
-      <div className="gwPreviewBody">
+      <div className="gwPreviewBody" ref={body}>
         {state.loading && <p className="gwPreviewNote">Reading the message…</p>}
         {!state.loading && state.error && <p className="gwPreviewNote">{state.error}</p>}
         {!state.loading && !state.error && (state.data?.body || '(no text, only markup)')}
