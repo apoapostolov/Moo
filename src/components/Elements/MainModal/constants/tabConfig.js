@@ -143,7 +143,7 @@ export const NAVBAR_BUTTONS = [
 
 // Labels that should have dividers after them
 export const DIVIDER_LABELS = [
-  'modals.main.settings.sections.weather.title',
+  'modals.main.settings.sections.google.title',
   'modals.main.settings.sections.language.title',
   'modals.main.marketplace.all',
   'modals.main.settings.sections.experimental.title',
