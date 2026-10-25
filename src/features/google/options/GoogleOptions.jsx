@@ -90,7 +90,7 @@ const GoogleOptions = () => {
               Register Moo in Google Cloud
             </>
           }
-          subtitle="Nothing works before this step. Google only answers apps it knows about, so make one in your own Cloud project: create a project, turn on the Gmail, Calendar and Tasks APIs, then create an OAuth client of type Desktop app."
+          subtitle="Google only answers apps it knows about, and Moo isn't one yet. In your own Cloud project, enable the Gmail, Calendar and Tasks APIs, then create an OAuth client of type Desktop app."
         />
         <Action>
           <a
@@ -107,7 +107,7 @@ const GoogleOptions = () => {
       <Row>
         <Content
           title="Paste this Redirect URI when Google asks"
-          subtitle="Google rejects invented addresses. This one belongs to this installation, so copy it exactly as it is."
+          subtitle="Copy it exactly as it is. It belongs to this installation and Google rejects anything else."
         />
         <Action>
           <code className="googleRedirect">{redirectUri || 'only visible inside the extension'}</code>
@@ -117,7 +117,7 @@ const GoogleOptions = () => {
       <Row>
         <Content
           title="Scopes Moo will ask for"
-          subtitle="The permissions the app requests from your account. Nothing is read before you connect."
+          subtitle="The permissions the app requests. Nothing is read until you connect."
         />
         <Action>
           <ul className="googleScopeList">
@@ -136,7 +136,7 @@ const GoogleOptions = () => {
               Paste the client ID and secret
             </>
           }
-          subtitle="Both come from the OAuth client you created in step 1. They stay in this browser profile."
+          subtitle="Both come from the client you made in step 1. They stay in this browser profile."
         />
         <Action>
           <Text
@@ -166,10 +166,10 @@ const GoogleOptions = () => {
             loading
               ? 'Checking…'
               : auth
-                ? `Connected${auth.email ? ` as ${auth.email}` : ''}. Disconnect only forgets the tokens in this browser; your Google account is untouched.`
+                ? `Connected${auth.email ? ` as ${auth.email}` : ''}. Disconnect only forgets the tokens here; your Google account stays as it is.`
                 : ready
-                  ? 'Google opens its own page in a small window and you approve the three permissions there.'
-                  : 'Locked until step 2 is done. With no client ID and secret there is nothing for Google to talk to.'
+                  ? 'Google opens its own window and you approve the permissions there.'
+                  : 'Locked until step 2 is done. Without the client ID and secret Google has no app to talk to.'
           }
         />
         <Action>
