@@ -408,13 +408,17 @@ h5 {
   .circles {
     display: flex;
     flex-flow: row;
-    gap: 5px;
+    gap: 3px;
 
     div {
-      margin-top: 10px;
-      padding: 3px;
-      height: 20px;
-      width: 20px;
+      // Three small round icons stand for the tiles on the page, so they are
+      // drawn at about the size a tile reads at in a thumbnail rather than at
+      // the size of the card they sit on: 11px circles, 6px glyphs.
+      margin-top: 3px;
+      padding: 1px;
+      height: 11px;
+      width: 11px;
+      font-size: 6px;
       border-radius: 100%;
       display: grid;
       place-items: center;

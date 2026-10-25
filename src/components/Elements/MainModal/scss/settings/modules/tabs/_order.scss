@@ -635,25 +635,10 @@
        preview means this column is measured in cards too. */
     font-size: 6px;
 
-    .clockSkeleton,
-    .vertical-clock {
-      font-size: 21px;
-    }
-
     .aiAskSkeleton {
       width: 66px;
     }
 
-    .quickLinksSkeleton .circles {
-      gap: 4px;
-
-      div {
-        margin-top: 4px;
-        padding: 2px;
-        width: 17px;
-        height: 17px;
-      }
-    }
   }
 
   /* The clock, the date, the one-line weather and the query line run across the
