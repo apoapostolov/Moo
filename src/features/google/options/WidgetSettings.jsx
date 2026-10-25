@@ -239,15 +239,19 @@ const TaskListPicker = () => {
 /** Everything that only makes sense once an account is connected. */
 export const GoogleWidgetSettings = () => {
 
-  const [tab, setTab] = useState('mail');
+  // Nothing is open until you pick one: three sets of controls stacked on top of
+  // each other made the page look like every option was already in play.
+  const [tab, setTab] = useState(null);
 
   const tabs = [
-    { id: 'mail', label: 'Mail widget' },
-    { id: 'calendar', label: 'Calendar widget' },
-    { id: 'tasks', label: 'Tasks widget' },
+    { id: 'mail', label: 'Mail' },
+    { id: 'calendar', label: 'Calendar' },
+    { id: 'tasks', label: 'Tasks' },
   ];
 
   const render = useCallback(() => {
+    if (!tab) return null;
+
     if (tab === 'calendar') {
       return (
         <Fragment key={tab}>
@@ -380,15 +384,21 @@ export const GoogleWidgetSettings = () => {
       <Row>
         <Content
           title="Widget settings"
-          subtitle="Connected. These controls change what the three widgets show."
+          subtitle={
+            tab
+              ? 'These controls change what the widget shows.'
+              : 'Pick a widget to see the controls behind it.'
+          }
         />
         <Action>
-          <div className="gwTabs">
+          <div className="gwSegmented" role="tablist" aria-label="Which widget to configure">
             {tabs.map((entry) => (
               <button
                 key={entry.id}
                 type="button"
-                className={`gwTab${tab === entry.id ? ' active' : ''}`}
+                role="tab"
+                aria-selected={tab === entry.id}
+                className={`gwSegment${tab === entry.id ? ' active' : ''}`}
                 onClick={() => setTab(entry.id)}
               >
                 {entry.label}

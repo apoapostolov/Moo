@@ -194,9 +194,9 @@ const GoogleOptions = () => {
 
       {/* One switch per card: the three can sit over very different wallpapers,
           so the panel style is stored per widget like the other sections. */}
-      {auth && <WidgetSurface setting="surfaceMail" category="google" title="Mail" />}
-      {auth && <WidgetSurface setting="surfaceCalendar" category="google" title="Calendar" />}
-      {auth && <WidgetSurface setting="surfaceTasks" category="google" title="Tasks" final />}
+      {auth && <WidgetSurface setting="surfaceMail" category="google" title="Mail panel" />}
+      {auth && <WidgetSurface setting="surfaceCalendar" category="google" title="Calendar panel" />}
+      {auth && <WidgetSurface setting="surfaceTasks" category="google" title="Tasks panel" final />}
     </>
   );
 };

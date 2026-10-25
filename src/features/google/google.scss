@@ -557,33 +557,58 @@
   }
 }
 
-.gwTabs {
+// One control with three notches, not three loose buttons: the choice decides
+// everything below it, so it has to read as tabs rather than as a row of chips.
+.gwSegmented {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  width: 100%;
+  padding: 3px;
+  gap: 2px;
+  border-radius: 999px;
+  box-sizing: border-box;
+
+  @include themed {
+    background: t($modal-sidebar);
+    border: 1px solid t($modal-sidebarActive);
+  }
 }
 
-.gwTab {
-  padding: 6px 12px;
-  font-size: 12.5px;
+.gwSegment {
+  flex: 1;
+  padding: 7px 10px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: center;
+  border: 0;
   border-radius: 999px;
   cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 
   @include themed {
     color: t($subColor);
     background: transparent;
-    border: 1px solid t($modal-sidebarActive);
-
-    &.active {
-      color: t($modal-background);
-      background: t($color);
-      border-color: t($color);
-    }
 
     &:hover {
       color: t($color);
     }
+
+    &.active {
+      color: t($modal-background);
+      background: t($color);
+    }
   }
+}
+
+// Every button in a settings row carries a 10px top margin, which pushed the
+// filled pill below the middle of its own track. That rule is wrapped in a theme
+// class and a type selector, so this needs to be more specific, not !important.
+.settingsRow .action .gwSegmented .gwSegment.gwSegment {
+  margin: 0;
 }
 
 .gwTaskRow.done .gwItemTitle {
