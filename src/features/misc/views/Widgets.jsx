@@ -106,7 +106,6 @@ const Widgets = () => {
           if (!widget) return null;
           return <Fragment key={key}>{widget}</Fragment>;
         })}
-        {enabled('weatherEnabled') && online ? <Weather /> : null}
       </Suspense>
     </WidgetsLayout>
   );
