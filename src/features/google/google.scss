@@ -130,7 +130,7 @@
 
 .gwItemTop {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 8px;
 }
 
@@ -162,8 +162,24 @@
   gap: 8px;
 }
 
+/*
+ * Every element of a task row shares one middle line: the box on the first line
+ * of the title, and the date on the same axis as the title rather than on its
+ * own baseline.
+ */
+.gwCheckSlot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  height: 1.4em;
+  height: 1lh;
+  margin-top: 6px;
+}
+
 .gwCheck {
-  margin: 9px 0 0;
+  width: 13px;
+  height: 13px;
+  margin: 0;
   accent-color: #7cb0ff;
 }
 

@@ -237,13 +237,17 @@ const GoogleTasks = () => {
       key={task.id}
       className={`gwTaskRow${task.status === 'completed' ? ' done' : ''}`}
     >
-      <input
-        type="checkbox"
-        className="gwCheck"
-        checked={task.status === 'completed'}
-        onChange={() => toggle(task)}
-        aria-label={`Complete ${task.title}`}
-      />
+      {/* The slot is one line of the title's own text, so the box sits on the
+          middle of the first line instead of on a guessed pixel offset. */}
+      <span className="gwCheckSlot">
+        <input
+          type="checkbox"
+          className="gwCheck"
+          checked={task.status === 'completed'}
+          onChange={() => toggle(task)}
+          aria-label={`Complete ${task.title}`}
+        />
+      </span>
       <button type="button" className="gwItem bare" onClick={() => setEditing(task)}>
         <span className="gwItemTop">
           <span className="gwItemTitle">{task.title}</span>
