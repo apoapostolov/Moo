@@ -1,6 +1,6 @@
 import { useT } from 'contexts/TranslationContext';
 import { MdClose, MdChevronRight, MdArrowBack, MdArrowForward } from 'react-icons/md';
-import { Tooltip, Button } from 'components/Elements';
+import { Tooltip } from 'components/Elements';
 import { NAVBAR_BUTTONS } from '../constants/tabConfig';
 import mueAboutIcon from 'assets/icons/mue_about.png';
 
@@ -23,7 +23,6 @@ function ModalTopBar({
   currentSubSection,
   productView,
   iframeBreadcrumbs,
-  onTabChange,
   onSubSectionChange,
   onClose,
   onBack,
@@ -157,12 +156,7 @@ function ModalTopBar({
             </button>
           </Tooltip>
         </div>
-        <img
-          src={mueAboutIcon}
-          alt="Moo"
-          className="topBarLogo"
-          draggable={false}
-        />
+        <img src={mueAboutIcon} alt="Moo" className="topBarLogo" draggable={false} />
         {breadcrumbPath.length > 0 && (
           <nav className="breadcrumbs" aria-label="Breadcrumb navigation">
             {breadcrumbPath.map((item, index) => {
@@ -195,7 +189,9 @@ function ModalTopBar({
                       {item.label}
                     </span>
                   )}
-                  {!isLast && <MdChevronRight className="breadcrumb-separator" aria-hidden="true" />}
+                  {!isLast && (
+                    <MdChevronRight className="breadcrumb-separator" aria-hidden="true" />
+                  )}
                 </span>
               );
             })}
@@ -203,18 +199,6 @@ function ModalTopBar({
         )}
       </div>
       <div className="topBarRight">
-        <div className="topBarNavigation">
-          {NAVBAR_BUTTONS.map(({ tab, icon: Icon, messageKey }) => (
-            <Button
-              key={tab}
-              type="navigation"
-              onClick={() => onTabChange(tab)}
-              active={currentTab === tab}
-              icon={<Icon />}
-              label={t(messageKey)}
-            />
-          ))}
-        </div>
         <Tooltip title={t('modals.welcome.buttons.close')} key="closeTooltip">
           <span className="closeModal" onClick={onClose}>
             <MdClose />

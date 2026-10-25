@@ -207,7 +207,6 @@ function MainModal({ modalClose, deepLinkData }) {
         currentSubSection={currentSubSection}
         productView={productView}
         iframeBreadcrumbs={iframeBreadcrumbs}
-        onTabChange={handleChangeTab}
         onSubSectionChange={handleSubSectionChange}
         onClose={modalClose}
         onBack={handleBack}

@@ -51,6 +51,8 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 
 - Glass in the light theme is paper, not a lighter dark card. The panels state their own text colour, so mail, calendar, tasks and metro quick links read as dark type on the white scrim instead of white on white, with their hovers, badges and calendar dots drawn in ink too.
 
+- The Settings header no longer repeats a Settings button beside the close X. The modal is the settings panel already, so the tab row in its header was a second way to say where you are.
+
 ### Fixed
 
 - The animated background can no longer pan past the edge of the image and show black strips.
