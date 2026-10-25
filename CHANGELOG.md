@@ -74,6 +74,8 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - A scratch note keeps the lean it was dragged with, and holds that lean while your hand is still, instead of standing back up or jumping to a new angle when you let go.
 - Scratch images: paste a picture anywhere on the page and it lands under the pointer at the size of a note, keeping the picture's own proportions and filling its card to the edges. Drag it to move it, pull the bottom-right corner to resize it, and use the corners to copy it, save it or remove it. Off by default, its own switch in Settings → Misc.
 - The clipboard permission is declared, so copying a pasted picture actually reaches the system clipboard instead of failing silently.
+- The mail preview scrolls with the wheel now: a long message can be read inside the panel instead of the panel snapping shut the moment you scroll. Any other scroll still closes it, because the panel hangs off the row it belongs to.
+- The “click the row to open in Gmail” line is gone from the preview footer.
 - Settings has a Misc page after Google for the things that are not a widget of their own.
 
 ### Removed

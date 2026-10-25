@@ -116,7 +116,6 @@ const MailPreview = ({ message, anchor, onEnter, onLeave }) => {
             {state.data.attachments} attachment{state.data.attachments === 1 ? '' : 's'}
           </span>
         )}
-        <span className="gwPreviewHint">click the row to open in Gmail</span>
       </div>
     </div>,
     document.body,

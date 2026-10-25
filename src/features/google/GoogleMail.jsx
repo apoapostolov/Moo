@@ -60,9 +60,16 @@ const GoogleMail = () => {
   useEffect(() => {
     if (!preview) return undefined;
 
-    // The panel is placed from the row's box at hover time, so a scroll would
-    // leave it pointing at the wrong row.
-    const close = () => setPreview(null);
+    // The panel is placed from the row's box at hover time, so a scroll of the
+    // page would leave it pointing at the wrong row. A scroll *inside* the panel
+    // moves nothing but the message, so that one is the reader's business.
+    const close = (event) => {
+      const from = event.target instanceof Element ? event.target.closest('.gwPreview') : null;
+
+      if (from) return;
+
+      setPreview(null);
+    };
 
     window.addEventListener('scroll', close, true);
 
