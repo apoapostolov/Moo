@@ -40,14 +40,17 @@
   /* box-shadow: 0 0 25px rgba(0, 0, 0, 0.3); */
 }
 
+/*
+ * The analogue clock sits directly on the wallpaper. It is a drawing, not a
+ * card, so it gets no panel, no frost and no shadow: anything behind it would
+ * cut a square out of the background.
+ */
 .clockBackground {
-  @extend %basic;
-
   padding: 1rem;
-
-  &.round {
-    border-radius: 100% !important;
-  }
+  background: none;
+  backdrop-filter: none;
+  box-shadow: none;
+  border-radius: 0;
 }
 
 .vertical-clock {

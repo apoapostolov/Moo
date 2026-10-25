@@ -11,7 +11,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Pixabay and Pexels video clips, each using your own free API key.
 - Live channels: 24/7 ambient streams (WildEarth, ZenLIFE, Love Nature, Red Bull TV) played behind the clock.
 - Google widgets: mail, calendar and tasks, each with its own sign-in, and dialogs to create, edit or delete appointments and to add, rename, complete or delete tasks. Off by default, and they use your own Google OAuth client.
-- A panel style switch in the clock, weather, quick links and background information sections: Classic paints a dark panel, Glass lets the wallpaper show through.
+- A panel style switch in the weather, quick links and background information sections: Classic paints a dark panel, Glass lets the wallpaper show through.
 - Google widgets gained their own settings once connected: which calendars feed the agenda and how far ahead it looks, what each event line carries, task list, sorting, grouping and filters, and the Gmail filter, custom search, preview text and unread indicator.
 - Video backgrounds are queued ahead: the next clip is resolved and warmed, so a new tab starts on it at once.
 - Unsplash and the Mue library are picked directly as sources, each with its own settings.
@@ -44,6 +44,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Hearts on library images were counted as missing likes.
 - The quick link dialog had unlabelled fields rendered as raw browser inputs, and no backdrop behind it.
 - The appointment and task dialogs sized themselves to their content and use the same panel as the weather and background information widgets.
+- The analogue clock draws straight onto the wallpaper: no panel, no frost and no shadow behind the ring.
 
 ### Removed
 

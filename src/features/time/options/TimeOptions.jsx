@@ -7,7 +7,6 @@ import { Checkbox, Dropdown, Radio } from 'components/Form/Settings';
 import { MdRefresh } from 'react-icons/md';
 
 import DateOptions from './DateOptions';
-import WidgetSurface from 'components/Form/Settings/WidgetSurface/WidgetSurface';
 
 const TimeOptions = () => {
   const [timeType, setTimeType] = useState(localStorage.getItem('timeType') || 'digital');
@@ -133,11 +132,6 @@ const TimeOptions = () => {
           text={variables.getMessage(`${TIME_SECTION}.analogue.minute_marks`)}
           category="clock"
         />
-        <Checkbox
-          name="roundClock"
-          text={variables.getMessage(`${TIME_SECTION}.analogue.round_clock`)}
-          category="clock"
-        />
       </Action>
     </Row>
   );
@@ -255,7 +249,6 @@ const TimeOptions = () => {
       >
         <WidgetType />
         {getTimeSettings()}
-        <WidgetSurface setting="surfaceTime" category="clock" />
       </PreferencesWrapper>
 
       {/* The date is part of the clock, so it sits at the end of the time

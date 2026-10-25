@@ -1,7 +1,5 @@
 import { Suspense, lazy } from 'react';
 
-import { getSurface } from 'utils/widgetSurface';
-
 const Analog = lazy(() => import('react-clock'));
 
 function AnalogClock({ time }) {
@@ -11,9 +9,7 @@ function AnalogClock({ time }) {
 
   return (
     <Suspense fallback={<></>}>
-      <div
-        className={`clockBackground ${enabled('roundClock') ? 'round' : ''} ${getSurface('time')}`}
-      >
+      <div className="clockBackground">
         <Analog
           className="analogclock clock-container"
           value={time}
