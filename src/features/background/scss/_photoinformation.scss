@@ -315,6 +315,33 @@
     }
   }
 
+  /* The pin on its own is a glyph, not a badge. It shares %basic with the card,
+     which paints a background, a rounded corner and a 1px ring behind a 24px
+     icon, and the 50px tile also held the glyph 13px away from the text on each
+     side. Without the tile it sits 6px from the text instead of 30. The map
+     image keeps the tile: only `.photoMap` carries one. */
+  .map-concept:not(.photoMap) {
+    width: auto;
+    height: auto;
+    margin-right: 6px;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    /* %basic also blurs what is behind the element. With the background gone the
+       blur is still applied inside the glyph's own 24px box and reads as a dark
+       square behind the pin, so it goes too. */
+    backdrop-filter: none;
+  }
+
+  /* Opened, the card stacks its parts in a column, and the map slot is told to
+     take the full width there. A glyph does not: it stays its own size and sits
+     at the left, under the hand that opened the card. */
+  &:hover .map-concept:not(.photoMap) {
+    width: auto;
+    align-self: flex-start;
+    margin: 0 0 4px;
+  }
+
   .map-concept {
     @extend %basic;
 

@@ -47,6 +47,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The Image Info card reads at one scale: the place and the credit sit close together instead of two lines a card-height apart, and the view, download and like counts are small detail on the right rather than the largest text on the card.
 - Scratch notes and pasted pictures arrive instead of appearing: each one lifts a few pixels and settles from slightly small as it fades in, 60ms after the one before it, so a page full of them assembles in one run. Hovering a note deepens its shadow without moving it.
 - A pasted picture no longer disappears on one click. Its close control turns red and asks again, the way a note's does, and lets go after four seconds if the second click never comes.
+- The location pin in the Image Info card is a bare glyph now. It shared the card's surface rule, so a 50px tile with a background, a 1px ring and its own backdrop blur sat behind a 24px icon; without the tile the pin also sits 6px from the text instead of 30.
 
 ### Fixed
 
