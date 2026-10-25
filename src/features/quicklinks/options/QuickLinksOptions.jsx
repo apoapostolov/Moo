@@ -2,7 +2,14 @@ import variables from 'config/variables';
 import { useState, useEffect, useRef } from 'react';
 import { MdAddLink, MdLinkOff } from 'react-icons/md';
 import { arrayMove } from '@dnd-kit/sortable';
-import { Header, Row, Content, Action, PreferencesWrapper } from 'components/Layout/Settings';
+import {
+  Header,
+  Row,
+  Content,
+  Action,
+  Group,
+  PreferencesWrapper,
+} from 'components/Layout/Settings';
 import { Checkbox, Dropdown } from 'components/Form/Settings';
 import { Button } from 'components/Elements';
 import Modal from 'react-modal';
@@ -253,9 +260,11 @@ const QuickLinksOptions = () => {
         visibilityToggle={true}
         zoomSetting="zoomQuicklinks"
       >
-        <AdditionalSettings />
-        <StylingOptions />
-        <WidgetSurface setting="surfaceQuicklinks" category="quicklinks" />
+        <Group>
+          <AdditionalSettings />
+          <StylingOptions />
+          <WidgetSurface setting="surfaceQuicklinks" category="quicklinks" />
+        </Group>
         <AddLink />
 
         {items.length === 0 && (

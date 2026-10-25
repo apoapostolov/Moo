@@ -89,50 +89,50 @@ function DateOptions() {
           title={variables.getMessage('modals.main.settings.sections.time.type')}
           subtitle={variables.getMessage('modals.main.settings.sections.date.type.subtitle')}
         />
-          <Action>
-            <Dropdown
-              name="dateType"
-              onChange={(value) => {
-                setDateType(value);
-                localStorage.setItem('dateType', value);
-              }}
-              category="date"
-              items={[
-                {
-                  value: 'long',
-                  text: variables.getMessage('modals.main.settings.sections.date.type.long'),
-                },
-                {
-                  value: 'short',
-                  text: variables.getMessage('modals.main.settings.sections.date.type.short'),
-                },
-              ]}
-            />
-          </Action>
-        </Row>
-        <Row final={true}>
-          <Content
-            title={
-              dateType === 'long'
-                ? variables.getMessage('modals.main.settings.sections.date.type.long')
-                : variables.getMessage('modals.main.settings.sections.date.type.short')
-            }
-            subtitle={variables.getMessage('modals.main.settings.sections.date.type_settings')}
+        <Action>
+          <Dropdown
+            name="dateType"
+            onChange={(value) => {
+              setDateType(value);
+              localStorage.setItem('dateType', value);
+            }}
+            category="date"
+            items={[
+              {
+                value: 'long',
+                text: variables.getMessage('modals.main.settings.sections.date.type.long'),
+              },
+              {
+                value: 'short',
+                text: variables.getMessage('modals.main.settings.sections.date.type.short'),
+              },
+            ]}
           />
-          <Action>
-            {dateType === 'long' ? longSettings : shortSettings}
-            <Checkbox
-              name="weeknumber"
-              text={variables.getMessage('modals.main.settings.sections.date.week_number')}
-              category="date"
-            />
-            <Checkbox
-              name="datezero"
-              text={variables.getMessage('modals.main.settings.sections.time.digital.zero')}
-              category="date"
-            />
-          </Action>
-        </Row>
+        </Action>
+      </Row>
+      <Row>
+        <Content
+          title={
+            dateType === 'long'
+              ? variables.getMessage('modals.main.settings.sections.date.type.long')
+              : variables.getMessage('modals.main.settings.sections.date.type.short')
+          }
+          subtitle={variables.getMessage('modals.main.settings.sections.date.type_settings')}
+        />
+        <Action>
+          {dateType === 'long' ? longSettings : shortSettings}
+          <Checkbox
+            name="weeknumber"
+            text={variables.getMessage('modals.main.settings.sections.date.week_number')}
+            category="date"
+          />
+          <Checkbox
+            name="datezero"
+            text={variables.getMessage('modals.main.settings.sections.time.digital.zero')}
+            category="date"
+          />
+        </Action>
+      </Row>
     </>
   );
 }

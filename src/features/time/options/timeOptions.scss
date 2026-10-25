@@ -1,44 +1,5 @@
 @use 'scss/variables' as *;
 
-/* Work shift, Days and Other days are one setting in three lines. The rows keep
-   the settings rhythm, but the rules between them are gone and only the last one
-   closes the block.
-
-   The border is drawn by `.modalTabContent .settingsRow` from inside a theme
-   class, so the override names the same path from inside one too: a shorter
-   selector loses however late it is loaded. */
-.modalTabContent .settingsGroup .settingsRow {
-  @include themed {
-    border-bottom: none;
-    padding-top: 0.4rem;
-    padding-bottom: 0.4rem;
-  }
-
-  &:first-child {
-    @include themed {
-      padding-top: 1rem;
-    }
-  }
-
-  &:last-child {
-    @include themed {
-      padding-bottom: 1rem;
-      margin-bottom: 0;
-      border-bottom: 1px solid #676767;
-    }
-  }
-}
-
-/* The weekday switches under Work shift. Seven short buttons that read as one
-   control: off is outlined, on is filled the way the other selected chips in
-   settings are. */
-.daySwitcher {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  justify-content: flex-end;
-}
-
 /* Seven of these have to sit on one line inside the 300px action column, so the
    measurements are chosen to add up: 7 x 38 plus six 4px gaps is 290.
    The margin is cancelled because `.action button` lifts every button by 10px

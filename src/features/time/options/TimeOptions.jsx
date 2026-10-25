@@ -1,7 +1,14 @@
 import variables from 'config/variables';
 import React, { useState } from 'react';
 
-import { Header, Row, Content, Action, PreferencesWrapper } from 'components/Layout/Settings';
+import {
+  Header,
+  Row,
+  Content,
+  Action,
+  Group,
+  PreferencesWrapper,
+} from 'components/Layout/Settings';
 import { Checkbox, Dropdown, Radio, Text } from 'components/Form/Settings';
 
 import EventBus from 'utils/eventbus';
@@ -9,11 +16,7 @@ import EventBus from 'utils/eventbus';
 import { MdRefresh } from 'react-icons/md';
 
 import DateOptions from './DateOptions';
-import {
-  WEEKDAYS,
-  readPercentageDays,
-  savePercentageDays,
-} from 'utils/clockDays';
+import { WEEKDAYS, readPercentageDays, savePercentageDays } from 'utils/clockDays';
 
 import './timeOptions.scss';
 
@@ -89,9 +92,7 @@ const TimeOptions = () => {
    * 9 and 17 means 50% at one in the afternoon, not 54% of the whole day.
    */
   const percentageSettings = (
-    // One block, not three: the shift, the days and the fallback clock all answer
-    // the same question, so no rule is drawn between them.
-    <div className="settingsGroup">
+    <>
       <Row>
         <Content
           title={variables.getMessage(`${TIME_SECTION}.percentage.shift_title`)}
@@ -161,7 +162,7 @@ const TimeOptions = () => {
           />
         </Action>
       </Row>
-    </div>
+    </>
   );
 
   const digitalSettings = (
@@ -349,35 +350,39 @@ const TimeOptions = () => {
         category="clock"
         visibilityToggle={true}
       >
-        <WidgetType />
-        {getTimeSettings()}
+        <Group>
+          <WidgetType />
+          {getTimeSettings()}
+        </Group>
       </PreferencesWrapper>
 
       {/* The date is part of the clock, so it sits at the end of the time
           options instead of owning a tab of its own. The switch below is the
           date's on/off, the same flag the widget order reads. */}
-      <Row>
-        <Content
-          title={variables.getMessage('modals.main.settings.sections.date.title')}
-          subtitle={variables.getMessage('modals.main.settings.sections.date.show_subtitle')}
-        />
-        <Action>
-          <Checkbox
-            name="date"
-            text={variables.getMessage('modals.main.settings.sections.date.show')}
-            category="widgets"
-            onChange={setDateEnabled}
+      <Group>
+        <Row>
+          <Content
+            title={variables.getMessage('modals.main.settings.sections.date.title')}
+            subtitle={variables.getMessage('modals.main.settings.sections.date.show_subtitle')}
           />
-        </Action>
-      </Row>
-      <PreferencesWrapper
-        key={dateEnabled ? 'date-on' : 'date-off'}
-        setting="date"
-        zoomSetting="zoomDate"
-        category="date"
-      >
-        <DateOptions />
-      </PreferencesWrapper>
+          <Action>
+            <Checkbox
+              name="date"
+              text={variables.getMessage('modals.main.settings.sections.date.show')}
+              category="widgets"
+              onChange={setDateEnabled}
+            />
+          </Action>
+        </Row>
+        <PreferencesWrapper
+          key={dateEnabled ? 'date-on' : 'date-off'}
+          setting="date"
+          zoomSetting="zoomDate"
+          category="date"
+        >
+          <DateOptions />
+        </PreferencesWrapper>
+      </Group>
     </>
   );
 };

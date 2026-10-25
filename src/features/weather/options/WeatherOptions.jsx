@@ -1,6 +1,13 @@
 import { useCallback } from 'react';
 import { MdAutoAwesome } from 'react-icons/md';
-import { Header, Row, Content, Action, PreferencesWrapper } from 'components/Layout/Settings';
+import {
+  Header,
+  Row,
+  Content,
+  Action,
+  Group,
+  PreferencesWrapper,
+} from 'components/Layout/Settings';
 import WidgetSurface from 'components/Form/Settings/WidgetSurface/WidgetSurface';
 import { useLocalStorageState } from 'utils/useLocalStorageState';
 import { Radio, Dropdown, Checkbox } from 'components/Form/Settings';
@@ -107,7 +114,7 @@ const WeatherOptions = () => {
   );
 
   const TemperatureFormat = () => (
-    <Row final={weatherType !== '4'}>
+    <Row>
       <Content title={variables.getMessage(`${WEATHER_SECTION}.temp_format.title`)} />
       <Action>
         <Radio
@@ -164,7 +171,7 @@ const WeatherOptions = () => {
     ];
 
     return (
-      <Row final={true}>
+      <Row>
         <Content title={variables.getMessage(`${WEATHER_SECTION}.custom_settings`)} />
         <Action>
           {weatherOptions.map((item) => (
@@ -198,12 +205,14 @@ const WeatherOptions = () => {
         zoomCategory="weather"
         visibilityToggle={true}
       >
-        <WidgetType />
-        {/* https://stackoverflow.com/a/65328486 when using inputs it may defocus so we do the {} instead of <> */}
-        {LocationSetting()}
-        <TemperatureFormat />
-        {weatherType === '4' && <CustomOptions />}
-        <WidgetSurface setting="surfaceWeather" category="weather" />
+        <Group>
+          <WidgetType />
+          {/* https://stackoverflow.com/a/65328486 when using inputs it may defocus so we do the {} instead of <> */}
+          {LocationSetting()}
+          <TemperatureFormat />
+          {weatherType === '4' && <CustomOptions />}
+          <WidgetSurface setting="surfaceWeather" category="weather" />
+        </Group>
       </PreferencesWrapper>
     </>
   );

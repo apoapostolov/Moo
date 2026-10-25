@@ -4,7 +4,7 @@ import variables from 'config/variables';
 import EventBus from 'utils/eventbus';
 
 import { Switch } from 'components/Form/Settings';
-import { Header, Row, Content, Action } from 'components/Layout/Settings';
+import { Header, Row, Content, Action, Group } from 'components/Layout/Settings';
 
 import {
   SIGNATURE_PRESETS as PRESETS,
@@ -64,79 +64,83 @@ const MiscOptions = () => {
     <>
       <Header title={variables.getMessage(`${MISC_SECTION}.title`)} />
 
-      <Section
-        title={variables.getMessage(`${MISC_SECTION}.scratch.title`)}
-        subtitle={variables.getMessage(`${MISC_SECTION}.scratch.subtitle`)}
-      />
-      <Row>
-        <Content
-          title={variables.getMessage(`${MISC_SECTION}.scratch_notes.title`)}
-          subtitle={variables.getMessage(`${MISC_SECTION}.scratch_notes.subtitle`)}
+      <Group>
+        <Section
+          title={variables.getMessage(`${MISC_SECTION}.scratch.title`)}
+          subtitle={variables.getMessage(`${MISC_SECTION}.scratch.subtitle`)}
         />
-        <Action>
-          <Switch
-            name="scratchNotes"
-            category="other"
-            text={variables.getMessage('modals.main.settings.enabled')}
+        <Row>
+          <Content
+            title={variables.getMessage(`${MISC_SECTION}.scratch_notes.title`)}
+            subtitle={variables.getMessage(`${MISC_SECTION}.scratch_notes.subtitle`)}
           />
-        </Action>
-      </Row>
+          <Action>
+            <Switch
+              name="scratchNotes"
+              category="other"
+              text={variables.getMessage('modals.main.settings.enabled')}
+            />
+          </Action>
+        </Row>
 
-      <Row final={true}>
-        <Content
-          title={variables.getMessage(`${MISC_SECTION}.scratch_images.title`)}
-          subtitle={variables.getMessage(`${MISC_SECTION}.scratch_images.subtitle`)}
-        />
-        <Action>
-          <Switch
-            name="scratchImages"
-            category="other"
-            text={variables.getMessage('modals.main.settings.enabled')}
+        <Row>
+          <Content
+            title={variables.getMessage(`${MISC_SECTION}.scratch_images.title`)}
+            subtitle={variables.getMessage(`${MISC_SECTION}.scratch_images.subtitle`)}
           />
-        </Action>
-      </Row>
+          <Action>
+            <Switch
+              name="scratchImages"
+              category="other"
+              text={variables.getMessage('modals.main.settings.enabled')}
+            />
+          </Action>
+        </Row>
+      </Group>
 
-      <Section
-        title={variables.getMessage(`${MISC_SECTION}.signature.title`)}
-        subtitle={variables.getMessage(`${MISC_SECTION}.signature.subtitle`)}
-      />
-      <Row final={true}>
-        <Content
-          title={variables.getMessage(`${MISC_SECTION}.signature.colour.title`)}
-          subtitle={trouble || variables.getMessage(`${MISC_SECTION}.signature.colour.subtitle`)}
+      <Group>
+        <Section
+          title={variables.getMessage(`${MISC_SECTION}.signature.title`)}
+          subtitle={variables.getMessage(`${MISC_SECTION}.signature.subtitle`)}
         />
-        <Action>
-          <div className="signaturePicker">
-            {PRESETS.map((preset) => (
+        <Row>
+          <Content
+            title={variables.getMessage(`${MISC_SECTION}.signature.colour.title`)}
+            subtitle={trouble || variables.getMessage(`${MISC_SECTION}.signature.colour.subtitle`)}
+          />
+          <Action>
+            <div className="signaturePicker">
+              {PRESETS.map((preset) => (
+                <button
+                  key={preset.value}
+                  type="button"
+                  className={`signatureSwatch${colour.toLowerCase() === preset.value ? ' active' : ''}`}
+                  style={{ '--swatch': preset.value }}
+                  title={preset.name}
+                  aria-label={preset.name}
+                  onClick={() => choose(preset.value)}
+                />
+              ))}
+              <label className="signatureCustom" title="Any colour you like">
+                <input
+                  type="color"
+                  value={colour}
+                  aria-label="Pick any colour"
+                  onChange={(event) => choose(event.target.value)}
+                />
+              </label>
               <button
-                key={preset.value}
                 type="button"
-                className={`signatureSwatch${colour.toLowerCase() === preset.value ? ' active' : ''}`}
-                style={{ '--swatch': preset.value }}
-                title={preset.name}
-                aria-label={preset.name}
-                onClick={() => choose(preset.value)}
-              />
-            ))}
-            <label className="signatureCustom" title="Any colour you like">
-              <input
-                type="color"
-                value={colour}
-                aria-label="Pick any colour"
-                onChange={(event) => choose(event.target.value)}
-              />
-            </label>
-            <button
-              type="button"
-              className="signatureSample"
-              disabled={sampling}
-              onClick={takeFromBackground}
-            >
-              {sampling ? 'Reading…' : 'From the background'}
-            </button>
-          </div>
-        </Action>
-      </Row>
+                className="signatureSample"
+                disabled={sampling}
+                onClick={takeFromBackground}
+              >
+                {sampling ? 'Reading…' : 'From the background'}
+              </button>
+            </div>
+          </Action>
+        </Row>
+      </Group>
     </>
   );
 };

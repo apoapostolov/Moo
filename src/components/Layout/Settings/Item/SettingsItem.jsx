@@ -16,4 +16,16 @@ function Action(props) {
   return <div className="action">{props.children}</div>;
 }
 
-export { Row, Content, Action };
+/**
+ * Rows that configure one thing. Inside a group no rule is drawn between rows
+ * and the block closes with a single rule of its own, because a separator
+ * between two halves of one setting says there is a seam where there is none.
+ *
+ * The last row in a group must not be `final`: that is what removes the closing
+ * rule the group needs.
+ */
+function Group(props) {
+  return <div className="settingsGroup">{props.children}</div>;
+}
+
+export { Row, Content, Action, Group };
