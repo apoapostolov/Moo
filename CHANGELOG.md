@@ -43,7 +43,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Settings rows that configure one thing are drawn as one block: a heading and the controls under it, or a switch and the options it reveals, no longer have a rule between them. Only separate settings do.
 - The Image Info card keeps its counts to itself until you look at it: views, downloads and likes appear when the card is hovered, and the resting card is just the place and the credit. The words "Photo by" are a plain grey label now, with the signature colour left to the photographer's name.
 - The Image Info card stops growing sideways. Its width is capped a wide margin short of the middle column, and a long place name or credit ends in an ellipsis instead of running into the clock.
-- The signature colour choices are circles now: three to a row over two rows, all the same size, with “From the background” as a full-width button underneath. They were being squeezed into one line until the browser squashed them into ovals.
+- The signature colour choices are circles now: six in one row, all the same size, with “From the background” as a full-width button underneath. They had been squeezed into a single line until the browser squashed them into ovals.
 - The Image Info card reads at one scale: the place and the credit sit close together instead of two lines a card-height apart, and the view, download and like counts are small detail on the right rather than the largest text on the card.
 
 ### Fixed

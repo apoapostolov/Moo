@@ -11,13 +11,15 @@
    track keeps every one of them a circle of the same size. */
 .signaturePicker {
   display: grid;
-  /* Three fixed tracks: five colours and the free picker fill two rows of three.
-     The box stretches to the column so the circles start where the switches
-     above them start, and the button below can take the full width. */
-  grid-template-columns: repeat(3, 36px);
+  /* Six fixed tracks in one row: five colours and the free picker. Six circles
+     of 36px and five 10px gaps come to 266px, inside the 300px action column,
+     so none of them can be squeezed into an oval again. The box stretches to
+     the column so the circles start where the switches above them start and the
+     button below can take the full width. */
+  grid-template-columns: repeat(6, 36px);
   justify-content: start;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
 }
 
