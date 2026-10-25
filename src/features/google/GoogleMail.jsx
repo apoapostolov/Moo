@@ -38,6 +38,11 @@ const GoogleMail = () => {
   const [ready, setReady] = useState(false);
   const [preview, setPreview] = useState(null);
   const hoverTimer = useRef(null);
+  // Where the hand is right now. A wheel turns without moving the pointer, so the
+  // row under it changes while the pointer itself never moves; without this there
+  // is nothing to hit-test after a scroll.
+  const pointer = useRef(null);
+  const followFrame = useRef(0);
 
   // A short intent delay, so sweeping the pointer across the list does not fire
   // a message fetch for every row it crosses.
@@ -57,27 +62,102 @@ const GoogleMail = () => {
     hoverTimer.current = setTimeout(() => setPreview(null), 240);
   };
 
+  // The row under the pointer, right now. Scrolling the list moves rows under a
+  // hand that never moves, and mouseenter is not dependable for that: the panel
+  // would keep showing the message the pointer left behind.
+  const followHoveredRow = useCallback(
+    (closeWhenMissing) => {
+      const point = pointer.current;
+
+      if (!point) return;
+
+      const element = document.elementFromPoint(point.x, point.y);
+
+      if (!element) return;
+
+      // Reading inside the panel is not a hover: leave the message alone.
+      if (element.closest('.gwPreview')) return;
+
+      const row = element.closest('.gwList li');
+      const message = row && state.messages.find((item) => item.id === row.dataset.messageId);
+
+      if (!message) {
+        // A scroll can take the row out from under the hand, so there is nothing
+        // left to describe. A move that crosses a gap is on its way somewhere and
+        // the leave timer decides.
+        if (closeWhenMissing) setPreview(null);
+
+        return;
+      }
+
+      const anchor = row.querySelector('.gwItem') || row;
+
+      setPreview({ message, anchor });
+    },
+    [state.messages],
+  );
+
+  useEffect(() => {
+    const remember = (event) => {
+      if (typeof event.clientX === 'number' && typeof event.clientY === 'number') {
+        pointer.current = { x: event.clientX, y: event.clientY };
+      }
+    };
+
+    document.addEventListener('pointermove', remember, { passive: true });
+    document.addEventListener('wheel', remember, { passive: true });
+
+    return () => {
+      document.removeEventListener('pointermove', remember);
+      document.removeEventListener('wheel', remember);
+    };
+  }, []);
+
   useEffect(() => {
     if (!preview) return undefined;
 
-    // The panel is placed from the row's box at hover time, so a scroll of the
-    // page would leave it pointing at the wrong row. A scroll *inside* the panel
-    // moves nothing but the message, so that one is the reader's business.
-    const close = (event) => {
-      const from = event.target instanceof Element ? event.target.closest('.gwPreview') : null;
+    // One answer for every scroll, decided by where it came from: inside the panel
+    // it is the reader scrolling the message, inside the list it moves a new email
+    // under the hand, and anywhere else the panel would point at the wrong row.
+    const scheduleFollow = (closeWhenMissing) => {
+      window.cancelAnimationFrame(followFrame.current);
+      followFrame.current = window.requestAnimationFrame(() =>
+        followHoveredRow(closeWhenMissing),
+      );
+    };
 
-      if (from) return;
+    const onScroll = (event) => {
+      const target = event.target instanceof Element ? event.target : null;
+
+      if (target?.closest('.gwPreview')) return;
+
+      if (target?.closest('.gwList')) {
+        scheduleFollow(true);
+
+        return;
+      }
 
       setPreview(null);
     };
 
-    window.addEventListener('scroll', close, true);
+    // Moving the hand down the list is not one clean mouseenter per row: a slow
+    // sweep crosses boundaries faster than the intent delay, so the panel trails
+    // the pointer by a row and looks stuck on the email it left behind. With a
+    // panel already open the row under the hand is the answer, at once.
+    const onMove = () => {
+      if (pointer.current) scheduleFollow(false);
+    };
+
+    window.addEventListener('scroll', onScroll, true);
+    document.addEventListener('pointermove', onMove, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', close, true);
+      window.removeEventListener('scroll', onScroll, true);
+      document.removeEventListener('pointermove', onMove);
+      window.cancelAnimationFrame(followFrame.current);
       clearTimeout(hoverTimer.current);
     };
-  }, [preview]);
+  }, [followHoveredRow, preview]);
 
   const load = useCallback(async () => {
     const current = getMailSettings();
@@ -170,6 +250,7 @@ const GoogleMail = () => {
           return (
             <li
               key={message.id}
+              data-message-id={message.id}
               onMouseEnter={openPreview(message)}
               onMouseLeave={closePreview}
             >
@@ -195,6 +276,7 @@ const GoogleMail = () => {
 
       {preview && (
         <MailPreview
+          key={preview.message.id}
           message={preview.message}
           anchor={preview.anchor}
           onEnter={keepPreview}
