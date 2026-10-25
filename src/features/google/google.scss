@@ -480,6 +480,49 @@
   }
 }
 
+// Category and folder ticks, each with its own glyph so the list reads as
+// Gmail's own category strip rather than five anonymous checkboxes.
+.gwOptionList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.gwOption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  cursor: pointer;
+
+  @include themed {
+    color: t($color);
+  }
+
+  input {
+    margin: 0;
+    accent-color: #7cb0ff;
+  }
+}
+
+.gwOptionIcon {
+  flex: 0 0 auto;
+  font-size: 16px;
+
+  @include themed {
+    color: t($subColor);
+  }
+}
+
+.gwOptionName {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .gwMuted {
   font-size: 11.5px;
   line-height: 1.5;

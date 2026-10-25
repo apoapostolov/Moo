@@ -4,7 +4,7 @@ import EventBus from 'utils/eventbus';
 
 import { useGoogleAuth } from './hooks/useGoogleAuth';
 import { getMessageUrl, listMessages } from './services/gmail';
-import { getMailSettings, refreshMs } from './settings';
+import { MAIL_CATEGORIES, getMailSettings, refreshMs } from './settings';
 import ConnectPrompt, { describeError } from './components/ConnectPrompt';
 
 import './google.scss';
@@ -39,7 +39,15 @@ const GoogleMail = () => {
     setFetchError('');
 
     try {
-      setState(await listMessages({ query: current.query, maxResults: current.maxMessages }));
+      setState(
+        await listMessages({
+          query: current.query,
+          maxResults: current.maxMessages,
+          categories: current.categories,
+          categoryIds: MAIL_CATEGORIES.map((category) => category.id),
+          folders: current.folders,
+        }),
+      );
     } catch (loadError) {
       setFetchError(loadError.message);
     } finally {
@@ -95,7 +103,13 @@ const GoogleMail = () => {
       {fetchError && <p className="gwError">{describeError(fetchError)}</p>}
 
       {!fetchError && !state.messages.length && (
-        <p className="gwEmpty">{title === 'is:unread' ? 'Inbox is clear.' : 'Nothing matches.'}</p>
+        <p className="gwEmpty">
+          {!settings.categories.length
+            ? 'Every category is switched off in settings.'
+            : title === 'is:unread'
+              ? 'Inbox is clear.'
+              : 'Nothing matches.'}
+        </p>
       )}
 
       <ul className="gwList">

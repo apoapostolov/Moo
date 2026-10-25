@@ -51,6 +51,15 @@ export const TASK_SORTS = [
   { value: 'manual', label: 'Order from Google' },
 ];
 
+/** Gmail's own inbox categories, in the order Gmail shows them. */
+export const MAIL_CATEGORIES = [
+  { id: 'primary', label: 'Primary' },
+  { id: 'social', label: 'Social' },
+  { id: 'promotions', label: 'Promotions' },
+  { id: 'updates', label: 'Updates' },
+  { id: 'forums', label: 'Forums' },
+];
+
 export const MAIL_QUERIES = [
   { value: 'is:unread', label: 'Unread only' },
   { value: 'is:unread in:inbox', label: 'Unread in inbox' },
@@ -58,6 +67,25 @@ export const MAIL_QUERIES = [
   { value: 'is:starred', label: 'Starred' },
   { value: 'is:important', label: 'Important' },
 ];
+
+const readList = (key, fallback = []) => {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(key) || 'null');
+
+    return Array.isArray(parsed) ? parsed.filter(Boolean) : fallback;
+  } catch {
+    return fallback;
+  }
+};
+
+/** Categories left switched on. An empty list means every category is on. */
+export const readMailCategories = () =>
+  readList('googleMailCategories', MAIL_CATEGORIES.map((category) => category.id));
+
+export const readMailFolders = () =>
+  readList('googleMailFolders', []).filter((folder) =>
+    typeof folder === 'string' ? folder.length > 0 : Boolean(folder?.id),
+  );
 
 export const readCalendarIds = () => {
   try {
@@ -95,6 +123,8 @@ export const getTasksSettings = () => ({
 
 export const getMailSettings = () => ({
   query: (readText('googleMailCustomQuery', '').trim() || readText('googleMailQuery', 'is:unread')),
+  categories: readMailCategories(),
+  folders: readMailFolders(),
   maxMessages: readNumber('googleMailMax', 6),
   primary: readText('googleMailPrimary', 'sender'),
   showSnippet: readFlag('googleMailSnippet', false),

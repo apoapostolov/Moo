@@ -48,6 +48,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Google widget rows keep to the card's own insets, the add button is a bare glyph, the task list name is plain text, and a ticked task stays in the list struck through instead of vanishing.
 - The percentage clock can follow a work shift: set the start and end of your day (9 and 17, 9am and 5pm, or 9:30 and 17:30) and the percentage counts through the shift, not the whole 24 hours. Empty fields keep counting the whole day, and a shift that ends before it starts runs over midnight.
 - Dropdowns near the bottom of a settings pane open upwards, so the panel style switch is never cut off by the window edge.
+- The mail widget understands Gmail's inbox categories and can leave any of them out, with a tick list of Primary, Social, Promotions, Updates and Forums, plus your own folders and labels as extra sources. Mail now sits first in the Google widget settings.
 
 ### Removed
 

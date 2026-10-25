@@ -1,19 +1,40 @@
 import { Fragment, useCallback, useEffect, useState } from 'react';
 
+import {
+  MdInbox,
+  MdPeople,
+  MdLocalOffer,
+  MdNotifications,
+  MdForum,
+  MdFolder,
+} from 'react-icons/md';
+
 import EventBus from 'utils/eventbus';
 
 import { Row, Content, Action } from 'components/Layout/Settings/Item';
 import { Checkbox, Dropdown, Text } from 'components/Form/Settings';
 
 import { listCalendars } from '../services/calendar';
+import { listLabels } from '../services/gmail';
 import { listTaskLists } from '../services/tasks';
 import {
   CALENDAR_RANGES,
+  MAIL_CATEGORIES,
   MAIL_QUERIES,
   REFRESH_OPTIONS,
   TASK_SORTS,
   readCalendarIds,
+  readMailCategories,
+  readMailFolders,
 } from '../settings';
+
+const CATEGORY_ICONS = {
+  primary: MdInbox,
+  social: MdPeople,
+  promotions: MdLocalOffer,
+  updates: MdNotifications,
+  forums: MdForum,
+};
 
 const options = (list) => list.map((entry) => ({ value: entry.value, text: entry.label }));
 
@@ -105,6 +126,94 @@ const CalendarPicker = () => {
   );
 };
 
+/** One reusable tick list for the mail categories and the labels. */
+const OptionTicks = ({ options, selected, onToggle, empty }) => {
+  if (!options.length) return <p className="gwEmpty">{empty}</p>;
+
+  return (
+    <div className="gwOptionList">
+      {options.map((option) => {
+        const Icon = option.icon;
+
+        return (
+          <label key={option.id} className="gwOption">
+            <input
+              type="checkbox"
+              checked={selected.includes(option.id)}
+              onChange={() => onToggle(option.id)}
+            />
+            {Icon && <Icon className="gwOptionIcon" />}
+            <span className="gwOptionName">{option.label}</span>
+          </label>
+        );
+      })}
+    </div>
+  );
+};
+
+const CategoryPicker = () => {
+  const [selected, setSelected] = useState(readMailCategories);
+
+  const toggle = (id) => {
+    const next = selected.includes(id)
+      ? selected.filter((entry) => entry !== id)
+      : [...selected, id];
+
+    setSelected(next);
+    localStorage.setItem('googleMailCategories', JSON.stringify(next));
+    EventBus.emit('refresh', 'google');
+  };
+
+  return (
+    <OptionTicks
+      options={MAIL_CATEGORIES.map((category) => ({
+        ...category,
+        icon: CATEGORY_ICONS[category.id],
+      }))}
+      selected={selected}
+      onToggle={toggle}
+      empty="No categories."
+    />
+  );
+};
+
+const FolderPicker = () => {
+  const [labels, setLabels] = useState([]);
+  const [failed, setFailed] = useState(false);
+  const [selected, setSelected] = useState(readMailFolders);
+
+  useEffect(() => {
+    listLabels()
+      .then(setLabels)
+      .catch(() => setFailed(true));
+  }, []);
+
+  const selectedIds = selected.map((folder) => (typeof folder === 'string' ? folder : folder.id));
+
+  const toggle = (label) => {
+    const next = selectedIds.includes(label.id)
+      ? selected.filter((folder) => (typeof folder === 'string' ? folder : folder.id) !== label.id)
+      : [...selected, { id: label.id, name: label.name }];
+
+    setSelected(next);
+    localStorage.setItem('googleMailFolders', JSON.stringify(next));
+    EventBus.emit('refresh', 'google');
+  };
+
+  if (failed) {
+    return <p className="gwEmpty">Folders could not be read. Reconnect Google and open this page again.</p>;
+  }
+
+  return (
+    <OptionTicks
+      options={labels.map((label) => ({ id: label.id, label: label.display, icon: MdFolder }))}
+      selected={selectedIds}
+      onToggle={(id) => toggle(labels.find((label) => label.id === id))}
+      empty="Reading your folders…"
+    />
+  );
+};
+
 const TaskListPicker = () => {
   const [lists, setLists] = useState([]);
 
@@ -129,12 +238,13 @@ const TaskListPicker = () => {
 
 /** Everything that only makes sense once an account is connected. */
 export const GoogleWidgetSettings = () => {
-  const [tab, setTab] = useState('calendar');
+
+  const [tab, setTab] = useState('mail');
 
   const tabs = [
+    { id: 'mail', label: 'Mail widget' },
     { id: 'calendar', label: 'Calendar widget' },
     { id: 'tasks', label: 'Tasks widget' },
-    { id: 'mail', label: 'Mail widget' },
   ];
 
   const render = useCallback(() => {
@@ -203,6 +313,24 @@ export const GoogleWidgetSettings = () => {
 
     return (
       <Fragment key={tab}>
+        <Row>
+          <Content
+            title="Inbox categories"
+            subtitle="Unticked categories are never fetched into the widget, so a promotions flood cannot push real mail out of it."
+          />
+          <Action>
+            <CategoryPicker />
+          </Action>
+        </Row>
+        <Row>
+          <Content
+            title="Folders and labels"
+            subtitle="Also pull messages from these Gmail folders and labels. Nothing ticked leaves the widget on the categories above."
+          />
+          <Action>
+            <FolderPicker />
+          </Action>
+        </Row>
         <Section title="Filter" subtitle="Which messages the widget lists.">
           <Dropdown name="googleMailQuery" category="google" items={options(MAIL_QUERIES)} />
         </Section>
