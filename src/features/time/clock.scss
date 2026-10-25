@@ -63,7 +63,62 @@
   border-radius: inherit;
   background: currentColor;
   opacity: 0.55;
+  // The spring overshoots its own width for a moment; the track clips the bar,
+  // but the bar should never reach past it either.
+  max-width: 100%;
   transition: width 0.6s ease-out;
+
+  // The page opens with the bar empty and fills it to the day's progress. The
+  // keyframes declare only `from`, so the animation always runs to whatever
+  // width is already inline: no number has to be handed to the stylesheet, and
+  // the fill still lands exactly on the real percentage.
+  animation: clockProgressFill 1100ms backwards;
+
+  // Fast off the mark, slowing into place with one small overshoot. The curve is
+  // a damped spring (zeta 0.65) sampled into linear(), with the plain bezier
+  // first as the fallback for an engine that does not read linear() yet.
+  animation-timing-function: cubic-bezier(0.16, 0.9, 0.24, 1);
+  animation-timing-function: linear(
+    0,
+    0.0288,
+    0.1025,
+    0.2045,
+    0.3213,
+    0.4423,
+    0.5597,
+    0.6681,
+    0.7642,
+    0.8462,
+    0.9135,
+    0.9666,
+    1.0066,
+    1.035,
+    1.0535,
+    1.0639,
+    1.0679,
+    1.067,
+    1.0628,
+    1.0563,
+    1.0485,
+    1.0403,
+    1.0322,
+    1.0246,
+    1.0178,
+    1.012,
+    1.0071,
+    1.0032,
+    1
+  );
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes clockProgressFill {
+  from {
+    width: 0;
+  }
 }
 
 

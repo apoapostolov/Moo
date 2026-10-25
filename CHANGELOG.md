@@ -81,6 +81,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The weather preview in Settings → Overview stays inside its preview box. It used to keep the real card's corner position and hang in the bottom-right corner of the settings panel as a stray pill labelled Weather.
 - The navbar is shown unless you ask otherwise: “Only display on hover” is off by default now, so a fresh page has its buttons in plain sight. A profile that was set up when it was on loses that one setting once, and the checkbox decides from then on.
 - The mail preview follows the hand: running the pointer down the list moves the panel from message to message instead of leaving the previous one up until you leave the row and hover it again. Each message keeps its own panel, so a cached one can never show the previous message's text.
+- The Progress clock fills its bar when the page opens: the completed part of the day sweeps up from empty, fast off the mark and slowing into place with one small spring overshoot before it settles exactly on the real percentage.
 - Settings has a Misc page after Google for the things that are not a widget of their own.
 
 ### Removed
