@@ -33,9 +33,11 @@ const widget_name = {
   quickweather: 'Quick Weather',
   quicklinks: variables.getMessage('modals.main.settings.sections.quicklinks.title'),
   date: variables.getMessage('modals.main.settings.sections.date.title'),
-  mail: 'Google Mail',
-  calendar: 'Google Calendar',
-  tasks: 'Google Tasks',
+  // The widget's own header says Mail, Calendar or Tasks, so the order list
+  // uses the same plain names instead of prefixing every one with Google.
+  mail: 'Mail',
+  calendar: 'Calendar',
+  tasks: 'Tasks',
 };
 
 // Widgets added after a profile stored its order still have to show up here,
