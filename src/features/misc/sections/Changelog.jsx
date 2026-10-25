@@ -21,6 +21,7 @@ const CHANGELOG = [
           'Unsplash topics: pick from the live topic list instead of four fixed collections.',
           'Coverr: free looping video clips as a background source, with an optional search.',
           'Pixabay and Pexels video clips, each using your own free API key.',
+          'Video backgrounds are queued ahead: the next clip is resolved and warmed, so a new tab starts on it at once.',
           'Unsplash and the Mue library are picked directly as sources, each with its own settings.',
           'Favouriting or downloading a library image now records it, so the trending picks improve as you use them.',
           'Animated background: a slow pan and zoom across the image. Off by default.',

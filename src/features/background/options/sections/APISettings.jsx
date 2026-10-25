@@ -3,7 +3,10 @@ import { Dropdown, Text, ChipSelect } from 'components/Form/Settings';
 import { Row, Content, Action } from 'components/Layout/Settings/Item';
 import { APIQualityOptions } from '../optionTypes';
 
-const clearImageQueue = () => localStorage.removeItem('imageQueue');
+const clearPrefetch = () => {
+  localStorage.removeItem('imageQueue');
+  localStorage.removeItem('videoQueue');
+};
 
 const loadingItems = [
   { value: 'loading', text: variables.getMessage('modals.main.loading') },
@@ -26,7 +29,7 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
         label={variables.getMessage('modals.main.settings.sections.background.categories')}
         options={options}
         name="apiCategories"
-        onChange={clearImageQueue}
+        onChange={clearPrefetch}
       />
     );
 
@@ -38,7 +41,7 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
       options={unsplashTopics}
       name="unsplashTopics"
       storageKey="unsplashTopics"
-      onChange={clearImageQueue}
+      onChange={clearPrefetch}
     />
   ) : (
     <Dropdown
@@ -54,7 +57,7 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
       name="apiQuality"
       element=".other"
       items={APIQualityOptions}
-      onChange={clearImageQueue}
+      onChange={clearPrefetch}
     />
   );
 
@@ -76,7 +79,7 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
             placeholder="e.g. ocean, forest, city"
             name="coverrQuery"
             category="backgroundrefresh"
-            onChange={clearImageQueue}
+            onChange={clearPrefetch}
           />
         </Action>
       </Row>
@@ -100,7 +103,7 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
             placeholder={variables.getMessage(`${base}.key_placeholder`)}
             name={`${source}Key`}
             category="backgroundrefresh"
-            onChange={clearImageQueue}
+            onChange={clearPrefetch}
           />
           <Text
             title={variables.getMessage(`${base}.search`)}
@@ -108,7 +111,7 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
             placeholder="e.g. ocean, forest, city"
             name={`${source}Query`}
             category="backgroundrefresh"
-            onChange={clearImageQueue}
+            onChange={clearPrefetch}
           />
         </Action>
       </Row>
@@ -141,7 +144,7 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
             name="unsplashCollections"
             category="background"
             element="#backgroundImage"
-            onChange={clearImageQueue}
+            onChange={clearPrefetch}
           />
           {qualityControl}
         </Action>

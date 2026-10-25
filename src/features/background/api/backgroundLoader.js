@@ -132,13 +132,13 @@ export async function getBackgroundData() {
       return getAPIBackground(isOffline);
 
     case 'api_coverr':
-      return getVideoBackground(isOffline, fetchCoverrVideo);
+      return getVideoBackground(isOffline, 'coverr', fetchCoverrVideo);
 
     case 'api_pixabay':
-      return getVideoBackground(isOffline, fetchPixabayVideo);
+      return getVideoBackground(isOffline, 'pixabay', fetchPixabayVideo);
 
     case 'api_pexels':
-      return getVideoBackground(isOffline, fetchPexelsVideo);
+      return getVideoBackground(isOffline, 'pexels', fetchPexelsVideo);
 
     case 'colour':
       return getColourBackground();
@@ -216,19 +216,89 @@ async function getAPIBackground(isOffline) {
   return data;
 }
 
+const VIDEO_QUEUE_KEY = 'videoQueue';
+const VIDEO_QUEUE_SIZE = 2;
+const VIDEO_WARMUP_BYTES = 1048576;
+
+let videoRefillRunning = false;
+
+const readVideoQueue = (api) =>
+  parseJSON(VIDEO_QUEUE_KEY, []).filter((clip) => clip?.url && clip.currentAPI === api);
+
+/**
+ * Pulls the first megabyte so the connection is open and the clip starts as
+ * soon as it becomes the background. This is an optimisation only: the media
+ * element fetches whatever this misses.
+ */
+const warmVideo = (url) => {
+  fetch(url, { headers: { Range: `bytes=0-${VIDEO_WARMUP_BYTES}` } }).catch(() => {});
+};
+
+/**
+ * Keeps a short queue of resolved clips so the next tab needs no API call.
+ */
+function refillVideoQueue(api, fetchVideo) {
+  if (videoRefillRunning) return;
+
+  const queued = readVideoQueue(api);
+  const missing = VIDEO_QUEUE_SIZE - queued.length;
+
+  if (missing <= 0) {
+    if (queued[0]) warmVideo(queued[0].url);
+    return;
+  }
+
+  videoRefillRunning = true;
+
+  // Sequential on purpose: the sources record what they served, and parallel
+  // calls would race on that list and could hand back the same clip twice.
+  (async () => {
+    const fresh = [];
+
+    for (let index = 0; index < missing; index++) {
+      const clip = await fetchVideo();
+      if (clip) fresh.push(clip);
+    }
+
+    const seen = new Set(queued.map((clip) => clip.photoInfo?.id));
+    const merged = [...queued, ...fresh.filter((clip) => !seen.has(clip.photoInfo?.id))].slice(
+      0,
+      VIDEO_QUEUE_SIZE,
+    );
+
+    if (merged.length) {
+      localStorage.setItem(VIDEO_QUEUE_KEY, JSON.stringify(merged));
+      warmVideo(merged[0].url);
+    }
+  })()
+    .catch(() => {})
+    .finally(() => {
+      videoRefillRunning = false;
+    });
+}
+
 /**
  * Gets a looping video background from one of the video sources
  */
-async function getVideoBackground(isOffline, fetchVideo) {
+async function getVideoBackground(isOffline, api, fetchVideo) {
   if (isOffline) return getOfflineImage('api');
 
-  // Clips are several megabytes, so only the one on screen is fetched: there is
-  // no prefetch queue for video.
-  const data = await fetchVideo();
+  // A clip that is already resolved is used straight away: no API round trip
+  // while the new tab is opening.
+  const queue = readVideoQueue(api);
+  let data = queue.shift();
+
+  if (data) {
+    localStorage.setItem(VIDEO_QUEUE_KEY, JSON.stringify(queue));
+  } else {
+    data = await fetchVideo();
+  }
 
   if (!data) return getOfflineImage('api');
 
   localStorage.setItem('currentBackground', JSON.stringify(data));
+
+  refillVideoQueue(api, fetchVideo);
 
   return data;
 }
