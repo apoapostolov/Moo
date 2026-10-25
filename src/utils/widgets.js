@@ -14,6 +14,7 @@ export const WIDGETS = [
     id: 'time',
     label: () => variables.getMessage('modals.main.settings.sections.time.title'),
     setting: 'time',
+    fullWidth: true,
   },
   {
     // The full card, not the one-line reading. Named so the two weather widgets
@@ -27,12 +28,14 @@ export const WIDGETS = [
     id: 'date',
     label: () => variables.getMessage('modals.main.settings.sections.date.title'),
     setting: 'date',
+    fullWidth: true,
   },
   {
     id: 'quickweather',
     label: () => 'Weather Now',
     setting: 'quickWeatherEnabled',
     onByDefault: true,
+    fullWidth: true,
   },
   {
     // The query line: a question typed on the new tab page goes to an AI
@@ -41,6 +44,7 @@ export const WIDGETS = [
     label: () => 'AI Ask',
     setting: 'aiAskEnabled',
     onByDefault: true,
+    fullWidth: true,
   },
   {
     id: 'quicklinks',
@@ -79,6 +83,13 @@ export const WIDGET_IDS = WIDGETS.map((widget) => widget.id);
 export const DEFAULT_ORDER = ['time', 'weather', 'date', 'quickweather', 'quicklinks', 'aiask'];
 
 export const widgetById = (id) => WIDGETS.find((widget) => widget.id === id);
+
+/**
+ * The clock, the date, the one-line weather and the query line are lines of the
+ * page rather than cards on it: they read across the whole middle column and are
+ * never put in one of its halves. Only cards are arranged in two columns.
+ */
+export const isFullWidth = (id) => Boolean(widgetById(id)?.fullWidth);
 
 const defaultZone = (widget) => widget.zone || 'center';
 
@@ -169,6 +180,26 @@ export function placementFromGroups(groups) {
   });
 
   return placement;
+}
+
+/**
+ * The middle column can be split in two. The second column is stored as the list
+ * of widgets that sit in it; everything else in the centre stays in the first,
+ * so a profile that has never split the column stores nothing and the page
+ * draws a single column exactly as it always has.
+ */
+export function readSecondLane() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('widgetSecondLane'));
+
+    return Array.isArray(stored) ? stored.filter((id) => WIDGET_IDS.includes(id)) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveSecondLane(ids) {
+  localStorage.setItem('widgetSecondLane', JSON.stringify(ids));
 }
 
 /**

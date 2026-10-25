@@ -556,6 +556,20 @@
     background: color-mix(in srgb, currentColor 6%, transparent);
   }
 
+  // A row in the middle column's second lane stands a little to the right, the
+  // way it stands in the preview, and the row that has been asked to step aside
+  // leans further still with a dashed edge showing the space it is opening.
+  .sortableItem.inSecondColumn {
+    margin-left: 14px;
+  }
+
+  .sortableItem.makingRoom {
+    margin-left: 28px;
+    outline: 1px dashed color-mix(in srgb, currentColor 40%, transparent);
+    outline-offset: -1px;
+    border-radius: 6px;
+  }
+
   // The handle leads the row and the checkbox closes it, the way a standard list
   // row reads: grab on the left, switch on the right.
   .dragHandle {
@@ -615,12 +629,68 @@
     top: 50%;
     transform: translate(-50%, -50%);
     align-items: center;
+    /* The middle column clones the real widgets, so its own type decides how
+       wide it comes out: at page size the clock and the date made the centre
+       twice as wide as the cards on the rails. One card size for the whole
+       preview means this column is measured in cards too. */
+    font-size: 6px;
+
+    .clockSkeleton,
+    .vertical-clock {
+      font-size: 21px;
+    }
+
+    .aiAskSkeleton {
+      width: 66px;
+    }
+
+    .quickLinksSkeleton .circles {
+      gap: 4px;
+
+      div {
+        margin-top: 4px;
+        padding: 2px;
+        width: 17px;
+        height: 17px;
+      }
+    }
+  }
+
+  /* The clock, the date, the one-line weather and the query line run across the
+     whole middle column and are never put in one of its halves, so they are two
+     cards wide. */
+  .previewZone-center .previewItem-wide {
+    width: 138px;
+  }
+
+  /* Two columns: a card held over another one in the middle column pushes it
+     aside, and the pair sit side by side from then on, each column growing
+     downwards as more cards are dropped beside the ones in it. */
+  .previewLanes {
+    display: grid;
+    grid-template-columns: repeat(2, 66px);
+    gap: 6px;
+    align-items: start;
+  }
+
+  .previewLane {
+    display: flex;
+    flex-flow: column;
+    gap: 6px;
+    align-items: center;
+
+    &:empty {
+      min-height: 1px;
+    }
   }
 
   .previewItem {
     display: flex;
     flex-flow: column;
     align-items: center;
+    // One card size across the whole preview, so the three columns read as
+    // three columns rather than the middle one being twice the width of a rail.
+    width: 66px;
     // A widget on its own line needs air between it and the next one; the cards
     // draw their own edges and would otherwise touch into one tall block.
     gap: 6px;

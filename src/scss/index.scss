@@ -62,6 +62,34 @@ body {
     align-items: center;
     gap: 20px;
     animation: fadeIn 1s;
+
+    /* The middle column split into two, which is the layout the Overview's
+       hold-to-make-room gesture sets up. Only the cards are columns: the clock,
+       the date, the one-line weather and the query line read across the whole
+       middle column and stay where they are. */
+    &.widgetsSplit {
+      width: min(760px, 74vw);
+    }
+
+    .widgetPair {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+      width: 100%;
+      align-items: start;
+    }
+
+    .widgetColumn {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+
+      > * {
+        max-width: 100%;
+      }
+    }
   }
 
   &.no-textBorder {

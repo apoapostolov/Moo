@@ -53,6 +53,8 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 
 - The Settings header no longer repeats a Settings button beside the close X. The modal is the settings panel already, so the tab row in its header was a second way to say where you are.
 
+- Every card in the Overview preview is the width of a card now. The middle column clones the real widgets, so the clock and the date made it about half again as wide as the rails beside it; the clock, the date, the one-line weather and the query line are now drawn two cards wide because that is what they are across the page, and every other card is drawn at the same width as the cards on the rails.
+- The middle column's cards can sit in two columns. Hold a card over another card in the Centre list and that one steps aside, and dropping into the space it opened leaves the pair side by side on one row. After that a card dropped beside one in either column joins that column, so both grow downwards; drop the last card of the second column beside one in the first and the middle is one column again. The clock, the date, the weather line and the Ask line always read across the whole middle column and are never part of the split.
 - The Overview preview no longer draws a shrunken Weather Full card in one of its corners. The zone list beside the preview already says which column it lives in, and a squashed copy of the card read as a mistake.
 
 - **AI Ask**: a query line at the foot of the middle column. Type a question, press Enter, and it opens Google AI Mode — the AI view of a search, not the ordinary results page — or ChatGPT search, and the glyph on the right picks which. The line takes the keyboard when the page appears, so you can start typing without clicking.

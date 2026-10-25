@@ -5,7 +5,14 @@ import QuickLinks from '../../quicklinks/QuickLinks';
 import Date from '../../time/Date';
 import AIAsk from '../../aiask/AIAsk';
 import { WidgetsLayout } from 'components/Layout';
-import { readOrder, readPlacement, groupByZone, isWidgetEnabled } from 'utils/widgets';
+import {
+  readOrder,
+  readPlacement,
+  readSecondLane,
+  groupByZone,
+  isWidgetEnabled,
+  isFullWidth,
+} from 'utils/widgets';
 
 import EventBus from 'utils/eventbus';
 
@@ -24,12 +31,17 @@ const PhotoInfoWidget = lazy(() => import('../../background/components/PhotoInfo
  * The page is three zones: a rail down each side and the middle column the
  * widgets have always used. Which zone a widget sits in is the user's choice in
  * Overview; all this does is draw each one where it was put.
+ *
+ * The middle column can also be two columns: a widget that was moved aside in
+ * Overview keeps the second one. Nothing is stored until that gesture happens,
+ * so a profile that never splits it draws the single column it always did.
  */
 const Widgets = () => {
   const online = localStorage.getItem('offlineMode') === 'false';
   const [layout, setLayout] = useState(() => ({
     order: readOrder(),
     placement: readPlacement(),
+    lane: readSecondLane(),
   }));
   const [welcome, setWelcome] = useState(localStorage.getItem('showWelcome'));
 
@@ -56,7 +68,11 @@ const Widgets = () => {
     const handleRefresh = (data) => {
       switch (data) {
         case 'widgets':
-          return setLayout({ order: readOrder(), placement: readPlacement() });
+          return setLayout({
+            order: readOrder(),
+            placement: readPlacement(),
+            lane: readSecondLane(),
+          });
         case 'widgetsWelcome':
           setWelcome(localStorage.getItem('showWelcome'));
           localStorage.setItem('showWelcome', true);
@@ -90,13 +106,39 @@ const Widgets = () => {
       return <Fragment key={id}>{widget}</Fragment>;
     });
 
+  // The clock, the date, the one-line weather and the query line read across the
+  // whole middle column whatever happens to the cards, so they are drawn first
+  // and are never part of the two-column pair.
+  const lines = groups.center.filter((id) => isFullWidth(id));
+  const cards = groups.center.filter((id) => !isFullWidth(id));
+
+  // A lane with nothing in it is not a column: the second only exists once a
+  // card has been moved into it.
+  const secondColumn = cards.filter((id) => layout.lane.includes(id));
+  const firstColumn = cards.filter((id) => !layout.lane.includes(id));
+  const split = secondColumn.length > 0;
+
+  const middle = (
+    <>
+      {draw(lines)}
+      {split ? (
+        <div className="widgetPair">
+          <div className="widgetColumn">{draw(firstColumn)}</div>
+          <div className="widgetColumn">{draw(secondColumn)}</div>
+        </div>
+      ) : (
+        draw(cards)
+      )}
+    </>
+  );
+
   // don't show when welcome is there
   return welcome !== 'false' ? (
     <WidgetsLayout />
   ) : (
     <Suspense fallback={<></>}>
       <div className="widgetRail widgetRail-left">{draw(groups.left)}</div>
-      <WidgetsLayout>{draw(groups.center)}</WidgetsLayout>
+      <WidgetsLayout split={split}>{middle}</WidgetsLayout>
       <div className="widgetRail widgetRail-right">{draw(groups.right)}</div>
     </Suspense>
   );

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { MdOutlineDragIndicator } from 'react-icons/md';
 import {
   DndContext,
@@ -30,17 +30,25 @@ import {
   ZONES,
   readOrder,
   readPlacement,
+  readSecondLane,
   saveOrder,
   savePlacement,
+  saveSecondLane,
   groupByZone,
   placementFromGroups,
   isWidgetEnabled,
+  isFullWidth,
 } from 'utils/widgets';
 
 import EventBus from 'utils/eventbus';
 
 // The three zones, in the order they are drawn around the preview.
 const ZONE_TITLES = { left: 'Left', center: 'Centre', right: 'Right' };
+
+// How long a card has to be held over another one in the middle column before
+// that one steps aside. Short enough to feel like a deliberate gesture, long
+// enough that dragging past a row on the way somewhere else never triggers it.
+const HOLD_MS = 260;
 
 const widgetLabel = (id) => {
   const widget = WIDGETS.find((item) => item.id === id);
@@ -63,13 +71,21 @@ const collisionDetection = (args) => {
   return row ? [row] : hits;
 };
 
-const SortableItem = ({ id, enabled, onToggle }) => {
+const SortableItem = ({ id, enabled, onToggle, secondColumn, makingRoom }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
   const style = { transform: CSS.Transform.toString(transform), transition };
 
+  const className = [
+    'sortableItem',
+    secondColumn ? 'inSecondColumn' : '',
+    makingRoom ? 'makingRoom' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <li ref={setNodeRef} style={style} {...attributes} className="sortableItem" data-widget-id={id}>
+    <li ref={setNodeRef} style={style} {...attributes} className={className} data-widget-id={id}>
       <span className="dragHandle" {...listeners}>
         <MdOutlineDragIndicator />
       </span>
@@ -83,7 +99,7 @@ const SortableItem = ({ id, enabled, onToggle }) => {
  * One of the three drop containers. The whole box is the drop target, so a
  * widget can be dropped into a zone that is still empty.
  */
-const Zone = ({ zone, items, onToggle, isEnabled }) => {
+const Zone = ({ zone, items, onToggle, isEnabled, secondLane, makingRoomId }) => {
   const { setNodeRef, isOver } = useDroppable({ id: zone });
   const className = `widgetZone${isOver ? ' widgetZoneOver' : ''}`;
 
@@ -94,7 +110,14 @@ const Zone = ({ zone, items, onToggle, isEnabled }) => {
         <ul className="sortableContainer">
           {items.length === 0 ? <li className="widgetZoneEmpty">Drop a widget here</li> : null}
           {items.map((id) => (
-            <SortableItem key={id} id={id} enabled={isEnabled(id)} onToggle={onToggle} />
+            <SortableItem
+              key={id}
+              id={id}
+              enabled={isEnabled(id)}
+              onToggle={onToggle}
+              secondColumn={zone === 'center' && secondLane.includes(id)}
+              makingRoom={zone === 'center' && makingRoomId === id}
+            />
           ))}
         </ul>
       </SortableContext>
@@ -104,6 +127,11 @@ const Zone = ({ zone, items, onToggle, isEnabled }) => {
 
 const Overview = () => {
   const [groups, setGroups] = useState(() => groupByZone(readOrder(), readPlacement()));
+  const [secondLane, setSecondLane] = useState(readSecondLane);
+  // The card that has been held over long enough to step aside, and the drag
+  // handler that is waiting for it.
+  const [steppedAside, setSteppedAside] = useState(null);
+  const holdRef = useRef(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -118,9 +146,57 @@ const Overview = () => {
     return ZONES.includes(over.id) ? over.id : findZone(over.id);
   };
 
+  const clearHold = useCallback(() => {
+    if (holdRef.current) {
+      clearTimeout(holdRef.current.timer);
+      holdRef.current = null;
+    }
+
+    setSteppedAside(null);
+  }, []);
+
+  /**
+   * A card held over another one in the middle column asks it to step aside.
+   * The timer is per target, so moving along the list never fires a card that
+   * was only passed over.
+   */
+  const holdOver = useCallback((id) => {
+    if (holdRef.current?.id === id) return;
+
+    if (holdRef.current) clearTimeout(holdRef.current.timer);
+
+    if (!id) {
+      holdRef.current = null;
+      setSteppedAside(null);
+
+      return;
+    }
+
+    holdRef.current = {
+      id,
+      timer: setTimeout(() => {
+        holdRef.current = null;
+        setSteppedAside(id);
+      }, HOLD_MS),
+    };
+  }, []);
+
   const handleDragOver = ({ active, over }) => {
     const from = findZone(active.id);
     const to = zoneFor(over);
+
+    const overCentreRow =
+      Boolean(over) &&
+      !ZONES.includes(over.id) &&
+      over.id !== active.id &&
+      from === 'center' &&
+      to === 'center' &&
+      // Only a card has a second column to move into; the clock and the like
+      // read across the whole middle and stay put.
+      !isFullWidth(over.id) &&
+      !isFullWidth(active.id);
+
+    holdOver(overCentreRow ? over.id : null);
 
     if (!from || !to || from === to) return;
 
@@ -179,10 +255,48 @@ const Overview = () => {
   };
 
   const handleDragEnd = ({ active, over }) => {
+    const aside = steppedAside;
+
+    clearHold();
+
     const from = findZone(active.id);
     const to = zoneFor(over);
 
-    if (!from || !to || from !== to) return;
+    if (!from || !to) return;
+
+    let lane = secondLane.filter((id) => id !== active.id);
+
+    if (to !== 'center') {
+      // Leaving the middle column means leaving its second column as well.
+      setSecondLane(lane);
+    } else if (aside && aside !== active.id) {
+      // Dropped into the space the held card opened: the dragged card takes
+      // that place in the first column and the other one keeps the second.
+      setSecondLane([...lane.filter((id) => id !== aside), aside]);
+
+      setGroups((previous) => {
+        const rest = previous.center.filter((id) => id !== active.id);
+        const at = rest.indexOf(aside);
+
+        return {
+          ...previous,
+          center:
+            at < 0 ? [...rest, active.id] : [...rest.slice(0, at), active.id, ...rest.slice(at)],
+        };
+      });
+
+      return;
+    } else if (over && groups.center.includes(over.id) && over.id !== active.id) {
+      // Otherwise a card joins the column of the card it was dropped beside,
+      // which is how both columns grow.
+      lane = lane.filter((id) => id !== over.id);
+
+      if (secondLane.includes(over.id)) lane.push(active.id);
+
+      setSecondLane(lane);
+    }
+
+    if (from !== to) return;
 
     const target = dropIndex(from, active, over);
     const current = groups[from].indexOf(active.id);
@@ -210,14 +324,15 @@ const Overview = () => {
     setGroups((previous) => ({ ...previous }));
   };
 
-  // Every drop writes both halves of the layout: the order inside a zone and the
-  // zone itself, which is what the page reads when it decides where to draw.
+  // Every drop writes the layout the page reads: the order, the zone each
+  // widget sits in, and the middle column's second lane.
   useEffect(() => {
     saveOrder([...groups.left, ...groups.center, ...groups.right]);
     savePlacement(placementFromGroups(groups));
+    saveSecondLane(secondLane.filter((id) => groups.center.includes(id) && !isFullWidth(id)));
     variables.stats.postEvent('setting', 'Widget placement');
     EventBus.emit('refresh', 'widgets');
-  }, [groups]);
+  }, [groups, secondLane]);
 
   const previewItem = (id) => {
     switch (id) {
@@ -251,19 +366,55 @@ const Overview = () => {
     }
   };
 
-  const previewZone = (zone) => (
-    <div className={`previewZone previewZone-${zone}`}>
-      {groups[zone]
-        .filter((id) => isWidgetEnabled(id))
-        .map((id) => ({ id, node: previewItem(id) }))
-        .filter(({ node }) => node !== null)
-        .map(({ id, node }) => (
-          <div className="previewItem" key={`preview-${id}`}>
-            {node}
-          </div>
-        ))}
+  // `wide` is for the four lines that read across the middle column: they are
+  // two cards wide in the page and so two cards wide here.
+  const previewCard = ({ id, node }, wide = false) => (
+    <div className={`previewItem${wide ? ' previewItem-wide' : ''}`} key={`preview-${id}`}>
+      {node}
     </div>
   );
+
+  const previewItems = (zone) =>
+    groups[zone]
+      .filter((id) => isWidgetEnabled(id))
+      .map((id) => ({ id, node: previewItem(id) }))
+      .filter(({ node }) => node !== null);
+
+  const previewZone = (zone) => {
+    const items = previewItems(zone);
+
+    // The middle column is drawn as one column until something sits in the
+    // second one — or until a card is being held aside, which shows the result
+    // before the drop.
+    const aside = steppedAside && items.some(({ id }) => id === steppedAside) ? steppedAside : null;
+
+    if (zone !== 'center' || (!aside && secondLane.length === 0)) {
+      return (
+        <div className={`previewZone previewZone-${zone}`}>
+          {items.map((item) => previewCard(item, isFullWidth(item.id)))}
+        </div>
+      );
+    }
+
+    const inSecond = (id) => (aside ? id === aside : secondLane.includes(id));
+    const lines = items.filter(({ id }) => isFullWidth(id));
+    const first = items.filter(({ id }) => !isFullWidth(id) && !inSecond(id));
+    const second = items.filter(({ id }) => !isFullWidth(id) && inSecond(id));
+
+    return (
+      <div className={`previewZone previewZone-${zone}`}>
+        {lines.map((item) => previewCard(item, true))}
+        <div className="previewLanes">
+          <div className="previewLane">
+            {first.map(({ id, node }) => previewCard({ id, node }))}
+          </div>
+          <div className="previewLane">
+            {second.map(({ id, node }) => previewCard({ id, node }))}
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -276,6 +427,7 @@ const Overview = () => {
         collisionDetection={collisionDetection}
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
+        onDragCancel={clearHold}
       >
         <div className="overviewZones">
           <div className="overviewSide overviewSide-left">
@@ -284,6 +436,7 @@ const Overview = () => {
               items={groups.left}
               onToggle={toggleEnabled}
               isEnabled={isWidgetEnabled}
+              secondLane={secondLane}
             />
           </div>
 
@@ -302,6 +455,7 @@ const Overview = () => {
               items={groups.right}
               onToggle={toggleEnabled}
               isEnabled={isWidgetEnabled}
+              secondLane={secondLane}
             />
           </div>
 
@@ -311,6 +465,8 @@ const Overview = () => {
               items={groups.center}
               onToggle={toggleEnabled}
               isEnabled={isWidgetEnabled}
+              secondLane={secondLane}
+              makingRoomId={steppedAside}
             />
           </div>
         </div>
