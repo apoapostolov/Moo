@@ -1,9 +1,15 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 /**
  * Small dialog shell for the widget CRUD forms. It closes on Escape and on a
  * click outside the panel, which is what a new tab page needs since it has no
  * surrounding modal to lean on.
+ *
+ * It renders into the body rather than inside the card. The card carries a
+ * backdrop-filter, and that turns it into the containing block for fixed
+ * children: the overlay would size itself to the widget and the dialog would
+ * open wherever the card happens to sit on the page.
  */
 const Dialog = ({ title, onClose, children, footer }) => {
   useEffect(() => {
@@ -16,7 +22,7 @@ const Dialog = ({ title, onClose, children, footer }) => {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [onClose]);
 
-  return (
+  return createPortal(
     <div className="gwOverlay" onMouseDown={onClose} role="presentation">
       <div
         className="gwDialog"
@@ -34,7 +40,8 @@ const Dialog = ({ title, onClose, children, footer }) => {
         <div className="gwDialogBody">{children}</div>
         {footer && <footer className="gwDialogFoot">{footer}</footer>}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };
 

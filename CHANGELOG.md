@@ -55,6 +55,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The task list picker in the tasks card opens white on dark instead of near-black on dark grey, and the selects in the Google dialogs and settings follow the theme in their own lists.
 - The Google setup steps say what to do in plain sentences instead of lecturing about what does not work yet.
 - The widget settings in Google use one segmented Mail / Calendar / Tasks control instead of three small buttons, and nothing is shown until you pick one, so no widget's options look switched on by default.
+- The event and task dialogs open in the middle of the page instead of inside whichever card launched them, and they keep the solid dark panel even when the cards are switched to Glass.
 
 ### Removed
 
