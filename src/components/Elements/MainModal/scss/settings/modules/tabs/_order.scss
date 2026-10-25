@@ -544,6 +544,110 @@
   // bottom-right corner of the page. Inside this box it is ordinary content;
   // left alone it escapes the preview and hangs in the corner of the settings
   // panel, which reads as a broken pill floating over the page.
+  // Mail, Calendar and Tasks are drawn rather than written: a card the size of a
+  // widget with one entry inside it, bars where the text would be and dots where
+  // the real card carries its glyph. The tint comes from currentColor, so the
+  // same card reads correctly in both themes without a second palette.
+  .gwSkeleton {
+    box-sizing: border-box;
+    width: 200px;
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+    padding: 10px 12px 12px;
+    border-radius: 12px;
+    text-shadow: none;
+    background: color-mix(in srgb, currentColor 6%, transparent);
+    border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
+  }
+
+  .gwSkeletonHead {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .gwSkeletonDot {
+    flex: 0 0 auto;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+
+    &.gwSkeletonDot-small {
+      width: 5px;
+      height: 5px;
+      margin-left: auto;
+      opacity: 0.3;
+    }
+  }
+
+  .gwSkeletonEntry {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  // A dot where the entry has an avatar, a square where a date sits, a tick box
+  // where the row can be done.
+  .gwSkeletonIcon {
+    flex: 0 0 auto;
+    background: currentColor;
+    opacity: 0.3;
+
+    &.gwSkeletonIcon-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+    }
+
+    &.gwSkeletonIcon-square {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+    }
+
+    // A task row is a tick waiting to happen, so it is a ring rather than a
+    // filled block: the only glyph in the set that is drawn open.
+    &.gwSkeletonIcon-check {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      background: transparent;
+      border: 1.5px solid currentColor;
+      opacity: 0.45;
+    }
+  }
+
+  .gwSkeletonLines {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    gap: 6px;
+  }
+
+  .gwSkeletonBar {
+    height: 6px;
+    border-radius: 999px;
+    background: currentColor;
+    opacity: 0.22;
+
+    &.gwSkeletonBar-wide {
+      width: 86%;
+    }
+
+    &.gwSkeletonBar-medium {
+      width: 62%;
+    }
+
+    &.gwSkeletonBar-short {
+      width: 40px;
+      height: 5px;
+      opacity: 0.34;
+    }
+  }
+
   .weather {
     position: static;
     bottom: auto;

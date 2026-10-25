@@ -85,6 +85,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - The Mue library is no longer offered as an image source; Unsplash, Coverr, the live channels, Pixabay and Pexels remain. A profile that was pointed at it moves to Unsplash on its own, and a picture already queued for it is dropped rather than shown once more.
 - About's Contact Us is a settings row now: the label sits on the left and the three contact buttons on the right, level with it.
 - About writes to the new address, theapoapostolov@gmail.com, and no longer carries the resources section.
+- The Overview preview draws Mail, Calendar and Tasks instead of naming them: a small card shaped like the widget, with grey bars where the text would be, a dot, a date square or a tick box where the card carries its glyph, and one entry inside it.
 - Settings has a Misc page after Google for the things that are not a widget of their own.
 
 ### Removed

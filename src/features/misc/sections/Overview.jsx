@@ -24,6 +24,7 @@ import QuickLinks from './overview_skeletons/QuickLinks';
 import Date from './overview_skeletons/Date';
 import Weather from './overview_skeletons/Weather';
 import QuickWeather from './overview_skeletons/QuickWeather';
+import GoogleWidget from './overview_skeletons/GoogleWidget';
 
 import EventBus from 'utils/eventbus';
 
@@ -182,11 +183,10 @@ const Overview = () => {
       case 'mail':
       case 'calendar':
       case 'tasks':
-        // These three talk to Google, so the preview shows their name rather
-        // than cloning live data into the settings panel.
-        return (
-          <div style={{ padding: 8, fontSize: 12, opacity: 0.7 }}>{widget_name[value]}</div>
-        );
+        // These three talk to Google, so the preview draws their shape instead of
+        // cloning live data into the settings panel. The order list already names
+        // the widget, so a name here would only repeat it.
+        return <GoogleWidget type={value} label={widget_name[value]} />;
       default:
         return null;
     }
