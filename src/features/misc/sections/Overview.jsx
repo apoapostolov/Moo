@@ -30,7 +30,7 @@ import EventBus from 'utils/eventbus';
 const widget_name = {
   time: variables.getMessage('modals.main.settings.sections.time.title'),
   weather: variables.getMessage('modals.main.settings.sections.weather.title'),
-  quickweather: 'Quick Weather',
+  quickweather: 'Weather Now',
   quicklinks: variables.getMessage('modals.main.settings.sections.quicklinks.title'),
   date: variables.getMessage('modals.main.settings.sections.date.title'),
   // The widget's own header says Mail, Calendar or Tasks, so the order list

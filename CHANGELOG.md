@@ -19,7 +19,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Animated background: a slow pan and zoom across the image. Off by default.
 - Automatic background change on an interval you choose. Off by default.
 - Background Information section, keeping the photo details and the location map apart from the display options.
-- Quick Weather: a one-line weather widget under the clock, with its own toggle and a place in the widget order.
+- Weather Now: a one-line weather widget under the clock, with its own toggle and a place in the widget order.
 - Five-day forecast from Open-Meteo, replacing the single-day extra information.
 - Show and hide toggles for each widget in Overview.
 - Bulgarian language.
