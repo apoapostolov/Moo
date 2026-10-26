@@ -141,13 +141,13 @@
               "shift_subtitle": "The percentage counts from the start of your day to the end of your shift. Leave both empty to count the whole day. 9, 9:30, 9am and 17:00 all work.",
               "shift_start": "Start of day",
               "shift_end": "End of day",
-              "days_title": "Days",
-              "days_subtitle": "The Progress clock shows on the days switched on here. Every other day shows the clock picked below.",
+              "days_title": "Work Days",
+              "days_subtitle": "The Progress clock shows on the work days switched on here. The days outside work show the clock picked below.",
               "fallback_title": "Switch to fallback clock",
               "fallback_subtitle": "Outside the days ticked above, show the clock picked below. Unticked, the Progress clock answers every day of the week.",
               "fallback_switch": "Switch outside the days",
-              "other_title": "Other days",
-              "other_subtitle": "The clock to show when Progress is off for today."
+              "other_title": "Outside Work",
+              "other_subtitle": "The clock to show on the days outside the work days."
             },
             "vertical_clock": {
               "title": "Vertical Clock",
