@@ -53,4 +53,11 @@
 
     font-weight: 600;
   }
+
+  /* The days do not apply once the clock stops switching, so they dim rather
+     than lie about what they do. */
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
 }

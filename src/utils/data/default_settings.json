@@ -216,6 +216,10 @@
     "value": "[\"time\", \"quicklinks\", \"date\", \"message\"]"
   },
   {
+    "name": "percentageFallback",
+    "value": "true"
+  },
+  {
     "name": "photoInfoRequiresLocation",
     "value": "true"
   },

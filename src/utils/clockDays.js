@@ -41,6 +41,16 @@ export function isPercentageDay(date = new Date()) {
 }
 
 /**
+ * Whether the days above have a say at all. On by default: the Progress clock
+ * answers for its days and the others get the clock below, which is what the
+ * widget did before the switch existed. Switched off, the Progress clock is the
+ * clock for every day and the days are only a record of the week.
+ */
+export function readPercentageFallback() {
+  return localStorage.getItem('percentageFallback') !== 'false';
+}
+
+/**
  * The clock shown when the Progress clock is not on duty for today. Progress
  * itself is not offered here: it is the thing being switched off.
  */
@@ -56,7 +66,9 @@ export function offClockType() {
 export function resolveTimeType() {
   const stored = localStorage.getItem('timeType');
 
-  if (stored === 'percentageComplete' && !isPercentageDay()) return offClockType();
+  if (stored === 'percentageComplete' && readPercentageFallback() && !isPercentageDay()) {
+    return offClockType();
+  }
 
   return stored;
 }

@@ -143,6 +143,9 @@
               "shift_end": "End of day",
               "days_title": "Days",
               "days_subtitle": "The Progress clock shows on the days switched on here. Every other day shows the clock picked below.",
+              "fallback_title": "Switch to fallback clock",
+              "fallback_subtitle": "Outside the days ticked above, show the clock picked below. Unticked, the Progress clock answers every day of the week.",
+              "fallback_switch": "Switch outside the days",
               "other_title": "Other days",
               "other_subtitle": "The clock to show when Progress is off for today."
             },

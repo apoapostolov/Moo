@@ -16,7 +16,12 @@ import EventBus from 'utils/eventbus';
 import { MdRefresh } from 'react-icons/md';
 
 import DateOptions from './DateOptions';
-import { WEEKDAYS, readPercentageDays, savePercentageDays } from 'utils/clockDays';
+import {
+  WEEKDAYS,
+  readPercentageDays,
+  readPercentageFallback,
+  savePercentageDays,
+} from 'utils/clockDays';
 
 import './timeOptions.scss';
 
@@ -33,6 +38,9 @@ const TimeOptions = () => {
   // to dim its options the same way every other section does.
   const [dateEnabled, setDateEnabled] = useState(localStorage.getItem('date') === 'true');
   const [percentageDays, setPercentageDays] = useState(readPercentageDays);
+  // Whether the days above have a say: off, the Progress clock is the clock for
+  // every day and the rows below it stop applying.
+  const [percentageFallback, setPercentageFallback] = useState(readPercentageFallback);
   const TIME_SECTION = 'modals.main.settings.sections.time';
 
   const updateColour = (type, event) => {
@@ -132,6 +140,7 @@ const TimeOptions = () => {
                   key={day.label}
                   className={on ? 'daySwitch daySwitchOn' : 'daySwitch'}
                   aria-pressed={on}
+                  disabled={!percentageFallback}
                   onClick={() => toggleDay(day.value)}
                 >
                   {day.label}
@@ -139,6 +148,23 @@ const TimeOptions = () => {
               );
             })}
           </div>
+        </Action>
+      </Row>
+
+      {/* The days above mean nothing once the clock stops switching, and neither
+          does the fallback picked below, so both say so by dimming. */}
+      <Row>
+        <Content
+          title={variables.getMessage(`${TIME_SECTION}.percentage.fallback_title`)}
+          subtitle={variables.getMessage(`${TIME_SECTION}.percentage.fallback_subtitle`)}
+        />
+        <Action>
+          <Checkbox
+            name="percentageFallback"
+            text={variables.getMessage(`${TIME_SECTION}.percentage.fallback_switch`)}
+            category="clock"
+            onChange={(value) => setPercentageFallback(value)}
+          />
         </Action>
       </Row>
 
@@ -151,6 +177,7 @@ const TimeOptions = () => {
           <Dropdown
             name="percentageOffType"
             category="clock"
+            disabled={!percentageFallback}
             items={[
               { value: 'digital', text: variables.getMessage(`${TIME_SECTION}.digital.title`) },
               { value: 'analogue', text: variables.getMessage(`${TIME_SECTION}.analogue.title`) },

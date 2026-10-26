@@ -26,8 +26,33 @@ const retireMueLibrary = () => {
   localStorage.removeItem('imageQueue');
 };
 
+/**
+ * A switch that defaults to on has to be written down once, or the control shows
+ * itself unticked while the clock already behaves as if it were ticked. Only a
+ * missing value is filled in, so a choice made later is never overridden.
+ */
+const seedPercentageFallback = () => {
+  if (localStorage.getItem('percentageFallback') === null) {
+    localStorage.setItem('percentageFallback', 'true');
+  }
+};
+
+/**
+ * The same trap as the Progress switch: Image Info refuses to draw unless the
+ * photo has a known location, and a profile that predates the control has no
+ * stored answer for it, so the checkbox would read unticked while the card
+ * already obeyed it.
+ */
+const seedPhotoInfoLocation = () => {
+  if (localStorage.getItem('photoInfoRequiresLocation') === null) {
+    localStorage.setItem('photoInfoRequiresLocation', 'true');
+  }
+};
+
 const runMigrations = () => {
   retireMueLibrary();
+  seedPercentageFallback();
+  seedPhotoInfoLocation();
 
   if (!localStorage.getItem(HOVER_MARK)) {
     if (localStorage.getItem('navbarHover') === 'true') localStorage.removeItem('navbarHover');
