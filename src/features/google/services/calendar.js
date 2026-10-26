@@ -37,8 +37,8 @@ export const listCalendars = async () => {
 };
 
 /**
- * The agenda is a union across the calendars that are switched on, so each one
- * is asked separately and the results merge in start order.
+ * The agenda is a union over the calendars switched on, so each is asked separately and the
+ * results merge in start order.
  */
 export const listEvents = async ({
   timeMin,
@@ -67,8 +67,8 @@ export const listEvents = async ({
           toEvent(event, known.get(id) ?? { id, summary: '', color: '' }),
         );
       } catch (error) {
-        // One unreadable calendar must not empty the whole agenda, but the
-        // reason still has to surface when every calendar fails.
+        // One unreadable calendar must not empty the agenda, but the reason still surfaces
+        // when every calendar fails.
         return [{ error }];
       }
     }),
@@ -130,10 +130,7 @@ export const deleteEvent = async (id, calendarId = 'primary') => {
   await googleFetch(`${EVENTS(calendarId)}/${encodeURIComponent(id)}`, { method: 'DELETE' });
 };
 
-/**
- * The window starts at midnight so a day reads as one block, and runs for as
- * many days as the lookahead is set to.
- */
+/** The window starts at midnight so a day reads as one block, and spans the configured lookahead. */
 export const rangeBounds = (days = 7, date = new Date()) => {
   const start = new Date(date);
   start.setHours(0, 0, 0, 0);

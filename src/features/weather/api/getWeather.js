@@ -13,7 +13,6 @@ const getLocalizedTempSymbol = (format) => {
   const language = localStorage.getItem('language') || 'en_GB';
   const baseLang = language.split('_')[0];
 
-  // Temperature symbols for different languages
   const localizedSymbols = {
     ar: {
       celsius: '°س', // Arabic: Celsius (سيلزيوس)
@@ -27,14 +26,13 @@ const getLocalizedTempSymbol = (format) => {
     },
   };
 
-  // Default Western symbols
+  // Fallback for languages that name no symbols here.
   const defaultSymbols = {
     celsius: '°C',
     fahrenheit: '°F',
     kelvin: 'K',
   };
 
-  // Return localized symbol if available, otherwise default
   return localizedSymbols[baseLang]?.[format] || defaultSymbols[format] || 'K';
 };
 
@@ -42,7 +40,7 @@ export const getWeather = async (location) => {
   let cached = localStorage.getItem('currentWeather');
   if (cached) {
     cached = JSON.parse(cached);
-    // 300 seconds (in ms) = 5 minutes
+    // 3e5 ms = 5 minutes.
     if (Date.now() - cached.cachedAt < 3e5) {
       return cached.data;
     }

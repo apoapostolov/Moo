@@ -89,7 +89,6 @@ class About extends PureComponent {
   }
 
   componentWillUnmount() {
-    // stop making requests
     this.controller.abort();
   }
 

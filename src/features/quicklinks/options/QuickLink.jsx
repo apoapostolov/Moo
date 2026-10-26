@@ -43,7 +43,6 @@ const QuickLink = ({
     item.icon ||
     'https://icon.horse/icon/ ' + item.url.replace('https://', '').replace('http://', '');
 
-  // Compose classes for drag state
   const rootClass = `messageMap ${isDragging ? 'dragging' : ''} ${isDragOver ? 'drag-over' : ''}`;
 
   return (

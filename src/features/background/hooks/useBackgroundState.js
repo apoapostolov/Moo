@@ -1,8 +1,5 @@
 import { useState, useCallback } from 'react';
 
-/**
- * Custom hook for managing background state
- */
 export function useBackgroundState() {
   const [backgroundData, setBackgroundData] = useState({
     url: '',

@@ -1,19 +1,13 @@
 import { memo, useEffect, useMemo, useRef } from 'react';
 
-/**
- * BackgroundVideo renders looping clips and live HLS channels.
- *
- * A live stream needs a player: Firefox has no native HLS support, so hls.js is
- * imported only when a live background is actually used, which keeps it out of
- * the bundle everyone else loads.
- */
+/** Firefox has no native HLS, so hls.js is imported only when a live background is used. */
 function BackgroundVideo({ url, filterStyle, loop, muted, hls, live, maxHeight }) {
   const videoRef = useRef(null);
   const storedMute = useMemo(() => localStorage.getItem('backgroundVideoMute') === 'true', []);
   const storedLoop = useMemo(() => localStorage.getItem('backgroundVideoLoop') === 'true', []);
 
-  // A looping source always plays muted and repeats: an unmuted video is blocked
-  // by the browser's autoplay rules, which would leave a black background.
+  // Plays muted and looping: an unmuted video is blocked by autoplay rules,
+  // which would leave a black background.
   const isMuted = muted ?? storedMute;
   const shouldLoop = loop ?? (live ? false : storedLoop);
 
@@ -34,15 +28,13 @@ function BackgroundVideo({ url, filterStyle, loop, muted, hls, live, maxHeight }
       }
 
       player = new Hls({
-        // A blob worker would have to clear the extension CSP, and a single
-        // background stream does not need one.
+        // A blob worker would need the extension CSP widened; one stream does not need it.
         enableWorker: false,
         maxBufferLength: 10,
         backBufferLength: 5,
-        // Webcam channels publish a caption rendition — a timestamp, the
-        // location, a greyscale label — and a DEFAULT=YES one is selected on
-        // its own. The wallpaper is scenery: subtitles would be drawn over the
-        // clock. Both switches are off so nothing renders either way.
+        // Webcam channels ship a DEFAULT=YES caption rendition (timestamp,
+        // location); subtitles would be drawn over the clock, so both switches
+        // are off and nothing renders either way.
         subtitleDisplay: false,
         renderTextTracksNatively: false,
       });
@@ -50,8 +42,8 @@ function BackgroundVideo({ url, filterStyle, loop, muted, hls, live, maxHeight }
       player.loadSource(url);
       player.attachMedia(video);
 
-      // Pick a rendition explicitly. The player sizes the element before layout,
-      // so letting hls.js choose by element size lands on the 360p level.
+      // Chosen explicitly: the player measures the element before layout, so
+      // letting hls.js pick by element size lands on the 360p level.
       player.on(Hls.Events.MANIFEST_PARSED, () => {
         const limit = maxHeight || 1080;
         let best = -1;
@@ -72,10 +64,8 @@ function BackgroundVideo({ url, filterStyle, loop, muted, hls, live, maxHeight }
         if (data.fatal) console.warn('Live background failed:', data.type, data.details);
       });
 
-      // A manifest can name a subtitle rendition after the player started, and
-      // clips carry tracks of their own. Nothing on the background is allowed to
-      // switch one on, so every track goes back to disabled whenever the list
-      // changes.
+      // Renditions can arrive after start-up, so every track is disabled again
+      // whenever the list changes.
       const silence = () => {
         if (!player) return;
         if (player.subtitleTrack !== -1) player.subtitleTrack = -1;
@@ -108,9 +98,8 @@ function BackgroundVideo({ url, filterStyle, loop, muted, hls, live, maxHeight }
     return () => document.removeEventListener('visibilitychange', onVisibility);
   }, [live]);
 
-  // The scenery rule holds for plain clips too: an MP4 can carry a subtitle
-  // track, and a `<video>` given one will show it. Turn every track off on the
-  // way in and again whenever another arrives, whatever the source.
+  // An MP4 can carry a subtitle track and `<video>` will show it, so every
+  // track is disabled on load and on each new one, whatever the source.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return undefined;

@@ -16,10 +16,7 @@ import {
 
 import EventBus from 'utils/eventbus';
 
-// weather is lazy loaded due to the size of the weather icons module
-// since we're using react-icons this might not be accurate,
-// however, when we used the original module https://bundlephobia.com/package/weather-icons-react@1.2.0
-// as seen here it is ridiculously large
+// Lazy loaded because the weather icon module is large enough to delay first paint.
 const Weather = lazy(() => import('../../weather/Weather'));
 const QuickWeather = lazy(() => import('../../weather/QuickWeather'));
 const GoogleMail = lazy(() => import('../../google/GoogleMail'));
@@ -28,14 +25,10 @@ const GoogleTasks = lazy(() => import('../../google/GoogleTasks'));
 const PhotoInfoWidget = lazy(() => import('../../background/components/PhotoInfoWidget'));
 
 /**
- * The page is three zones: a rail down each side and the middle column the
- * widgets have always used. Which zone a widget sits in is the user's choice in
- * Overview; all this does is draw each one where it was put.
- *
- * The middle column can also be two columns: a widget that was moved aside in
- * Overview keeps the second one. Nothing is stored until that gesture happens,
- * so a profile that never splits it draws the single column it always did.
+ * A rail each side and the middle column; Overview decides which. The middle splits in two only
+ * once a widget is moved aside, so an unsplit profile draws one column.
  */
+
 const Widgets = () => {
   const online = localStorage.getItem('offlineMode') === 'false';
   const [layout, setLayout] = useState(() => ({
@@ -47,7 +40,6 @@ const Widgets = () => {
 
   const enabled = (id) => isWidgetEnabled(id);
 
-  // widgets we can re-order, by id
   const widgets = useMemo(
     () => ({
       time: enabled('time') && <Clock />,
@@ -106,14 +98,12 @@ const Widgets = () => {
       return <Fragment key={id}>{widget}</Fragment>;
     });
 
-  // The clock, the date, the one-line weather and the query line read across the
-  // whole middle column whatever happens to the cards, so they are drawn first
-  // and are never part of the two-column pair.
+  // Full-width lines read across the whole middle column and are never part of
+  // the two-column pair, so they are drawn first.
   const lines = groups.center.filter((id) => isFullWidth(id));
   const cards = groups.center.filter((id) => !isFullWidth(id));
 
-  // A lane with nothing in it is not a column: the second only exists once a
-  // card has been moved into it.
+  // An empty lane is not a column: the split only exists once a card is moved in.
   const secondColumn = cards.filter((id) => layout.lane.includes(id));
   const firstColumn = cards.filter((id) => !layout.lane.includes(id));
   const split = secondColumn.length > 0;
@@ -132,7 +122,7 @@ const Widgets = () => {
     </>
   );
 
-  // don't show when welcome is there
+  // The welcome screen replaces the widgets.
   return welcome !== 'false' ? (
     <WidgetsLayout />
   ) : (

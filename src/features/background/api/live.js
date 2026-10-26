@@ -1,15 +1,9 @@
 import { getOfflineImage } from './offlineImage';
 
 /**
- * Live channels. Every entry was checked against its own manifest: each serves
- * HLS with `Access-Control-Allow-Origin: *`, so an extension page can play it
- * without a proxy or a server.
- *
- * These are 24/7 ambient channels rather than single webcams, because the open
- * webcam networks are not usable from an extension: Windy serves stills, not
- * video, while Skyline and EarthCam forbid embedding their live feeds (Skyline
- * answers a token taken from its own page with a `copyright_violation` stream),
- * and the YouTube-hosted cams cannot be framed by an extension.
+ * Every channel serves HLS with `Access-Control-Allow-Origin: *`, so an extension
+ * page can play it without a proxy. Open webcam networks forbid embedding, hence
+ * ambient channels rather than single webcams.
  */
 export const LIVE_CHANNELS = [
   {
@@ -61,9 +55,8 @@ const pickChannel = () => {
 };
 
 /**
- * Live channels cannot be queued or pre-warmed like a clip: the stream is only
- * useful while it plays. The background data marks the entry as HLS so the video
- * element mounts a player instead of using the source URL directly.
+ * Streams are neither queued nor pre-warmed: one is only useful while it plays.
+ * `hls` tells the video element to mount a player for the URL.
  */
 export async function getLiveBackground(isOffline) {
   if (isOffline) return getOfflineImage('api');

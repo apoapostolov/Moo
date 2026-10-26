@@ -9,7 +9,6 @@
 @use 'modules/scrollbars' as *;
 @use 'settings/main' as *;
 @use 'marketplace/main' as *;
-// Fixed: Added sass:map module
 
 .Overlay {
   position: fixed;
@@ -21,11 +20,8 @@
   place-items: center;
 }
 
-// Dialogs opened over the settings panel had no scrim at all, so the panel
-// behind them competed with the dialog. The reset dialogs are all small forms,
-// and every one of them reads better with the page pushed back. The class has
-// to be react-modal's own: the `resetoverlay` name passed in does not survive
-// onto the rendered node.
+// A dialog over the settings panel needs a scrim of its own, and the class must be react-modal's:
+// the `resetoverlay` name passed in does not survive onto the rendered node.
 .ReactModal__Overlay {
   background: rgb(0 0 0 / 45%);
   backdrop-filter: blur(3px);
@@ -118,7 +114,7 @@
   }
 }
 
-/* fixes for font size on extension */
+/* extension font-size fixes */
 label,
 p,
 span.modalLink {
@@ -411,9 +407,8 @@ h5 {
     gap: 3px;
 
     div {
-      // Three small round icons stand for the tiles on the page, so they are
-      // drawn at about the size a tile reads at in a thumbnail rather than at
-      // the size of the card they sit on: 11px circles, 6px glyphs.
+      // Tiles stand for the page's cards, so the icons are drawn at thumbnail scale rather than
+      // card scale: 11px circles, 6px glyphs.
       margin-top: 3px;
       padding: 1px;
       height: 11px;

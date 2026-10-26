@@ -1,13 +1,9 @@
 import { marked } from 'marked';
 
 /**
- * A small markdown renderer for the scratch notes.
- *
- * It walks marked's tokens and builds React elements instead of handing HTML to
- * the page. A note is a paste target as well as a typing target, and this page
- * holds extension privileges, so no string of markup ever becomes DOM: raw HTML
- * in a note is shown as text, images are dropped rather than fetched, and links
- * are limited to schemes that cannot run script.
+ * Renders note markdown as React elements instead of HTML. This page holds
+ * extension privileges, so marked's tokens never become DOM: raw HTML shows as
+ * text, images are dropped, and links are limited to http(s) and mailto.
  */
 
 const SAFE_SCHEME = /^(https?:|mailto:)/i;
@@ -15,8 +11,7 @@ const SAFE_SCHEME = /^(https?:|mailto:)/i;
 const safeHref = (href) => {
   const value = String(href || '').trim();
 
-  // A relative link on a new tab page has nowhere to go, so only real addresses
-  // and mail links survive.
+  // A relative link has nowhere to go on a new tab page.
   return SAFE_SCHEME.test(value) ? value : null;
 };
 
@@ -46,15 +41,13 @@ const inline = (tokens = []) =>
           <span key={key}>{inline(token.tokens)}</span>
         );
       }
-      // An image in a note would load a stranger's server from the new tab page,
-      // so its alt text is all that appears.
+      // Drawing an image would fetch a third-party server; only its alt text is shown.
       case 'image':
         return <span key={key}>{token.text}</span>;
       case 'text':
         return token.tokens ? <span key={key}>{inline(token.tokens)}</span> : token.text;
       case 'escape':
         return token.text;
-      // Anything marked treats as raw HTML is text here, never markup.
       case 'html':
         return <span key={key}>{token.text}</span>;
       default:
@@ -70,8 +63,7 @@ const blocks = (tokens = []) =>
       case 'space':
         return null;
       case 'heading': {
-        // The level a note writes is the level it gets: clamping #### and #####
-        // to h3 gave every heading past the third the same size.
+        // Honours the depth written; clamping to h3 flattened every deeper heading.
         const Tag = `h${Math.min(6, Math.max(1, token.depth || 1))}`;
 
         return <Tag key={key}>{inline(token.tokens)}</Tag>;
@@ -99,7 +91,7 @@ const blocks = (tokens = []) =>
         );
       case 'hr':
         return <hr key={key} />;
-      // Tables are more than a sticky note needs; the text is kept verbatim.
+      // Tables are beyond a sticky note, so the raw text is shown.
       case 'table':
       case 'html':
         return (
@@ -107,8 +99,7 @@ const blocks = (tokens = []) =>
             {token.raw}
           </p>
         );
-      // A tight list hands its items over as bare text tokens rather than
-      // paragraphs, and those still carry inline markup.
+      // Tight list items arrive as bare text tokens that still carry inline markup.
       default:
         return token.tokens?.length ? (
           <p key={key}>{inline(token.tokens)}</p>

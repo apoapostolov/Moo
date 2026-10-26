@@ -1,5 +1,4 @@
-// since alex will no doubtedly be looking at this file often
-// here's a reminder: please add a new line when doing nested scss, otherwise it is messy!
+// One property per line, including inside nested blocks.
 @use 'sass:map';
 @use 'mixins' as *;
 
@@ -152,10 +151,9 @@ $theme-map: null;
   }
 }
 
-// The other surface: a far lighter scrim with a heavier blur and a hairline
-// edge, so the wallpaper reads through the panel instead of sitting behind a
-// dark box. Widgets opt in per section via the Panel style switch; the doubled
-// class raises specificity above the widget rules so order cannot defeat it.
+// The light glass surface: a lighter scrim, heavier blur and hairline edge so the wallpaper reads
+// through. Widgets opt in per section via the Panel style switch; the doubled class outranks the
+// widget rules regardless of order.
 .glassSurface.glassSurface {
   backdrop-filter: blur(20px) saturate(150%);
 
@@ -196,7 +194,6 @@ $theme-map: null;
     background: rgb(0 0 0 / 30%);
   }
 }
-
 
 %tabText {
   .mainTitle {
@@ -391,7 +388,6 @@ $theme-map: null;
     }
   }
 
-  // this needs to be moved up!
   padding: $padding;
   font-size: $font-size;
   cursor: pointer;

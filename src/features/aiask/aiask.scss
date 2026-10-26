@@ -1,7 +1,7 @@
 /*
- * The query line: a hairline under the words rather than a field around them.
- * The line is drawn by the widget, not by the input's border, so it can fade out
- * at both ends and fill with the signature colour when the caret is in it.
+ * The query line: a hairline under the words, not a field around them. It is drawn
+ * by the widget rather than the input's border, so it can fade at both ends and
+ * fill with the signature colour.
  */
 .aiAsk {
   position: relative;

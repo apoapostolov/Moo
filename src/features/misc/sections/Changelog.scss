@@ -1,7 +1,5 @@
-// The theme exposes no CSS variables for text or links (--modal-text and
-// --modal-link are declared nowhere in the build), so every tint here is mixed
-// from currentcolor. That keeps the panel readable in both the light and the
-// dark theme instead of hard-coding one of them.
+// The theme declares no --modal-text or --modal-link, so every tint is mixed from
+// currentcolor and stays readable in both themes instead of hard-coding one.
 .changelog {
   height: 100%;
   overflow-y: auto;

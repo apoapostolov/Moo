@@ -36,10 +36,7 @@ import zh_CN from 'translations/zh_CN.json';
 import zh_Hant from 'translations/zh_Hant.json';
 
 /**
- * Initialise the i18n object.
- * The i18n object is then returned.
- * @param locale _ The locale to use.
- * @returns The i18n object.
+ * Builds the i18n object for a locale.
  */
 export function initTranslations(locale) {
   const i18n = new I18n('en_GB', {

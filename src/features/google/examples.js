@@ -1,13 +1,5 @@
-/**
- * Lines to put in the empty title box.
- *
- * The title box is the whole form: a date, a clock, a length and a place typed
- * into it land in their own fields. Nobody finds that out from a manual, so the
- * dimmed placeholder shows one sentence at a time and rotates through these as
- * the dialog is opened again. Every one of them is a phrasing the reader in
- * natural.js handles, and each teaches a different shape: a bare date, a
- * relative date, a length, a place, a repeat, a range.
- */
+/** Lines shown in the empty title box: the box is the whole form, so one dimmed sentence teaches
+ * the syntax. Each entry is a phrasing natural.js handles, covering a distinct shape. */
 
 export const EVENT_EXAMPLES = [
   'Dentist on 24th oct at 9 for 45 minutes',

@@ -20,12 +20,8 @@ import './scratchNotes.scss';
 import './scratchImages.scss';
 
 /**
- * Scratch paper on the new tab page: a double click drops a written note, a
- * paste drops a picture. Both lie a little crooked, both are dragged the same
- * way, and both are lifted above whatever they are pulled over.
- *
- * They share one layer, because a note and a picture that overlap have to agree
- * on which of them is on top — and two layers could not.
+ * A double click drops a note, a paste drops a picture. Both share one layer so overlapping items
+ * agree on stacking order.
  */
 
 const NOTES_STORE = 'scratchNotesData';
@@ -34,8 +30,7 @@ const NOTES_FLAG = 'scratchNotes';
 const IMAGES_FLAG = 'scratchImages';
 const TOP_Z = 'scratchTopZ';
 const ARM_TIMEOUT = 4000;
-// A pasted picture is stored whole, so the store has a ceiling: past it the
-// oldest picture steps aside instead of the write failing.
+// A picture is stored whole, so the store has a ceiling: past it the oldest picture gives way.
 const IMAGE_BUDGET = 4.2 * 1024 * 1024;
 
 const NOT_BACKGROUND =
@@ -98,17 +93,16 @@ const readImages = () => {
 const saveNotes = (notes) => localStorage.setItem(NOTES_STORE, JSON.stringify(notes));
 
 /**
- * A picture is far larger than a note, so the write can run out of room. The
- * oldest picture pays for the new one; if even that is not enough the paste is
- * dropped rather than throwing inside the paste handler.
+ * A picture dwarfs a note, so the write can run out of room: the oldest picture
+ * pays for the new one, and a paste that still does not fit is dropped rather
+ * than thrown from the paste handler.
  */
 const saveImages = (images) => {
   const keep = [...images];
 
   for (let attempt = 0; attempt < 8; attempt += 1) {
     const payload = JSON.stringify(keep);
-    // The budget is checked before the write, so a store that is already too
-    // full shrinks even when the browser would have accepted the string.
+    // Checked before the write, so an over-full store shrinks even if the browser would accept it.
     const fits = payload.length <= IMAGE_BUDGET;
 
     if (fits) {
@@ -117,7 +111,7 @@ const saveImages = (images) => {
 
         return keep;
       } catch {
-        // A full origin refuses the write outright; fall through and drop one.
+        // A full origin refuses the write outright; drop the oldest and retry.
       }
     }
 
@@ -139,9 +133,8 @@ const loadImage = (url) =>
   });
 
 /**
- * A screenshot straight off the clipboard can be several megabytes. It is drawn
- * once into a smaller canvas and stored as WebP, which keeps the note-sized
- * picture in the hundreds of kilobytes.
+ * A clipboard screenshot can be several megabytes, so it is drawn once into a
+ * smaller canvas and stored as WebP, keeping it in the hundreds of kilobytes.
  */
 const prepareImage = async (file) => {
   const objectUrl = URL.createObjectURL(file);
@@ -167,8 +160,7 @@ const prepareImage = async (file) => {
   }
 };
 
-// The clipboard only accepts PNG in Firefox, and a pasted JPEG has to be
-// re-encoded before it can be handed back to the system.
+// Firefox only accepts PNG on the clipboard, so a stored WebP is re-encoded first.
 const toPngBlob = async (src) => {
   const image = await loadImage(src);
   const canvas = document.createElement('canvas');
@@ -200,8 +192,7 @@ const Scratch = () => {
   const disarmTimer = useRef(null);
   const copyTimer = useRef(null);
   const inputs = useRef({});
-  // Where the hand last was. A paste with no pointer over the page yet falls
-  // back to the middle of the window rather than a corner.
+  // Last pointer position; a paste with no pointer over the page falls back to the window centre.
   const pointer = useRef(null);
 
   useEffect(() => {
@@ -228,8 +219,7 @@ const Scratch = () => {
     try {
       setImages(saveImages(next));
     } catch {
-      // Out of room even after dropping the oldest picture: keep the change on
-      // screen rather than losing what the hand just did.
+      // Out of room even after dropping the oldest: keep the change on screen.
       setImages([...next]);
     }
   }, []);
@@ -258,7 +248,7 @@ const Scratch = () => {
     });
   }, []);
 
-  /* ------------------------------------------------------------------ notes */
+  // Notes
 
   const createNote = useCallback(
     (clientX, clientY) => {
@@ -389,8 +379,7 @@ const Scratch = () => {
     }
   };
 
-  // First click arms, second click runs `confirm`. Notes and pictures share it so
-  // a picture can never vanish under a single click while a note needs two.
+  // First click arms, second click confirms: shared so neither kind vanishes on one click.
   const armClose = (id, confirm) => {
     if (armedId === id) {
       setArmedId(null);
@@ -405,7 +394,7 @@ const Scratch = () => {
     disarmTimer.current = window.setTimeout(() => setArmedId(null), ARM_TIMEOUT);
   };
 
-  /* ----------------------------------------------------------------- images */
+  // Images
 
   const addImage = useCallback(async (file) => {
     const { src, ratio } = await prepareImage(file);
@@ -413,8 +402,7 @@ const Scratch = () => {
       x: window.innerWidth / 2,
       y: window.innerHeight / 2,
     };
-    // A wide picture and a tall one both start at the width of a note, so the
-    // first thing you see is a small card, not a wall.
+    // Wide and tall pictures both start at note width, so the first sight is a card, not a wall.
     const width = NOTE_WIDTH;
     const height = width / ratio;
 
@@ -446,8 +434,7 @@ const Scratch = () => {
     return () => window.removeEventListener('pointermove', track);
   }, []);
 
-  // Pasting a picture on the page makes a picture. A paste inside a field is
-  // still that field's paste.
+  // A paste on the page makes a picture; a paste inside a field stays that field's.
   useEffect(() => {
     if (!imagesOn) return undefined;
 
@@ -614,7 +601,7 @@ const Scratch = () => {
       setCopiedId(image.id);
       copyTimer.current = window.setTimeout(() => setCopiedId(null), 1300);
     } catch {
-      // Better a plain refusal than a tick over a copy that never happened.
+      // A plain refusal beats a tick over a copy that never happened.
       setCopiedId(null);
       setCopyFailed(image.id);
       copyTimer.current = window.setTimeout(() => setCopyFailed(null), 2400);
@@ -630,7 +617,7 @@ const Scratch = () => {
     link.click();
   };
 
-  /* ------------------------------------------------------------------- both */
+  // Both
 
   useEffect(() => {
     if (!notesOn && !imagesOn) return undefined;
@@ -679,8 +666,7 @@ const Scratch = () => {
                 top: note.y + (active ? drag.dy : 0),
                 zIndex: note.z,
                 transform: `rotate(${angle.toFixed(2)}deg)`,
-                // Each note arrives just after the one before it, so the page
-                // assembles itself instead of appearing all at once.
+                // Staggered so the notes assemble rather than appearing at once.
                 animationDelay: `${Math.min(index, 9) * 60}ms`,
               }}
               onPointerDown={(event) => startDrag(event, note)}
@@ -740,8 +726,7 @@ const Scratch = () => {
                 aspectRatio: image.ratio,
                 zIndex: image.z,
                 transform: `rotate(${angle.toFixed(2)}deg)`,
-                // The pictures follow the notes, so a page holding both
-                // assembles in one run instead of two that start together.
+                // Pictures follow the notes, so both kinds assemble in one run.
                 animationDelay: `${Math.min(index + notes.length, 9) * 60}ms`,
               }}
               onPointerDown={(event) => startImageDrag(event, image)}

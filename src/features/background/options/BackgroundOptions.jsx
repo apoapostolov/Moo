@@ -39,12 +39,12 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
 
   const backgroundAPI = getApiForBackgroundType(backgroundType);
 
-  // Auto-show source section for types without effects/display settings
+  // Colour types have no effects or display settings, so the source section opens.
   const shouldShowSourceByDefault = ['colour', 'random_colour', 'random_gradient'].includes(backgroundType);
 
   const controllerRef = useRef(null);
 
-  // Keep the stored API in sync with the chosen source
+  // A new source invalidates the queue prefetched for the previous API.
   useEffect(() => {
     if (!isApiBackgroundType(backgroundType)) return;
 
@@ -56,7 +56,6 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
     }
   }, [backgroundType]);
 
-  // Auto-navigate to source section when switching to colour/random types
   useEffect(() => {
     if (shouldShowSourceByDefault && currentSubSection !== 'source') {
       onSubSectionChange('source', sectionName);
@@ -115,13 +114,11 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
     getUnsplashTopics();
 
     return () => {
-      // stop making requests
       controllerRef.current.abort();
     };
   }, [getBackgroundCategories, getUnsplashTopics]);
 
   const handleTypeChange = useCallback((value) => {
-    // Clear prefetch queue when changing source
     localStorage.removeItem('imageQueue');
     setBackgroundType(value);
 
@@ -130,7 +127,6 @@ const BackgroundOptions = memo(({ currentSubSection, onSubSectionChange, section
       localStorage.setItem('backgroundAPI', getApiForBackgroundType(value));
     }
 
-    // Refresh immediately when switching to custom images
     if (value === 'custom') {
       EventBus.emit('refresh', 'background');
     }

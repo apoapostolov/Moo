@@ -101,9 +101,8 @@ body {
   }
 }
 
-// An empty field that teaches by example is not content. Mid grey, everywhere,
-// at full strength: a theme colour would put it back at reading brightness, which
-// is what makes an example look like something already typed.
+// An example placeholder is not content: mid grey at full strength, everywhere. A theme colour
+// would put it back at reading brightness, which makes an example look already typed.
 ::placeholder {
   color: #787878;
   opacity: 1;
@@ -141,7 +140,7 @@ body {
 }
 
 /* fonts (imported from fontsource) */
-// i don't even know what the unicode-range is for, but we're keeping it so that nothing breaks
+// unicode-range is left as generated: changing it breaks the font stack.
 @font-face {
   font-family: 'Lexend Deca';
   font-style: normal;
@@ -299,7 +298,7 @@ body {
   }
 }
 
-// credit to Kendrick Arnett https://codepen.io/kendrick/pen/WxNwdE
+// Credit: Kendrick Arnett, https://codepen.io/kendrick/pen/WxNwdE
 .light {
   .pulse {
     height: 100%;

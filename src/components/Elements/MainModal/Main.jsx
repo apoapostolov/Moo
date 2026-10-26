@@ -9,13 +9,12 @@ import { updateHash, parseDeepLink } from 'utils/deepLinking';
 
 const Settings = lazy(() => import('../../../features/misc/views/Settings'));
 
-// Map tab types to their corresponding components
 const TAB_COMPONENTS = {
   [TAB_TYPES.SETTINGS]: Settings,
 };
 
 function MainModal({ modalClose, deepLinkData }) {
-  // Initialize with deep link tab if provided, otherwise default to settings
+  // A deep link wins on open, otherwise Settings.
   const initialTab = deepLinkData?.tab || TAB_TYPES.SETTINGS;
   const [currentTab, setCurrentTab] = useState(initialTab);
   const [currentSection, setCurrentSection] = useState('');
@@ -26,27 +25,23 @@ function MainModal({ modalClose, deepLinkData }) {
   const [navigationTrigger, setNavigationTrigger] = useState(null);
   const [iframeBreadcrumbs, setIframeBreadcrumbs] = useState([]);
 
-  // Clear product view when changing tabs
   useEffect(() => {
     setProductView(null);
   }, [currentTab]);
 
-  // Handle deep link updates (when modal opens via EventBus with new deep link)
+  // A deep link arriving while the modal is open switches tab.
   useEffect(() => {
     if (deepLinkData) {
-      // Update tab if different
       if (deepLinkData.tab && deepLinkData.tab !== currentTab) {
         setCurrentTab(deepLinkData.tab);
       }
 
-      // Handle settings section navigation with subsection
       if (deepLinkData.tab === TAB_TYPES.SETTINGS && deepLinkData.section) {
         setNavigationTrigger({
           type: 'settings-section',
           data: deepLinkData.section,
           timestamp: Date.now(),
         });
-        // Set sub-section if present
         if (deepLinkData.subSection) {
           setCurrentSubSection(deepLinkData.subSection);
         }
@@ -54,10 +49,9 @@ function MainModal({ modalClose, deepLinkData }) {
     }
   }, [deepLinkData]);
 
-  // Clear hash when modal closes
+  // Close drops the hash so the next open starts at the default tab.
   useEffect(() => {
     return () => {
-      // When modal unmounts, clear the hash
       if (window.location.hash) {
         window.history.replaceState(null, null, window.location.pathname);
       }
@@ -65,38 +59,32 @@ function MainModal({ modalClose, deepLinkData }) {
   }, []);
 
   useEffect(() => {
-    // Listen for browser back/forward navigation via popstate
+    // Back and forward re-drive the modal from the hash.
     const handlePopState = () => {
       const linkData = window.location.hash ? parseDeepLink(window.location.hash) : null;
 
       if (linkData) {
-        // Update tab if different
         if (linkData.tab && linkData.tab !== currentTab) {
           setCurrentTab(linkData.tab);
         }
 
-        // Handle settings section navigation
         if (linkData.tab === TAB_TYPES.SETTINGS && linkData.section) {
           setNavigationTrigger({
             type: 'settings-section',
             data: linkData.section,
             timestamp: Date.now(),
           });
-          // Set sub-section if present in hash
           setCurrentSubSection(linkData.subSection || null);
           return;
         }
 
-        // Handle product and collection navigation
         if (linkData.itemId && linkData.collection && linkData.fromCollection) {
-          // Product viewed from within a collection
-          // First set collection state, then navigate to product
+          // Collection state must be set before the product renders, hence the delay.
           setNavigationTrigger({
             type: 'collection',
             data: linkData.collection,
             timestamp: Date.now(),
           });
-          // Small delay to ensure collection state is set before navigating to product
           setTimeout(() => {
             setNavigationTrigger({
               type: 'product',
@@ -108,7 +96,6 @@ function MainModal({ modalClose, deepLinkData }) {
             });
           }, 100);
         } else if (linkData.itemId) {
-          // Product navigation (standalone)
           setNavigationTrigger({
             type: 'product',
             data: {
@@ -118,14 +105,12 @@ function MainModal({ modalClose, deepLinkData }) {
             timestamp: Date.now(),
           });
         } else if (linkData.collection) {
-          // Collection page navigation
           setNavigationTrigger({
             type: 'collection',
             data: linkData.collection,
             timestamp: Date.now(),
           });
         } else {
-          // Back to main view (clear collection state)
           setProductView(null);
           setNavigationTrigger({
             type: 'main',
@@ -148,23 +133,18 @@ function MainModal({ modalClose, deepLinkData }) {
   const handleSectionChange = (section, sectionName) => {
     setCurrentSection(section);
     setCurrentSectionName(sectionName);
-    // Clear sub-section when changing sections
     setCurrentSubSection(null);
-    // Update URL hash when section changes
     if (currentTab === TAB_TYPES.SETTINGS && sectionName) {
-      // For Settings tab, update with the section name
       updateHash(`#${currentTab}/${sectionName}`, false);
     }
   };
 
   const handleSubSectionChange = (subSection, sectionName) => {
     setCurrentSubSection(subSection);
-    // Update URL hash when sub-section changes
     if (currentTab === TAB_TYPES.SETTINGS && sectionName) {
       if (subSection) {
         updateHash(`#${currentTab}/${sectionName}/${subSection}`);
       } else {
-        // Going back to section, remove sub-section from hash
         updateHash(`#${currentTab}/${sectionName}`);
       }
     }
@@ -172,8 +152,6 @@ function MainModal({ modalClose, deepLinkData }) {
 
   const handleProductView = (product) => {
     setProductView(product);
-    // URL hash is already updated by child components (Browse.jsx)
-    // Browser history automatically tracks hash changes
   };
 
   const handleResetDiscoverToAll = () => {
@@ -182,7 +160,7 @@ function MainModal({ modalClose, deepLinkData }) {
   };
 
   const handleBack = () => {
-    // Clear iframe breadcrumbs when navigating back
+    // Browser history drives navigation, so iframe breadcrumbs are dropped here.
     setIframeBreadcrumbs([]);
     window.history.back();
   };
@@ -191,8 +169,6 @@ function MainModal({ modalClose, deepLinkData }) {
     window.history.forward();
   };
 
-  // Browser manages history state, so we always show buttons enabled
-  // Browser will handle whether there's actually history to go back/forward
   const canGoBack = true;
   const canGoForward = true;
 

@@ -8,9 +8,8 @@ import { describeError } from './ConnectPrompt';
 const cache = new Map();
 
 /**
- * The wheel is not applied straight to the scroll position. Each notch pushes a
- * target and the text is drawn chasing it: that lag is what makes a long message
- * feel like it has weight instead of jumping line by line.
+ * The wheel moves a target rather than the scroll position, and the text chases it: that lag is
+ * what gives a long message weight instead of jumping line by line.
  */
 const SPRING_STIFFNESS = 220;
 const SPRING_DAMPING = 26;
@@ -40,23 +39,18 @@ const wheelDistance = (event, viewport) => {
 };
 
 /**
- * The whole message, floating beside the mail card.
- *
- * It is a manual popover, so the browser puts it in the top layer: the card it
- * belongs to carries a backdrop-filter and would otherwise paint over anything
- * this close to it, and the card also clips its own contents.
- *
- * Where it sits does not depend on the pointer: it is pinned to the middle of
- * the window and to the free side of the card, so reading a message never means
- * reading it through a panel that runs away with the hand.
+ * The whole message, floating beside the mail card. A manual popover rather than a real one: the
+ * card's backdrop-filter clips a fixed child, so this goes in the top layer. Placement ignores the
+ * pointer.
  */
+
 const MailPreview = ({ message, anchor, onEnter, onLeave }) => {
   const panel = useRef(null);
   const body = useRef(null);
   const kinetic = useRef({ target: 0, position: 0, velocity: 0, frame: 0, last: 0 });
   const [height, setHeight] = useState(0);
-  // The card can change size under an open panel: a row arrives, the zoom moves,
-  // the window changes. The placement is kept as state so it can follow.
+  // The card can change size under an open panel: a row arrives, the zoom moves, the window
+  // changes. Placement is state so it can follow.
   const [card, setCard] = useState(() => anchor.getBoundingClientRect());
   const [state, setState] = useState(() =>
     cache.has(message.id)
@@ -102,9 +96,8 @@ const MailPreview = ({ message, anchor, onEnter, onLeave }) => {
     };
   }, [message.id]);
 
-  // A panel cannot be placed before it knows its own size, and the size is only
-  // known once the message has arrived. Measuring beats guessing: the preview
-  // may be three lines or forty.
+  // A panel cannot be placed before its size is known, and the size arrives with the message.
+  // Measuring beats guessing: the preview may be three lines or forty.
   useLayoutEffect(() => {
     const node = panel.current;
 
@@ -146,9 +139,8 @@ const MailPreview = ({ message, anchor, onEnter, onLeave }) => {
   }, [anchor]);
 
   /**
-   * The wheel belongs to the message while the message is up, wherever the
-   * pointer is. It is caught on the window rather than on the panel because the
-   * hand is usually still down on the list.
+   * The wheel belongs to the message while the message is up, wherever the pointer is. It is
+   * caught on the window rather than the panel because the hand is usually down on the list.
    */
   useEffect(() => {
     const node = body.current;
@@ -173,8 +165,8 @@ const MailPreview = ({ message, anchor, onEnter, onLeave }) => {
       motion.velocity += acceleration * elapsed;
       motion.position += motion.velocity * elapsed;
 
-      // A message has two ends. Hitting one stops the glide instead of bouncing
-      // past it, which would read as a broken scroll rather than a soft landing.
+      // A message has two ends: hitting one stops the glide rather than bouncing past, which
+      // would read as a broken scroll.
       if (motion.position < 0) {
         motion.position = 0;
         motion.velocity = 0;
@@ -235,8 +227,8 @@ const MailPreview = ({ message, anchor, onEnter, onLeave }) => {
 
   const width = Math.min(430, window.innerWidth - 48);
 
-  // The card's own half of the window decides the side: a card on the left opens
-  // its message to the right, a card on the right opens it to the left.
+  // The card's own half of the window decides the side: a card on the left opens its message
+  // to the right, a card on the right opens it to the left.
   const besideRight = card.left + card.width / 2 < window.innerWidth / 2;
   const wantedLeft = besideRight ? card.right + 12 : card.left - width - 12;
   const left = Math.max(16, Math.min(wantedLeft, window.innerWidth - width - 16));
@@ -255,8 +247,8 @@ const MailPreview = ({ message, anchor, onEnter, onLeave }) => {
         top: `${top}px`,
         width: `${width}px`,
         maxHeight: `${maxHeight}px`,
-        // Nothing is painted until the size is known, so the panel never shows
-        // up in a place it is about to leave.
+        // Nothing is painted until the size is known, so the panel never appears in a place it
+        // is about to leave.
         visibility: height ? 'visible' : 'hidden',
       }}
       onMouseEnter={onEnter}

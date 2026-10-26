@@ -68,11 +68,9 @@ body.bg-animated #backgroundOverlay {
   }
 }
 
-// The scale never drops below 1.04, and every translation stays inside the
-// overflow that scale creates ((s - 1) / 2 per side), so the image always
-// covers the viewport and no edge strip can show. At s = 1.04 the overflow is
-// 2% per side, which is why the horizontal travel is capped at 1.5% and the
-// vertical at 0.8%.
+/* Scale never drops below 1.04 and each translation stays inside the (s - 1) / 2
+ * overflow per side, so no edge strip can show: 2% per side at s = 1.04, hence the
+ * 1.5% horizontal and 0.8% vertical travel. */
 @keyframes kenburns {
   0% {
     transform: translate3d(0, 0, 0) scale(1.12);

@@ -18,9 +18,8 @@ const Dropdown = memo((props) => {
   const optionsRef = useRef([]);
 
   /**
-   * A dropdown sitting at the bottom of a settings pane has no room below it.
-   * Measure against the nearest scrolling ancestor and flip the menu upwards
-   * when that is where the space is.
+   * A dropdown near the bottom of a pane has no room below it: measure against the nearest
+   * scrolling ancestor and flip the menu upwards when that is where the space is.
    */
   const measureDirection = useCallback(() => {
     const control = containerRef.current?.querySelector('.dropdown-control');
@@ -32,8 +31,8 @@ const Dropdown = memo((props) => {
     let pane = null;
     let parent = control.parentElement;
 
-    // Every ancestor that clips has a say in where the menu can go: the
-    // scrolling pane, but also the rounded frame around it.
+    // Every clipping ancestor has a say: the scrolling pane, but also the rounded frame
+    // around it.
     while (parent) {
       const style = window.getComputedStyle(parent);
       const clips = /(auto|scroll|hidden|clip)/.test(style.overflowY);
@@ -57,9 +56,8 @@ const Dropdown = memo((props) => {
     const below = bounds.bottom - rect.bottom - 8;
     const above = rect.top - bounds.top - 8;
 
-    // The menu opens upwards when it cannot fit below, or when the control is
-    // one of the last rows of the list and the list ends just under it — the
-    // Panel style switch lives exactly there. Room above is required either way.
+    // Opens upwards when it cannot fit below, or when the control is one of the last rows and
+    // the list ends directly under it. Room above is required either way.
     const contentBelow = pane
       ? pane.scrollHeight - (pane.scrollTop + rect.bottom - bounds.top)
       : needed;
@@ -72,7 +70,7 @@ const Dropdown = memo((props) => {
     setIsOpen(true);
   }, [measureDirection]);
 
-  // Keep the direction honest while the pane is scrolled or the window resized.
+  // Re-check while the pane scrolls or the window resizes.
   useEffect(() => {
     if (!isOpen) return undefined;
 

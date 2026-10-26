@@ -60,10 +60,8 @@ const CustomSettings = memo(() => {
   const customDnd = useRef(null);
   const dragCounter = useRef(0);
 
-  // IndexedDB typically has 50MB+ quota, we'll check dynamically
   const FALLBACK_STORAGE_LIMIT = 50000000; // 50MB fallback if API unavailable
 
-  // Fetch storage quota
   useEffect(() => {
     const fetchQuota = async () => {
       if (navigator.storage && navigator.storage.estimate) {
@@ -84,25 +82,22 @@ const CustomSettings = memo(() => {
     fetchQuota();
   }, [customBackground]);
 
-  // Load backgrounds from IndexedDB on mount
   useEffect(() => {
     const loadBackgrounds = async () => {
       try {
-        // Try migration first
+        // Legacy localStorage entries are imported before the first read.
         await migrateFromLocalStorage();
 
-        // Load from IndexedDB
         const backgrounds = await getAllBackgroundsWithMetadata();
         setCustomBackground(backgrounds);
 
-        // Backfill missing metadata for existing images
+        // Rows stored without dimensions get them measured and hashed here.
         backgrounds.forEach(async (bg) => {
           if (!bg.dimensions && bg.url && !videoCheck(bg.url)) {
             try {
               const dimensions = await getImageDimensions(bg.url);
               const blurHash = await generateBlurHash(bg.url);
               await updateBackgroundMetadata(bg.id, { dimensions, blurHash });
-              // Reload backgrounds to show updated metadata
               const updatedBackgrounds = await getAllBackgroundsWithMetadata();
               setCustomBackground(updatedBackgrounds);
             } catch (error) {
@@ -136,7 +131,6 @@ const CustomSettings = memo(() => {
 
         await addBackground(backgroundData);
 
-        // Reload from IndexedDB to get the latest state and update React state
         const backgrounds = await getAllBackgroundsWithMetadata();
         setCustomBackground(backgrounds);
 
@@ -147,7 +141,6 @@ const CustomSettings = memo(() => {
           localStorage.setItem('customBackgroundCount', backgrounds.length.toString());
         }
 
-        // Only emit refresh if not part of a batch upload
         if (!skipRefresh) {
           EventBus.emit('refresh', 'background');
         }
@@ -160,7 +153,6 @@ const CustomSettings = memo(() => {
   );
 
   const processImageFile = async (file, folderName = '') => {
-    // Calculate actual storage from existing backgrounds
     const storageSize = customBackground.reduce((total, bg) => {
       if (bg.url && bg.url.startsWith('data:')) {
         return total + getDataUrlSize(bg.url);
@@ -170,7 +162,7 @@ const CustomSettings = memo(() => {
 
     const availableQuota = storageQuota.quota || FALLBACK_STORAGE_LIMIT;
 
-    // Request persistent storage if approaching limit (90%)
+    // Past 90% of the quota, ask the browser to keep the data rather than evict it.
     if (storageSize / availableQuota > 0.9 && navigator.storage && navigator.storage.persist) {
       try {
         const isPersisted = await navigator.storage.persist();
@@ -205,7 +197,7 @@ const CustomSettings = memo(() => {
         reader.readAsDataURL(file);
       });
     } else {
-      // Compress image
+      // 450 px at 90% accuracy: a full-size data URL would not fit the quota.
       const compressed = await compressAccurately(file, {
         size: 450,
         accuracy: 0.9,
@@ -218,7 +210,6 @@ const CustomSettings = memo(() => {
 
       const dataUrl = await filetoDataURL(compressed);
 
-      // Generate metadata in parallel
       const [dimensions, blurHash] = await Promise.all([
         getImageDimensions(dataUrl),
         generateBlurHash(dataUrl).catch(() => null), // Don't fail if blur hash fails
@@ -262,7 +253,6 @@ const CustomSettings = memo(() => {
       toast(variables.getMessage('toasts.error') + `: ${errors.join(', ')}`);
     }
 
-    // Emit refresh once after all images are uploaded
     EventBus.emit('refresh', 'background');
 
     setIsUploading(false);
@@ -283,11 +273,10 @@ const CustomSettings = memo(() => {
         await deleteBackground(index);
       }
 
-      // Reload from IndexedDB to get the latest state
       const backgrounds = await getAllBackgroundsWithMetadata();
       setCustomBackground(backgrounds);
 
-      // Store in localStorage with quota handling
+      // localStorage holds URLs only; if that overflows, the count is kept instead.
       try {
         localStorage.setItem('customBackground', JSON.stringify(backgrounds.map((bg) => bg.url)));
       } catch (_quotaError) {
@@ -311,12 +300,10 @@ const CustomSettings = memo(() => {
       const indices = Array.from(selectedImages).sort((a, b) => b - a);
       await deleteMultipleBackgrounds(indices);
 
-      // Reload from IndexedDB
       const backgrounds = await getAllBackgroundsWithMetadata();
       setCustomBackground(backgrounds);
       setSelectedImages(new Set());
 
-      // Update localStorage
       try {
         localStorage.setItem('customBackground', JSON.stringify(backgrounds.map((bg) => bg.url)));
       } catch (_quotaError) {
@@ -362,11 +349,10 @@ const CustomSettings = memo(() => {
       setCustomURLModal(false);
 
       try {
-        // Extract filename from URL
         const urlParts = e.split('/');
         const filename = urlParts[urlParts.length - 1].split('?')[0] || 'Remote Image';
 
-        // Try to extract metadata from the remote image
+        // Best effort: a remote image may not allow reading its size or pixels.
         let dimensions = null;
         let blurHash = null;
         try {
@@ -410,16 +396,13 @@ const CustomSettings = memo(() => {
 
   const handleFileInputChange = async (files) => {
     if (files.length > 1) {
-      // Multiple files - show tagging modal
       setPendingFiles(files);
       setFolderTaggingModal(true);
     } else {
-      // Single file - upload directly
       await handleBatchUpload(files, '');
     }
   };
 
-  // Sorted backgrounds
   const sortedBackgrounds = [...customBackground].sort((a, b) => {
     switch (sortBy) {
       case 'date_asc':
@@ -439,9 +422,7 @@ const CustomSettings = memo(() => {
     }
   });
 
-  // Calculate storage usage from actual background data
   const storageUsed = customBackground.reduce((total, bg) => {
-    // Calculate size of the data URL
     if (bg.url && bg.url.startsWith('data:')) {
       return total + getDataUrlSize(bg.url);
     }
@@ -492,11 +473,9 @@ const CustomSettings = memo(() => {
       }
 
       if (files.length > 1) {
-        // Multiple files - show tagging modal
         setPendingFiles(files);
         setFolderTaggingModal(true);
       } else {
-        // Single file - upload directly
         await handleBatchUpload(files, '');
       }
     };
@@ -722,7 +701,7 @@ const CustomSettings = memo(() => {
                     key={originalIndex}
                     className="image-card"
                     onClick={(e) => {
-                      // Only select if clicking the card itself, not navigation buttons
+                      // The nav buttons sit inside the card, so their clicks must not select it.
                       if (!e.target.closest('.image-nav-buttons')) {
                         toggleImageSelection(originalIndex);
                       }

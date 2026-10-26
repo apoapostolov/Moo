@@ -3,7 +3,7 @@ import variables from 'config/variables';
 import { Switch } from 'components/Form/Settings';
 import { Header, Row, Content, Action, Group } from 'components/Layout/Settings';
 
-// The same shape the Google page uses for a labelled group inside a page.
+// Same shape the Google page uses for a labelled group.
 const Section = ({ title, subtitle }) => (
   <Row>
     <Content title={title} subtitle={subtitle} />
@@ -11,9 +11,8 @@ const Section = ({ title, subtitle }) => (
 );
 
 /**
- * Everything that is not a widget of its own. Scratch notes and pictures live
- * here because they are a way of using the page rather than a thing on it; the
- * signature colour belongs to Appearance, next to the theme it tints.
+ * What is not a widget of its own: scratch notes and pictures are a way of using
+ * the page rather than a thing on it.
  */
 const MiscOptions = () => {
   const MISC_SECTION = 'modals.main.settings.sections.misc';

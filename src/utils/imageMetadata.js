@@ -1,9 +1,7 @@
 import { encode } from 'blurhash';
 
 /**
- * Extract image dimensions from a data URL or File
- * @param {string|File} source - Image source (data URL or File)
- * @returns {Promise<{width: number, height: number}>}
+ * Dimensions of a data URL or File.
  */
 export async function getImageDimensions(source) {
   return new Promise((resolve, reject) => {
@@ -14,7 +12,7 @@ export async function getImageDimensions(source) {
         width: img.width,
         height: img.height,
       });
-      // Clean up object URL if created
+      // Object URLs leak unless revoked.
       if (typeof source !== 'string') {
         URL.revokeObjectURL(img.src);
       }
@@ -31,11 +29,7 @@ export async function getImageDimensions(source) {
 }
 
 /**
- * Generate blur hash from an image
- * @param {string|File} source - Image source (data URL or File)
- * @param {number} componentX - Number of horizontal components (default: 4)
- * @param {number} componentY - Number of vertical components (default: 3)
- * @returns {Promise<string>} BlurHash string
+ * BlurHash for a data URL or File.
  */
 export async function generateBlurHash(source, componentX = 4, componentY = 3) {
   return new Promise((resolve, reject) => {
@@ -43,11 +37,10 @@ export async function generateBlurHash(source, componentX = 4, componentY = 3) {
 
     img.onload = () => {
       try {
-        // Create canvas to get pixel data
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
 
-        // Use smaller dimensions for faster processing
+        // Encoding cost grows with pixel count, so cap the sampled size.
         const maxSize = 64;
         const scale = Math.min(maxSize / img.width, maxSize / img.height);
         canvas.width = Math.floor(img.width * scale);
@@ -64,7 +57,7 @@ export async function generateBlurHash(source, componentX = 4, componentY = 3) {
           componentY,
         );
 
-        // Clean up
+        // Object URLs leak unless revoked.
         if (typeof source !== 'string') {
           URL.revokeObjectURL(img.src);
         }
@@ -86,28 +79,21 @@ export async function generateBlurHash(source, componentX = 4, componentY = 3) {
 }
 
 /**
- * Calculate file size from data URL
- * @param {string} dataUrl - Data URL string
- * @returns {number} File size in bytes
+ * Byte size of a base64 data URL.
  */
 export function getDataUrlSize(dataUrl) {
-  // Remove data URL prefix to get just the base64 string
   const base64String = dataUrl.split(',')[1];
   if (!base64String) {
     return 0;
   }
 
-  // Base64 encoding adds ~33% overhead
-  // Actual size = (base64 length * 3) / 4
+  // 4 characters encode 3 bytes; `=` padding is not data.
   const padding = (base64String.match(/=/g) || []).length;
   return Math.floor((base64String.length * 3) / 4 - padding);
 }
 
 /**
- * Extract filename from File object or generate default name
- * @param {File|null} file - File object
- * @param {number} index - Index for default naming
- * @returns {string} Filename
+ * The file's own name, or `Image <n>` using a 1-based index.
  */
 export function getFileName(file, index) {
   if (file && file.name) {
@@ -117,19 +103,15 @@ export function getFileName(file, index) {
 }
 
 /**
- * Calculate total storage used by custom backgrounds only
- * Note: This estimates IndexedDB storage from data URLs
- * @returns {number} Storage size in bytes (estimate)
+ * Always 0: backgrounds live in IndexedDB, so callers measure them from the
+ * stored rows instead.
  */
 export function calculateStorageSize() {
-  // This is now just an estimate - actual storage is in IndexedDB
-  // We'll calculate it properly from the actual background data
   return 0; // Will be calculated from actual backgrounds in the component
 }
 
 /**
- * Calculate total localStorage usage (all settings)
- * @returns {number} Total storage size in bytes
+ * Bytes used by every localStorage key, measured as UTF-8.
  */
 export function calculateTotalStorageSize() {
   const settings = {};
@@ -140,9 +122,7 @@ export function calculateTotalStorageSize() {
 }
 
 /**
- * Format bytes to human-readable string
- * @param {number} bytes - Size in bytes
- * @returns {string} Formatted string (e.g., "2.3 MB")
+ * Bytes as a readable string such as `2.3 MB`, counting 1024 bytes to the unit.
  */
 export function formatBytes(bytes) {
   if (bytes === 0) {

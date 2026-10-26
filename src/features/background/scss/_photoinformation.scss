@@ -1,8 +1,8 @@
 @use 'scss/variables' as *;
 
 .photoInformationHolder {
-  // Image Info is a widget now, so the zone it is placed in decides where it
-  // sits rather than the card pinning itself to the corner of the background.
+  /* The zone the widget is placed in decides where the card sits; it is not
+   * pinned to a corner of the background. */
   flex-flow: column-reverse;
   display: flex;
 
@@ -222,10 +222,8 @@
   @extend %basic;
 
   animation: fadeIn 2s;
-  /* The card lives in a side rail, so it has to stay clear of the middle
-     column whatever the credit says: its width stops at a fixed measure, or at
-     the halfway mark less a wide margin on a small window, and the text inside
-     ends in an ellipsis rather than pushing the card over the clock. */
+  /* Capped so a long credit cannot reach the middle column: 22rem, or half the
+   * window less a wide margin. The text ellipses rather than widening the card. */
   min-width: min(300px, calc(50vw - 6rem));
   max-width: min(22rem, calc(50vw - 6rem));
   box-sizing: border-box;
@@ -237,7 +235,6 @@
   align-items: center;
   transition: 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
 
-  //   width: 300px;
   padding: 10px;
 
   .link {
@@ -315,11 +312,9 @@
     }
   }
 
-  /* The pin on its own is a glyph, not a badge. It shares %basic with the card,
-     which paints a background, a rounded corner and a 1px ring behind a 24px
-     icon, and the 50px tile also held the glyph 13px away from the text on each
-     side. Without the tile it sits 6px from the text instead of 30. The map
-     image keeps the tile: only `.photoMap` carries one. */
+  /* The pin is a glyph, not a badge: %basic would paint a background, a corner
+   * and a ring behind a 24px icon and hold it in a 50px tile. The map image keeps
+   * the tile; only `.photoMap` carries one. */
   .map-concept:not(.photoMap) {
     width: auto;
     height: auto;
@@ -327,15 +322,13 @@
     background: none;
     box-shadow: none;
     border-radius: 0;
-    /* %basic also blurs what is behind the element. With the background gone the
-       blur is still applied inside the glyph's own 24px box and reads as a dark
-       square behind the pin, so it goes too. */
+    /* %basic blurs what is behind the element, which over a transparent 24px
+     * box reads as a dark square behind the pin. */
     backdrop-filter: none;
   }
 
-  /* Opened, the card stacks its parts in a column, and the map slot is told to
-     take the full width there. A glyph does not: it stays its own size and sits
-     at the left, under the hand that opened the card. */
+  /* Opened, the card stacks in a column and the map slot takes the full width;
+   * the glyph keeps its own size and sits at the left. */
   &:hover .map-concept:not(.photoMap) {
     width: auto;
     align-self: flex-start;
@@ -373,8 +366,8 @@
     font-size: 1.9em;
   }
 
-  /* The words "Photo by" name the field; the photographer's own name is the
-     link and keeps the signature colour. */
+  /* "Photo by" names the field; the photographer's name is the link and keeps
+   * the signature colour. */
   .creditSource {
     @include themed {
       color: t($subColor);
@@ -405,8 +398,7 @@
 }
 
 .photoInformation-content {
-  /* 2em here is 2em of the card's own size, which is how two lines of text
-     ended up 42px apart in a 14px face. */
+  /* Relative to the card's own font size, not the 14px face it inherits. */
   line-height: 1.4;
   padding-right: 10px;
   display: flex;
@@ -503,15 +495,14 @@
   }
 }
 
-/* The counts are detail, not the headline: they arrive with the rest of it
-   when the card is opened by hover, so the credit line stands alone at rest. */
+/* Counts are detail, not the headline: they appear when hover opens the card,
+ * so at rest the credit line stands alone. */
 .unsplashStats {
   display: none;
   flex-flow: column;
   justify-content: space-between;
-  /* They inherited the card's size, so three counts read larger than the place
-     they belong to. They are the smallest thing on the card, like the rows in
-     the open detail. */
+  /* Fixed size: inherited from the card, the counts would outgrow the location
+   * they belong to. */
   flex: 0 0 auto;
   font-size: 12px;
   line-height: 1.5;
@@ -532,8 +523,8 @@
   display: flex;
   flex-flow: column;
   flex: 1 1 auto;
-  /* A flex child will not shrink below its content unless it is told to, and a
-     long location or credit would then push the capped card wider than its cap. */
+  /* A flex child will not shrink below its content unless told to, and a long
+   * location or credit would push the card past its cap. */
   min-width: 0;
 
   .title,

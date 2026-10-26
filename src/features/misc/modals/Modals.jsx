@@ -11,7 +11,6 @@ import { parseDeepLink, shouldAutoOpenModal, updateHash } from 'utils/deepLinkin
 
 import Welcome from 'features/welcome/Welcome';
 
-
 const Modals = () => {
   const [mainModal, setMainModal] = useState(false);
   const [updateModal, setUpdateModal] = useState(false);
@@ -21,7 +20,7 @@ const Modals = () => {
   const [deepLinkData, setDeepLinkData] = useState(null);
 
   useEffect(() => {
-    // Check for preview mode - block deep links and redirect to /
+    // Preview mode blocks deep links and clears the hash.
     const isPreviewMode = localStorage.getItem('showWelcome') === 'true';
     if (isPreviewMode && shouldAutoOpenModal()) {
       window.history.replaceState(null, null, '/');
@@ -30,7 +29,7 @@ const Modals = () => {
       return;
     }
 
-    // Check for deep link first (has priority)
+    // A deep link takes priority over the welcome screen.
     if (shouldAutoOpenModal()) {
       const linkData = parseDeepLink();
       setMainModal(true);
@@ -55,13 +54,11 @@ const Modals = () => {
       }
     }
 
-    // Only hide refresh reminder if user navigated naturally (not via deep link or forced intro skip)
-    // This ensures the reminder shows after user refreshes when they've made changes
+    // Only a natural visit clears the reminder, so a refresh still shows it.
     if (!shouldAutoOpenModal() && window.location.search !== '?nointro=true') {
       localStorage.setItem('showReminder', false);
     }
 
-    // Listen for EventBus modal open requests
     const handleModalOpen = (data) => {
       if (data === 'openMainModal') {
         const linkData = parseDeepLink();
@@ -108,7 +105,7 @@ const Modals = () => {
 
     if (action !== false) {
       variables.stats.postEvent('modal', `Opened ${type.replace('Modal', '')}`);
-      // Set initial hash when opening main modal
+      // The hash is what deep-links back into the main modal.
       if (type === 'mainModal') {
         updateHash('#settings');
       }

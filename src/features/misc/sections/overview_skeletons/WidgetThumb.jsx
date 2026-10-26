@@ -1,14 +1,10 @@
 import { memo } from 'react';
 
 /**
- * A widget as the preview draws it: a thumbnail card with a single entry, bars
- * where the text would be and dots where the real card carries its glyph.
- *
- * These are the widgets that cannot be cloned into the settings panel — the
- * three that talk to Google, the weather card and the photo credit — so their
- * shape is drawn instead. Nothing here is a label: the order list already names
- * every widget beside the preview.
+ * A widget as the preview draws it: one entry, bars for text, dots for the card's glyph. Drawn
+ * rather than cloned for the cards that cannot render inside the settings panel.
  */
+
 const LAYOUT = {
   mail: { icon: 'dot', lines: ['wide', 'medium'] },
   calendar: { icon: 'square', lines: ['medium', 'wide'] },

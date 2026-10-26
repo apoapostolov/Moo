@@ -33,9 +33,8 @@ const blankEvent = () => {
 };
 
 /**
- * One dialog for both creating and editing: an event with an id is edited, one
- * without is created. Deleting lives here too, since that is where the event is
- * known.
+ * One dialog for create and edit: an event with an id is edited, one without is created.
+ * Delete lives here too, since that is where the event is known.
  */
 const EventDialog = ({
   event,
@@ -62,23 +61,21 @@ const EventDialog = ({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [repeat, setRepeat] = useState(null);
-  // One example per opening, so the title box keeps showing the same sentence
-  // while it is being read instead of changing under the cursor.
+  // One example per opening, so the title box keeps the same sentence while it is being read.
   const [titlePlaceholder] = useState(() => examplePlaceholder('event'));
   const autoLocation = useRef('');
 
   /**
-   * The title box doubles as the whole form: a date, a clock, a length and a
-   * place typed into it land in their own fields, and whatever no reader claims
-   * stays as the title.
+   * The title box doubles as the form: a date, clock, length or place typed into it lands in its
+   * own field, and whatever no reader claims stays as the title.
    */
   const applyParsed = (parsed) => {
     setRepeat(parsed.repeat || null);
 
     setForm((current) => {
       const next = { ...current };
-      // A place read from the sentence replaces the previous place read from the
-      // sentence, but never a location typed in by hand.
+      // A re-parsed place replaces the previous one from the sentence, but never a hand-typed
+      // location.
       next.location =
         parsed.location || (current.location === autoLocation.current ? '' : current.location);
       autoLocation.current = parsed.location || '';
@@ -114,8 +111,8 @@ const EventDialog = ({
   const update = (key) => (changeEvent) =>
     setForm((current) => ({ ...current, [key]: changeEvent.target.value }));
 
-  // Picking a calendar counts as using it, so the next new event opens on it
-  // even before this one is saved.
+  // Picking a calendar counts as using it, so the next new event opens on it even before this
+  // one is saved.
   const changeCalendar = (changeEvent) => {
     const id = changeEvent.target.value;
 
@@ -137,8 +134,8 @@ const EventDialog = ({
 
     const payload = {
       ...form,
-      // The sentence is trimmed once the reader has taken the date, clock and
-      // place out of it, so the saved event is not called "meeting on 24th oct".
+      // Trimmed once the reader took the date, clock and place out, so the event is not named
+      // "meeting on 24th oct".
       title: (parsed?.title || form.title).trim(),
       recurrence: !isEditing && repeat ? [toRrule(repeat)] : undefined,
       start: form.allDay ? `${form.start.slice(0, 10)}T00:00:00` : fromLocalInput(form.start),

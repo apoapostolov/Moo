@@ -1,13 +1,7 @@
 /**
- * Reads a sentence typed into the title field and pulls the appointment out of
- * it: "meeting on 24th oct", "play in 9 days for 2 days each day at 11:00" and
- * "lunch with Ana friday at 13:00" all become a title plus the fields behind it.
- *
- * Phrases are taken out of the text one kind at a time, in the order that
- * removes ambiguity: repeats first ("each day"), then lengths ("for 2 hours"),
- * then times ("at 11:00"), then dates ("in 9 days"), then the place ("at the
- * office"). Times go before places because "at 11:00" and "at the office" start
- * the same way. Whatever no pass claims stays as the title.
+ * Splits a typed sentence into a title plus date, time, length, repeat and place. Passes run
+ * repeats, lengths, times, dates, place, since "at 11:00" and "at the office" share a prefix;
+ * unclaimed text is the title.
  */
 
 const WEEKDAYS = {
@@ -111,16 +105,17 @@ const addDays = (date, days) => {
 };
 
 /**
- * Month and day rolled forward to the next time that date actually happens, so
- * "24th oct" typed in November means next year, not ten months ago.
+ * Rolls month and day forward to the next occurrence, so "24th oct" typed in November lands next
+ * year.
  */
+
 const forwardDate = (now, month, day) => {
   const candidate = atMidnight(now);
 
   candidate.setMonth(month, day);
 
   if (candidate.getMonth() !== month) {
-    // 31st of a 30 day month: take the last day instead of spilling into the next.
+    // 31st of a 30-day month: clamp to the last day instead of rolling over.
     candidate.setDate(0);
   }
 
@@ -158,9 +153,10 @@ const mask = (text, index, length) =>
   text.slice(0, index) + ' '.repeat(length) + text.slice(index + length);
 
 /**
- * Takes the first phrase matching `pattern` out of the text when `read` returns
- * something, so a later pass cannot claim what an earlier one already took.
+ * Claims the first phrase matching `pattern` when `read` returns something, so a later pass cannot
+ * re-claim it.
  */
+
 const claim = (state, pattern, read) => {
   const match = pattern.exec(state.work);
 
@@ -232,8 +228,8 @@ export const parseNatural = (text, { now = new Date(), kind = 'event' } = {}) =>
     understood: false,
   };
 
-  // 1. Repetition. A Google task has no repeat, so those words stay in the title
-  //    instead of being quietly dropped.
+  // Repetition comes first. Google tasks have no repeat field, so these words stay in the title
+  // instead of being dropped.
   if (kind === 'event') {
     result.repeat = firstOf(state, [
       [
@@ -267,7 +263,7 @@ export const parseNatural = (text, { now = new Date(), kind = 'event' } = {}) =>
       ],
     ]);
 
-    // "for 2 days each day" counts the repeats; alone, "for 2 days" is a length.
+    // "for 2 days each day" counts repeats; alone, "for 2 days" is a length.
     if (result.repeat) {
       const count = claim(state, /\bfor\s+(\d+)\s+(?:times|days?|weeks?|months?)\b/i, (match) =>
         Math.max(1, Number(match[1])),
@@ -277,15 +273,15 @@ export const parseNatural = (text, { now = new Date(), kind = 'event' } = {}) =>
     }
   }
 
-  // 2. A written out date is claimed before any clock, otherwise the digits in
-  //    "2026-12-24" look like the range 12:00 to 24:00.
+  // A written-out date is claimed before any clock, or the digits in "2026-12-24"
+  // look like the range 12:00 to 24:00.
   const isoDate = claim(state, /\b(\d{4})-(\d{2})-(\d{2})\b/, (match) => {
     const date = atMidnight(new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3])));
 
     return Number.isNaN(date.getTime()) ? null : date;
   });
 
-  // 3. A length: "for 2 hours", "for 30 min", "lasting 3 days".
+  // A length: "for 2 hours", "for 30 min", "lasting 3 days".
   const length = firstOf(state, [
     [
       new RegExp(`\\b(?:for|lasting)\\s+(${NUM_PATTERN})\\s*(hours?|hrs?|h|minutes?|mins?|m|days?)\\b`, 'i'),
@@ -308,13 +304,13 @@ export const parseNatural = (text, { now = new Date(), kind = 'event' } = {}) =>
 
   if (length) result.durationMinutes = length;
 
-  // 3. Times: a range first, then one clock, then the named hours.
+  // Times: a range first, then a single clock, then the named hours.
   const range = claim(
     state,
     /(?:from\s+)?\b(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\s*(?:-|–|to|until|till)\s*(\d{1,2})(?::(\d{2}))?\s*(am|pm)?\b/i,
     (match) => {
-      // "3-5 dec" and "20-22 nov" are ranges of days. A month right after the
-      // numbers settles it, and the date pass below claims the phrase instead.
+      // "3-5 dec" and "20-22 nov" are day ranges; a trailing month settles it and the
+      // date pass below claims the phrase.
       const after = state.work.slice(match.index + match[0].length);
 
       if (new RegExp(`^\\s*(?:of\\s+)?(${MONTH_PATTERN})\\b`, 'i').test(after)) return null;
@@ -352,7 +348,7 @@ export const parseNatural = (text, { now = new Date(), kind = 'event' } = {}) =>
     if (single) result.time = single;
   }
 
-  // 4. A date. One of these wins and the order runs from most to least specific.
+  // A date: the most specific shape wins.
   const spread = isoDate
     ? null
     : firstOf(state, [
@@ -529,8 +525,7 @@ export const parseNatural = (text, { now = new Date(), kind = 'event' } = {}) =>
   // A clock with no day at all means today.
   if (result.time && !result.date) result.date = atMidnight(now);
 
-  // 5. A place: "@office", "at the office". Times are gone, so "at" cannot be a
-  //    clock any more.
+  // Place: "@office", "at the office". Times are already gone, so "at" cannot be a clock.
   if (kind === 'event') {
     result.location = firstOf(state, [
       [/\b@([\w'’ .&-]{2,40})/, (match) => match[1].trim().replace(/[.,;:]+$/, '')],
@@ -545,8 +540,8 @@ export const parseNatural = (text, { now = new Date(), kind = 'event' } = {}) =>
     ]);
   }
 
-  // 6. What nobody claimed is the title. The edges are tidied in a loop: one
-  //    phrase can leave two connectives behind, as "on the 1st of december" does.
+  // Whatever no pass claimed is the title. Edges are tidied in a loop: one phrase can
+  // leave two connectives behind, as "on the 1st of december" does.
   const tidy = (text) =>
     text
       .replace(/\s+/g, ' ')
@@ -590,10 +585,7 @@ export const toRrule = (repeat) => {
   return `RRULE:${parts.join(';')}`;
 };
 
-/**
- * The sentence in words, shown under the field so the person typing can see what
- * was understood before saving it.
- */
+/** The understood sentence, shown under the field so the reader sees it before saving. */
 export const describe = (parsed, kind = 'event') => {
   if (!parsed?.understood) return '';
 

@@ -22,9 +22,7 @@ const parseJSON = (key, fallback = null) => {
   }
 };
 
-/**
- * Fetches image data from the configured API
- */
+/** Null when no usable image comes back, so callers fall back to the offline image. */
 export async function fetchAPIImageData(excludedPun = null) {
   const api = localStorage.getItem('backgroundAPI') || 'unsplash';
   const quality = localStorage.getItem('apiQuality') || 'high';
@@ -39,8 +37,8 @@ export async function fetchAPIImageData(excludedPun = null) {
   let url;
   if (api === 'unsplash' || api === 'pexels') {
     const params = new URLSearchParams({ quality });
-    // Topics replace the four fixed collections. A typed collection only wins
-    // when no topic is picked, because Unsplash intersects the two filters.
+    // A typed collection only applies when no topic is picked: Unsplash
+    // intersects the two filters.
     if (topics) {
       params.set('topics', topics);
     } else if (collection) {
@@ -61,8 +59,8 @@ export async function fetchAPIImageData(excludedPun = null) {
   try {
     const accept = `application/json, ${(await supportsAVIF()) ? 'image/avif' : 'image/webp'}`;
 
-    // The library API answers 500 to a small share of requests, so it is asked
-    // again before giving up and dropping to the offline image.
+    // The library API answers 500 intermittently, so it is retried before the
+    // offline image is used.
     let data = null;
     for (let attempt = 0; attempt < 3 && !data?.file; attempt++) {
       const response = await fetch(url, { headers: { accept } });
@@ -107,15 +105,12 @@ export async function fetchAPIImageData(excludedPun = null) {
   }
 }
 
-/**
- * Gets background data based on current configuration
- */
 export async function getBackgroundData() {
   const isOffline =
     localStorage.getItem('offlineMode') === 'true' ||
     localStorage.getItem('showWelcome') === 'true';
 
-  // Handle favourited background
+  // A favourite overrides whatever source is configured.
   const fav = parseJSON('favourite');
   if (fav) {
     if (fav.type === 'random_colour' || fav.type === 'random_gradient') {
@@ -162,9 +157,6 @@ export async function getBackgroundData() {
   }
 }
 
-/**
- * Gets solid colour background
- */
 function getColourBackground() {
   return {
     type: 'colour',
@@ -172,13 +164,10 @@ function getColourBackground() {
   };
 }
 
-/**
- * Gets API background with caching and prefetching
- */
+/** Serves the prefetched queue first, then refills it in the background. */
 async function getAPIBackground(isOffline) {
   if (isOffline) return getOfflineImage('api');
 
-  // Use cached next image if available
   const cachedQueue = parseJSON('imageQueue', []);
   let data;
 
@@ -193,7 +182,6 @@ async function getAPIBackground(isOffline) {
 
   localStorage.setItem('currentBackground', JSON.stringify(data));
 
-  // Pre-fetch next 3 images in the background
   const targetQueueSize = 3;
   const currentQueueSize = cachedQueue.length;
 
@@ -203,7 +191,6 @@ async function getAPIBackground(isOffline) {
     const currentKey = imageKey(data);
     const excludedPuns = [currentKey, ...cachedQueue.map(imageKey).filter(Boolean)];
 
-    // Prefetch remaining images asynchronously
     Promise.all(
       Array.from({ length: targetQueueSize - currentQueueSize }, (_, i) =>
         fetchAPIImageData(excludedPuns[i] || currentKey),
@@ -230,9 +217,8 @@ const readVideoQueue = (api) =>
   parseJSON(VIDEO_QUEUE_KEY, []).filter((clip) => clip?.url && clip.currentAPI === api);
 
 /**
- * Pulls the first megabyte so the connection is open and the clip starts as
- * soon as it becomes the background. This is an optimisation only: the media
- * element fetches whatever this misses.
+ * Pulls the first megabyte so the connection is already open when the clip
+ * becomes the background; the media element fetches whatever this misses.
  */
 const warmVideo = (url) => {
   fetch(url, { headers: { Range: `bytes=0-${VIDEO_WARMUP_BYTES}` } }).catch(() => {});
@@ -254,8 +240,8 @@ function refillVideoQueue(api, fetchVideo) {
 
   videoRefillRunning = true;
 
-  // Sequential on purpose: the sources record what they served, and parallel
-  // calls would race on that list and could hand back the same clip twice.
+  // Sequential: each source records what it served, so parallel calls would
+  // race on that list and could return the same clip twice.
   (async () => {
     const fresh = [];
 
@@ -281,14 +267,10 @@ function refillVideoQueue(api, fetchVideo) {
     });
 }
 
-/**
- * Gets a looping video background from one of the video sources
- */
 async function getVideoBackground(isOffline, api, fetchVideo) {
   if (isOffline) return getOfflineImage('api');
 
-  // A clip that is already resolved is used straight away: no API round trip
-  // while the new tab is opening.
+  // A queued clip is used straight away, so no API round trip delays the new tab.
   const queue = readVideoQueue(api);
   let data = queue.shift();
 
@@ -307,18 +289,13 @@ async function getVideoBackground(isOffline, api, fetchVideo) {
   return data;
 }
 
-/**
- * Gets custom background
- */
 async function getCustomBackground(isOffline) {
-  // Get full metadata from IndexedDB
   let backgrounds = await getAllBackgroundsWithMetadata();
 
-  // Fallback to localStorage URLs if IndexedDB is empty
+  // Profiles that predate IndexedDB keep bare URLs in localStorage.
   if (!backgrounds || backgrounds.length === 0) {
     const urls = parseJSON('customBackground', []);
     if (urls && urls.length > 0) {
-      // Convert old URL format to metadata format
       backgrounds = urls.map((url) => ({ url, photoInfo: { hidden: true } }));
     }
   }
@@ -327,7 +304,6 @@ async function getCustomBackground(isOffline) {
 
   const selected = backgrounds[Math.floor(Math.random() * backgrounds.length)];
 
-  // Check if selected is valid before using it
   if (!selected) return null;
 
   const url = selected.url || selected;
@@ -346,8 +322,7 @@ async function getCustomBackground(isOffline) {
     },
   };
 
-  // Don't store full image data in localStorage to avoid quota errors
-  // Just store metadata
+  // Metadata only: image data would exceed the localStorage quota.
   try {
     localStorage.setItem(
       'currentBackground',
@@ -358,16 +333,12 @@ async function getCustomBackground(isOffline) {
       }),
     );
   } catch (e) {
-    // Ignore quota errors for currentBackground
     console.warn('Could not save currentBackground to localStorage:', e);
   }
 
   return data;
 }
 
-/**
- * Gets photo pack background
- */
 function getPhotoPackBackground(isOffline) {
   if (isOffline) return getOfflineImage('photo_pack');
 

@@ -56,7 +56,7 @@ const Favourite = memo(({ tooltipText, credit, offline, pun, photoInfo }) => {
           if (type === 'custom') {
             localStorage.setItem('favourite', JSON.stringify({ type, url }));
           } else {
-            // photo information now hides information if it isn't sent, unless if photoinformation hover is hidden
+            // The card may not render location or camera, so both are read defensively.
             const location = document.getElementById('infoLocation');
             const camera = document.getElementById('infoCamera');
 
@@ -95,12 +95,10 @@ const Favourite = memo(({ tooltipText, credit, offline, pun, photoInfo }) => {
     }
   }, [tooltipText]);
 
-  // componentDidMount
   useEffect(() => {
     updateTooltip();
   }, [updateTooltip]);
 
-  // componentDidUpdate - only when favourited changes
   useEffect(() => {
     if (previousFavouritedRef.current !== favourited) {
       updateTooltip();

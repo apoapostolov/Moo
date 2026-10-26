@@ -3,12 +3,8 @@ import { createBlobUrl } from '../api/blobUrl';
 import { generateBlurHashDataUrl } from '../api/blurHash';
 import { getBackgroundFilterStyle, getBackgroundOverlayStyle } from '../api/backgroundFilters';
 
-// Constants
 const TRANSITION_DURATION = 1200; // milliseconds
 
-/**
- * Hook for rendering backgrounds to the DOM
- */
 export function useBackgroundRenderer(backgroundData) {
   const blobRef = useRef(null);
   const abortControllerRef = useRef(null);
@@ -19,7 +15,6 @@ export function useBackgroundRenderer(backgroundData) {
     const element = document.getElementById('backgroundImage');
     if (!element) return;
 
-    // Abort any pending image loads
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -36,21 +31,19 @@ export function useBackgroundRenderer(backgroundData) {
           return;
         }
 
-        // Create or get overlay element for smooth transitions
+        // The crossfade needs a second element, so the main one never blanks.
         let overlay = document.getElementById('backgroundOverlay');
         if (!overlay) {
           overlay = document.createElement('div');
           overlay.id = 'backgroundOverlay';
-          // Insert right after the background element
           element.parentNode.insertBefore(overlay, element.nextSibling);
         }
 
-        // Set background color
         if (backgroundData.photoInfo?.colour) {
           element.style.backgroundColor = backgroundData.photoInfo.colour;
         }
 
-        // Generate and show blur hash immediately on main element
+        // Tiny placeholder drawn at once, before the full image arrives.
         if (backgroundData.photoInfo?.blur_hash) {
           const blurHashUrl = generateBlurHashDataUrl(backgroundData.photoInfo.blur_hash, 64, 64);
           if (blurHashUrl) {
@@ -58,7 +51,6 @@ export function useBackgroundRenderer(backgroundData) {
           }
         }
 
-        // Load the full image
         const blobUrl = await createBlobUrl(backgroundData.url);
         const finalUrl = blobUrl || backgroundData.url;
 
@@ -69,7 +61,7 @@ export function useBackgroundRenderer(backgroundData) {
           blobRef.current = blobUrl;
         }
 
-        // Preload the image
+        // Wait for load so the fade starts with the image ready.
         const img = new Image();
         img.src = finalUrl;
 
@@ -78,30 +70,26 @@ export function useBackgroundRenderer(backgroundData) {
           img.onerror = resolve;
         });
 
-        // CRITICAL: Reset overlay to invisible FIRST
+        // Order matters: go transparent without a transition, set the image,
+        // restore the transition, then raise opacity. Each step needs its own
+        // forced reflow or the browser coalesces the changes and nothing animates.
         overlay.style.transition = 'none';
         overlay.style.opacity = '0';
         overlay.style.backgroundImage = '';
 
-        // Force a reflow to ensure opacity is actually 0
         void overlay.offsetHeight;
 
-        // Now set the new image
         overlay.style.backgroundImage = `url(${finalUrl})`;
 
-        // Force another reflow
         void overlay.offsetHeight;
 
-        // Re-enable transition
         overlay.style.transition = `opacity ${TRANSITION_DURATION / 1000}s ease-in-out`;
 
-        // Force another reflow before changing opacity
         void overlay.offsetHeight;
 
-        // Now fade it in
         overlay.style.opacity = '1';
 
-        // After fade completes, swap to main element and reset overlay
+        // The main element takes over once the fade ends, so the overlay can clear.
         setTimeout(() => {
           element.style.backgroundImage = `url(${finalUrl})`;
           overlay.style.opacity = '0';
@@ -115,17 +103,14 @@ export function useBackgroundRenderer(backgroundData) {
     applyBackground();
 
     return () => {
-      // Cleanup blob URL
       if (blobRef.current) {
         URL.revokeObjectURL(blobRef.current);
       }
 
-      // Abort pending image loads
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
       }
 
-      // Remove overlay element to prevent memory leak
       const overlay = document.getElementById('backgroundOverlay');
       if (overlay) {
         overlay.remove();
@@ -134,16 +119,11 @@ export function useBackgroundRenderer(backgroundData) {
   }, [backgroundData.url, backgroundData.style, backgroundData.video, backgroundData.photoInfo]);
 }
 
-/**
- * Hook to get computed filter styles (legacy - for video backgrounds)
- */
+/** Legacy `filter` styles: a video cannot carry a backdrop-filter overlay. */
 export function useBackgroundFilters() {
   return useMemo(() => ({ WebkitFilter: getBackgroundFilterStyle() }), []);
 }
 
-/**
- * Hook to get computed overlay filter styles
- */
 export function useBackgroundOverlayFilters() {
   return useMemo(() => getBackgroundOverlayStyle(), []);
 }

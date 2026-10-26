@@ -70,8 +70,8 @@ const Section = ({ title, subtitle, children }) => (
 );
 
 /**
- * Calendars are a checkbox list rather than a picker, because a picker that only
- * holds one value cannot express "work and family but not birthdays".
+ * Calendars are a checkbox list, not a picker: a picker holding one value cannot express
+ * "work and family but not birthdays".
  */
 const CalendarPicker = () => {
   const [calendars, setCalendars] = useState([]);
@@ -92,15 +92,13 @@ const CalendarPicker = () => {
 
     setSelected(next);
     localStorage.setItem('googleCalendarIds', JSON.stringify(next));
-    // The widgets listen for this category through the same bus the rest of the
-    // settings screen uses.
+    // The widgets listen for this category through the same bus the settings screen uses.
     EventBus.emit('refresh', 'google');
   };
 
   /**
-   * Only one calendar can be the one new events start in, so ticking a second
-   * moves the mark. Ticking the marked one clears it, and then the next new
-   * event simply opens on whichever calendar was used last.
+   * Only one calendar can be the start calendar, so ticking a second moves the mark. Ticking the
+   * marked one clears it, and the next new event opens on whichever calendar was used last.
    */
   const pickPrimary = (id) => {
     const next = primary === id ? '' : id;
@@ -126,8 +124,8 @@ const CalendarPicker = () => {
         const writable = calendar.accessRole === 'owner' || calendar.accessRole === 'writer';
 
         return (
-          // The row is not one label any more: a tick inside it would otherwise
-          // also switch the calendar on or off.
+          // The row is not one label any more: a tick inside it would otherwise also switch the
+          // calendar on or off.
           <div key={calendar.id} className="gwCalendarOption">
             <label className="gwCalendarTick">
               <input
@@ -275,8 +273,8 @@ const TaskListPicker = () => {
 /** Everything that only makes sense once an account is connected. */
 export const GoogleWidgetSettings = () => {
 
-  // Nothing is open until you pick one: three sets of controls stacked on top of
-  // each other made the page look like every option was already in play.
+  // Nothing is open until one is picked: three sets of controls stacked on top of each other
+  // made the page look like every option was already in play.
   const [tab, setTab] = useState(null);
 
   const tabs = [

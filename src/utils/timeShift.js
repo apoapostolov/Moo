@@ -1,10 +1,8 @@
 const MINUTES_IN_DAY = 24 * 60;
 
 /**
- * Reads the way people actually type a time: 9, 9:30, 09:30, 9am, 9:30 pm, 17,
- * 17:00. Returns minutes since midnight, or null when the text means nothing,
- * so a typo falls back to the plain whole-day count instead of drawing a
- * percentage from a guess.
+ * Minutes since midnight from `9`, `9:30`, `9am` or `17:00`; null if the text
+ * means nothing, so a typo falls back rather than drawing a guess.
  */
 export function parseClockInput(raw) {
   if (raw === null || raw === undefined) return null;
@@ -38,8 +36,8 @@ export function parseClockInput(raw) {
 }
 
 /**
- * A window from the start of the day to the end of the shift. Either field can
- * be empty, and a shift that ends before it starts runs over midnight.
+ * Window in minutes since midnight. Either field may be empty, and an end
+ * before the start runs past midnight.
  */
 export function shiftWindow(startRaw, endRaw) {
   const start = parseClockInput(startRaw);
@@ -53,11 +51,8 @@ export function shiftWindow(startRaw, endRaw) {
 }
 
 /**
- * How far through the shift the given moment is, between 0 and 1.
- *
- * After midnight the tail of a shift that runs past midnight still belongs to
- * it, so those minutes are counted from yesterday. Any other time outside the
- * window is simply 0% before it and 100% after it.
+ * Fraction of the shift elapsed, clamped to 0–1. When the window runs past
+ * midnight, the morning hours count toward the previous night's shift.
  */
 export function shiftFraction(now, startRaw, endRaw) {
   const { from, to } = shiftWindow(startRaw, endRaw);

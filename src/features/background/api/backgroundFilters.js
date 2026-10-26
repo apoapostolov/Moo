@@ -1,7 +1,4 @@
-/**
- * Generates the filter style string for backgrounds (legacy)
- * @returns {string} The filter CSS string
- */
+/** Legacy `filter` shorthand; `getBackgroundOverlayStyle` is the backdrop-filter replacement. */
 export function getBackgroundFilterStyle() {
   const blur = localStorage.getItem('blur') || '0';
   const brightness = localStorage.getItem('brightness') || '100';
@@ -18,9 +15,8 @@ export function getBackgroundFilterStyle() {
 }
 
 /**
- * Generates styles for the background filter overlay
- * Uses backdrop-filter for blur and additional effects, and background-color for brightness
- * @returns {Object} Style object with backdropFilter and backgroundColor
+ * Blur and extra effects go on backdrop-filter; brightness becomes a black
+ * overlay, because backdrop-filter cannot darken the image by itself.
  */
 export function getBackgroundOverlayStyle() {
   const blur = localStorage.getItem('blur') || '0';
@@ -28,16 +24,13 @@ export function getBackgroundOverlayStyle() {
   const backgroundFilter = localStorage.getItem('backgroundFilter');
   const backgroundFilterAmount = localStorage.getItem('backgroundFilterAmount') || '100';
 
-  // Build backdrop-filter string for blur and other effects
   let backdropFilterString = `blur(${blur}px)`;
 
   if (backgroundFilter && backgroundFilter !== 'none') {
     backdropFilterString += ` ${backgroundFilter}(${backgroundFilterAmount}%)`;
   }
 
-  // Calculate brightness overlay (black overlay for darkening)
-  // brightness 100% = no overlay (opacity 0)
-  // brightness 0% = full black overlay (opacity 1)
+  // Opacity is the darkening amount: brightness 100% = 0, 0% = 1.
   const brightnessValue = parseInt(brightness, 10);
   const overlayOpacity = (100 - brightnessValue) / 100;
 

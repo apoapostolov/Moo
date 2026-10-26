@@ -1,17 +1,10 @@
 /**
- * Google OAuth for a Firefox extension.
- *
- * Google refuses to register `*.extensions.allizom.org`, so the redirect cannot
- * be `identity.getRedirectURL()` itself. Firefox accepts a loopback redirect in
- * the shape `http://127.0.0.1/mozoauth2/<subdomain>` (RFC 8252 §7.3, Firefox 86+)
- * and a Google *Desktop app* client accepts any loopback port, so that pair is
- * the only combination that works without a server of your own. Firefox cancels
- * the request to that address before it leaves the browser; the flow resolves
- * with the redirect URL, code included.
- *
- * The client secret of a Desktop app client is not confidential (Google says so
- * itself), and it never leaves the browser: both values are stored locally by
- * the person who configured them, not shipped in the extension.
+ * Google OAuth in an extension. Google refuses `*.extensions.allizom.org`, so the redirect cannot
+ * be `identity.getRedirectURL()`. Firefox accepts a loopback redirect
+ * `http://127.0.0.1/mozoauth2/<subdomain>` (RFC 8252, Firefox 86+) and a Desktop app client
+ * accepts any loopback port; Firefox cancels that request before it leaves, so the flow resolves
+ * with the code. The client secret of a Desktop app client is not confidential and never leaves
+ * the browser.
  */
 
 const AUTH_KEY = 'googleAuth';

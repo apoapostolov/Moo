@@ -1,6 +1,6 @@
 import { TAB_TYPES } from '../constants/tabConfig';
 
-// Tab-specific configurations with exact divider positions
+// Divider positions mirror the real sidebar per tab.
 const TAB_CONFIGS = {
   [TAB_TYPES.SETTINGS]: {
     itemCount: 16, // Excluding experimental
@@ -12,7 +12,7 @@ const TAB_CONFIGS = {
 const SidebarSkeleton = ({ currentTab = TAB_TYPES.SETTINGS }) => {
   const config = TAB_CONFIGS[currentTab] || TAB_CONFIGS[TAB_TYPES.SETTINGS];
 
-  // Library tab doesn't show sidebar
+  // The Library tab has no sidebar.
   if (config.itemCount === 0) {
     return null;
   }

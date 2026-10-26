@@ -109,12 +109,7 @@ function Todo({ todoRef, floatRef, position, xPosition, yPosition }) {
     }
   };
 
-  /**
-   * This function takes in an action, an index, and data, and then updates the todo list accordingly.
-   * @param {String} action The action to perform. Can be 'add', 'remove', 'set', or 'done'.
-   * @param {Number} index The index of the item to perform the action on.
-   * @param {Object} data The data to use for the action.
-   */
+  /** `action` is 'add', 'remove', 'set' or 'done'; `index` is where it applies. */
   const updateTodo = (action, index, data) => {
     setTodo((currentTodo) => {
       const newTodo = [...currentTodo];

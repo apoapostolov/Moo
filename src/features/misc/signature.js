@@ -1,19 +1,14 @@
 import EventBus from 'utils/eventbus';
 
 /**
- * The signature colour is one colour, drawn from the Moo logo: the navy of the
- * app icon, lifted until it reads as text on a dark page. Everything the mod
- * tints reads the `--signature` custom properties, so choosing a new colour is
- * a single write here.
- *
- * The choice can also come out of the wallpaper, which is why this module knows
- * how to look at the picture that is currently on the page.
+ * The app icon's navy, lifted until it reads as text on a dark page. Everything tinted reads
+ * `--signature`, so a change is one write here. The colour can also be sampled from the wallpaper.
  */
 
 const STORE = 'signatureColour';
 const DEFAULT_SIGNATURE = '#6b86a8';
 
-// Fixed choices, offered before anything is sampled. The first is the logo.
+// Presets offered before anything is sampled; the first is the logo colour.
 const PRESETS = [
   { name: 'Moo navy', value: DEFAULT_SIGNATURE },
   { name: 'Steel blue', value: '#4f6d92' },
@@ -44,7 +39,7 @@ const setSignature = (hex) => {
   EventBus.emit('refresh', 'signature');
 };
 
-/* ---------------------------------------------------------------- sampling */
+// Sampling
 
 const clampByte = (value) => Math.min(255, Math.max(0, Math.round(value)));
 
@@ -89,10 +84,7 @@ const hslToRgb = (h, s, l) => {
   return table.map((v) => (v + m) * 255);
 };
 
-/**
- * The picture on the page right now, as a URL the canvas is allowed to read.
- * A video background has no still to sample, so it counts as no image.
- */
+/** The current background image URL, or '' when a video background leaves no still. */
 const backgroundImageUrl = () => {
   const element = document.getElementById('backgroundImage');
   const background = element && getComputedStyle(element).backgroundImage;
@@ -108,8 +100,7 @@ const loadImage = (url) =>
   new Promise((resolve, reject) => {
     const image = new Image();
 
-    // Remote pictures are usually shot with permissive CORS; without it the
-    // canvas would be tainted and the sample would silently read as black.
+    // Without CORS the canvas is tainted and the sample silently reads as black.
     image.crossOrigin = 'anonymous';
     image.onload = () => resolve(image);
     image.onerror = () => reject(new Error('The background image could not be read.'));
@@ -118,10 +109,9 @@ const loadImage = (url) =>
   });
 
 /**
- * One colour that stands for the picture: the hue the eye remembers, not the
- * average, which always drifts to mud. Pixels are bucketed by hue, each bucket
- * is weighted by how saturated and how common it is, and the winning bucket is
- * pulled into a range where it can be used as a link colour.
+ * One colour for the picture: the hue the eye remembers, not the average, which
+ * drifts to mud. Pixels are bucketed by hue, weighted by saturation and count,
+ * and the winner is pulled into a usable link-colour range.
  */
 const sample = async () => {
   const url = backgroundImageUrl();
@@ -168,8 +158,7 @@ const sample = async () => {
   const winner = [...buckets.values()].sort((a, b) => b.weight - a.weight)[0];
   const { h, s, l } = rgbToHsl(winner.r / winner.count, winner.g / winner.count, winner.b / winner.count);
 
-  // A picture can be almost monochrome at one end; the tint still has to be a
-  // colour you can pick out of a page.
+  // A near-monochrome picture still has to yield a colour you can pick out.
   const lifted = hslToRgb(h, Math.min(0.75, Math.max(0.28, s)), Math.min(0.66, Math.max(0.44, l)));
 
   return toHex(...lifted);

@@ -1,8 +1,7 @@
 import variables from 'config/variables';
 
-// `api_mue` and the bare legacy `api` are still recognised so an older profile
-// keeps its image settings panel, but neither reaches the Mue library any more:
-// both are answered by Unsplash.
+// `api_mue` and the legacy bare `api` are kept so an older profile still gets an
+// image settings panel; both resolve to Unsplash.
 export const API_BACKGROUND_TYPES = [
   'api',
   'api_mue',
@@ -17,30 +16,25 @@ export function isApiBackgroundType(type) {
   return API_BACKGROUND_TYPES.includes(type);
 }
 
-/**
- * Derives which image or video API a background type maps to.
- */
+/** Which API a background type uses; everything unanswered is Unsplash. */
 export function getApiForBackgroundType(type) {
   if (type === 'api_coverr') return 'coverr';
   if (type === 'api_live') return 'live';
   if (type === 'api_pixabay') return 'pixabay';
   if (type === 'api_pexels') return 'pexels';
-  // Unsplash is the only image source now, and it answers every remaining case.
+  // Unsplash answers every remaining case.
   return 'unsplash';
 }
 
-/**
- * Normalises the legacy `api` type into its explicit Mue/Unsplash variant.
- */
+/** Folds the legacy `api` and `api_mue` into `api_unsplash`. */
 export function normalizeBackgroundType(type) {
   if (type !== 'api' && type !== 'api_mue') return type;
   return 'api_unsplash';
 }
 
 export function getBackgroundOptionItems(marketplaceEnabled) {
-  // Unsplash is the default, Coverr follows it as the keyless video source, and
-  // the rest of the services are ordered by monthly visits: Pixabay, then
-  // Pexels.
+  // Order is deliberate: Unsplash, Coverr (the keyless video source), then the
+  // rest by monthly visits, Pixabay before Pexels.
   return [
     marketplaceEnabled && {
       value: 'photo_pack',

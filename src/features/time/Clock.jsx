@@ -10,10 +10,9 @@ import EventBus from 'utils/eventbus';
 
 import './clock.scss';
 
-// Helper function to format padded time values while preserving padding
 const formatPaddedDigits = (value) => {
   const str = String(value);
-  // Format each digit individually to preserve padding with locale numerals
+  // Per digit, so locale numerals keep their padding.
   return str.split('').map(digit => formatDigits(digit)).join('');
 };
 
@@ -25,13 +24,11 @@ const Clock = () => {
   const [ampm, setAmpm] = useState('');
   const [display, setDisplay] = useState('block');
   const [fontSize, setFontSize] = useState('4em');
-  // Only the percentage clock has a shape to draw: how far through the day (or
-  // shift) the moment is, between 0 and 1.
+  // Progress through the day (or shift) as a fraction, 0–1; only the percentage clock reads it.
   const [fraction, setFraction] = useState(0);
   const timerRef = useRef(undefined);
 
-  // The Progress clock only answers on the days it is switched on for; every
-  // other day the clock falls back to the type chosen for them.
+  // The Progress clock only applies on its chosen days; the rest keep their own type.
   const type = resolveTimeType();
 
   const startTime = (
@@ -48,8 +45,7 @@ const Clock = () => {
 
       switch (resolveTimeType()) {
         case 'percentageComplete': {
-          // Percentage of the working day when a shift is set, otherwise of the
-          // whole 24 hours.
+          // Of the shift when one is set, otherwise of the full 24 hours.
           const elapsed = shiftFraction(
             now,
             localStorage.getItem('percentageStart'),
@@ -62,13 +58,12 @@ const Clock = () => {
           break;
         }
         case 'analogue':
-          // load analog clock css
+          // Loaded on demand: only the analogue clock needs it.
           import('react-clock/dist/Clock.css');
 
           setTime(now);
           break;
         default: {
-          // Default clock
           let time,
             sec = '';
           const zero = localStorage.getItem('zero');
@@ -96,7 +91,6 @@ const Clock = () => {
             setTime(time);
             setAmpm('');
           } else {
-            // 12 hour
             let hours = now.getHours();
 
             if (hours > 12) {
@@ -173,8 +167,7 @@ const Clock = () => {
     return (
       <span
         className="clock clock-container clockProgress"
-        // The inline display is what hides a switched-off clock, so it has to
-        // carry the bar's own layout too rather than the plain block.
+        // This is what hides a switched-off clock, so it carries the bar's layout, not block.
         style={{ display: display === 'none' ? 'none' : 'inline-flex', fontSize }}
       >
         <span className="clockProgressValue">{time}</span>

@@ -12,7 +12,7 @@ function ImportSettings(props) {
     const settings = [];
     const data = JSON.parse(e);
     Object.keys(data).forEach((setting) => {
-      // language and theme already shown, the others are only used internally
+      // Language and theme are shown in the first step; the rest are internal only.
       if (
         setting === 'language' ||
         setting === 'theme' ||

@@ -1,11 +1,10 @@
 /**
- * Convert language code from Moo format (en_US) to locale format (en-US)
- * and add numbering system extensions for languages that use non-Latin numerals
+ * `en_US` becomes `en-US`, plus a `-u-nu-` extension for languages with
+ * non-Latin digits.
  */
 export function getLocaleCode() {
   const language = localStorage.getItem('language')?.replace(/_/g, '-') || 'en-GB';
 
-  // Map language codes to their native numbering systems
   const numberingSystems = {
     ar: 'arab', // Arabic - Eastern Arabic numerals (٠-٩)
     fa: 'arabext', // Persian - Extended Arabic-Indic numerals (۰-۹)
@@ -16,10 +15,8 @@ export function getLocaleCode() {
     ta: 'tamldec', // Tamil - Tamil numerals (௦-௯)
   };
 
-  // Get the base language code (e.g., 'ar' from 'ar-EG')
   const baseLang = language.split('-')[0];
 
-  // If this language has a native numbering system, append it
   if (numberingSystems[baseLang]) {
     return `${language}-u-nu-${numberingSystems[baseLang]}`;
   }
@@ -28,10 +25,8 @@ export function getLocaleCode() {
 }
 
 /**
- * Format number with locale awareness (if enabled)
- * @param {number} value - The number to format
- * @param {Intl.NumberFormatOptions} options - Optional Intl.NumberFormat options
- * @returns {string} Formatted number string
+ * Formats for the active locale when `localeFormatting` is on; plain string
+ * otherwise.
  */
 export function formatNumber(value, options = {}) {
   const localeFormatting = localStorage.getItem('localeFormatting');
@@ -46,9 +41,7 @@ export function formatNumber(value, options = {}) {
 }
 
 /**
- * Format percentage with locale awareness (if enabled)
- * @param {number} value - The decimal value (e.g., 0.45 for 45%)
- * @returns {string} Formatted percentage string
+ * Formats a 0–1 fraction as a percentage, not a 0–100 number.
  */
 export function formatPercentage(value) {
   const localeFormatting = localStorage.getItem('localeFormatting');
@@ -66,9 +59,7 @@ export function formatPercentage(value) {
 }
 
 /**
- * Format digits with locale-specific numerals (e.g., Eastern Arabic numerals for Arabic)
- * @param {string|number} value - The value to format (e.g., '10', 23)
- * @returns {string} Formatted string with locale-specific numerals
+ * Digits in the locale's own numerals, without grouping separators.
  */
 export function formatDigits(value) {
   const localeFormatting = localStorage.getItem('localeFormatting');

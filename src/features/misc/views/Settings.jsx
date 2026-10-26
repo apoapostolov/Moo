@@ -79,7 +79,6 @@ const sections = [
 function Settings(props) {
   const t = useT();
 
-  // Recalculate section labels when language changes
   const translatedSections = useMemo(() =>
     sections.map(section => ({
       ...section,

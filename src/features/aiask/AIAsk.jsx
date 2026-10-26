@@ -5,20 +5,10 @@ import { SiOpenai } from 'react-icons/si';
 import './aiask.scss';
 
 /**
- * Ask a question straight from the new tab page.
- *
- * Both services are reached by address rather than by an API key, and nothing
- * leaves the page until Enter is pressed.
- *
- * Google is AI Mode, not the ordinary results page: `udm=50` is the parameter
- * that selects the conversational AI view (`udm=14` is the plain web view), and
- * google.com/ai itself redirects to a search carrying it. Without that
- * parameter this would be a normal Google search, which is not what was asked
- * for.
- *
- * ChatGPT takes a prefilled prompt from `?q=`, and `hints=search` is what makes
- * it run a web search instead of opening a plain chat. That pair is the address
- * the ChatGPT search extension registers as its search engine.
+ * Asks a question from the new tab page; nothing leaves the page until Enter.
+ * Reached by address, with no API key: Google needs `udm=50` for AI Mode
+ * (`udm=14` is the plain web view), and ChatGPT needs `?q=` plus `hints=search`
+ * to run a web search rather than open a plain chat.
  */
 const SERVICES = {
   google: {
@@ -49,9 +39,8 @@ const AIAsk = () => {
   const box = useRef(null);
 
   /**
-   * The point of the widget is that you can type the moment the page appears,
-   * so it takes the keyboard itself. It gives it back rather than takes it
-   * again: only an idle page is claimed, never a dialog or a note being written.
+   * Focus is claimed only while the page is idle, never over a dialog or a note
+   * being written, so the widget is ready to type the moment it appears.
    */
   useEffect(() => {
     const claim = () => {
@@ -69,7 +58,7 @@ const AIAsk = () => {
     return () => window.removeEventListener('focus', claim);
   }, []);
 
-  // The menu closes on the next click anywhere else, or on Escape.
+  // Closes on a click outside the menu, or on Escape.
   useEffect(() => {
     if (!picking) return undefined;
 

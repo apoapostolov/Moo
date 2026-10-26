@@ -1,9 +1,10 @@
 import { useState } from 'react';
 
 /**
- * Every widget starts here when no account is linked. Connecting is the same
- * flow the settings section offers, so the user never has to hunt for it.
+ * Every widget starts here when no account is linked; connecting is the same flow the settings
+ * section offers.
  */
+
 const ConnectPrompt = ({ label, onConnect, error }) => {
   const [busy, setBusy] = useState(false);
 
@@ -13,7 +14,7 @@ const ConnectPrompt = ({ label, onConnect, error }) => {
     try {
       await onConnect();
     } catch {
-      // The error is surfaced through the hook; nothing to add here.
+      // The hook surfaces the error.
     } finally {
       setBusy(false);
     }

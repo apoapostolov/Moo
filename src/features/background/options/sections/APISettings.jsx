@@ -34,7 +34,7 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
       />
     );
 
-  // Unsplash topics replace the four fixed collections the categories mapped to.
+  // A loaded topic list becomes chips; until then the dropdown shows the loading state.
   const topicsControl = Array.isArray(unsplashTopics) ? (
     <ChipSelect
       key="unsplashTopics"
@@ -154,8 +154,8 @@ const APISettings = ({ backgroundAPI, backgroundCategories, unsplashTopics }) =>
     );
   }
 
-  // Unsplash is the only image source left, so it is also the fallback: a profile
-  // still pointing at the retired library lands here rather than on a blank panel.
+  // Unsplash is the fallback panel: a profile with an unknown API value still
+  // renders settings rather than a blank section.
   return (
     <Row final={true}>
       <Content

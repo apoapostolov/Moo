@@ -31,7 +31,7 @@ input {
     }
   }
 
-  /* firefox fixes for colour picker (using "," didn't work) */
+  /* Firefox colour picker fixes (a comma selector does not work here) */
   &[type='color']::-moz-color-swatch {
     border-radius: 100%;
     height: 30px;

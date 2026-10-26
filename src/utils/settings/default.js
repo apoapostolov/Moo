@@ -1,8 +1,8 @@
 import defaultSettings from 'utils/data/default_settings.json';
 
 /**
- * It sets the default settings for the extension
- * @param reset - boolean
+ * Clears storage and applies the shipped defaults; `reset` also skips the
+ * welcome page.
  */
 export function setDefaultSettings(reset) {
   localStorage.clear();
@@ -12,6 +12,6 @@ export function setDefaultSettings(reset) {
     localStorage.setItem('showWelcome', false);
   }
 
-  // finally we set this to true so it doesn't run the function on every load
+  // Prevents this running again on the next load.
   localStorage.setItem('firstRun', true);
 }

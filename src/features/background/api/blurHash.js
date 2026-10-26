@@ -1,12 +1,6 @@
 import { decodeBlurHash } from 'fast-blurhash';
 
-/**
- * Generates a blur hash placeholder image as a data URL
- * @param {string} blurHash - The blur hash string
- * @param {number} width - Canvas width (default: 32)
- * @param {number} height - Canvas height (default: 32)
- * @returns {string|null} - Data URL of the blur hash image or null if failed
- */
+/** Decodes into a width×height canvas and returns it as a data URL, or null on failure. */
 export function generateBlurHashDataUrl(blurHash, width = 32, height = 32) {
   try {
     const canvas = document.createElement('canvas');

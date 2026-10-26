@@ -18,7 +18,7 @@ const Tabs = ({
 }) => {
   const t = useT();
 
-  // Find initial section from deep link if available
+  // A deep link decides the initial section.
   const getInitialSection = () => {
     if (deepLinkData?.section && sections) {
       const section = sections.find((s) => s.name === deepLinkData.section);
@@ -49,25 +49,22 @@ const Tabs = ({
     setCurrentTab(tab);
     setCurrentName(name);
 
-    // Scroll content to top when changing tabs
     if (contentRef.current) {
       contentRef.current.scrollTop = 0;
     }
 
-    // Notify parent of section change with both label and name
     if (onSectionChange) {
       onSectionChange(tab, name);
     }
   };
 
-  // Notify parent of initial section on mount
   useEffect(() => {
     if (onSectionChange && currentTab) {
       onSectionChange(currentTab, currentName);
     }
   }, []);
 
-  // Update labels when language changes
+  // Section labels follow the UI language.
   useEffect(() => {
     if (sections && currentName) {
       const section = sections.find((s) => s.name === currentName);
@@ -78,7 +75,7 @@ const Tabs = ({
     }
   }, [t, sections, currentName]);
 
-  // Handle navigation trigger for settings sections (popstate)
+  // Back and forward re-drive the section from the hash.
   useEffect(() => {
     if (navigationTrigger?.type === 'settings-section' && sections) {
       const section = sections.find((s) => s.name === navigationTrigger.data);
@@ -86,7 +83,6 @@ const Tabs = ({
         const label = t(section.label);
         setCurrentTab(label);
         setCurrentName(section.name);
-        // Scroll content to top when navigating via browser history
         if (contentRef.current) {
           contentRef.current.scrollTop = 0;
         }
@@ -94,12 +90,10 @@ const Tabs = ({
     }
   }, [navigationTrigger, sections, t]);
 
-  // Reset to first tab when requested
   useEffect(() => {
     if (resetToFirst) {
       setCurrentTab(children[0]?.props.label);
       setCurrentName(children[0]?.props.name);
-      // Scroll content to top when resetting to first tab
       if (contentRef.current) {
         contentRef.current.scrollTop = 0;
       }
@@ -114,7 +108,6 @@ const Tabs = ({
     setShowReminder(false);
   };
 
-  // Show sidebar for Settings and Discover tabs
   const showSidebar = activeTab === TAB_TYPES.SETTINGS;
 
   return (

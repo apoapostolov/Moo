@@ -2,9 +2,6 @@ import { useEffect } from 'react';
 import EventBus from 'utils/eventbus';
 import { getBackgroundFilterStyle, getBackgroundOverlayStyle } from '../api/backgroundFilters';
 
-/**
- * Hook for handling EventBus background events
- */
 export function useBackgroundEvents(backgroundData, refreshBackground) {
   useEffect(() => {
     const handleEvent = (event) => {
@@ -33,7 +30,6 @@ export function useBackgroundEvents(backgroundData, refreshBackground) {
       element?.style.setProperty('display', 'block');
       if (!backgroundData.photoInfo?.hidden) photoInfo?.style.setProperty('display', 'flex');
 
-      // Check if refresh needed
       const rawType = localStorage.getItem('backgroundType');
       // API sources are stored as an explicit variant but load as `api`
       const type = ['api_mue', 'api_unsplash', 'api_coverr', 'api_live', 'api_pixabay', 'api_pexels'].includes(
@@ -51,13 +47,11 @@ export function useBackgroundEvents(backgroundData, refreshBackground) {
     };
 
     const applyFilters = () => {
-      // For video backgrounds, apply filters directly to the video element
       if (backgroundData.video) {
         const filter = getBackgroundFilterStyle();
         const element = document.getElementById('backgroundVideo');
         if (element) element.style.webkitFilter = filter;
       } else {
-        // For image backgrounds, apply filters to the overlay element
         const overlayElement = document.getElementById('backgroundFilterOverlay');
         if (overlayElement) {
           const overlayStyle = getBackgroundOverlayStyle();

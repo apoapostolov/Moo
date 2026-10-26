@@ -2,8 +2,7 @@ import variables from 'config/variables';
 import ExperimentalInit from 'utils/experimental';
 
 /**
- * It loads the settings from localStorage and applies them to the page.
- * @param hotreload - boolean
+ * Applies stored settings to the page. `hotreload` skips the one-time work.
  */
 export function loadSettings(hotreload) {
   switch (localStorage.getItem('theme')) {
@@ -27,13 +26,13 @@ export function loadSettings(hotreload) {
   document.title = localStorage.getItem('tabName') || variables.getMessage('tabname');
 
   if (hotreload === true) {
-    // remove old custom stuff and add new
+    // Drop the injected tags so they can be rebuilt from current settings.
     const custom = ['customcss', 'customfont'];
     custom.forEach((element) => {
       try {
         document.head.removeChild(document.getElementById(element));
       } catch (e) {
-        // Disregard exception if custom stuff doesn't exist
+        // Element may be absent.
       }
     });
   }
@@ -44,17 +43,15 @@ export function loadSettings(hotreload) {
     document.body.classList.remove('no-animations');
   }
 
-  // technically, this is text SHADOW, and not BORDER
-  // however it's a mess and we'll just leave it at this for now
+  // The setting is really a text SHADOW rather than a border; the name predates it.
   const textBorder = localStorage.getItem('textBorder');
-  // enable/disable old text border from before redesign
   if (textBorder === 'true') {
     const elements = ['clock', 'date'];
     elements.forEach((element) => {
       try {
         document.querySelector('.' + element).classList.add('textBorder');
       } catch (e) {
-        // Disregard exception
+        // Element may be absent.
       }
     });
   } else {
@@ -63,12 +60,12 @@ export function loadSettings(hotreload) {
       try {
         document.querySelector('.' + element).classList.remove('textBorder');
       } catch (e) {
-        // Disregard exception
+        // Element may be absent.
       }
     });
   }
 
-  // remove actual default shadow
+  // 'none' removes the default shadow as well.
   if (textBorder === 'none') {
     document.getElementById('center').classList.add('no-textBorder');
   } else {
@@ -102,8 +99,7 @@ export function loadSettings(hotreload) {
     );
   }
 
-  // If the extension got updated and the new app links default settings
-  // were not set, set them
+  // Seeded on update: an older profile has no value for these keys.
   if (localStorage.getItem('applinks') === null) {
     localStorage.setItem('applinks', JSON.stringify([]));
   }
@@ -111,12 +107,11 @@ export function loadSettings(hotreload) {
     localStorage.setItem('showWelcome', false);
   }
 
-  // everything below this shouldn't run on a hot reload event
+  // One-time work only.
   if (hotreload === true) {
     return;
   }
 
-  // The experimental gate is gone: the debug hotkey is now a normal feature
   ExperimentalInit();
 
   // easter egg

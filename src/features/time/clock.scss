@@ -16,12 +16,10 @@
 }
 
 /*
- * The progress clock gets a bar under the number. It is drawn from the widget's
- * own colour, so it follows the wallpaper the way the text does: a wide, very
- * faint track for the whole day and a firmer fill for the part that is gone.
- * The track stops short of the number on both sides, which keeps it reading as
- * a measure of the clock rather than a line ruled under it.
- */
+   The progress bar sits under the number: a faint track for the day and a firmer fill for the part
+   that is gone, stopped short of the digits on both sides so it reads as part of the clock.
+*/
+
 .clockProgress {
   display: inline-flex;
   flex-direction: column;
@@ -41,11 +39,10 @@
   margin-top: clamp(7px, 0.13em, 18px);
   border-radius: 999px;
   overflow: hidden;
-  // The track is as wide as the number above it, so it steps when the number
-  // gains a digit. Easing it keeps that from snapping.
+  // Width follows the number, so it steps when a digit is added; easing hides the snap.
   transition: width 0.4s ease-out;
 
-  // The full width of the day at low strength.
+  // The full day at low strength.
   &::before {
     content: '';
     position: absolute;
@@ -63,20 +60,16 @@
   border-radius: inherit;
   background: currentColor;
   opacity: 0.55;
-  // The spring overshoots its own width for a moment; the track clips the bar,
-  // but the bar should never reach past it either.
+  // The spring overshoots briefly; the track clips it, but cap the bar too.
   max-width: 100%;
   transition: width 0.6s ease-out;
 
-  // The page opens with the bar empty and fills it to the day's progress. The
-  // keyframes declare only `from`, so the animation always runs to whatever
-  // width is already inline: no number has to be handed to the stylesheet, and
-  // the fill still lands exactly on the real percentage.
+  // Keyframes declare only `from`, so the animation runs to the inline width and no
+  // percentage has to be handed to the stylesheet.
   animation: clockProgressFill 1100ms backwards;
 
-  // Fast off the mark, slowing into place with one small overshoot. The curve is
-  // a damped spring (zeta 0.65) sampled into linear(), with the plain bezier
-  // first as the fallback for an engine that does not read linear() yet.
+  // Damped spring (zeta 0.65) sampled into linear(), with the plain bezier first
+  // as the fallback for engines that do not read linear() yet.
   animation-timing-function: cubic-bezier(0.16, 0.9, 0.24, 1);
   animation-timing-function: linear(
     0,
@@ -121,13 +114,11 @@
   }
 }
 
-
 .analogclock,
 .react-clock__face {
   margin: 0 auto;
   border-radius: 100%;
 
-  /* box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.3); */
   border: none !important;
 
   @include themed {
@@ -144,7 +135,6 @@
     background: t($color) !important;
   }
 
-  /* box-shadow: 0 0 25px rgba(0, 0, 0, 0.3); */
 }
 
 /*

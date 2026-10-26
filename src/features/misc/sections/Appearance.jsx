@@ -20,13 +20,12 @@ import {
 import './Appearance.scss';
 
 /**
- * The keys still read from `misc`: the picker moved to this page, but its
- * heading and subtitle are translated in every locale, and renaming the path
- * would blank both of them wherever the new one is missing.
+ * Reads its translation keys from `misc`: the heading and subtitle exist there in
+ * every locale, and a new path would be blank wherever it is missing.
  */
 const SIGNATURE_SECTION = 'modals.main.settings.sections.misc.signature';
 
-// The same shape the Misc page uses for a labelled group inside a page.
+// Same shape the Misc page uses for a labelled group.
 const GroupHeading = ({ title, subtitle }) => (
   <Row>
     <Content title={title} subtitle={subtitle} />
@@ -99,9 +98,8 @@ function AppearanceOptions({ currentSubSection, onSubSectionChange, sectionName 
   }, [choose]);
 
   /**
-   * Sits between the theme and the font because it is the same decision: how
-   * the page looks. The colour runs through links, ticks and switches, so it
-   * follows the theme rather than sitting apart from it in Advanced.
+   * Grouped with the theme and font: the colour runs through links, ticks and
+   * switches, so it is a look decision, not an advanced one.
    */
   const SignatureOptions = () => {
     return (

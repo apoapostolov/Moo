@@ -12,10 +12,6 @@ import EventBus from 'utils/eventbus';
 
 import './scss/index.scss';
 
-/**
- * Background component - Manages and displays backgrounds
- * Supports: API images, custom images, colors, gradients, videos, and photo packs
- */
 export default function Background() {
   const { backgroundData, updateBackground, resetBackground } = useBackgroundState();
   const { refreshBackground } = useBackgroundLoader(updateBackground, resetBackground);
@@ -25,8 +21,8 @@ export default function Background() {
   useBackgroundRenderer(backgroundData);
   useBackgroundEvents(backgroundData, refreshBackground);
 
-  // The credit card is a widget now, so it needs to know which photo is behind
-  // the page without being inside the element that draws it.
+  // The credit card is a separate widget, so it needs to know which photo is
+  // behind the page without living inside the element that draws it.
   useEffect(() => {
     setCurrentPhoto({
       photoInfo: backgroundData.photoInfo,

@@ -2,9 +2,8 @@ import { toast } from 'react-toastify';
 import variables from 'config/variables';
 
 /**
- * It takes a JSON file of Moo settings, parses it, and then sets the localStorage values to the values in the
- * file.
- * @param e - The JSON settings string to import
+ * Overwrites localStorage with the given settings JSON; `initial` skips the
+ * stats event.
  */
 export function importSettings(e, initial = false) {
   const content = JSON.parse(e);
@@ -14,7 +13,6 @@ export function importSettings(e, initial = false) {
   });
 
   toast(variables.getMessage('toasts.imported'));
-  // record settings import
   if (!initial) {
     variables.stats.postEvent('tab', 'Settings imported');
   }

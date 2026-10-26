@@ -1,19 +1,15 @@
 /**
- * One-off repairs to a profile that an older build set up. They run before the
- * first render, so no component can mount holding a value that is about to
- * change underneath it.
+ * One-off repairs to a stored profile. Run before the first render, so no
+ * component mounts holding a value that is about to change.
  */
 
-// Only Show on Hover used to be on by default. A profile set up under that
-// default still carries it, so the stored value is dropped once and the new
-// default takes over. After the mark is written the checkbox is the only thing
-// that decides, so a later choice is never overridden.
+// Show on Hover used to default to on. A profile that carries the stored 'true'
+// from that default is reset once; the mark stops it recurring, so a later
+// choice is never overridden.
 const HOVER_MARK = 'navbarHoverDefaultOff';
 
-// The Mue library is no longer offered as an image source. A profile pointed at
-// it is moved to Unsplash in both places it is recorded: the type the settings
-// read and the API key the loader asks. Any queued image goes with it, so the
-// page cannot show one last library picture from the prefetch.
+// The Mue library is no longer an image source. Both keys that record it are
+// rewritten, and the prefetch queue is cleared so no library image can linger.
 const retireMueLibrary = () => {
   const type = localStorage.getItem('backgroundType');
   const api = localStorage.getItem('backgroundAPI');
@@ -27,9 +23,9 @@ const retireMueLibrary = () => {
 };
 
 /**
- * A switch that defaults to on has to be written down once, or the control shows
- * itself unticked while the clock already behaves as if it were ticked. Only a
- * missing value is filled in, so a choice made later is never overridden.
+ * A switch that defaults to on must be stored once, or the control reads
+ * unticked while the behaviour is already on. Only a missing value is filled,
+ * so a later choice is never overridden.
  */
 const seedPercentageFallback = () => {
   if (localStorage.getItem('percentageFallback') === null) {
@@ -38,10 +34,8 @@ const seedPercentageFallback = () => {
 };
 
 /**
- * The same trap as the Progress switch: Image Info refuses to draw unless the
- * photo has a known location, and a profile that predates the control has no
- * stored answer for it, so the checkbox would read unticked while the card
- * already obeyed it.
+ * Same trap as the Progress switch: Image Info refuses to draw without a known
+ * location, so a profile that predates the control needs the answer stored.
  */
 const seedPhotoInfoLocation = () => {
   if (localStorage.getItem('photoInfoRequiresLocation') === null) {

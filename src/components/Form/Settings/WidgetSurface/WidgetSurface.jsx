@@ -5,12 +5,8 @@ import { Row, Content, Action } from 'components/Layout/Settings/Item';
 
 const SECTION = 'modals.main.settings.surface';
 
-/**
- * The panel style switch. Sections that hold a widget pass their own setting
- * name and refresh category, so changing the style repaints that widget only.
- * A `title` override lets one section carry a row per widget, where repeating
- * the shared "Panel style" heading three times would read as a glitch.
- */
+/** The panel style switch. Sections pass their own setting name and refresh category, so a
+ * change repaints that widget only; `title` lets one section carry a row per widget. */
 function WidgetSurface({ setting, category = 'all', title, subtitle, final }) {
   return (
     <Row final={final}>

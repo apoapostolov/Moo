@@ -3,9 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { connect, disconnect, getAuth } from '../auth';
 
 /**
- * Shared connection state for the three widgets and the settings section.
- * Widgets read `auth` and render a connect prompt when it is null, so nothing
- * queries Google until an account is actually linked.
+ * Shared connection state for the three widgets and the settings section. Widgets render a
+ * connect prompt while `auth` is null, so nothing queries Google before an account is linked.
  */
 export const useGoogleAuth = () => {
   const [auth, setAuth] = useState(null);

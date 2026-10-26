@@ -44,8 +44,8 @@ const GoogleCalendar = () => {
   const [fetchError, setFetchError] = useState('');
   const [editing, setEditing] = useState(null);
   const [busy, setBusy] = useState(false);
-  // Nothing is drawn until there is something to draw: an empty card that fills
-  // in a moment later reads as a broken widget.
+  // Nothing is drawn until there is something to draw: an empty card that fills in later
+  // reads as broken.
   const [ready, setReady] = useState(false);
   const calendarsRef = useRef([]);
 

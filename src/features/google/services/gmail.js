@@ -28,8 +28,8 @@ export const listLabels = async () => {
       id: label.id,
       name: label.name,
       type: label.type ?? 'user',
-      // Gmail answers system labels in capitals; the picker reads better in
-      // title case, while the name itself stays as the API sent it.
+      // Gmail answers system labels in capitals; the picker reads better in title case,
+      // while the name itself stays as the API sent it.
       display:
         (label.type ?? 'user') === 'system'
           ? label.name.charAt(0) + label.name.slice(1).toLowerCase()
@@ -39,10 +39,8 @@ export const listLabels = async () => {
 };
 
 /**
- * How many messages the search finds, not how many the widget shows. Gmail has
- * no count endpoint for a search and `resultSizeEstimate` is an estimate, so the
- * ids are paged and counted. A mailbox that never gets to the end is capped
- * rather than paged forever, and the caller says "1000+" instead.
+ * How many messages the search finds, not how many the widget shows: `resultSizeEstimate` is an
+ * estimate, so ids are paged and counted. A mailbox that never ends is capped and shown as "1000+".
  */
 const COUNT_CAP = 1000;
 
@@ -72,8 +70,8 @@ const countMatching = async (sources, cap = COUNT_CAP) => {
 };
 
 /**
- * Gmail search does not take a label id. System folders have their own operator
- * and custom labels are matched by name, quoted when it contains a space.
+ * Gmail search takes no label id: system folders have their own operator, and custom labels
+ * are matched by name, quoted when it contains a space.
  */
 const SYSTEM_FOLDERS = {
   INBOX: 'in:inbox',
@@ -95,8 +93,8 @@ const folderQuery = (folder) => {
 };
 
 const searchIds = async (query, maxResults) => {
-  // `maxResults` is the display limit; the badge counts the whole search, which
-  // is a separate pass over the same sources.
+  // `maxResults` is the display limit; the badge counts the whole search in a separate pass
+  // over the same sources.
 
   const list = await googleFetch(
     `/gmail/v1/users/me/messages?q=${encodeURIComponent(query)}&maxResults=${maxResults}`,
@@ -106,12 +104,9 @@ const searchIds = async (query, maxResults) => {
 };
 
 /**
- * One list call per source, then one metadata call per message: Gmail has no
- * browser-usable batch endpoint.
- *
- * A source is the user's query narrowed by an inbox category or a label. Gmail
- * has no way to search "everything except promotions", so the switched-off
- * categories are simply never asked for, and the answers are merged.
+ * One list call per source, then one metadata call per message: Gmail has no browser-usable batch
+ * endpoint. A source is the query narrowed by a category or label; Gmail cannot search "everything
+ * except promotions", so switched-off categories are never asked for and the answers are merged.
  */
 export const listMessages = async ({
   query = 'is:unread',
@@ -145,8 +140,8 @@ export const listMessages = async ({
 
   if (!ids.length) return { messages: [], unreadCount: 0, unreadOverflow: false };
 
-  // A little slack over the limit, because the merged order only becomes exact
-  // once the dates are known.
+    // A little slack over the limit, because the merged order only becomes exact once the
+    // dates are known.
   const wanted = ids.slice(0, maxResults * 2);
 
   const [messages, counted] = await Promise.all([
@@ -167,10 +162,8 @@ export const listMessages = async ({
 };
 
 /**
- * Gmail sends message bodies as base64url, split over a tree of MIME parts. A
- * plain text part is used when there is one; an HTML-only message is reduced to
- * text rather than rendered, because this panel must never run a stranger's
- * markup or load their tracking pixels.
+ * Bodies arrive as base64url over a MIME tree. A plain text part wins; HTML-only messages are
+ * reduced to text rather than rendered, so a stranger's markup and tracking pixels never run.
  */
 const decodeBody = (data) => {
   const base64 = String(data).replace(/-/g, '+').replace(/_/g, '/');

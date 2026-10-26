@@ -5,8 +5,7 @@ import changelogSource from '../../../../CHANGELOG.md?raw';
 
 import './Changelog.scss';
 
-// A link opened from the changelog leaves the new tab page, so it opens in a tab
-// of its own rather than replacing the one the user is looking at.
+// A changelog link leaves the new tab page, so it opens in its own tab.
 const linkProps = {
   target: '_blank',
   rel: 'noopener noreferrer',
@@ -44,8 +43,8 @@ const renderInline = (tokens = []) =>
     }
   });
 
-// A list item wraps its content in a text token, a paragraph does not: unwrap it
-// so both render the same way.
+// A list item wraps its content in a text token and a paragraph does not; unwrap
+// it so both render alike.
 const inlineOf = (token) => token.tokens?.[0]?.tokens ?? token.tokens ?? [];
 
 const splitHeading = (text) => {
@@ -98,8 +97,7 @@ const readReleases = (source) => {
       return;
     }
 
-    // Everything after a release heading belongs to it, depth-3 headings
-    // included, since those are the Added / Changed / Fixed group titles.
+    // Everything after a release heading belongs to it, including the depth-3 group titles.
     if (!current) return;
 
     current.blocks.push(token);

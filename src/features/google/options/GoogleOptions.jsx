@@ -25,10 +25,8 @@ const SERVICE_LABELS = {
 const CREDENTIALS_URL = 'https://console.cloud.google.com/apis/credentials';
 
 /**
- * Google needs an app of your own before it will answer anything, so the order
- * here is the order you work through: register the app, paste the credentials,
- * then connect. Connect stays locked until both credentials are in, because
- * pressing it earlier can only end in an error.
+ * Google needs an app of your own first, so the order mirrors the work: register, paste
+ * credentials, connect. Connect stays locked until both credentials are in, or it can only fail.
  */
 const Step = ({ number }) => <span className="googleStepNumber">{number}</span>;
 

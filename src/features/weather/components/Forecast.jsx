@@ -77,8 +77,7 @@ const Forecast = memo(({ location }) => {
   }, [fetchForecast]);
 
   if (loading) {
-    // Placeholders mirror the finished cell (day, icon, temperature) so the row
-    // keeps its size while the forecast is being fetched.
+    // Mirrors the finished cell so the row keeps its size while the forecast loads.
     return (
       <div className="weatherForecast" aria-hidden="true">
         {[0, 1, 2, 3, 4].map((index) => (

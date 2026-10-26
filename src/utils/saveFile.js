@@ -1,8 +1,5 @@
 /**
- * It creates a link to a file, and then clicks it
- * @param data - the data you want to save
- * @param [filename=file] - the name of the file to be saved
- * @param [type=text/json] - the type of file you want to save.
+ * Saves `data` as a download; objects are serialised as indented JSON.
  */
 export function saveFile(data, filename = 'file', type = 'text/json') {
   if (typeof data === 'object') {
@@ -18,7 +15,7 @@ export function saveFile(data, filename = 'file', type = 'text/json') {
   a.download = filename;
   a.dataset.downloadurl = [type, a.download, a.href].join(':');
 
-  // i need to see what all this actually does, i think wessel wrote this function
+  // Deprecated API: every one of these positional arguments is required.
   event.initMouseEvent(
     'click',
     true,

@@ -16,11 +16,7 @@ class ErrorBoundary extends PureComponent {
     };
   }
 
-  /**
-   * If an error occurs, log the error, and set the state to error: true, and errorData: error.
-   * @param {Error} error The error that occurred.
-   * @returns An object with two properties: error and errorData.
-   */
+  /** React calls this on a render error; the returned object merges into state. */
   static getDerivedStateFromError(error) {
     console.error(error);
     return {

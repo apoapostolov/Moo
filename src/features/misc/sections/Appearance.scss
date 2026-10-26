@@ -1,10 +1,9 @@
 @use 'scss/variables' as *;
 
 /*
- * The signature colour picker: the fixed choices, one free picker, and a button
- * that reads a colour out of the wallpaper. Every swatch is drawn from its own
- * colour, so the strip is the palette rather than a description of it. These
- * rules travelled with the row when it moved from Misc to Appearance.
+ * The signature colour picker: fixed choices, one free picker, and a button that
+ * reads a colour out of the wallpaper. Each swatch is drawn from its own colour,
+ * so the strip is the palette rather than a description of it.
  */
 /* Three circles to a row, two rows, then the wallpaper button across the
    column. A flex line squeezed five colours and the free picker into the 300px
@@ -27,7 +26,7 @@
 .signatureSwatch {
   width: 36px;
   height: 36px;
-  /* The action column gives its buttons a top margin; a grid cell must not. */
+  /* The action column adds a top margin to its buttons; a grid cell must not. */
   margin: 0;
   padding: 0;
   border-radius: 50%;

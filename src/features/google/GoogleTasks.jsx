@@ -18,11 +18,8 @@ const endOfDay = (date) => {
   return copy;
 };
 
-/**
- * A task is due on a day, not at a moment: Google pins the stamp to midnight UTC,
- * so both sides of the comparison are pulled back to local midnight or a task due
- * today reads as yesterday west of Greenwich.
- */
+/** A task is due on a day, not a moment: Google stamps midnight UTC, so both sides are pulled back
+ * to local midnight or a task due today reads as yesterday west of Greenwich. */
 const dayNumber = (value) => {
   const date = new Date(value);
 
@@ -84,8 +81,8 @@ const GoogleTasks = () => {
   const [listId, setListId] = useState(() => getTasksSettings().listId);
   const [tasks, setTasks] = useState([]);
   const [fetchError, setFetchError] = useState('');
-  // Nothing is drawn until the first answer is in: an empty card that fills in a
-  // moment later reads as a broken widget.
+  // Nothing is drawn until the first answer is in: an empty card that fills in later reads
+  // as broken.
   const [ready, setReady] = useState(false);
   const [editing, setEditing] = useState(null);
 
@@ -133,8 +130,8 @@ const GoogleTasks = () => {
 
     loadLists()
       .then((id) =>
-        // The interval only starts once the first list has been answered, so it
-        // never races the initial load for the same data.
+        // The interval starts only once the first list has been answered, so it never races the
+        // initial load for the same data.
         loadTasks(id).then(() => {
           timer = setInterval(() => loadTasks(id), refreshMs(getTasksSettings().refreshMinutes));
         }),
@@ -198,8 +195,8 @@ const GoogleTasks = () => {
   }, []);
 
   const ordered = useMemo(() => {
-    // A task that is ticked stays in the list, struck through, until Google is
-    // asked again: making it vanish under the finger reads as a delete.
+    // A ticked task stays in the list, struck through, until Google is asked again: making it
+    // vanish under the finger reads as a delete.
     const kept = tasks.filter((task) => (settings.hideUndated ? Boolean(task.due) : true));
 
     const sorted = [...kept];

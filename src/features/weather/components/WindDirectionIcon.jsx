@@ -11,9 +11,8 @@ import {
   WiDirectionUp,
 } from 'react-icons/wi';
 
-// degrees are imported because of a potential bug, IDK what causes it, but now it is fixed
 function WindDirectionIcon({ degrees }) {
-  // convert the number OpenWeatherMap gives us to the closest direction or something
+  // 45° per entry, from north and counter-clockwise: 90° maps to West.
   const directions = [
     {
       name: 'North',

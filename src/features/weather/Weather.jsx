@@ -54,7 +54,6 @@ const WeatherWidget = memo(({ compact = false }) => {
       setWeatherData(data);
       setDone(data.done);
     } else {
-      // Fallback if data is undefined
       setWeatherData({ done: true });
       setDone(true);
     }

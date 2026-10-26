@@ -10,8 +10,8 @@ const ATTEMPTS = 3;
 const slug = (id) => `pexels-${id}`;
 
 /**
- * Picks a 1080p MP4 where one exists, and the closest smaller file when it does
- * not: a 4K clip is several times the size for no visible gain on a background.
+ * 4K costs several times the bytes for no visible gain on a background, so
+ * 1080p wins where a source offers it.
  */
 function bestFile(video) {
   const files = (video?.video_files || []).filter(
@@ -35,10 +35,7 @@ function bestFile(video) {
   return smaller[0] ?? files.slice().sort((a, b) => a.width - b.width)[0];
 }
 
-/**
- * Fetches one random looping video from Pexels. Returns null when the key is
- * missing or nothing usable came back, so the caller can fall back.
- */
+/** Null when the key is missing or nothing usable came back, so callers can fall back. */
 export async function fetchPexelsVideo() {
   const key = (localStorage.getItem('pexelsKey') || '').trim();
 

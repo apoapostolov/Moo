@@ -1,9 +1,8 @@
 /*
- * A scratch image is a window cut in the page: the picture fills it corner to
- * corner, the card takes the picture's own proportions, and the four controls
- * sit in the four corners they were asked for.
+ * A scratch image is a window in the page: the picture fills it corner to corner
+ * and the card takes the picture's own proportions.
  */
-/* The pictures arrive the same way the notes do, one after another. */
+/* Pictures arrive like the notes, one after another. */
 @keyframes scratchImageIn {
   from {
     opacity: 0;
@@ -43,7 +42,7 @@
     display: block;
     width: 100%;
     height: 100%;
-    // The picture covers the card rather than being letterboxed inside it.
+    // Cover rather than contain: no letterboxing inside the card.
     object-fit: cover;
     pointer-events: none;
     user-select: none;
@@ -82,8 +81,7 @@
   right: 6px;
   font-size: 15px;
 
-  // Armed: the second click is the one that removes the picture. Same red the
-  // note's close control turns, so both layers ask the same way.
+  // Armed: the second click removes the picture. Same red as the note's close control.
   &.armed {
     opacity: 1;
     color: #ff9d9d;
@@ -95,7 +93,7 @@
   top: 6px;
   left: 6px;
 
-  // The clipboard said no: say so instead of showing a tick that is not true.
+  // The clipboard refused: show that, not a tick that is not true.
   &.refused {
     color: #ff9d9d;
     background: rgb(120 20 20 / 70%);

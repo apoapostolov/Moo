@@ -11,7 +11,7 @@ const Maximise = memo(({ fontSize }) => {
   const [hidden, setHidden] = useState(false);
 
   const setAttribute = useCallback((blur, brightness, filter) => {
-    // don't attempt to modify the background if it isn't an image
+    // A colour or gradient background has no image element to filter.
     const backgroundType = localStorage.getItem('backgroundType');
     if (
       backgroundType === 'colour' ||
@@ -44,7 +44,7 @@ const Maximise = memo(({ fontSize }) => {
   }, []);
 
   const maximise = useCallback(() => {
-    // hide widgets
+    // Widgets are hidden while the background is maximised.
     const widgets = document.getElementById('widgets');
 
     if (!hidden) {

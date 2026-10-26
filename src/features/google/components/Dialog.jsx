@@ -2,18 +2,11 @@ import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
 /**
- * Small dialog shell for the widget CRUD forms.
- *
- * It is a real <dialog> opened with showModal(), which puts it in the browser's
- * top layer. That is the only placement that is always above the page: these
- * cards carry a backdrop-filter, and a filtered card is composited in its own
- * layer, which can paint over an ordinary fixed overlay no matter what z-index
- * the overlay asks for. The top layer sits above every stacking context.
- *
- * It renders into the body rather than inside the card for the same reason: a
- * filtered ancestor is also the containing block for fixed children, so inside
- * the widget the dialog would open wherever the card happens to sit.
+ * Shell for the widget forms. A real `<dialog>` opened with showModal() so it lands in the top
+ * layer: the cards' backdrop-filter paints over any fixed overlay. Rendered into the body because
+ * a filtered ancestor becomes the containing block.
  */
+
 const Dialog = ({ title, onClose, children, footer }) => {
   const panel = useRef(null);
 
@@ -23,8 +16,8 @@ const Dialog = ({ title, onClose, children, footer }) => {
     if (!node) return undefined;
 
     if (!node.open) {
-      // showModal is what moves it to the top layer; the attribute is only a
-      // fallback for a browser that refuses it.
+      // showModal is what moves it to the top layer; the attribute is only a fallback for a
+      // browser that refuses it.
       if (typeof node.showModal === 'function') node.showModal();
       else node.setAttribute('open', '');
     }

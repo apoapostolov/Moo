@@ -2,7 +2,7 @@
 
 .sortableItem {
   cursor: move;
-  // The rows live in a column of their own width now, not a fixed 200px track.
+  // The rows sit in a column of their own width, not a fixed 200px track.
   box-sizing: border-box;
   width: 100%;
   z-index: 999 !important;
@@ -56,7 +56,6 @@
     div {
       border-radius: t($borderRadius);
 
-      // border: 5px t($modal-sidebar) solid;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -97,12 +96,12 @@
   }
 }
 
-// Enhanced custom images grid
+// Custom images grid.
 .images-grid {
   display: grid;
   padding: 1px;
 
-  // Show all checkboxes when in selection mode (any image selected)
+  // All checkboxes show in selection mode, i.e. when any image is selected.
   &.selection-mode {
     .image-checkbox {
       opacity: 1;
@@ -189,7 +188,7 @@
           }
         }
 
-        // Keep checkbox visible when checked
+        // Keep the checkbox visible while it is checked.
         &:has(input:checked) {
           opacity: 1;
         }
@@ -337,7 +336,7 @@
         }
       }
 
-      // Show delete button when card is hovered or has checkbox visible
+      // Delete shows on hover, or whenever a checkbox is visible.
       &:hover .delete-button,
       .image-checkbox:has(input:checked) ~ * .delete-button {
         opacity: 1;
@@ -526,8 +525,8 @@
 
 .overviewPreview {
   grid-area: preview;
-  // Matches the padding on the containers, so the three top headings sit on one
-  // line instead of the preview's label floating above the other two.
+  // Matches the container padding, so the three headings sit on one line instead of the
+  // preview's label floating above the other two.
   padding-top: 12px;
 }
 
@@ -556,9 +555,8 @@
     background: color-mix(in srgb, currentColor 6%, transparent);
   }
 
-  // A row in the middle column's second lane stands a little to the right, the
-  // way it stands in the preview, and the row that has been asked to step aside
-  // leans further still with a dashed edge showing the space it is opening.
+  // A row in the middle column's second lane stands slightly right, as it does in the preview,
+  // and a row asked to step aside leans further, with a dashed edge showing the space it opens.
   .sortableItem.inSecondColumn {
     margin-left: 14px;
   }
@@ -570,8 +568,7 @@
     border-radius: 6px;
   }
 
-  // The handle leads the row and the checkbox closes it, the way a standard list
-  // row reads: grab on the left, switch on the right.
+  // Handle leads the row and the checkbox closes it: grab on the left, switch on the right.
   .dragHandle {
     display: flex;
     align-items: center;
@@ -604,7 +601,7 @@
     box-shadow: t($boxShadow);
   }
 
-  // The preview mirrors the page: a rail down each side and the middle column.
+  // The preview mirrors the page: a rail each side and the middle column.
   .previewZone {
     position: absolute;
     display: flex;
@@ -673,11 +670,11 @@
     display: flex;
     flex-flow: column;
     align-items: center;
-    // One card size across the whole preview, so the three columns read as
-    // three columns rather than the middle one being twice the width of a rail.
+    // One card size across the preview, so the three columns read as columns rather than the
+    // middle one being twice the width of a rail.
     width: 66px;
-    // A widget on its own line needs air between it and the next one; the cards
-    // draw their own edges and would otherwise touch into one tall block.
+    // A widget on its own line needs air: the cards draw their own edges and would otherwise
+    // touch into one tall block.
     gap: 6px;
 
     .quotediv .quote {
@@ -693,16 +690,10 @@
     }
   }
 
-  // The preview clones the real widgets, and the weather card is pinned to the
-  // bottom-right corner of the page. Inside this box it is ordinary content;
-  // left alone it escapes the preview and hangs in the corner of the settings
-  // panel, which reads as a broken pill floating over the page.
-  // Mail, Calendar and Tasks are drawn rather than written: a card the size of a
-  // widget with one entry inside it, bars where the text would be and dots where
-  // the real card carries its glyph. The tint comes from currentColor, so the
-  // same card reads correctly in both themes without a second palette.
-  // Drawn at a third of the measurements the design was worked out at, so it
-  // reads as a thumbnail of a widget rather than a second widget in the panel.
+  // The weather card is pinned to the page's bottom-right; inside this box it is ordinary
+  // content, and left alone it escapes into the corner of the settings panel.
+  // Mail, Calendar and Tasks are drawn, not written: one entry per card, bars for text, dots for
+  // glyphs, all in currentColor so one card reads in both themes. Drawn as a thumbnail.
   /* AI Ask is a line, not a card, so its preview is a hint and a hairline drawn
      in the same tints of currentColor as the widget skeletons beside it. */
   .aiAskSkeleton {
@@ -769,8 +760,7 @@
     gap: 3px;
   }
 
-  // A dot where the entry has an avatar, a square where a date sits, a tick box
-  // where the row can be done.
+  // A dot for an avatar, a square where a date sits, a tick box where the row can be done.
   .gwSkeletonIcon {
     flex: 0 0 auto;
     background: currentColor;
@@ -788,8 +778,8 @@
       border-radius: 2px;
     }
 
-    // A task row is a tick waiting to happen, so it is a ring rather than a
-    // filled block: the only glyph in the set that is drawn open.
+    // A task row is a tick waiting to happen, so it is a ring, drawn open, rather than a filled
+    // block.
     &.gwSkeletonIcon-check {
       width: 5px;
       height: 5px;

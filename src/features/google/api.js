@@ -15,10 +15,11 @@ const readError = async (response) => {
 };
 
 /**
- * Every Google call goes through here: it attaches the access token, retries
- * once on a 401 after refreshing (a token can expire between the check and the
- * request), and turns an error body into a readable message.
+ * Every Google request goes through here: it attaches the access token, retries once on a 401
+ * after refreshing (a token can expire between check and request), and makes error bodies
+ * readable.
  */
+
 export const googleFetch = async (path, options = {}, retried = false) => {
   const token = await getAccessToken();
   const url = path.startsWith('http') ? path : `${API_BASE}${path}`;

@@ -1,8 +1,4 @@
-/**
- * Creates a blob URL from a remote URL
- * @param {string} url - The remote URL to fetch
- * @returns {Promise<string|null>} The blob URL or null if failed
- */
+/** Fetches a remote URL into a blob URL; null means the caller keeps the direct URL. */
 export async function createBlobUrl(url) {
   try {
     const response = await fetch(url, {
@@ -17,7 +13,6 @@ export async function createBlobUrl(url) {
     const blob = await response.blob();
     return URL.createObjectURL(blob);
   } catch {
-    // Silently fail - we'll use direct URL as fallback
     return null;
   }
 }

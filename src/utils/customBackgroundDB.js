@@ -1,6 +1,5 @@
 /**
- * IndexedDB utility for storing custom background images
- * Uses IndexedDB to overcome localStorage quota limitations
+ * IndexedDB store for custom background images, which localStorage cannot hold.
  */
 
 const DB_NAME = 'MooCustomBackgrounds';
@@ -8,8 +7,7 @@ const DB_VERSION = 1;
 const STORE_NAME = 'backgrounds';
 
 /**
- * Open or create the IndexedDB database
- * @returns {Promise<IDBDatabase>}
+ * Opens the database, creating the store on first run.
  */
 function openDB() {
   return new Promise((resolve, reject) => {
@@ -21,7 +19,6 @@ function openDB() {
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
 
-      // Create object store if it doesn't exist
       if (!db.objectStoreNames.contains(STORE_NAME)) {
         const objectStore = db.createObjectStore(STORE_NAME, {
           keyPath: 'id',
@@ -34,8 +31,7 @@ function openDB() {
 }
 
 /**
- * Get all custom backgrounds as objects
- * @returns {Promise<Array<Object>>} Array of background objects with metadata
+ * Every stored background, oldest first.
  */
 export async function getAllBackgroundsWithMetadata() {
   try {
@@ -47,12 +43,10 @@ export async function getAllBackgroundsWithMetadata() {
     return new Promise((resolve, reject) => {
       request.onsuccess = () => {
         const results = request.result;
-        // Return array of background objects in order
-        // For backward compatibility, convert old string URLs to objects
+        // Rows written before the object format are bare URLs.
         resolve(
           results.map((item) => {
             if (typeof item.url === 'string' && !item.name) {
-              // Old format - migrate to new format
               return {
                 id: item.id,
                 url: item.url,
@@ -77,8 +71,7 @@ export async function getAllBackgroundsWithMetadata() {
 }
 
 /**
- * Get all custom backgrounds (URLs only for backward compatibility)
- * @returns {Promise<Array<string>>} Array of background URLs
+ * Stored image URLs, oldest first.
  */
 export async function getAllBackgrounds() {
   const backgrounds = await getAllBackgroundsWithMetadata();
@@ -86,23 +79,14 @@ export async function getAllBackgrounds() {
 }
 
 /**
- * Add a new background with metadata
- * @param {Object} backgroundData - The background data object
- * @param {string} backgroundData.url - The background URL (data URL or remote URL)
- * @param {string} backgroundData.name - The filename
- * @param {number} backgroundData.uploadDate - Upload timestamp
- * @param {Object} backgroundData.dimensions - {width, height}
- * @param {number} backgroundData.fileSize - File size in bytes
- * @param {string} backgroundData.folder - Folder name (optional)
- * @param {string} backgroundData.blurHash - BlurHash string (optional)
- * @returns {Promise<number>} The ID of the added background
+ * Stores a background and returns its id.
  */
 export async function addBackground(backgroundData) {
   const db = await openDB();
   const transaction = db.transaction(STORE_NAME, 'readwrite');
   const store = transaction.objectStore(STORE_NAME);
 
-  // Support old string format for backward compatibility
+  // Legacy string rows.
   const data =
     typeof backgroundData === 'string'
       ? { url: backgroundData, name: 'Image', uploadDate: Date.now(), folder: '' }
@@ -117,17 +101,13 @@ export async function addBackground(backgroundData) {
 }
 
 /**
- * Update a background at a specific index
- * @param {number} index - The index to update (0-based)
- * @param {Object|string} backgroundData - The new background data
- * @returns {Promise<void>}
+ * Replaces the background at a 0-based index.
  */
 export async function updateBackground(index, backgroundData) {
   const db = await openDB();
   const transaction = db.transaction(STORE_NAME, 'readwrite');
   const store = transaction.objectStore(STORE_NAME);
 
-  // Get all items to find the one at the specified index
   const getAllRequest = store.getAll();
 
   return new Promise((resolve, reject) => {
@@ -136,7 +116,7 @@ export async function updateBackground(index, backgroundData) {
       if (items[index]) {
         const item = items[index];
 
-        // Support old string format
+        // Legacy string input.
         if (typeof backgroundData === 'string') {
           item.url = backgroundData;
         } else {
@@ -148,7 +128,6 @@ export async function updateBackground(index, backgroundData) {
         updateRequest.onsuccess = () => resolve();
         updateRequest.onerror = () => reject(updateRequest.error);
       } else {
-        // If index doesn't exist, add it
         addBackground(backgroundData).then(resolve).catch(reject);
       }
     };
@@ -157,16 +136,13 @@ export async function updateBackground(index, backgroundData) {
 }
 
 /**
- * Delete a background at a specific index
- * @param {number} index - The index to delete (0-based)
- * @returns {Promise<void>}
+ * Deletes the background at a 0-based index.
  */
 export async function deleteBackground(index) {
   const db = await openDB();
   const transaction = db.transaction(STORE_NAME, 'readwrite');
   const store = transaction.objectStore(STORE_NAME);
 
-  // Get all items to find the one at the specified index
   const getAllRequest = store.getAll();
 
   return new Promise((resolve, reject) => {
@@ -185,16 +161,13 @@ export async function deleteBackground(index) {
 }
 
 /**
- * Delete multiple backgrounds by indices
- * @param {Array<number>} indices - Array of indices to delete (0-based)
- * @returns {Promise<void>}
+ * Deletes every background at the given 0-based indices.
  */
 export async function deleteMultipleBackgrounds(indices) {
   const db = await openDB();
   const transaction = db.transaction(STORE_NAME, 'readwrite');
   const store = transaction.objectStore(STORE_NAME);
 
-  // Get all items first
   const getAllRequest = store.getAll();
 
   return new Promise((resolve, reject) => {
@@ -202,7 +175,6 @@ export async function deleteMultipleBackgrounds(indices) {
       const items = getAllRequest.result;
       const idsToDelete = indices.filter((index) => items[index]).map((index) => items[index].id);
 
-      // Delete all selected items
       let completed = 0;
       const total = idsToDelete.length;
 
@@ -227,8 +199,7 @@ export async function deleteMultipleBackgrounds(indices) {
 }
 
 /**
- * Clear all custom backgrounds
- * @returns {Promise<void>}
+ * Empties the store.
  */
 export async function clearAllBackgrounds() {
   const db = await openDB();
@@ -243,8 +214,7 @@ export async function clearAllBackgrounds() {
 }
 
 /**
- * Get count of stored backgrounds
- * @returns {Promise<number>}
+ * Number of stored backgrounds.
  */
 export async function getBackgroundCount() {
   const db = await openDB();
@@ -259,10 +229,7 @@ export async function getBackgroundCount() {
 }
 
 /**
- * Update a background's metadata by ID
- * @param {number} id - The background ID
- * @param {Object} metadata - Metadata to update
- * @returns {Promise<void>}
+ * Merges metadata into the background with that id.
  */
 export async function updateBackgroundMetadata(id, metadata) {
   const db = await openDB();
@@ -288,8 +255,7 @@ export async function updateBackgroundMetadata(id, metadata) {
 }
 
 /**
- * Migrate backgrounds from localStorage to IndexedDB
- * @returns {Promise<boolean>} True if migration occurred
+ * Moves backgrounds out of localStorage once; true when it ran.
  */
 export async function migrateFromLocalStorage() {
   try {
@@ -315,20 +281,18 @@ export async function migrateFromLocalStorage() {
       return false;
     }
 
-    // Check if we already have data in IndexedDB
     const count = await getBackgroundCount();
     if (count > 0) {
       return false; // Already migrated
     }
 
-    // Migrate each background
     for (const bg of backgrounds) {
       await addBackground(bg);
     }
 
     console.log(`Migrated ${backgrounds.length} backgrounds from localStorage to IndexedDB`);
 
-    // Keep localStorage as backup for now, but mark as migrated
+    // Kept as a backup; the mark stops the migration from running twice.
     localStorage.setItem('customBackgroundMigrated', 'true');
 
     return true;

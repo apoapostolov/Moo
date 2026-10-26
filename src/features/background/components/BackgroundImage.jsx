@@ -4,9 +4,6 @@ import { updateHash } from 'utils/deepLinking';
 import EventBus from 'utils/eventbus';
 import { getAllBackgrounds } from 'utils/customBackgroundDB';
 
-/**
- * BackgroundImage component for rendering image backgrounds
- */
 function BackgroundImage() {
   const isCustomType = localStorage.getItem('backgroundType') === 'custom';
   const [customBackgrounds, setCustomBackgrounds] = useState([]);

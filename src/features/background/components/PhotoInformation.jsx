@@ -23,29 +23,16 @@ import Modal from 'react-modal';
 import { ShareModal } from 'components/Elements';
 import ExcludeModal from './ExcludeModal';
 
-/**
- * It takes a URL, fetches the resource, and returns a URL to the resource.
- * @param {string} url The URL to fetch.
- * @returns A promise that resolves to a blob URL.
- */
+/** Returns an object URL, not a data URL, despite the name. */
 const toDataURL = async (url) => {
   const res = await fetch(url);
   return URL.createObjectURL(await res.blob());
 };
 
-/**
- * It takes a string, makes it lowercase, removes commas, and replaces spaces with dashes.
- * @param {string} text The string to format.
- * @returns A function that takes a string and returns a string.
- */
 const formatText = (text) => {
   return text.toLowerCase().replaceAll(',', '').replaceAll(' ', '-');
 };
 
-/**
- * It downloads an image from a URL and saves it to the user's computer.
- * @param {object} info The photo information.
- */
 const downloadImage = async (info) => {
   // Count the download when the user asks for it, even if saving the file fails.
   recordImageCounter(info, 'download');
@@ -65,7 +52,6 @@ function PhotoInformation({ info, url, api }) {
   const [usePhotoMap, setPhotoMap] = useState(false);
   const [useMapIcon, setMapIcon] = useState(true);
   const [showExtraInfo, setshowExtraInfo] = useState(false);
-  //const [showOld, setShowOld] = useState(true);
   const [other, setOther] = useState(false);
   const [shareModal, openShareModal] = useState(false);
   const [excludeModal, openExcludeModal] = useState(false);
@@ -80,7 +66,7 @@ function PhotoInformation({ info, url, api }) {
   let credit = info.credit;
   let photo = t('widgets.background.credit');
 
-  // unsplash credit
+  // Only link the credit when the source provides a page to link to.
   if (info.photographerURL && info.photographerURL !== '' && !info.offline && api) {
     photo = (
       <a
@@ -101,7 +87,7 @@ function PhotoInformation({ info, url, api }) {
     );
   }
 
-  // get resolution
+  // Measured by loading the URL, so width and height arrive a render later.
   const img = new Image();
   img.onload = (event) => {
     setWidth(event.target.width);
@@ -109,7 +95,7 @@ function PhotoInformation({ info, url, api }) {
   };
   img.src = url;
 
-  // info is still there because we want the favourite button to work
+  // Hidden but still rendered: the favourite button reads these fields from the DOM.
   if (localStorage.getItem('photoInformation') === 'false') {
     return (
       <div style={{ display: 'none' }}>
@@ -262,19 +248,16 @@ function PhotoInformation({ info, url, api }) {
     photoMapClassList += ' photoMap';
   }
 
-  // only request map image if the user looks at the photo information
-  // this is to reduce requests to the api
+  // The map image is only requested on hover, to keep API calls down.
   try {
     document.getElementsByClassName('photoInformation')[0].onmouseover = () => {
       try {
         setPhotoMap(true);
         setMapIcon(false);
       } catch {
-        // Ignore errors
       }
     };
   } catch {
-    // Element not found
   }
 
   const widgetStyle = localStorage.getItem('widgetStyle');

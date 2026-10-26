@@ -3,10 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { parseNatural } from './natural';
 
 /**
- * Reads the title a moment after typing stops, then hands the result to the
- * dialog so the other fields can follow. The delay is what makes it feel like
- * the box is listening rather than reacting to every keystroke: filling a date
- * mid-word would fight the person typing.
+ * Parses the title shortly after typing stops, then hands the result to the dialog so the
+ * other fields can follow. The delay keeps it from filling a date mid-word.
  */
 export const useNaturalTitle = (text, kind, apply) => {
   const [parsed, setParsed] = useState(null);

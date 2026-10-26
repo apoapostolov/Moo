@@ -98,7 +98,6 @@ function AppsOptions({ appsEnabled }) {
   const deleteLink = (key, event) => {
     event.preventDefault();
 
-    // remove link from array
     const data = JSON.parse(localStorage.getItem('applinks')).filter((i) => i.key !== key);
 
     localStorage.setItem('applinks', JSON.stringify(data));

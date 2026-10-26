@@ -4,8 +4,7 @@
 .weather {
   @extend %basic;
 
-  // The card no longer positions itself: where it sits depends on the zone it
-  // was dropped in, so the rail or the middle column decides its place.
+  // Position comes from the zone the widget was dropped into, not from this rule.
   cursor: initial;
   user-select: none;
   transition: 0.8s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -76,8 +75,7 @@
 }
 
 .weather.skeleton {
-  // The placeholder blocks are sized to the real widget so nothing moves when
-  // the data arrives. Values are measured from the loaded widget at 100% zoom.
+  // Measured from the loaded widget at 100% zoom, so nothing shifts when data arrives.
   .mainSkeletonIcon {
     width: 52px;
     height: 52px;
@@ -108,8 +106,7 @@
       font-size: 2em !important;
     }
 
-    // Only the temperature placeholder is set at temperature size; the min/max
-    // placeholders stay at subtitle size like the real widget.
+    // Only the temperature placeholder takes temperature size; min/max stay at subtitle size.
     .weathericon span {
       font-size: 34px;
       width: 59px;
@@ -240,9 +237,8 @@
 }
 
 .weather .weatherForecast {
-  // Forecast placeholders. Sized here so they beat the global .pulse 100% rule.
-  // Each bar matches the text it stands in for, so the row keeps the exact size
-  // of the finished forecast and the widget does not resize when it arrives.
+  // Sized here to beat the global .pulse 100% rule; each bar matches the text it
+  // stands in for, so the row keeps the size of the finished forecast.
   .wfSkeletonDay {
     width: 35px;
     height: 15px;

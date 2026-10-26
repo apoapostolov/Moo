@@ -1,9 +1,5 @@
-// todo: maybe move stuff
 /**
- * If the number is between 3 and 20, return the number with the suffix "th". Otherwise, return the
- * number with the suffix "st", "nd", "rd", or "th" depending on the last digit of the number
- * @param d - The day of the month.
- * @returns the day of the month with the appropriate suffix.
+ * Day of the month with its ordinal suffix: 1 becomes `1st`.
  */
 export function nth(d) {
   if (d > 3 && d < 21) {
@@ -23,10 +19,8 @@ export function nth(d) {
 }
 
 /**
- * It takes a date and a timezone and returns a new date object with the timezone applied.
- * @param date - The date you want to convert.
- * @param tz - The timezone you want to convert to.
- * @returns A new Date object with the timezone set to the timezone passed in.
+ * Shifts a date's wall-clock time to `tz` by re-parsing a localised string, so
+ * the returned Date's own offset no longer describes `tz`.
  */
 export function convertTimezone(date, tz) {
   return new Date(

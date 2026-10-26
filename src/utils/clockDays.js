@@ -1,9 +1,6 @@
 /**
- * The Progress clock answers for the days it is switched on for. On the others
- * the clock falls back to whatever the person picked, which is Digital until
- * they say otherwise.
- *
- * Weekdays are the values `Date#getDay` uses, so 0 is Sunday and 1 is Monday.
+ * Progress only answers for the days stored in `percentageDays`; the rest fall
+ * back to `percentageOffType`. Values are `Date#getDay` values, so 0 is Sunday.
  */
 export const WEEKDAYS = [
   { value: 1, label: 'MON' },
@@ -15,7 +12,7 @@ export const WEEKDAYS = [
   { value: 0, label: 'SUN' },
 ];
 
-// The working week, which is what "progress" means for most people.
+// Mon–Fri.
 export const DEFAULT_PERCENTAGE_DAYS = [1, 2, 3, 4, 5];
 
 export function readPercentageDays() {
@@ -41,18 +38,15 @@ export function isPercentageDay(date = new Date()) {
 }
 
 /**
- * Whether the days above have a say at all. On by default: the Progress clock
- * answers for its days and the others get the clock below, which is what the
- * widget did before the switch existed. Switched off, the Progress clock is the
- * clock for every day and the days are only a record of the week.
+ * Whether `percentageDays` restricts Progress at all. Defaults to on.
  */
 export function readPercentageFallback() {
   return localStorage.getItem('percentageFallback') !== 'false';
 }
 
 /**
- * The clock shown when the Progress clock is not on duty for today. Progress
- * itself is not offered here: it is the thing being switched off.
+ * The clock used on days Progress does not cover. Progress is never returned:
+ * it is the clock being replaced.
  */
 export function offClockType() {
   const stored = localStorage.getItem('percentageOffType');
@@ -61,7 +55,7 @@ export function offClockType() {
 }
 
 /**
- * The type the clock should actually draw right now.
+ * The clock type to render, after the day restriction is applied.
  */
 export function resolveTimeType() {
   const stored = localStorage.getItem('timeType');

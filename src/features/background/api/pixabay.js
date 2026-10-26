@@ -6,8 +6,8 @@ const PER_PAGE = 50;
 const MAX_PAGE = 10;
 const ATTEMPTS = 3;
 
-// Pixabay pages past the end of the results come back empty, so the number of
-// available pages is learned once and reused for the rest of the session.
+// Pages past the end of the results come back empty, so the page count is
+// learned once per session.
 let knownPages = null;
 
 const bestFile = (videos) =>
@@ -17,10 +17,7 @@ const bestFile = (videos) =>
 
 const slug = (id) => `pixabay-${id}`;
 
-/**
- * Fetches one random looping video from Pixabay. Returns null when the key is
- * missing or nothing usable came back, so the caller can fall back.
- */
+/** Null when the key is missing or nothing usable came back, so callers can fall back. */
 export async function fetchPixabayVideo() {
   const key = (localStorage.getItem('pixabayKey') || '').trim();
 

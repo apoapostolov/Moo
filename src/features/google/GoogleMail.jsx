@@ -27,9 +27,8 @@ const formatTime = (value) => {
   return date.toLocaleDateString([], { day: 'numeric', month: 'short' });
 };
 
-// The hover panel is placed against the card, not the row: it floats beside the
-// widget, level with the middle of the window, and stays there while the hand
-// moves down the list.
+// The hover panel is placed against the card, not the row: it floats beside the widget,
+// level with the middle of the window, and stays put as the hand moves down the list.
 const anchorFor = (node) => (node && node.closest('.googleWidget')) || node;
 
 const GoogleMail = () => {
@@ -38,19 +37,18 @@ const GoogleMail = () => {
   const [state, setState] = useState({ messages: [], unreadCount: 0, unreadOverflow: false });
   const [fetchError, setFetchError] = useState('');
   const [busy, setBusy] = useState(false);
-  // Nothing is drawn until the first answer is in: an empty card that fills in a
-  // moment later reads as a broken widget.
+  // Nothing is drawn until the first answer is in: an empty card that fills in later reads
+  // as broken.
   const [ready, setReady] = useState(false);
   const [preview, setPreview] = useState(null);
   const hoverTimer = useRef(null);
-  // Where the hand is right now. A wheel turns without moving the pointer, so the
-  // row under it changes while the pointer itself never moves; without this there
-  // is nothing to hit-test after a scroll.
+  // Where the hand is. A wheel turns without moving the pointer, so the row under it changes
+  // while the pointer does not; without this there is nothing to hit-test after a scroll.
   const pointer = useRef(null);
   const followFrame = useRef(0);
 
-  // A short intent delay, so sweeping the pointer across the list does not fire
-  // a message fetch for every row it crosses.
+  // A short intent delay, so sweeping the pointer across the list does not fire a fetch for
+  // every row it crosses.
   const openPreview = (message) => (hoverEvent) => {
     const anchor = anchorFor(hoverEvent.currentTarget);
 
@@ -60,16 +58,16 @@ const GoogleMail = () => {
 
   const keepPreview = () => clearTimeout(hoverTimer.current);
 
-  // Not immediate: the pointer has to be able to cross the gap into the panel to
-  // scroll a long message, and crossing the gap leaves the row first.
+  // Not immediate: the pointer must be able to cross the gap into the panel to scroll a long
+  // message, and crossing the gap leaves the row first.
   const closePreview = () => {
     clearTimeout(hoverTimer.current);
     hoverTimer.current = setTimeout(() => setPreview(null), 240);
   };
 
-  // The row under the pointer, right now. Scrolling the list moves rows under a
-  // hand that never moves, and mouseenter is not dependable for that: the panel
-  // would keep showing the message the pointer left behind.
+  // The row under the pointer. Scrolling moves rows under a hand that never moves, and
+  // mouseenter is not dependable for that: the panel would keep showing the message the pointer
+  // left behind.
   const followHoveredRow = useCallback(
     (closeWhenMissing) => {
       const point = pointer.current;
@@ -87,9 +85,8 @@ const GoogleMail = () => {
       const message = row && state.messages.find((item) => item.id === row.dataset.messageId);
 
       if (!message) {
-        // A scroll can take the row out from under the hand, so there is nothing
-        // left to describe. A move that crosses a gap is on its way somewhere and
-        // the leave timer decides.
+        // A scroll can take the row out from under the hand, leaving nothing to describe. A move
+        // that crosses a gap is on its way somewhere, and the leave timer decides.
         if (closeWhenMissing) setPreview(null);
 
         return;
@@ -121,9 +118,9 @@ const GoogleMail = () => {
   useEffect(() => {
     if (!preview) return undefined;
 
-    // One answer for every scroll, decided by where it came from: inside the panel
-    // it is the reader scrolling the message, inside the list it moves a new email
-    // under the hand, and anywhere else the panel would point at the wrong row.
+    // One answer per scroll, decided by its origin: inside the panel it is the reader scrolling
+    // the message, inside the list it moves a new email under the hand, and anywhere else the
+    // panel would point at the wrong row.
     const scheduleFollow = (closeWhenMissing) => {
       window.cancelAnimationFrame(followFrame.current);
       followFrame.current = window.requestAnimationFrame(() => followHoveredRow(closeWhenMissing));
@@ -143,10 +140,9 @@ const GoogleMail = () => {
       setPreview(null);
     };
 
-    // Moving the hand down the list is not one clean mouseenter per row: a slow
-    // sweep crosses boundaries faster than the intent delay, so the panel trails
-    // the pointer by a row and looks stuck on the email it left behind. With a
-    // panel already open the row under the hand is the answer, at once.
+    // A slow sweep crosses row boundaries faster than the intent delay, so the panel trails the
+    // pointer by a row and looks stuck on the email it left behind. With a panel already open
+    // the row under the hand is the answer, at once.
     const onMove = () => {
       if (pointer.current) scheduleFollow(false);
     };

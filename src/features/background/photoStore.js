@@ -1,11 +1,9 @@
 import { useSyncExternalStore } from 'react';
 
 /**
- * The background's current photo, published here so the Image Info widget can
- * draw the credit anywhere on the page instead of being tied to the element
- * that carries the picture.
- *
- * The snapshot is replaced, never mutated, so React can compare it by identity.
+ * Current background photo, published so the Image Info widget can draw the
+ * credit anywhere on the page. The snapshot is replaced, never mutated, so React
+ * can compare it by identity.
  */
 const EMPTY = { photoInfo: null, api: '', url: '' };
 

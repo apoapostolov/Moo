@@ -1,8 +1,8 @@
 import { readRecent, rememberClip, pickUnseen } from './videoHistory';
 
-// Coverr's site API. It is not a documented public API, so every response is
-// treated as untrusted: premium clips and vertical clips are skipped, and the
-// caller falls back to the offline image when nothing usable comes back.
+// Coverr's site API is undocumented, so responses are treated as untrusted:
+// premium and vertical clips are skipped, and null falls back to the offline
+// image.
 const COVERR_URL = 'https://coverr.co/api/videos';
 const RECENT_KEY = 'coverrRecent';
 const PAGES = 40;
@@ -13,10 +13,7 @@ const usableClip = (hit) =>
 
 const clipKey = (hit) => (usableClip(hit) ? hit.slug : null);
 
-/**
- * Fetches one random looping video clip. Coverr has no exclude parameter, so a
- * few pages are tried until one carries a clip that is not already on screen.
- */
+/** Coverr has no exclude parameter, so random pages are retried until one carries an unseen clip. */
 export async function fetchCoverrVideo() {
   const query = (localStorage.getItem('coverrQuery') || '').trim();
   const recent = readRecent(RECENT_KEY);
@@ -72,7 +69,6 @@ export async function fetchCoverrVideo() {
         },
       };
     } catch {
-      // Try another page.
     }
   }
 

@@ -12,21 +12,12 @@ const readHearted = () => {
   }
 };
 
-/**
- * Only the Mue library images are stored in the analytics database. Unsplash
- * photos are proxied live from Unsplash, so they are not there and their
- * counters return 404.
- */
+/** Only library images have counters; Unsplash photos are proxied live and answer 404. */
 export function canRecordCounter(photoInfo) {
   return Boolean(photoInfo?.id) && photoInfo?.api === 'mue';
 }
 
-/**
- * Records a view, download or heart against a library image.
- * @param {object} photoInfo The photo information for the current image.
- * @param {'view'|'download'|'heart'} kind Which counter to increment.
- * @returns {Promise<object|null>} The updated counters, or null if skipped.
- */
+/** kind is 'view', 'download' or 'heart'; null means the image has no counters. */
 export async function recordImageCounter(photoInfo, kind) {
   if (!canRecordCounter(photoInfo)) {
     return null;
@@ -49,8 +40,8 @@ export async function recordImageCounter(photoInfo, kind) {
 }
 
 /**
- * Hearts an image once. Toggling favourite off and on again is not a new heart,
- * so the ids that have already been counted are remembered locally.
+ * Toggling favourite off and on again is not a new heart, so counted ids are
+ * remembered locally.
  */
 export async function recordHeartOnce(photoInfo) {
   if (!canRecordCounter(photoInfo)) {

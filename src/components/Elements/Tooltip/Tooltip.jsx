@@ -24,7 +24,7 @@ function Tooltip({ children, title, style, placement, subtitle }) {
   });
 
   const handleMouseEnter = () => {
-    // Clear any pending close timeout if mouse re-enters during exit
+    // Re-entering during the exit cancels the pending close.
     if (closeTimeout.current) {
       clearTimeout(closeTimeout.current);
       closeTimeout.current = null;
@@ -35,7 +35,7 @@ function Tooltip({ children, title, style, placement, subtitle }) {
 
   const handleMouseLeave = () => {
     setIsClosing(true);
-    // Wait for exit animation to complete before unmounting
+    // Unmount only after the exit animation has run.
     closeTimeout.current = setTimeout(() => {
       setShowTooltip(false);
       setIsClosing(false);
@@ -59,7 +59,6 @@ function Tooltip({ children, title, style, placement, subtitle }) {
     }, 200);
   };
 
-  // Determine the data-status attribute value
   const getStatus = () => {
     if (!showTooltip && !isClosing) return 'initial';
     if (isClosing) return 'close';

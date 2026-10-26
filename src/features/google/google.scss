@@ -14,12 +14,12 @@
   }
 }
 
-// Widgets sit on top of a photo or video, so they need their own contrast
-// instead of inheriting the page text colour.
+// Widgets sit over a photo or video, so their contrast comes from the card, not the
+// page text colour.
 .googleWidget {
   animation: googleWidgetIn 150ms ease-out both;
-  // The page centres everything, and these rows are laid out edge to edge
-  // inside the card, so both have to be settled here rather than inherited.
+  // The page centres its content and these rows run edge to edge in the card, so both
+  // need settling here rather than being inherited.
   box-sizing: border-box;
   width: 340px;
   padding: 12px 14px;
@@ -28,8 +28,8 @@
   color: #fff;
   font-size: 13px;
   line-height: 1.4;
-  // A heavier scrim keeps the cards looking like one set: a thinner one lets
-  // the photo behind each card tint it a different colour.
+  // A heavier scrim keeps the set uniform: a thinner one lets each card's photo tint it
+  // a different colour.
   background: rgb(0 0 0 / 62%);
   backdrop-filter: blur(18px);
   box-shadow: 0 10px 30px rgb(0 0 0 / 22%);
@@ -178,9 +178,8 @@
 }
 
 /*
- * Every element of a task row shares one middle line: the box on the first line
- * of the title, and the date on the same axis as the title rather than on its
- * own baseline.
+ * Task rows share one middle line: the tick sits on the title's first line and the
+ * date on the title's axis rather than on its own baseline.
  */
 .gwCheckSlot {
   flex: 0 0 auto;
@@ -221,9 +220,8 @@
   color: inherit;
   background: transparent;
   cursor: pointer;
-  // The closed control stays invisible on the card, but the list it opens is
-  // drawn by the browser: without a dark scheme it paints a light popup and the
-  // card's white text turns into white-on-white.
+  // The closed control is invisible on the card, but the browser paints the open list
+  // from the option colours: without a dark scheme it is light under white text.
   color-scheme: dark;
 
   option {
@@ -232,12 +230,9 @@
   }
 }
 
-// The dialog is a real <dialog> in the top layer, so it needs none of the
-// z-index juggling the page itself does. The scrim is its own ::backdrop: a
-// backdrop-filter here would put the scrim in the same composited layer that
-// makes the cards paint over ordinary overlays.
-// The hover preview of a whole message. It is a popover, so the top layer holds
-// it above the card that spawned it; the numbers here are only its shape.
+// A real <dialog> sits in the top layer, so it needs no z-index; the scrim is its own ::backdrop,
+// since a backdrop-filter here would join the composited layer the cards paint over.
+// Hover preview of a whole message: a popover, so the top layer keeps it above the card.
 .gwPreview {
   @extend %basic;
 
@@ -348,16 +343,15 @@
   padding: 0;
   border: 0;
 
-  // One definite width for every dialog. Sizing this by its contents made the
-  // panel narrower than the controls it held, so the body grew a horizontal
-  // scrollbar and the fields ran past the right padding.
+  // One fixed width for every dialog: content sizing made the panel narrower than its
+  // own controls, which added a horizontal scrollbar.
   width: min(500px, calc(100vw - 48px));
   max-height: 86vh;
   flex-direction: column;
   overflow: hidden;
 
-  // Padding is part of the box from here down, so a 100% field is 100% of the
-  // space it actually sits in.
+  // Padding is inside the box from here down, so a 100% field is 100% of the space it
+  // sits in.
   &,
   * {
     box-sizing: border-box;
@@ -397,8 +391,8 @@
 .gwDialogBody {
   padding: 4px 16px 8px;
   overflow-y: auto;
-  // overflow-y: auto already computes overflow-x to auto; saying it out loud
-  // keeps a stray wide child from adding a sideways scrollbar.
+  // overflow-y: auto already computes overflow-x to auto; stating it keeps a stray wide
+  // child from adding a sideways scrollbar.
   overflow-x: hidden;
 }
 
@@ -413,8 +407,8 @@
   flex: 1;
 }
 
-// What the title box was understood to mean, so a date read out of the sentence
-// is never a surprise at save time.
+// What the title box was understood to mean, so a parsed date is never a surprise at
+// save time.
 .gwParsedHint {
   margin: -4px 0 0;
   font-size: 11.5px;
@@ -463,9 +457,8 @@
     }
   }
 
-  // The list a select opens is painted by the browser from the option's own
-  // colours, so a themed control with unthemed options can open a light list
-  // under light text.
+  // The browser paints the open list from the option colours: a themed control with
+  // unthemed options opens a light list under light text.
   option {
     @include themed {
       color: t($color);
@@ -476,8 +469,7 @@
   input,
   textarea {
     width: 100%;
-    // No fixed floor: a field narrower than the dialog is the dialog's business,
-    // and a hard minimum here is what pushed the form past its own padding.
+    // No fixed floor: a hard minimum here pushed the form past the dialog's own padding.
     min-width: 0;
     padding: 8px 10px;
     border-radius: 9px;
@@ -502,9 +494,7 @@
     resize: vertical;
   }
 
-
-  // A checkbox is not a text field: the 100% width above stretched it across the
-  // whole row, box and all.
+  // A checkbox is not a text field: the 100% width above stretched box and all.
   input[type='checkbox'] {
     width: auto;
     min-width: 0;
@@ -528,9 +518,8 @@
   display: flex;
   gap: 10px;
 
-  // The fields share the row, so neither may hold a minimum of its own: a
-  // date input's intrinsic width is wider than half a narrow dialog and would
-  // push its neighbour out of the panel.
+  // Neither field may hold a minimum: a date input's intrinsic width exceeds half a
+  // narrow dialog and would push its neighbour out of the panel.
   label {
     flex: 1;
     min-width: 0;
@@ -583,8 +572,8 @@
   }
 }
 
-// The Google section is a three step setup, so the numbers have to survive a
-// narrow settings column and read as a sequence, not as decoration.
+// A three-step setup, so the numbers must survive a narrow settings column and read as
+// a sequence rather than decoration.
 .googleStepNumber {
   display: inline-flex;
   align-items: center;
@@ -637,8 +626,8 @@
   text-decoration: none;
 }
 
-// A calendar is identified by its colour first, so the dot is part of the name
-// everywhere the calendar is listed.
+// A calendar is recognised by its colour first, so the dot belongs to the name wherever
+// it is listed.
 .gwDot {
   display: inline-block;
   width: 8px;
@@ -649,9 +638,8 @@
   background: rgb(255 255 255 / 45%);
 }
 
-// The settings Action column is a flex column aligned to the end, so a list
-// narrower than the column drifts to the right. Stretching it keeps the ticks
-// on the same left edge as every other control in the row.
+// The Action column is flex-end, so a narrower list drifts right; stretching it keeps the
+// ticks on the same left edge as every other control in the row.
 .gwCalendarPicker {
   align-self: stretch;
   box-sizing: border-box;
@@ -699,8 +687,8 @@
   text-overflow: ellipsis;
 }
 
-// Category and folder ticks, each with its own glyph so the list reads as
-// Gmail's own category strip rather than five anonymous checkboxes.
+// Category and folder ticks, each with its own glyph so the list reads as Gmail's own
+// category strip rather than five anonymous checkboxes.
 .gwOptionList {
   align-self: stretch;
   box-sizing: border-box;
@@ -755,8 +743,8 @@
   }
 }
 
-// One control with three notches, not three loose buttons: the choice decides
-// everything below it, so it has to read as tabs rather than as a row of chips.
+// One control with three notches rather than three loose buttons: the choice governs
+// everything below it, so it must read as tabs.
 .gwSegmented {
   display: flex;
   width: 100%;
@@ -802,9 +790,9 @@
   }
 }
 
-// Every button in a settings row carries a 10px top margin, which pushed the
-// filled pill below the middle of its own track. That rule is wrapped in a theme
-// class and a type selector, so this needs to be more specific, not !important.
+// Settings-row buttons carry a 10px top margin that pushed the pill below its track's
+// middle. That rule is theme- and type-scoped, so raise specificity rather than use
+// !important.
 .settingsRow .action .gwSegmented .gwSegment.gwSegment {
   margin: 0;
 }
@@ -831,7 +819,7 @@
   background: #4c8dff;
 }
 
-/* Asked for less motion: the card is simply there. */
+/* Reduced motion: the card appears without the fade. */
 @media (prefers-reduced-motion: reduce) {
   .googleWidget {
     animation: none;

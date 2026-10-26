@@ -34,7 +34,6 @@
   display: flex;
   flex-flow: column;
 
-
   &.disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -135,8 +134,8 @@
     }
   }
 
-  // A control near the bottom of a scrolling pane has nowhere to open, so the
-  // menu flips above it instead of running past the edge.
+  // A control near the bottom of a scrolling pane has nowhere to open, so the menu flips above
+  // it instead of running past the edge.
   &.up .dropdown-menu {
     top: auto;
     bottom: calc(100% + 4px);

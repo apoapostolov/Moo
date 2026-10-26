@@ -55,8 +55,8 @@ export const updateTask = async (listId, taskId, { title, notes, due, status }) 
 };
 
 /**
- * Completing is a status change, not a separate endpoint: Google keeps the task
- * in the list with `status: completed` and stamps `completed`.
+ * Completing is a status change, not a separate endpoint: the task stays in the list with
+ * `status: completed` and a `completed` stamp.
  */
 export const setTaskCompleted = async (listId, taskId, completed) =>
   updateTask(listId, taskId, { status: completed ? 'completed' : 'needsAction' });

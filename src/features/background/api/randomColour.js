@@ -1,10 +1,5 @@
-/**
- * It returns a random colour or random gradient as a style object
- * @param type - The type of the style. This is used to determine which style builder to use.
- * @returns An object with two properties: type and style.
- */
 export function randomColourStyleBuilder(type) {
-  // randomColour based on https://stackoverflow.com/a/5092872
+  // Hex via replacing each '0' of '#000000', per https://stackoverflow.com/a/5092872
   const randomColour = () =>
     '#000000'.replace(/0/g, () => {
       return (~~(Math.random() * 16)).toString(16);

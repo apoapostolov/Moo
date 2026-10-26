@@ -1,10 +1,6 @@
 import offlineImages from '../offline_images.json';
 
-/**
- * Gets a random offline image from the bundled collection
- * @param {string} type - The background type (for storage)
- * @returns {object} Background data object with offline image
- */
+/** Bundled fallback image, also written to `currentBackground`. */
 export function getOfflineImage(type) {
   const photographers = Object.keys(offlineImages);
   const photographer = photographers[Math.floor(Math.random() * photographers.length)];

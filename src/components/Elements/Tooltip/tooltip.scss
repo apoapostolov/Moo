@@ -37,12 +37,12 @@
     opacity 0.2s ease-out,
     transform 0.2s ease-out;
 
-  // Initial state (not yet shown)
+  // Hidden.
   &[data-status='initial'] {
     opacity: 0;
   }
 
-  // Open state - entrance animation
+  // Open: entrance animation.
   &[data-status='open'] {
     opacity: 1;
     transform: translate(0, 0);
@@ -51,7 +51,7 @@
     animation-timing-function: ease-in;
   }
 
-  // Closing state - exit animation
+  // Closing: exit animation.
   &[data-status='close'] {
     opacity: 0;
 

@@ -1,8 +1,7 @@
 /*
- * Scratch notes sit on the wallpaper as paper would: a thin pane of dark glass,
- * tilted, with the words on top of it. The layer itself must not eat clicks, so
- * only the notes inside it are reachable and everything else falls through to
- * the page.
+ * Notes sit on the wallpaper as paper would: a thin pane of dark glass, tilted,
+ * with the text over it. The layer must not eat clicks, so only the notes inside
+ * it are reachable.
  */
 .scratchLayer {
   position: fixed;
@@ -12,10 +11,9 @@
 }
 
 /*
- * A note arrives rather than appearing: it lifts a few pixels, settles from
- * just under its own size, and fades up. `translate` and `scale` are their own
- * properties, so this composes with the tilt the note carries in `transform`
- * instead of overwriting it. The stagger per note is inline in the component.
+ * A note arrives: it lifts a few pixels, settles from slightly under its own size,
+ * and fades up. `translate` and `scale` are separate properties, so this composes
+ * with the tilt in `transform` instead of overwriting it.
  */
 @keyframes scratchNoteIn {
   from {
@@ -61,7 +59,7 @@
   &.dragging {
     cursor: grabbing;
     box-shadow: 0 22px 46px rgb(0 0 0 / 34%);
-    // No easing while the hand is moving, or the note lags behind the pointer.
+    // No easing during a drag, or the note lags the pointer.
     transition: none;
   }
 
@@ -97,7 +95,7 @@
     background: rgb(255 255 255 / 12%);
   }
 
-  // Armed: the second click is the one that removes the note.
+  // Armed: the second click removes the note.
   &.armed {
     opacity: 1;
     color: #ff9d9d;
@@ -261,7 +259,7 @@
     font-weight: 700;
   }
 
-  // Raw HTML in a note is shown as its own text, so it needs to look plain.
+  // Raw HTML is shown as text, so it needs to look plain.
   .scratchNoteRaw {
     font-family: inherit;
     white-space: pre-wrap;

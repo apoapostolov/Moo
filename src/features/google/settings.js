@@ -1,9 +1,6 @@
 /**
- * Every Google preference in one place. The widgets and the settings screen both
- * read from here, so a control cannot drift away from the value the widget uses.
- *
- * Nothing here is required: each getter has a default that matches how Moo
- * behaved before the controls existed.
+ * Every Google preference in one place, read by the widgets and the settings screen so a control
+ * cannot drift from the widget's value. Getters default to the pre-control behaviour.
  */
 
 const readNumber = (key, fallback) => {
@@ -106,9 +103,8 @@ export const readCalendarIds = () => {
 };
 
 /**
- * The calendar a new event starts in. One picked in settings wins, then the one
- * used last, and only then whatever the caller would have guessed: Google's own
- * default, or the first calendar that is listed.
+ * The calendar a new event starts in: one picked in settings wins, then the one used last,
+ * then the caller's guess (Google's default or the first calendar listed).
  */
 export const eventCalendarId = (calendars = [], fallback = 'primary') => {
   const listed = (id) => Boolean(id) && calendars.some((calendar) => calendar.id === id);
@@ -127,7 +123,7 @@ export const eventCalendarId = (calendars = [], fallback = 'primary') => {
 /** The calendar picked in settings, or an empty string for "use the last one". */
 export const readPrimaryCalendar = () => readText('googlePrimaryCalendar');
 
-/** Remembered so the next new event opens on the calendar just used. */
+/** Remembered so the next new event opens on the calendar last used. */
 export const rememberCalendar = (id) => {
   if (id) localStorage.setItem('googleLastCalendar', id);
 };
@@ -169,8 +165,8 @@ export const getMailSettings = () => ({
 });
 
 /**
- * A checkbox reads `=== 'true'`, so a preference that defaults to on has to be
- * written down the first time or the control and the widget would disagree.
+ * A checkbox reads `=== 'true'`, so a preference defaulting to on must be written the first
+ * time or the control and the widget disagree.
  */
 const DEFAULTS = {
   googleCalendarRange: '7',

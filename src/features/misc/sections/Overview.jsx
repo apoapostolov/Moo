@@ -42,12 +42,11 @@ import {
 
 import EventBus from 'utils/eventbus';
 
-// The three zones, in the order they are drawn around the preview.
+// Zones in the order they are drawn around the preview.
 const ZONE_TITLES = { left: 'Left', center: 'Centre', right: 'Right' };
 
-// How long a card has to be held over another one in the middle column before
-// that one steps aside. Short enough to feel like a deliberate gesture, long
-// enough that dragging past a row on the way somewhere else never triggers it.
+// Ms a card must be held over another in the middle column before that one steps
+// aside: long enough that dragging past a row never triggers it.
 const HOLD_MS = 260;
 
 const widgetLabel = (id) => {
@@ -57,9 +56,8 @@ const widgetLabel = (id) => {
 };
 
 /**
- * The row under the pointer wins over the container it sits in, and a container
- * only answers where the pointer is really inside it. Corners alone let a large
- * box on the far side of the panel claim a drop that was aimed at a row.
+ * A row wins over the container it sits in, and a container only answers where
+ * the pointer is really inside it, so a far corner cannot claim a drop aimed at a row.
  */
 const collisionDetection = (args) => {
   const hits = pointerWithin(args);
@@ -95,10 +93,7 @@ const SortableItem = ({ id, enabled, onToggle, secondColumn, makingRoom }) => {
   );
 };
 
-/**
- * One of the three drop containers. The whole box is the drop target, so a
- * widget can be dropped into a zone that is still empty.
- */
+/** A drop container: the whole box is the target, so an empty zone still accepts a widget. */
 const Zone = ({ zone, items, onToggle, isEnabled, secondLane, makingRoomId, hovered }) => {
   const { setNodeRef, isOver } = useDroppable({ id: zone });
   const className = `widgetZone${isOver || hovered ? ' widgetZoneOver' : ''}`;
@@ -128,11 +123,9 @@ const Zone = ({ zone, items, onToggle, isEnabled, secondLane, makingRoomId, hove
 const Overview = () => {
   const [groups, setGroups] = useState(() => groupByZone(readOrder(), readPlacement()));
   const [secondLane, setSecondLane] = useState(readSecondLane);
-  // The card that has been held over long enough to step aside, and the drag
-  // handler that is waiting for it.
+  // The card held long enough to step aside.
   const [steppedAside, setSteppedAside] = useState(null);
-  // The column a card is being dragged over, so the box it will land in says so
-  // without the lists having to move anything mid-gesture.
+  // The column being dragged over; it highlights without any list moving mid-gesture.
   const [hoverZone, setHoverZone] = useState(null);
   const holdRef = useRef(null);
 
@@ -159,9 +152,8 @@ const Overview = () => {
   }, []);
 
   /**
-   * A card held over another one in the middle column asks it to step aside.
-   * The timer is per target, so moving along the list never fires a card that
-   * was only passed over.
+   * Holding over a row asks it to step aside. The timer is per target, so a card
+   * that is only passed over never fires.
    */
   const holdOver = useCallback((id) => {
     if (holdRef.current?.id === id) return;
@@ -185,11 +177,10 @@ const Overview = () => {
   }, []);
 
   /**
-   * Nothing moves between the lists while a card is in the air. Moving a row to
-   * another container unmounts the element dnd-kit is dragging, which ends the
-   * gesture on the spot: the card stops at the border of the list it came from
-   * and drops back into it. So the drag only lights up the column it is over,
-   * and the move itself happens once, on the drop.
+   * Nothing moves between lists while a card is in the air: moving a row to another
+   * container unmounts the element dnd-kit is dragging, which ends the gesture and
+   * drops the card back where it came from. So the drag only lights up the column
+   * it is over, and the move happens once, on drop.
    */
   const handleDragOver = ({ active, over }) => {
     const from = findZone(active.id);
@@ -201,8 +192,7 @@ const Overview = () => {
       over.id !== active.id &&
       from === 'center' &&
       to === 'center' &&
-      // Only a card has a second column to move into; the clock and the like
-      // read across the whole middle and stay put.
+      // Only a card has a second column to move into; full-width lines stay put.
       !isFullWidth(over.id) &&
       !isFullWidth(active.id);
 
@@ -211,9 +201,8 @@ const Overview = () => {
   };
 
   /**
-   * Which row the dragged card was left over. `over` is usually a row, but the
-   * container itself is a drop target too, and then there is no row to take an
-   * index from: the card's own centre answers instead.
+   * The row the card was left over. `over` may be the container instead, which has
+   * no row to index from, so the card's own centre answers.
    */
   const dropIndex = (zone, ids, active, over) => {
     if (over && ids.includes(over.id)) return ids.indexOf(over.id);
@@ -223,11 +212,9 @@ const Overview = () => {
     if (!dragged) return -1;
 
     const centre = dragged.top + dragged.height / 2;
-    // The dragged card follows the pointer, so it is the nearest row to itself
-    // whenever the pointer has not left the row it came from — which resolves to
-    // its own index and leaves the list alone, exactly what a drop that barely
-    // moved should do. In another column it is not in the list at all and the
-    // row it was dropped over answers instead.
+    // The dragged card follows the pointer, so over its own list it resolves to its
+    // own index and leaves the list alone; in another column it is not in the list
+    // and the nearest row answers instead.
     const rows = [...document.querySelectorAll(`.widgetZone[data-zone="${zone}"] .sortableItem`)];
 
     let best = -1;
@@ -251,8 +238,8 @@ const Overview = () => {
   };
 
   /**
-   * The card joins the column of the card it was dropped beside, which is how
-   * both columns grow; dropped anywhere else in the middle it goes to the first.
+   * The card joins the column of the card it was dropped beside; dropped anywhere
+   * else in the middle it goes to the first.
    */
   const laneFor = (id, over) => {
     const beside = over && groups.center.includes(over.id) && over.id !== id ? over.id : null;
@@ -274,11 +261,11 @@ const Overview = () => {
     if (!from || !to) return;
 
     if (to !== 'center') {
-      // Leaving the middle column means leaving its second column as well.
+      // Leaving the middle column also leaves its second lane.
       setSecondLane(lane(active.id));
     } else if (aside && aside !== active.id) {
-      // Dropped into the space the held card opened: the dragged card takes
-      // that place in the first column and the other one keeps the second.
+      // Dropped into the space the held card opened: the dragged card takes that
+      // place in the first column, the held one keeps the second.
       setSecondLane([...lane(active.id).filter((id) => id !== aside), aside]);
 
       setGroups((previous) => {
@@ -339,13 +326,11 @@ const Overview = () => {
     localStorage.setItem(widget.setting, String(!current));
     variables.stats.postEvent('setting', 'Widget toggle');
     EventBus.emit('refresh', 'widgets');
-    // The checkbox state lives in localStorage, so the list is re-read rather
-    // than tracked twice.
+    // Checkbox state lives in localStorage, so the list is re-read rather than tracked twice.
     setGroups((previous) => ({ ...previous }));
   };
 
-  // Every drop writes the layout the page reads: the order, the zone each
-  // widget sits in, and the middle column's second lane.
+  // Persists on every change: order, the zone each widget sits in, and the middle lane.
   useEffect(() => {
     saveOrder([...groups.left, ...groups.center, ...groups.right]);
     savePlacement(placementFromGroups(groups));
@@ -365,17 +350,14 @@ const Overview = () => {
       case 'quicklinks':
         return <QuickLinks />;
       case 'aiask':
-        // The query line has no card to fake: it is a hint and a hairline, so
-        // that is what the preview draws.
+        // The query line is a hint and a hairline, so the preview draws that and no card.
         return (
           <div className="aiAskSkeleton" aria-hidden="true">
             <span className="aiAskSkeletonText" />
             <span className="aiAskSkeletonLine" />
           </div>
         );
-      // Weather Full is the page's own corner card. A skeleton of it sat in the
-      // preview's bottom corner like a squashed copy of the real thing, and the
-      // zone list right beside the preview already names it, so it draws nothing.
+      // Weather Full is the page's own corner card and the zone list already names it.
       case 'photoinfo':
       case 'mail':
       case 'calendar':
@@ -386,8 +368,7 @@ const Overview = () => {
     }
   };
 
-  // `wide` is for the four lines that read across the middle column: they are
-  // two cards wide in the page and so two cards wide here.
+  // `wide` for the lines that read across the middle column: two cards wide, as on the page.
   const previewCard = ({ id, node }, wide = false) => (
     <div className={`previewItem${wide ? ' previewItem-wide' : ''}`} key={`preview-${id}`}>
       {node}
@@ -403,9 +384,7 @@ const Overview = () => {
   const previewZone = (zone) => {
     const items = previewItems(zone);
 
-    // The middle column is drawn as one column until something sits in the
-    // second one — or until a card is being held aside, which shows the result
-    // before the drop.
+    // One column until something sits in the second, or until a card is held aside.
     const aside = steppedAside && items.some(({ id }) => id === steppedAside) ? steppedAside : null;
 
     if (zone !== 'center' || (!aside && secondLane.length === 0)) {

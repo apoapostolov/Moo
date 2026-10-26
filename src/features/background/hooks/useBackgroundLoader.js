@@ -1,9 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 import { getBackgroundData } from '../api/backgroundLoader';
 
-/**
- * Hook for loading and refreshing background data
- */
 export function useBackgroundLoader(updateBackground, resetBackground) {
   const isLoadingRef = useRef(false);
 
@@ -12,7 +9,7 @@ export function useBackgroundLoader(updateBackground, resetBackground) {
     isLoadingRef.current = true;
 
     try {
-      // Check for welcome tab first
+      // The welcome tab reuses the image stored for it instead of fetching one.
       const welcomeTab = localStorage.getItem('welcomeTab');
       if (welcomeTab) {
         const welcomeImage = localStorage.getItem('welcomeImage');
@@ -38,7 +35,6 @@ export function useBackgroundLoader(updateBackground, resetBackground) {
     loadBackground();
   }, [loadBackground, resetBackground]);
 
-  // Initial load - only run once on mount
   useEffect(() => {
     const changeMode = localStorage.getItem('backgroundchange');
     const hasStartTime = localStorage.getItem('backgroundStartTime');

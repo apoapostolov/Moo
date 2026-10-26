@@ -34,12 +34,10 @@ const TimeOptions = () => {
   const [secondColour, setSecondColour] = useState(
     localStorage.getItem('secondColour') || '#ffffff',
   );
-  // The date is switched on and off here, so this section has to know the state
-  // to dim its options the same way every other section does.
+  // Tracked here because this section toggles the date and dims its options like the rest.
   const [dateEnabled, setDateEnabled] = useState(localStorage.getItem('date') === 'true');
   const [percentageDays, setPercentageDays] = useState(readPercentageDays);
-  // Whether the days above have a say: off, the Progress clock is the clock for
-  // every day and the rows below it stop applying.
+  // Off means the Progress clock applies every day, so the day rows below stop applying.
   const [percentageFallback, setPercentageFallback] = useState(readPercentageFallback);
   const TIME_SECTION = 'modals.main.settings.sections.time';
 

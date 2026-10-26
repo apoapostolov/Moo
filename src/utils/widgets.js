@@ -1,13 +1,9 @@
 import variables from 'config/variables';
 
 /**
- * Every widget the page can show, in one list. The settings panel and the page
- * both read it, so a widget cannot be offered in one place and be missing from
- * the other.
- *
- * `zone` is where the widget sits in the new tab page when the profile has not
- * said otherwise: the two cards that used to be pinned to the corners keep
- * their corners, and everything else stays in the middle column.
+ * Every widget in one list, read by both the settings panel and the page so the
+ * two cannot disagree. `zone` is the default placement; widgets without one sit
+ * in the centre column.
  */
 export const WIDGETS = [
   {
@@ -17,8 +13,7 @@ export const WIDGETS = [
     fullWidth: true,
   },
   {
-    // The full card, not the one-line reading. Named so the two weather widgets
-    // are told apart in the order list.
+    // The full card, not the one-line reading.
     id: 'weather',
     label: () => 'Weather Full',
     setting: 'weatherEnabled',
@@ -38,8 +33,7 @@ export const WIDGETS = [
     fullWidth: true,
   },
   {
-    // The query line: a question typed on the new tab page goes to an AI
-    // service, Google's AI Mode by default.
+    // A question typed here goes to an AI service, Google AI Mode by default.
     id: 'aiask',
     label: () => 'AI Ask',
     setting: 'aiAskEnabled',
@@ -67,8 +61,7 @@ export const WIDGETS = [
     setting: 'googleTasksEnabled',
   },
   {
-    // The photographer credit card the background used to pin to its own corner.
-    // It shares the Display setting that has always shown and hidden it.
+    // Photographer credit card, driven by the `photoInformation` setting.
     id: 'photoinfo',
     label: () => 'Image Info',
     setting: 'photoInformation',
@@ -85,18 +78,16 @@ export const DEFAULT_ORDER = ['time', 'weather', 'date', 'quickweather', 'quickl
 export const widgetById = (id) => WIDGETS.find((widget) => widget.id === id);
 
 /**
- * The clock, the date, the one-line weather and the query line are lines of the
- * page rather than cards on it: they read across the whole middle column and are
- * never put in one of its halves. Only cards are arranged in two columns.
+ * These are lines rather than cards: full width of the centre column, never put
+ * in one of its halves.
  */
 export const isFullWidth = (id) => Boolean(widgetById(id)?.fullWidth);
 
 const defaultZone = (widget) => widget.zone || 'center';
 
 /**
- * The order a profile should be read at: legacy names repaired, unknown entries
- * dropped, and every widget known to this build present so it can be switched
- * on from Overview.
+ * Order for reading a profile: legacy names repaired, unknown ids dropped, and
+ * any widget this build knows about appended.
  */
 export function readOrder() {
   let stored = null;
@@ -128,8 +119,8 @@ export function saveOrder(order) {
 }
 
 /**
- * Which zone each widget sits in. A profile with no stored placement keeps the
- * corners it has always used, so nothing moves on upgrade.
+ * Zone per widget. Anything unstored or unrecognised falls back to the widget's
+ * default zone, so nothing moves on upgrade.
  */
 export function readPlacement() {
   let stored = {};
@@ -156,7 +147,7 @@ export function savePlacement(placement) {
 }
 
 /**
- * The order split into the three zones, each keeping the widget order within it.
+ * Order split into the three zones, the widget order preserved within each.
  */
 export function groupByZone(order, placement) {
   const groups = { left: [], center: [], right: [] };
@@ -183,10 +174,8 @@ export function placementFromGroups(groups) {
 }
 
 /**
- * The middle column can be split in two. The second column is stored as the list
- * of widgets that sit in it; everything else in the centre stays in the first,
- * so a profile that has never split the column stores nothing and the page
- * draws a single column exactly as it always has.
+ * Widgets in the centre column's second lane. An empty list means the page draws
+ * a single column, which is why nothing is stored until the lane is used.
  */
 export function readSecondLane() {
   try {
@@ -203,8 +192,8 @@ export function saveSecondLane(ids) {
 }
 
 /**
- * A widget with no stored value takes its own default: Weather Now is on for
- * everyone, and the rest are off until switched on.
+ * A widget with no stored value takes its own default; only Weather Now is on
+ * by default.
  */
 export function isWidgetEnabled(id) {
   const widget = widgetById(id);

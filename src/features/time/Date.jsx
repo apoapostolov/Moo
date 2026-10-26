@@ -13,10 +13,7 @@ const DateWidget = () => {
   const [fontSize, setFontSize] = useState('1em');
   const dateRef = useRef();
 
-  /**
-   * Get the week number of the year for the given date.
-   * @param {Date} date
-   */
+  /** ISO week number: week 1 is the one holding the year's first Thursday. */
   const getWeekNumber = (date) => {
     const dateToday = new Date(date.valueOf());
     const dayNumber = (dateToday.getDay() + 6) % 7;
@@ -69,7 +66,7 @@ const DateWidget = () => {
           day = dateYear;
           year = dateDay;
           break;
-        // DMY
+        // Anything else is DMY.
         default:
           break;
       }
@@ -94,7 +91,6 @@ const DateWidget = () => {
 
       setDate(format);
     } else {
-      // Long date
       const lang = variables.languagecode.split('_')[0];
       const datenth =
         localStorage.getItem('datenth') === 'true' ? nth(date.getDate()) : date.getDate();
@@ -114,7 +110,7 @@ const DateWidget = () => {
         case 'YMD':
           formattedDate = `${dateYear} ${dateMonth} ${datenth}${dateDay ? `, ${dateDay}` : ''}`;
           break;
-        // DMY
+        // Anything else is DMY.
         default:
           formattedDate = `${datenth} ${dateMonth} ${dateYear}${dateDay ? `, ${dateDay}` : ''}`;
           break;

@@ -5,11 +5,8 @@ import { Checkbox, Dropdown } from 'components/Form/Settings';
 
 import { Row, Content, Action } from 'components/Layout/Settings/Item';
 
-/**
- * The date is part of the clock, so its settings render inside the Time section.
- * This component therefore holds only the rows: the section header and the
- * switch that shows or hides the date belong to TimeOptions.
- */
+/** The date renders inside the Time section, so this holds only its rows: the
+ *  header and the show/hide switch belong to TimeOptions. */
 function DateOptions() {
   const [dateType, setDateType] = useState(localStorage.getItem('dateType') || 'long');
   const dateFormats = ['DMY', 'MDY', 'YMD'];

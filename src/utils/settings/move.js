@@ -1,9 +1,7 @@
 import { setDefaultSettings } from './default';
 
 /**
- * Saves all of the current settings, resets them, sets the defaults and then overrides
- * the new settings with the old saved messages where they exist.
- * @returns the result of the setDefaultSettings() function.
+ * Resets to defaults, then restores every stored key that still exists.
  */
 export function moveSettings() {
   const currentSettings = Object.keys(localStorage);

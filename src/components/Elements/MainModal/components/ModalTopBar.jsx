@@ -4,7 +4,6 @@ import { Tooltip } from 'components/Elements';
 import { NAVBAR_BUTTONS } from '../constants/tabConfig';
 import mueAboutIcon from 'assets/icons/mue_about.png';
 
-// Map marketplace types to translation keys
 const MARKETPLACE_TYPE_TO_KEY = {
   photo_packs: 'modals.main.marketplace.photo_packs',
   photos: 'modals.main.marketplace.photo_packs',
@@ -32,20 +31,16 @@ function ModalTopBar({
 }) {
   const t = useT();
 
-  // Get the current tab label
   const currentTabButton = NAVBAR_BUTTONS.find(({ tab }) => tab === currentTab);
   const currentTabLabel = currentTabButton ? t(currentTabButton.messageKey) : '';
 
-  // Utility function to get translated sub-section label
   const getSubSectionLabel = (subSection, sectionName) => {
     if (!subSection || !sectionName) return subSection;
 
-    // Use the same translation pattern as the section components
+    // Sections translate by passing the label as the key, so a missing key comes back unchanged.
     const translationKey = `modals.main.settings.sections.${sectionName}.${subSection}.title`;
     const translated = t(translationKey);
 
-    // If translation key is returned as-is or empty, it means translation doesn't exist
-    // Fall back to capitalized sub-section name
     if (!translated || translated === translationKey) {
       return subSection.charAt(0).toUpperCase() + subSection.slice(1);
     }
@@ -53,7 +48,7 @@ function ModalTopBar({
     return translated;
   };
 
-  // Determine breadcrumb path with click handlers
+  // Breadcrumb trail.
   const breadcrumbPath = [];
 
   if (currentTabLabel) {
@@ -62,13 +57,11 @@ function ModalTopBar({
       onClick: productView ? productView.onBackToAll : null, // Clickable if viewing a product
     });
 
-    // Check if we have iframe breadcrumbs (from Discover iframe)
-    // If so, only use the last item (the item name) and keep our section
+    // A Discover iframe sends its own trail: keep the section and take only the item name.
     if (iframeBreadcrumbs && iframeBreadcrumbs.length > 0) {
-      // Get the last breadcrumb item (the item name)
       const lastCrumb = iframeBreadcrumbs[iframeBreadcrumbs.length - 1];
 
-      // Add current section if available and different from the last crumb
+      // Insert the section above the last crumb when it differs.
       if (currentSection && currentSection !== lastCrumb.label) {
         breadcrumbPath.push({
           label: currentSection,
@@ -76,30 +69,24 @@ function ModalTopBar({
         });
       }
 
-      // Add the item name from iframe
       breadcrumbPath.push({
         label: lastCrumb.label,
         onClick: null, // Current item - not clickable
       });
     } else if (productView) {
-      // If viewing a collection page itself (not a product within it)
+      // The collection page itself.
       if (productView.isCollection) {
-        // Show: Discover > Collection Name
         breadcrumbPath.push({
           label: productView.collectionTitle || productView.name,
           onClick: null, // Current page - not clickable
         });
       } else {
-        // Viewing a product
-        // Show: Discover > Collection/Category > Product
         if (productView.fromCollection && productView.collectionTitle) {
-          // If from a collection, show collection name
           breadcrumbPath.push({
             label: productView.collectionTitle,
             onClick: productView.onBack || null,
           });
         } else {
-          // Otherwise show category
           const categoryKey = MARKETPLACE_TYPE_TO_KEY[productView.type];
           if (categoryKey) {
             breadcrumbPath.push({
@@ -108,20 +95,18 @@ function ModalTopBar({
             });
           }
         }
-        // Add product name as final breadcrumb
         breadcrumbPath.push({
           label: productView.name,
           onClick: null, // Current item - not clickable
         });
       }
     } else if (currentSection) {
-      // Show: Tab > Section or Tab > Section > Sub-Section
+      // Settings: Tab > Section > Sub-Section.
       breadcrumbPath.push({
         label: currentSection,
         onClick: currentSubSection ? () => onSubSectionChange(null) : null, // Clickable if sub-section is active
       });
 
-      // Add sub-section if present
       if (currentSubSection) {
         breadcrumbPath.push({
           label: getSubSectionLabel(currentSubSection, currentSectionName),

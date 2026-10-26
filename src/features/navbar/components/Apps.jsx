@@ -1,4 +1,4 @@
-// TODO: make it work with pins or on click or smth
+// TODO: open on click and support pinned apps.
 import variables from 'config/variables';
 import { memo, useState, useEffect } from 'react';
 
@@ -30,7 +30,6 @@ const Apps = ({ appsRef, floatRef, position, xPosition, yPosition }) => {
         try {
           setZoom();
         } catch {
-          // Ignore errors
         }
       }
     };

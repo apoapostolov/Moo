@@ -1,8 +1,4 @@
-/**
- * If the URL starts with `data:video/` or ends with `.mp4`, `.webm`, or `.ogg`, then it's a video.
- * @param url - The URL of the file to be checked.
- * @returns A function that takes a url and returns a boolean.
- */
+/** True for `data:video/` URLs and `.mp4`, `.webm` or `.ogg` filenames. */
 export default function videoCheck(url) {
   return (
     url.startsWith('data:video/') ||

@@ -7,14 +7,13 @@ import { createTask, deleteTask, setTaskCompleted, toDueInput, updateTask } from
 import { examplePlaceholder } from '../examples';
 
 /**
- * Create, rename, re-date, complete and delete a Google Task. Completing from
- * here is a status change, so the same dialog handles both directions.
+ * Create, rename, re-date, complete and delete a task. Completing is a status change, so one
+ * dialog handles both directions.
  */
 const TaskDialog = ({ task, listId, onClose, onSaved, onDeleted }) => {
   const isEditing = Boolean(task?.id);
 
-  // One example per opening, so the title box keeps showing the same sentence
-  // while it is being read instead of changing under the cursor.
+  // One example per opening, so the title box keeps the same sentence while it is being read.
   const [titlePlaceholder] = useState(() => examplePlaceholder('task'));
   const [form, setForm] = useState(() => ({
     title: task?.title ?? '',
