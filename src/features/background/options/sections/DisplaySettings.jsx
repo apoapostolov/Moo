@@ -57,7 +57,7 @@ const DisplaySettings = ({ usingImage }) => {
           />
           <Checkbox
             name="photoInfoRequiresLocation"
-            text="Show Info if image has known location"
+            text="Only show info for photos with a location"
             element=".other"
             disabled={!usingImage}
           />

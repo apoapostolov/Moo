@@ -94,7 +94,7 @@
       "settings": {
         "surface": {
           "title": "Panel style",
-          "subtitle": "Classic is a dark panel you can just see through. Glass is lighter, blurs the wallpaper heavily and lets it show through the panel.",
+          "subtitle": "Classic is a dark panel you see the wallpaper through. Glass is lighter and blurs it hard.",
           "classic": "Classic",
           "glass": "Glass"
         },
@@ -110,16 +110,16 @@
             "more_info": "More info",
             "report_issue": "Report Issue",
             "enabled": "Choose whether or not to show this widget",
-            "size": "Slider to control how large the widget is"
+            "size": "How big this widget is drawn."
           },
           "time": {
             "title": "Time",
             "format": "Format",
             "type": "Type",
-            "type_subtitle": "Choose whether to display the time in digital format, analogue format, or a percentage completion of the day",
+            "type_subtitle": "Digital, analogue, or Progress, which fills a bar through the day or your shift.",
             "digital": {
               "title": "Digital",
-              "subtitle": "Change how the digital clock looks",
+              "subtitle": "24-hour or 12-hour, seconds, and the leading zero.",
               "seconds": "Seconds",
               "twentyfourhour": "24 Hour",
               "twelvehour": "12 hour",
@@ -127,7 +127,7 @@
             },
             "analogue": {
               "title": "Analogue",
-              "subtitle": "Change how the analogue clock looks",
+              "subtitle": "Which hands the face draws.",
               "second_hand": "Seconds hand",
               "minute_hand": "Minutes hand",
               "hour_hand": "Hours hand",
@@ -138,16 +138,16 @@
             "percentage_complete": "Progress",
             "percentage": {
               "shift_title": "Work shift",
-              "shift_subtitle": "The percentage counts from the start of your day to the end of your shift. Leave both empty to count the whole day. 9, 9:30, 9am and 17:00 all work.",
+              "shift_subtitle": "Counts from the start of your day to the end of your shift. Leave both empty to count all 24 hours. 9, 9:30, 9am and 17:00 all work.",
               "shift_start": "Start of day",
               "shift_end": "End of day",
               "days_title": "Work Days",
-              "days_subtitle": "The Progress clock shows on the work days switched on here. The days outside work show the clock picked below.",
+              "days_subtitle": "The Progress clock shows on the work days ticked here. The rest of the week shows the clock below.",
               "fallback_title": "Switch to fallback clock",
-              "fallback_subtitle": "Outside the days ticked above, show the clock picked below. Unticked, the Progress clock answers every day of the week.",
+              "fallback_subtitle": "Show that clock outside the days above. Unticked, the Progress clock is the clock every day.",
               "fallback_switch": "Switch outside the days",
               "other_title": "Outside Work",
-              "other_subtitle": "The clock to show on the days outside the work days."
+              "other_subtitle": "The clock for the days outside work."
             },
             "vertical_clock": {
               "title": "Vertical Clock",
@@ -158,7 +158,7 @@
           },
           "date": {
             "show": "Show date",
-            "show_subtitle": "Display the date under the clock",
+            "show_subtitle": "Put the date under the clock.",
             "title": "Date",
             "week_number": "Week number",
             "day_of_week": "Day of week",
@@ -166,9 +166,9 @@
             "type": {
               "short": "Short",
               "long": "Long",
-              "subtitle": "Whether to display the date in long form or short form"
+              "subtitle": "Long writes the month out. Short keeps the numbers."
             },
-            "type_settings": "Display settings and format for the selected date type",
+            "type_settings": "Format and extras for this form.",
             "short_date": "Short date",
             "short_format": "Short format",
             "long_format": "Long format",
@@ -226,7 +226,7 @@
             "title": "Background",
             "transition": "Fade-in transition",
             "photo_information": "Show photo information",
-            "show_map": "Show location map on photo information if available",
+            "show_map": "Show a map when the photo has a location",
             "categories": "Categories",
             "buttons": {
               "title": "Buttons",
@@ -236,7 +236,7 @@
             },
             "effects": {
               "title": "Effects",
-              "subtitle": "Add effects to the background images",
+              "subtitle": "Blur and brightness over the wallpaper.",
               "blur": "Adjust blur",
               "brightness": "Adjust brightness",
               "filters": {
@@ -265,11 +265,11 @@
             },
             "unsplash": {
               "title": "Unsplash Collection(s)",
-              "subtitle": "Select the collection(s) you want to use for your background",
+              "subtitle": "The collections to draw from.",
               "section_title": "Unsplash",
-              "section_subtitle": "Pick topics to draw from, or use a specific collection",
+              "section_subtitle": "Pick topics, or name a collection.",
               "id": "Collection ID(s)",
-              "id_subtitle": "Enter a comma separated list of Unsplash IDs",
+              "id_subtitle": "Unsplash collection IDs, separated by commas.",
               "topics": "Topics",
               "categories": "Categories"
             },
@@ -279,9 +279,9 @@
             },
             "coverr": {
               "title": "Coverr",
-              "subtitle": "Free looping video clips, played muted",
+              "subtitle": "Free looping clips, played muted.",
               "search": "Search",
-              "search_subtitle": "Leave empty for any clip, or narrow it to a subject"
+              "search_subtitle": "Leave empty for any clip, or narrow it to one subject."
             },
             "live": {
               "title": "Live channels",
@@ -291,25 +291,25 @@
             },
             "pixabay": {
               "title": "Pixabay",
-              "subtitle": "Free video clips. Needs an API key from your own Pixabay account.",
+              "subtitle": "Free clips. Needs an API key from your own Pixabay account.",
               "key": "API key",
-              "key_subtitle": "Create one free at pixabay.com/api/docs",
+              "key_subtitle": "Make one free at pixabay.com/api/docs.",
               "key_placeholder": "Pixabay API key",
               "search": "Search",
               "search_subtitle": "Leave empty for any clip, or narrow it to a subject"
             },
             "pexels": {
               "title": "Pexels",
-              "subtitle": "Free video clips. Needs an API key from your own Pexels account.",
+              "subtitle": "Free clips. Needs an API key from your own Pexels account.",
               "key": "API key",
-              "key_subtitle": "Create one free at pexels.com/api",
+              "key_subtitle": "Make one free at pexels.com/api.",
               "key_placeholder": "Pexels API key",
               "search": "Search",
               "search_subtitle": "Leave empty for any clip, or narrow it to a subject"
             },
             "source": {
               "title": "Source",
-              "subtitle": "Select where to get background images from",
+              "subtitle": "Where the pictures come from.",
               "api": "Background API",
               "custom_background": "Custom background",
               "custom_colour": "Custom background colour",
@@ -331,7 +331,7 @@
                 "datasaver": "Data Saver"
               },
               "custom_title": "Custom Images",
-              "custom_description": "Select images from your local computer",
+              "custom_description": "Pictures from this computer.",
               "remove": "Remove Image",
               "delete_selected": "Delete {count} Selected",
               "uploading": "Uploading {current} of {total}...",
@@ -353,10 +353,10 @@
               }
             },
             "display": "Display",
-            "display_subtitle": "Change how background and photo information are loaded",
+            "display_subtitle": "How the wallpaper and the photo details load.",
             "information": {
               "title": "Background Information",
-              "subtitle": "Choose what is shown about the current background image"
+              "subtitle": "What the page says about the picture behind it."
             },
             "api": "API Settings",
             "api_subtitle": "Options for getting an image from an external service (API)"
@@ -436,7 +436,7 @@
           },
           "quicklinks": {
             "title": "Quick Links",
-            "additional": "Additional settings for quick links display and functions",
+            "additional": "Open tiles in a new tab, and show their name on hover.",
             "open_new": "Open in new tab",
             "tooltip": "Tooltip",
             "text_only": "Show text only",
@@ -450,7 +450,7 @@
               "metro": "Metro"
             },
             "styling": "Styling",
-            "styling_description": "Customise Quick Links appearance"
+            "styling_description": "Icons, text only, or Metro tiles."
           },
           "message": {
             "title": "Message",
@@ -465,13 +465,13 @@
             "title": "Appearance",
             "style": {
               "title": "Widget Style",
-              "description": "Choose between the two styles, legacy (enabled for pre 7.0 users) and our slick modern styling.",
+              "description": "Legacy is how widgets looked before 7.0. Modern is the current look.",
               "legacy": "Legacy",
               "new": "New"
             },
             "theme": {
               "title": "Theme",
-              "description": "Change the theme of the Moo widgets and modals",
+              "description": "Dark, light, or whatever the system is set to.",
               "auto": "Auto",
               "light": "Light",
               "dark": "Dark"
@@ -481,18 +481,18 @@
               "widgets": "Navbar Widgets",
               "notes": "Notes",
               "refresh": "Refresh",
-              "refresh_subtitle": "Choose what is refreshed when you click the refresh button",
+              "refresh_subtitle": "What the refresh button reloads.",
               "hover": "Only display on hover",
-              "additional": "Modify navbar style and which buttons you want to display",
+              "additional": "What the bar shows, and how it looks.",
               "refresh_options": {
                 "none": "None",
                 "page": "Page"
               },
-              "apps_subtitle": "Create a shortcut of your other commonly used websites."
+              "apps_subtitle": "Shortcuts to the sites you open most."
             },
             "font": {
               "title": "Font",
-              "description": "Change the font used in Moo",
+              "description": "The typeface used by the widgets and these pages.",
               "custom": "Custom font",
               "google": "Import from Google Fonts",
               "weight": {
@@ -515,7 +515,7 @@
             },
             "accessibility": {
               "title": "Accessibility",
-              "description": "Make Moo comfortable and accessible",
+              "description": "Text shadow, animations, and how long the toasts stay.",
               "animations": "Animations",
               "text_shadow": {
                 "title": "Widget text shadow",
@@ -534,31 +534,31 @@
           "advanced": {
             "title": "Advanced",
             "offline_mode": "Offline mode",
-            "offline_subtitle": "When enabled, all requests to online services will be disabled.",
+            "offline_subtitle": "Blocks every request to an online service. Backgrounds, weather and the Google widgets stop updating.",
             "data": "Data",
-            "data_description": "Choose whether to export your Moo settings to your computer, import an existing settings file, or reset your settings to their default values",
-            "data_subtitle": "Manage your data on Moo.",
+            "data_description": "Send your settings to a file, load a file back, or start again from the defaults.",
+            "data_subtitle": "Everything Moo remembers sits in this browser profile. Export it before you clear anything.",
             "reset_modal": {
               "title": "WARNING",
               "question": "Do you want to reset Moo?",
-              "information": "This will delete all data. If you wish to keep your data and preferences, please export them first.",
+              "information": "This deletes every setting and every saved image. Export first if you want to keep any of it.",
               "cancel": "Cancel"
             },
             "customisation": "Customisation",
             "custom_css": "Custom CSS",
-            "custom_css_subtitle": "Make Moo's styling customised to you with Cascading Style Sheets (CSS).",
+            "custom_css_subtitle": "Your own CSS, loaded over everything else.",
             "custom_js": "Custom JS",
             "tab_name": "Tab name",
-            "tab_name_subtitle": "Change the name of the tab that appears in your browser",
+            "tab_name_subtitle": "The title in the browser tab.",
             "timezone": {
               "title": "Time Zone",
-              "subtitle": "Choose a timezone from the list instead of the automatic default from your computer",
+              "subtitle": "Your computer's time zone, or one picked from the list.",
               "automatic": "Automatic"
             },
             "experimental_warning": "Please note that the Moo team cannot provide support if you have experimental mode on. Please disable it first and see if the issue continues to occur before contacting support.",
             "preview_data_disabled": {
               "title": "Data Settings Disabled",
-              "description": "Data settings are disabled in preview mode. Please exit preview mode to use this feature."
+              "description": "Data settings are off in preview mode. Leave preview to change them."
             }
           },
           "stats": {
@@ -609,7 +609,7 @@
               "offline_mode": "Cannot check for update in offline mode",
               "error": {
                 "title": "Failed to get update information",
-                "description": "An error occured"
+                "description": "Something went wrong while checking."
               }
             },
             "contact_us": "Contact Us",

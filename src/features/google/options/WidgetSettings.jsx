@@ -363,7 +363,7 @@ export const GoogleWidgetSettings = () => {
         <Row>
           <Content
             title="Inbox categories"
-            subtitle="Unticked categories are never fetched into the widget, so a promotions flood cannot push real mail out of it."
+            subtitle="Unticked categories are never fetched, so a promotions flood cannot push real mail out of the widget."
           />
           <Action>
             <CategoryPicker />
@@ -384,7 +384,7 @@ export const GoogleWidgetSettings = () => {
         <Row>
           <Content
             title="Custom search"
-            subtitle="Any Gmail search wins over the filter above, for example from:ana@example.com or has:attachment is:unread."
+            subtitle="Overrides the filter above. Try from:ana@example.com or has:attachment is:unread."
           />
           <Action>
             <Text name="googleMailCustomQuery" title="Gmail search" placeholder="from:ana@example.com" />
