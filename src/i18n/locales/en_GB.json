@@ -36,7 +36,8 @@
       "icon": "Icon (optional)",
       "add": "Add",
       "name_error": "Must provide name",
-      "url_error": "Must provide URL"
+      "url_error": "Must provide URL",
+      "icon_hint": "Filled in for known sites. Empty means the site's own favicon."
     },
     "date": {
       "week": "Week"

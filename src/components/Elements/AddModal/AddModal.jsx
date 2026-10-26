@@ -4,22 +4,35 @@ import { useState, memo } from 'react';
 import { MdAddLink, MdClose } from 'react-icons/md';
 import { Tooltip } from 'components/Elements';
 import { Button } from 'components/Elements';
+import { brandIconFor } from 'utils/brandIcons';
 
-/**
- * Add and edit a quick link. The fields carry their own labels rather than
- * relying on placeholders, and their styling lives in quicklinks.scss under this
- * component's own classes: `.text-field-input` is scoped to the settings Text
- * field, so it did nothing here and the inputs rendered as raw browser boxes.
- */
+/** Add and edit a quick link. Fields carry their own labels, and their styling lives in
+ * quicklinks.scss: the settings `.text-field-input` is scoped elsewhere. */
 function AddModal({ urlError, iconError, addLink, closeModal, edit, editData, editLink }) {
   const [name, setName] = useState(edit ? editData.name : '');
   const [url, setUrl] = useState(edit ? editData.url : '');
   const [icon, setIcon] = useState(edit ? editData.icon : '');
+  // The value this dialog wrote itself. Anything else in the field was typed, and
+  // typing an icon means the person wants that one, not the one we would suggest.
+  const [suggested, setSuggested] = useState('');
 
   const stripNewlines = (value) => value.replaceAll('\n', '').replaceAll('\r', '');
 
-  // A quick link without a name or a URL cannot be saved, so the button says so
-  // before the user finds out through an error line.
+  // Known sites carry their own mark, so the field arrives filled in. Editing the
+  // address of an existing link does not overwrite an icon someone chose.
+  const changeUrl = (value) => {
+    const next = stripNewlines(value);
+    setUrl(next);
+
+    if (icon && icon !== suggested) return;
+
+    const found = brandIconFor(next);
+
+    setIcon(found);
+    setSuggested(found);
+  };
+
+  // A link without a name or URL cannot be saved, so the button says so before an error line does.
   const incomplete = !name.trim() || !url.trim();
 
   const submit = (event) => {
@@ -63,7 +76,7 @@ function AddModal({ urlError, iconError, addLink, closeModal, edit, editData, ed
             inputMode="url"
             placeholder="https://example.com"
             value={url}
-            onChange={(e) => setUrl(stripNewlines(e.target.value))}
+            onChange={(e) => changeUrl(e.target.value)}
           />
         </label>
 
@@ -74,9 +87,12 @@ function AddModal({ urlError, iconError, addLink, closeModal, edit, editData, ed
             inputMode="url"
             placeholder="https://example.com/icon.png"
             value={icon}
-            onChange={(e) => setIcon(stripNewlines(e.target.value))}
+            onChange={(e) => {
+              setIcon(stripNewlines(e.target.value));
+              setSuggested('');
+            }}
           />
-          <small>Leave empty to use the icon the site already provides.</small>
+          <small>{variables.getMessage('widgets.quicklinks.icon_hint')}</small>
         </label>
       </div>
 

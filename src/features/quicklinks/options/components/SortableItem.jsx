@@ -1,4 +1,5 @@
 import { MdEdit, MdDelete } from 'react-icons/md';
+import { isBrandIcon } from 'utils/brandIcons';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { DragHandle } from './DragHandle';
@@ -33,7 +34,12 @@ export const SortableItem = ({ value, enabled, startEditLink, deleteLink }) => {
     >
       <DragHandle />
       <div className="quicklink-icon">
-        <img src={getIconUrl(value)} alt={value.name} draggable={false} />
+        <img
+          src={getIconUrl(value)}
+          alt={value.name}
+          className={isBrandIcon(value.icon) ? 'brandIcon' : undefined}
+          draggable={false}
+        />
       </div>
       <div className="quicklink-content">
         <div className="quicklink-name">{value.name}</div>

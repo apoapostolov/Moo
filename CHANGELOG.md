@@ -26,6 +26,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 - Three columns for the new tab page: any widget can sit in a rail down the left side, a rail down the right, or the middle column. In Overview the widgets are dropped into a Left, Right or Centre box around the preview, and moving one between those boxes moves it on the page.
 - Weather Full and Image Info are widgets now, so the full weather card and the photographer credit can be placed like any other. A profile that has never moved them keeps them in the corners they were always in.
 - Bulgarian language.
+- Brand icons for new quick links. Typing an address that matches one of 409 known sites fills the icon field with that site's mark, drawn as a plain white glyph instead of a coloured favicon. The marks come from Simple Icons (plus an older release of it for the brands that asked to be removed), Material Design Icons and Font Awesome brands, and the row stays visually even across all three.
 
 ### Changed
 
@@ -69,6 +70,7 @@ Moo is a Firefox-only fork of [Mue](https://muetab.com), the new tab extension b
 
 ### Fixed
 
+- The Add Link dialog had no room on its right: the form width excluded its own padding while the inputs added theirs, so the right edge was clipped. The box now measures from the border, and the dialog is 560px wide.
 - The animated background can no longer pan past the edge of the image and show black strips.
 - Weather spacing, and the min/max temperature alignment in the widget and the forecast.
 - The weather widget no longer jumps in size while it loads: the placeholder matches the real layout.

@@ -3,11 +3,11 @@ import { Tooltip } from 'components/Elements';
 
 import EventBus from 'utils/eventbus';
 import { getSurface } from 'utils/widgetSurface';
-
+import { isBrandIcon } from 'utils/brandIcons';
 
 import './quicklinks.scss';
 
-// Safe read to avoid crashing when localStorage has bad data
+// Unparsable stored data falls back to an empty list instead of throwing.
 const readQuicklinks = () => {
   try {
     const raw = localStorage.getItem('quicklinks');
@@ -25,7 +25,6 @@ const QuickLinks = memo(() => {
   const [forceUpdate, setForceUpdate] = useState(0); // Used to force complete re-render
   const quicklinksContainer = useRef(null);
 
-  // widget zoom
   const setZoom = useCallback((element) => {
     if (!element) return;
     
@@ -100,6 +99,8 @@ const QuickLinks = memo(() => {
     const img =
       item.icon ||
       'https://icon.horse/icon/' + item.url.replace('https://', '').replace('http://', '');
+    // Our own marks are black on the wire, so one CSS rule can tint them with the theme.
+    const imgClass = isBrandIcon(item.icon) ? 'brandIcon' : undefined;
 
     if (localStorage.getItem('quickLinksStyle') === 'metro') {
       return (
@@ -111,7 +112,7 @@ const QuickLinks = memo(() => {
           rel={rel}
           draggable={false}
         >
-          <img src={img} alt={item.name} draggable={false} />
+          <img src={img} alt={item.name} className={imgClass} draggable={false} />
           <span className="subtitle">{item.name}</span>
         </a>
       );
@@ -119,7 +120,7 @@ const QuickLinks = memo(() => {
 
     const link = (
       <a key={`quicklink-${item.key}-${index}`} href={item.url} target={target} rel={rel} draggable={false}>
-        <img src={img} alt={item.name} draggable={false} />
+        <img src={img} alt={item.name} className={imgClass} draggable={false} />
       </a>
     );
 
